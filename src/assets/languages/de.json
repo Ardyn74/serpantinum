@@ -569,7 +569,8 @@
         "pictures": "Bilder",
         "music": "Musik",
         "documents": "Dokumente"
-      }
+      },
+      "done": "Fertig"
     },
     "font_picker": {
       "title": "Schriftart auswählen",

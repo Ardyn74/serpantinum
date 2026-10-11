@@ -568,7 +568,8 @@
         "pictures": "Hình ảnh",
         "music": "Âm nhạc",
         "documents": "Tài liệu"
-      }
+      },
+      "done": "Hoàn tất"
     },
     "font_picker": {
       "title": "Chọn phông chữ",

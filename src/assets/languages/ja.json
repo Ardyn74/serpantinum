@@ -1244,7 +1244,8 @@
         "pictures": "ピクチャ",
         "music": "ミュージック",
         "documents": "ドキュメント"
-      }
+      },
+      "done": "完了"
     },
     "font_picker": {
       "title": "フォントを選択",

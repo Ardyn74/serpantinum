@@ -586,7 +586,8 @@
         "pictures": "الصور"
       },
       "root": "الجذر",
-      "title": "اختر صورة"
+      "title": "اختر صورة",
+      "done": "تم"
     },
     "font_picker": {
       "input_placeholder": "بحث...",

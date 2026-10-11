@@ -568,7 +568,8 @@
         "pictures": "Images",
         "music": "Musique",
         "documents": "Documents"
-      }
+      },
+      "done": "Terminé"
     },
     "font_picker": {
       "title": "Sélectionner une police",

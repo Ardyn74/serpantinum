@@ -568,7 +568,8 @@
         "pictures": "चित्र",
         "music": "संगीत",
         "documents": "दस्तावेज़"
-      }
+      },
+      "done": "हो गया"
     },
     "font_picker": {
       "title": "फ़ॉन्ट चुनें",

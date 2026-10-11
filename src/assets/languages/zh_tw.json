@@ -568,7 +568,8 @@
         "pictures": "圖片",
         "music": "音樂",
         "documents": "文件"
-      }
+      },
+      "done": "完成"
     },
     "font_picker": {
       "title": "選取字型",

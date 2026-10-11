@@ -1244,7 +1244,8 @@
         "pictures": "Obrazy",
         "music": "Muzyka",
         "documents": "Dokumenty"
-      }
+      },
+      "done": "Gotowe"
     },
     "font_picker": {
       "title": "Wybierz czcionkę",

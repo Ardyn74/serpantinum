@@ -568,7 +568,8 @@
         "pictures": "Afbeeldingen",
         "music": "Muziek",
         "documents": "Documenten"
-      }
+      },
+      "done": "Klaar"
     },
     "font_picker": {
       "title": "Selecteer een lettertype",

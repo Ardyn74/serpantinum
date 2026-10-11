@@ -568,7 +568,8 @@
         "pictures": "Gambar",
         "music": "Musik",
         "documents": "Dokumen"
-      }
+      },
+      "done": "Selesai"
     },
     "font_picker": {
       "title": "Pilih huruf",

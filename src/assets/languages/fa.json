@@ -568,7 +568,8 @@
         "pictures": "تصاویر",
         "music": "موسیقی",
         "documents": "اسناد"
-      }
+      },
+      "done": "انجام شد"
     },
     "font_picker": {
       "title": "انتخاب یک قلم",

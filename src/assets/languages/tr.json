@@ -568,7 +568,8 @@
         "pictures": "Resimler",
         "music": "Müzik",
         "documents": "Belgeler"
-      }
+      },
+      "done": "Tamam"
     },
     "font_picker": {
       "title": "Bir yazı tipi seçin",

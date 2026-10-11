@@ -568,7 +568,8 @@
         "pictures": "Pictures",
         "music": "Music",
         "documents": "Documents"
-      }
+      },
+      "done": "Done"
     },
     "font_picker": {
       "title": "Select a font",

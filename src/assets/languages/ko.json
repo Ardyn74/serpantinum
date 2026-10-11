@@ -568,7 +568,8 @@
         "pictures": "사진",
         "music": "음악",
         "documents": "문서"
-      }
+      },
+      "done": "완료"
     },
     "font_picker": {
       "title": "글꼴 선택",

@@ -566,7 +566,8 @@
         "pictures": "Şəkillər",
         "music": "Musiqi",
         "documents": "Sənədlər"
-      }
+      },
+      "done": "Hazırdır"
     },
     "font_picker": {
       "title": "Yazı növü seç",
