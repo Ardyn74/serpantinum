@@ -1473,6 +1473,9 @@
       "smart_autohide": {
         "title": "スマート自動非表示",
         "desc": "ウィンドウが開いているときのみドックを自動非表示にし、デスクトップ上では常に表示します"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

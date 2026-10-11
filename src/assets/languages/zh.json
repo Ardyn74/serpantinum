@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "智能自动隐藏",
         "desc": "仅在有窗口打开时自动隐藏，桌面为空时保持可见"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

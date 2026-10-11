@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "Tự động ẩn thông minh",
         "desc": "Chỉ ẩn dock khi có cửa sổ mở, giữ hiển thị trên màn hình chính"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

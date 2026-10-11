@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "智慧自動隱藏",
         "desc": "僅在有視窗開啟時自動隱藏 Dock，在桌面上則保持可見"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

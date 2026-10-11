@@ -572,6 +572,9 @@
       "visible_elements": {
         "desc": "عدد عناصر الرصيف المعروضة في الوقت ذاته",
         "title": "العناصر المرئية"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "file_picker": {

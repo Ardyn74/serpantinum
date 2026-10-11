@@ -820,6 +820,9 @@
       "on_top": {
         "title": "Поверх вікон",
         "desc": "Показувати док поверх вікон програм"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

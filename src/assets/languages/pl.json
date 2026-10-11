@@ -1473,6 +1473,9 @@
       "smart_autohide": {
         "title": "Inteligentne automatyczne ukrywanie",
         "desc": "Automatycznie ukrywaj dok tylko wtedy, gdy otwarte są okna; pozostawiaj widoczny na pulpicie"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

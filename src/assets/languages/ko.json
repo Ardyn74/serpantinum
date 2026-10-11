@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "스마트 자동 숨기기",
         "desc": "창이 열려 있을 때만 독을 숨기고 바탕화면에서는 항상 표시"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

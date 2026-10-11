@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "Akıllı otomatik gizleme",
         "desc": "Dock'ı yalnızca pencereler açıkken otomatik gizleyin, masaüstünde görünür tutun"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {
