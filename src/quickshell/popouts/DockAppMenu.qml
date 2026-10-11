@@ -55,14 +55,24 @@ PanelWindow {
     property real targetX: DockAppMenuController.targetX
     property real targetY: DockAppMenuController.targetY
     property string dockPosition: DockAppMenuController.dockPosition
-    property var windowsList: DockAppMenuController.windows
+    property var windowsList: []
     readonly property bool hasWindows: windowsList && windowsList.length > 0
 
     Connections {
         target: DockAppMenuController
         function onMenuTriggered() {
+            dockAppMenuWindow.windowsList = DockAppMenuController.windows;
             closeAnim.stop();
             openAnim.restart();
+        }
+    }
+
+    Connections {
+        target: DockAppMenuController
+        function onWindowsChanged() {
+            if (DockAppMenuController.isVisible) {
+                dockAppMenuWindow.windowsList = DockAppMenuController.windows;
+            }
         }
     }
 
@@ -143,7 +153,7 @@ PanelWindow {
                 to: 1.0
                 duration: 420
                 easing.type: Easing.OutBack
-                easing.overshoot: 1.28
+                easing.overshoot: 1.1
             }
 
             NumberAnimation {
@@ -151,12 +161,53 @@ PanelWindow {
                 target: menuContainer
                 property: "animProgress"
                 to: 0.0
-                duration: 200
-                easing.type: Easing.InQuad
+                duration: 220
+                easing.type: Easing.InCubic
                 onFinished: {
                     if (!dockAppMenuWindow.isVisible) {
                         menuContainer.animProgress = 0.0;
                     }
+                }
+            }
+
+            HoverHandler {
+                id: menuHover
+                onHoveredChanged: {
+                    if (hovered) {
+                        autoCloseTimer.stop();
+                    } else if (dockAppMenuWindow.isVisible) {
+                        autoCloseTimer.interval = 800;
+                        autoCloseTimer.restart();
+                    }
+                }
+            }
+
+            Timer {
+                id: autoCloseTimer
+                interval: 2400
+                repeat: false
+                onTriggered: {
+                    if (!menuHover.hovered) DockAppMenuController.hide();
+                }
+            }
+
+            Connections {
+                target: dockAppMenuWindow
+                function onIsVisibleChanged() {
+                    if (dockAppMenuWindow.isVisible) {
+                        autoCloseTimer.interval = 2400;
+                        autoCloseTimer.restart();
+                    } else {
+                        autoCloseTimer.stop();
+                    }
+                }
+            }
+
+            Connections {
+                target: DockAppMenuController
+                function onMenuTriggered() {
+                    autoCloseTimer.interval = 2400;
+                    autoCloseTimer.restart();
                 }
             }
 
@@ -165,13 +216,13 @@ PanelWindow {
             width: dockAppMenuWindow.menuWidth
             height: dockAppMenuWindow.menuHeight
 
-            opacity: Math.max(0.0, Math.min(1.0, animProgress * 1.5))
+            opacity: Math.max(0.0, Math.min(1.0, animProgress * 2.5))
 
             transform: Scale {
-                origin.x: Math.max(0, Math.min(menuContainer.width, dockAppMenuWindow.targetX - dockAppMenuWindow.clampedX))
-                origin.y: Math.max(0, Math.min(menuContainer.height, dockAppMenuWindow.targetY - dockAppMenuWindow.clampedY))
-                xScale: 0.85 + (0.15 * menuContainer.animProgress)
-                yScale: 0.85 + (0.15 * menuContainer.animProgress)
+                origin.x: dockAppMenuWindow.targetX - dockAppMenuWindow.clampedX
+                origin.y: dockAppMenuWindow.targetY - dockAppMenuWindow.clampedY
+                xScale: Math.max(0.0, menuContainer.animProgress)
+                yScale: Math.max(0.0, menuContainer.animProgress)
             }
 
             ColumnLayout {

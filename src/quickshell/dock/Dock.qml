@@ -2164,9 +2164,88 @@ Variants {
                                         readonly property int appWindowCount: runningInfo !== null ? runningInfo.count : 0
                                         readonly property bool isOnlyElsewhere: runningInfo !== null && runningInfo.count === 0 && runningInfo.elsewhere.length > 0
 
+                                        z: Math.round(runningBtnShape.scale * 100)
+
+                                        readonly property bool canHoverScale: !dockWindow.editMode && dockWindow.dragSourceIndex === -1
+                                        readonly property real maxHoverScale: dockWindow.dockHoverScaleMultiplier
+                                        readonly property real hoverScaleDelta: Math.max(0.0, maxHoverScale - 1.0)
+
+                                        property real baseHoverScale: {
+                                            if (!canHoverScale || dockContainer.hoveredItemIndex < 0) return 1.0;
+                                            let diff = Math.abs(runningDockButton.itemIndex - dockContainer.hoveredItemIndex);
+                                            if (diff === 0) return maxHoverScale;
+                                            if (dockWindow.dockCascadeScale) {
+                                                if (diff === 1) return 1.0 + hoverScaleDelta * 0.45;
+                                                if (diff === 2) return 1.0 + hoverScaleDelta * 0.15;
+                                            }
+                                            return 1.0;
+                                        }
+
+                                        property real targetScale: {
+                                            let s = baseHoverScale;
+                                            if (runningBtnMa.pressed && canHoverScale) {
+                                                return s > 1.0 ? (s * 1.04) : 1.06;
+                                            }
+                                            return s;
+                                        }
+
+                                        property real animSpread: {
+                                            if (!canHoverScale || dockContainer.hoveredItemIndex < 0) return 0.0;
+                                            let diff = itemIndex - dockContainer.hoveredItemIndex;
+                                            if (diff === 0) return 0.0;
+                                            let sign = diff > 0 ? 1.0 : -1.0;
+                                            let d = Math.abs(diff);
+                                            let maxAllowedShift = Math.min(dockWindow.s(10), runningDockButton.btnSize * hoverScaleDelta * 0.65);
+                                            if (dockWindow.dockCascadeScale) {
+                                                let shift = (d === 1) ? (maxAllowedShift * 0.70) : maxAllowedShift;
+                                                return sign * shift;
+                                            } else {
+                                                return (d === 1) ? (sign * maxAllowedShift * 0.45) : 0.0;
+                                            }
+                                        }
+
+                                        property real animLift: {
+                                            if (!canHoverScale || targetScale <= 1.0) return 0.0;
+                                            let liftProgress = (targetScale - 1.0) / Math.max(0.01, maxHoverScale - 1.0);
+                                            return dockWindow.s(5) * Math.min(1.0, Math.max(0.0, liftProgress));
+                                        }
+
+                                        property real targetOffsetX: {
+                                            if (dockWindow.isVertical) {
+                                                if (dockWindow.dockPosition === "left") return animLift;
+                                                if (dockWindow.dockPosition === "right") return -animLift;
+                                                return 0.0;
+                                            }
+                                            return animSpread;
+                                        }
+
+                                        property real targetOffsetY: {
+                                            if (dockWindow.isVertical) return animSpread;
+                                            if (dockWindow.dockPosition === "bottom") return -animLift;
+                                            if (dockWindow.dockPosition === "top") return animLift;
+                                            return 0.0;
+                                        }
+
+                                        property real currentOffsetX: targetOffsetX
+                                        property real currentOffsetY: targetOffsetY
+
+                                        Behavior on currentOffsetX {
+                                            enabled: dockWindow.initialized && !dockWindow.positionChanging
+                                            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+                                        }
+                                        Behavior on currentOffsetY {
+                                            enabled: dockWindow.initialized && !dockWindow.positionChanging
+                                            NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+                                        }
+
                                         Item {
                                             id: runningFloatWrapper
                                             anchors.fill: parent
+
+                                            transform: Translate {
+                                                x: runningDockButton.currentOffsetX
+                                                y: runningDockButton.currentOffsetY
+                                            }
 
                                             Rectangle {
                                                 id: runningBtnShape
@@ -2174,9 +2253,13 @@ Variants {
                                                 radius: runningDockButton.cornerRadius
                                                 clip: true
                                                 color: runningBtnMa.pressed ? Qt.darker(runningDockButton.btnColor, 1.12) : (runningBtnMa.containsMouse ? Qt.lighter(runningDockButton.btnColor, 1.12) : runningDockButton.btnColor)
-                                                scale: runningDockButton.popScale
+                                                transformOrigin: Item.Center
+                                                scale: runningDockButton.targetScale * runningDockButton.popScale
 
                                                 Behavior on color { ColorAnimation { duration: 180 } }
+                                                Behavior on scale {
+                                                    NumberAnimation { duration: 220; easing.type: Easing.OutCubic }
+                                                }
 
                                                 Image {
                                                     id: runningAppIcon
@@ -2304,9 +2387,23 @@ Variants {
                                             MouseArea {
                                                 id: runningBtnMa
                                                 anchors.fill: parent
+                                                anchors.margins: -Math.max(dockContainer.itemSpacing / 2, (runningBtnShape.scale - 1.0) * runningDockButton.btnSize / 2)
                                                 hoverEnabled: true
                                                 acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
                                                 cursorShape: Qt.PointingHandCursor
+
+                                                onEntered: {
+                                                    dockContainer.cancelHoverReset();
+                                                    if (runningDockButton.canHoverScale) {
+                                                        dockContainer.hoveredItemIndex = runningDockButton.itemIndex;
+                                                    }
+                                                }
+
+                                                onExited: {
+                                                    if (dockContainer.hoveredItemIndex === runningDockButton.itemIndex) {
+                                                        dockContainer.checkHoverReset();
+                                                    }
+                                                }
 
                                                 onClicked: function(mouse) {
                                                     if (mouse.button === Qt.MiddleButton) {
@@ -2332,7 +2429,8 @@ Variants {
                                                             model.name || (info ? info.appId : ""),
                                                             model.icon || "",
                                                             false,
-                                                            winList
+                                                            winList,
+                                                            runningDockButton.width
                                                         );
                                                         return;
                                                     }
@@ -2356,7 +2454,8 @@ Variants {
                                                                 model.name || (info ? info.appId : ""),
                                                                 model.icon || "",
                                                                 false,
-                                                                winList
+                                                                winList,
+                                                                runningDockButton.width
                                                             );
                                                             return;
                                                         }
