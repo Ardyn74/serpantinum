@@ -42,6 +42,7 @@ singleton BlueLight 1.0 singletons/environment/BlueLight.qml
 singleton Location 1.0 singletons/environment/Location.qml
 singleton Weather 1.0 singletons/environment/Weather.qml
 
+singleton AppMatcher 1.0 singletons/system/AppMatcher.qml
 singleton Caching 1.0 singletons/system/Caching.qml
 singleton Config 1.0 singletons/system/Config.qml
 singleton CurrentFocus 1.0 singletons/system/CurrentFocus.qml
@@ -52,6 +53,7 @@ singleton NiriState 1.0 singletons/system/NiriState.qml
 singleton SysNotif 1.0 singletons/system/SysNotif.qml
 singleton TimerState 1.0 singletons/system/TimerState.qml
 singleton Updater 1.0 singletons/system/Updater.qml
+singleton WindowTracker 1.0 singletons/system/WindowTracker.qml
 
 singleton SysData 1.0 singletons/info/SysData.qml
 singleton SystemInfo 1.0 singletons/info/SystemInfo.qml

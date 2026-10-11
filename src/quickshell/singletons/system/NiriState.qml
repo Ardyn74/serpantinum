@@ -14,6 +14,9 @@ Item {
     property var occupiedMap: ({})
     property var existingMap: ({})
     property int maxWorkspaceIndex: 0
+    property var windowsMap: ({})
+    property var workspacesMap: ({})
+    signal niriStateChanged()
 
     property var keyboardLayouts: []
     property int keyboardLayoutIndex: 0
@@ -135,6 +138,9 @@ Item {
         if (root.maxWorkspaceIndex !== maxIdx) {
             root.maxWorkspaceIndex = maxIdx;
         }
+        root.windowsMap = _windows;
+        root.workspacesMap = _workspaces;
+        root.niriStateChanged();
     }
 
     function _handle(ev) {

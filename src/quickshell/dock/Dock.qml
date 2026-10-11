@@ -96,7 +96,11 @@ Variants {
                     "maxVisibleElements": 7,
                     "maxElements": 7,
                     "hoverScale": 120,
-                    "cascadeScale": false
+                    "cascadeScale": false,
+                    "focusRunning": true,
+                    "showRunningIndicators": true,
+                    "showRunningApps": false,
+                    "runningScope": "auto"
                 })
 
                 property var rawDockSettings: {
@@ -235,7 +239,10 @@ Variants {
                 readonly property bool effectiveAutohide: smartAutohide ? isWorkspaceBusy : autohide
 
                 onEffectiveAutohideChanged: hideTimer.stop()
-                onActiveIndexChanged: hideTimer.stop()
+                onActiveIndexChanged: {
+                    hideTimer.stop();
+                    dockWindow._recomputeRunningInfo();
+                }
 
 
                 Process {
@@ -316,6 +323,127 @@ Variants {
                     if (typeof val === "string") return val.toLowerCase() === "true" || val === "1";
                     return Boolean(val);
                 }
+
+                property bool focusRunning: {
+                    let val = undefined;
+                    if (rawDockSettings && rawDockSettings.focusRunning !== undefined) val = rawDockSettings.focusRunning;
+                    else if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings["dock.focusRunning"] !== undefined) val = Config.rawSettings["dock.focusRunning"];
+                    if (val === undefined || val === null) return true;
+                    if (typeof val === "boolean") return val;
+                    if (typeof val === "string") return val.toLowerCase() === "true" || val === "1";
+                    return Boolean(val);
+                }
+
+                property bool showRunningIndicators: {
+                    let val = undefined;
+                    if (rawDockSettings && rawDockSettings.showRunningIndicators !== undefined) val = rawDockSettings.showRunningIndicators;
+                    else if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings["dock.showRunningIndicators"] !== undefined) val = Config.rawSettings["dock.showRunningIndicators"];
+                    if (val === undefined || val === null) return true;
+                    if (typeof val === "boolean") return val;
+                    if (typeof val === "string") return val.toLowerCase() === "true" || val === "1";
+                    return Boolean(val);
+                }
+
+                property bool showRunningApps: {
+                    let val = undefined;
+                    if (rawDockSettings && rawDockSettings.showRunningApps !== undefined) val = rawDockSettings.showRunningApps;
+                    else if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings["dock.showRunningApps"] !== undefined) val = Config.rawSettings["dock.showRunningApps"];
+                    if (val === undefined || val === null) return false;
+                    if (typeof val === "boolean") return val;
+                    if (typeof val === "string") return val.toLowerCase() === "true" || val === "1";
+                    return Boolean(val);
+                }
+
+                property string runningScopeSetting: {
+                    let val = undefined;
+                    if (rawDockSettings && rawDockSettings.runningScope !== undefined) val = rawDockSettings.runningScope;
+                    else if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings["dock.runningScope"] !== undefined) val = Config.rawSettings["dock.runningScope"];
+                    return (typeof val === "string" && val !== "") ? val : "auto";
+                }
+
+                readonly property string effectiveRunningScope: {
+                    if (runningScopeSetting === "auto") {
+                        return isNiri ? "workspace" : "all";
+                    }
+                    return runningScopeSetting;
+                }
+
+                property var runningInfoMap: ({})
+                property int runningInfoRevision: 0
+
+                function _recomputeRunningInfo() {
+                    let groups = (typeof WindowTracker !== "undefined" && WindowTracker.groups) ? WindowTracker.groups : {};
+                    let newMap = {};
+                    let currentOutput = dockWindow.myOutput;
+                    let currentWs = dockWindow.activeIndex;
+                    let scope = dockWindow.effectiveRunningScope;
+
+                    for (let gKey in groups) {
+                        let grp = groups[gKey];
+                        if (!grp || !grp.windows) continue;
+
+                        let here = [];
+                        let elsewhere = [];
+
+                        for (let i = 0; i < grp.windows.length; i++) {
+                            let w = grp.windows[i];
+                            let match = false;
+
+                            if (scope === "all") {
+                                match = true;
+                            } else if (scope === "output") {
+                                match = (w.output === "" || w.output === currentOutput);
+                            } else if (scope === "workspace") {
+                                let outMatch = (w.output === "" || w.output === currentOutput);
+                                let wsMatch = (w.workspace < 0 || w.workspace === currentWs);
+                                match = outMatch && wsMatch;
+                            }
+
+                            if (match) {
+                                here.push(w);
+                            } else {
+                                elsewhere.push(w);
+                            }
+                        }
+
+                        let isFoc = here.some(function(w) { return w.focused; });
+                        let isFocElse = elsewhere.some(function(w) { return w.focused; });
+                        let activeWin = here.length > 0 ? here[0] : (elsewhere.length > 0 ? elsewhere[0] : null);
+
+                        newMap[gKey] = {
+                            groupKey: gKey,
+                            desktopId: grp.desktopId,
+                            appId: grp.appId,
+                            count: here.length,
+                            totalCount: grp.count,
+                            hasWindows: (here.length > 0 || elsewhere.length > 0),
+                            here: here,
+                            elsewhere: elsewhere,
+                            isFocused: isFoc,
+                            isFocusedElsewhere: isFocElse,
+                            activeWindow: activeWin
+                        };
+                    }
+
+                    dockWindow.runningInfoMap = newMap;
+                    dockWindow.runningInfoRevision++;
+                }
+
+                function getRunningInfoForApp(desktopId) {
+                    if (!desktopId) return null;
+                    let cid = (typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(desktopId) : String(desktopId).toLowerCase().replace(/\.desktop$/, "");
+                    let dummy = runningInfoRevision;
+                    return runningInfoMap[cid] || null;
+                }
+
+                Connections {
+                    target: (typeof WindowTracker !== "undefined") ? WindowTracker : null
+                    function onUpdated() {
+                        dockWindow._recomputeRunningInfo();
+                    }
+                }
+
+                onEffectiveRunningScopeChanged: dockWindow._recomputeRunningInfo()
 
                 readonly property real hoverExpansion: Math.round(Math.max(s(24), s(dockElementSize) * (dockHoverScaleMultiplier - 1.0) + s(12)))
 
@@ -528,6 +656,72 @@ Variants {
                     id: dockAppsModel
                 }
 
+                ListModel {
+                    id: runningAppsModel
+                }
+
+                function _syncRunningApps() {
+                    if (!dockWindow.showRunningApps || dockWindow.editMode) {
+                        if (runningAppsModel.count > 0) runningAppsModel.clear();
+                        return;
+                    }
+
+                    let groups = dockWindow.runningInfoMap || {};
+                    let pinnedSet = {};
+                    for (let p = 0; p < dockAppsModel.count; p++) {
+                        let item = dockAppsModel.get(p);
+                        if (item && item.desktop_id) {
+                            let cid = (typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(item.desktop_id) : String(item.desktop_id).toLowerCase().replace(/\.desktop$/, "");
+                            pinnedSet[cid] = true;
+                        }
+                    }
+
+                    let candidates = [];
+                    for (let gKey in groups) {
+                        let info = groups[gKey];
+                        if (!info || !info.hasWindows) continue;
+
+                        let dId = info.desktopId || "";
+                        let cid = dId !== "" ? ((typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(dId) : dId.toLowerCase()) : gKey;
+                        if (pinnedSet[cid]) continue;
+
+                        let ent = (typeof AppMatcher !== "undefined") ? AppMatcher.entry(dId) : null;
+                        let appName = ent ? (ent.name || "") : (info.appId || "App");
+                        let appIcon = ent ? (ent.icon || "") : (info.appId || "");
+                        let appComment = ent ? (ent.comment || "") : "";
+
+                        candidates.push({
+                            name: appName,
+                            comment: appComment,
+                            desktop_id: dId !== "" ? (dId.endsWith(".desktop") ? dId : (dId + ".desktop")) : ("app:" + info.appId),
+                            icon: appIcon,
+                            canonical_id: cid,
+                            is_pinned: false
+                        });
+                    }
+
+                    let same = (runningAppsModel.count === candidates.length);
+                    if (same) {
+                        for (let c = 0; c < candidates.length; c++) {
+                            let rItem = runningAppsModel.get(c);
+                            if (!rItem || rItem.canonical_id !== candidates[c].canonical_id) {
+                                same = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!same) {
+                        runningAppsModel.clear();
+                        for (let k = 0; k < candidates.length; k++) {
+                            runningAppsModel.append(candidates[k]);
+                        }
+                    }
+                }
+
+                onRunningInfoRevisionChanged: dockWindow._syncRunningApps()
+                onShowRunningAppsChanged: dockWindow._syncRunningApps()
+
                 function loadApps() {
                     let customApps = rawDockSettings.apps;
                     if (!customApps || !Array.isArray(customApps)) customApps = [];
@@ -704,6 +898,7 @@ Variants {
                 }
 
                 onEditModeChanged: {
+                    dockWindow._syncRunningApps();
                     dockContainer.hoveredItemIndex = -1;
                     if (editMode) {
                         loadAllDesktopApps();
@@ -731,6 +926,90 @@ Variants {
                     }
                 }
 
+                function activateOrLaunch(desktopId, modifiers) {
+                    if (!desktopId) return;
+
+                    let forceNew = modifiers && (modifiers & Qt.ShiftModifier || modifiers & Qt.ControlModifier);
+                    if (forceNew || !dockWindow.focusRunning) {
+                        dockWindow.launchApp(desktopId);
+                        return;
+                    }
+
+                    let info = dockWindow.getRunningInfoForApp(desktopId);
+                    if (!info || !info.hasWindows) {
+                        dockWindow.launchApp(desktopId);
+                        return;
+                    }
+
+                    if (info.here.length > 0) {
+                        if (info.here.length === 1) {
+                            WindowTracker.focus(info.here[0]);
+                            return;
+                        }
+
+                        let curIdx = -1;
+                        for (let i = 0; i < info.here.length; i++) {
+                            if (info.here[i].focused) {
+                                curIdx = i;
+                                break;
+                            }
+                        }
+
+                        let targetIdx = 0;
+                        if (curIdx >= 0) {
+                            targetIdx = (curIdx + 1) % info.here.length;
+                        }
+                        WindowTracker.focus(info.here[targetIdx]);
+                        return;
+                    }
+
+                    if (info.elsewhere.length > 0) {
+                        WindowTracker.focus(info.elsewhere[0]);
+                        return;
+                    }
+
+                    dockWindow.launchApp(desktopId);
+                }
+
+                property bool isWindowPopupOpen: false
+                property string popupDesktopId: ""
+                property var popupTargetItem: null
+                property var popupWindowsList: []
+
+                function openWindowPopup(desktopId, targetItem) {
+                    if (!desktopId || !targetItem) return;
+                    let info = dockWindow.getRunningInfoForApp(desktopId);
+                    let allWins = [];
+                    if (info) {
+                        allWins = (info.here || []).concat(info.elsewhere || []);
+                    }
+                    dockWindow.popupDesktopId = desktopId;
+                    dockWindow.popupTargetItem = targetItem;
+                    dockWindow.popupWindowsList = allWins;
+                    dockWindow.isWindowPopupOpen = true;
+                }
+
+                function closeWindowPopup() {
+                    dockWindow.isWindowPopupOpen = false;
+                    dockWindow.popupDesktopId = "";
+                    dockWindow.popupTargetItem = null;
+                    dockWindow.popupWindowsList = [];
+                }
+
+                Connections {
+                    target: (typeof WindowTracker !== "undefined") ? WindowTracker : null
+                    function onUpdated() {
+                        if (dockWindow.isWindowPopupOpen && dockWindow.popupDesktopId) {
+                            let info = dockWindow.getRunningInfoForApp(dockWindow.popupDesktopId);
+                            let allWins = [];
+                            if (info) {
+                                allWins = (info.here || []).concat(info.elsewhere || []);
+                            }
+                            dockWindow.popupWindowsList = allWins;
+                        }
+                    }
+                }
+
                 Component.onCompleted: {
                     let de = (typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? SystemInfo.desktopEnv.toLowerCase() : "";
                     dockWindow.isNiri = de.indexOf("niri") !== -1;
@@ -741,6 +1020,9 @@ Variants {
                     if (dockWindow.isSway) {
                         swayPoller.running = true;
                     }
+                    if (typeof WindowTracker !== "undefined") {
+                        WindowTracker.subscribe();
+                    }
                     loadApps();
                     loadAllDesktopApps();
                     initTimer.start();
@@ -749,6 +1031,9 @@ Variants {
                 Component.onDestruction: {
                     if (dockWindow.isNiri) {
                         NiriState.unsubscribe();
+                    }
+                    if (typeof WindowTracker !== "undefined") {
+                        WindowTracker.unsubscribe();
                     }
                 }
 
@@ -773,6 +1058,12 @@ Variants {
                     }
                     Region {
                         item: dockWindow.editMode ? appPicker : null
+                    }
+                    Region {
+                        item: dockWindow.isWindowPopupOpen ? windowPopupDismiss : null
+                    }
+                    Region {
+                        item: dockWindow.isWindowPopupOpen ? windowPopup : null
                     }
                 }
 
@@ -870,9 +1161,13 @@ Variants {
 
                     readonly property int placeholderCount: 6
                     property int totalItemCount: {
-                        if (dockAppsModel.count > 0) return dockAppsModel.count;
-                        if (dockWindow.editMode) return placeholderCount;
-                        return 0;
+                        if (dockWindow.editMode) {
+                            return dockAppsModel.count > 0 ? dockAppsModel.count : placeholderCount;
+                        }
+                        let pinned = dockAppsModel.count;
+                        let running = dockWindow.showRunningApps ? runningAppsModel.count : 0;
+                        let hasSep = (pinned > 0 && running > 0);
+                        return pinned + (hasSep ? 1 : 0) + running;
                     }
                     property int effectiveItemCount: {
                         if (dockWindow.enableScrolling && totalItemCount > 0) {
@@ -1285,6 +1580,16 @@ Variants {
                                         property bool isBeingDragged: btnMa.drag.active
                                         property int btnSize: dockWindow.s(dockWindow.dockElementSize)
 
+                                        readonly property var runningInfo: {
+                                            let dummy = dockWindow.runningInfoRevision;
+                                            return dockWindow.getRunningInfoForApp(model.desktop_id);
+                                        }
+                                        readonly property bool isAppRunning: runningInfo !== null && runningInfo.hasWindows
+                                        readonly property bool isAppHere: runningInfo !== null && runningInfo.count > 0
+                                        readonly property bool isAppFocused: runningInfo !== null && runningInfo.isFocused
+                                        readonly property int appWindowCount: runningInfo !== null ? runningInfo.count : 0
+                                        readonly property bool isOnlyElsewhere: runningInfo !== null && runningInfo.count === 0 && runningInfo.elsewhere.length > 0
+
                                         readonly property bool canHoverScale: !dockWindow.editMode && dockWindow.dragSourceIndex === -1 && !btnMa.drag.active
                                         readonly property real maxHoverScale: dockWindow.dockHoverScaleMultiplier
                                         readonly property real hoverScaleDelta: Math.max(0.0, maxHoverScale - 1.0)
@@ -1492,6 +1797,90 @@ Variants {
                                                 }
                                             }
 
+                                            Item {
+                                                id: indicatorContainer
+                                                visible: dockWindow.showRunningIndicators && dockButton.isAppRunning && !dockWindow.editMode
+                                                opacity: (visible && dockContainer.revealProgress > 0.1) ? 1.0 : 0.0
+                                                Behavior on opacity {
+                                                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                                                }
+
+                                                anchors.horizontalCenter: !dockWindow.isVertical ? parent.horizontalCenter : undefined
+                                                anchors.verticalCenter: dockWindow.isVertical ? parent.verticalCenter : undefined
+
+                                                anchors.bottom: dockWindow.dockPosition === "bottom" ? parent.bottom : undefined
+                                                anchors.top: dockWindow.dockPosition === "top" ? parent.top : undefined
+                                                anchors.left: dockWindow.dockPosition === "left" ? parent.left : undefined
+                                                anchors.right: dockWindow.dockPosition === "right" ? parent.right : undefined
+
+                                                anchors.bottomMargin: dockWindow.dockPosition === "bottom" ? dockWindow.s(2) : 0
+                                                anchors.topMargin: dockWindow.dockPosition === "top" ? dockWindow.s(2) : 0
+                                                anchors.leftMargin: dockWindow.dockPosition === "left" ? dockWindow.s(2) : 0
+                                                anchors.rightMargin: dockWindow.dockPosition === "right" ? dockWindow.s(2) : 0
+
+                                                width: dockWindow.isVertical ? dockWindow.s(4) : contentRow.implicitWidth
+                                                height: dockWindow.isVertical ? contentCol.implicitHeight : dockWindow.s(4)
+
+                                                Rectangle {
+                                                    id: elsewhereRing
+                                                    visible: dockButton.isOnlyElsewhere
+                                                    anchors.centerIn: parent
+                                                    width: dockWindow.s(4)
+                                                    height: dockWindow.s(4)
+                                                    radius: width / 2
+                                                    color: "transparent"
+                                                    border.width: 1
+                                                    border.color: ThemeBackend.overlay0
+                                                }
+
+                                                Rectangle {
+                                                    id: singlePill
+                                                    visible: !dockButton.isOnlyElsewhere && dockButton.appWindowCount === 1 && dockButton.isAppFocused
+                                                    anchors.centerIn: parent
+                                                    width: dockWindow.isVertical ? dockWindow.s(3.5) : dockWindow.s(14)
+                                                    height: dockWindow.isVertical ? dockWindow.s(14) : dockWindow.s(3.5)
+                                                    radius: dockWindow.s(2)
+                                                    color: ThemeBackend.mauve
+
+                                                    Behavior on width { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                                    Behavior on height { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                                }
+
+                                                Row {
+                                                    id: contentRow
+                                                    visible: !dockButton.isOnlyElsewhere && !singlePill.visible && !dockWindow.isVertical
+                                                    anchors.centerIn: parent
+                                                    spacing: dockWindow.s(2.5)
+
+                                                    Repeater {
+                                                        model: Math.min(3, Math.max(1, dockButton.appWindowCount))
+                                                        delegate: Rectangle {
+                                                            width: dockWindow.s(3.5)
+                                                            height: dockWindow.s(3.5)
+                                                            radius: width / 2
+                                                            color: (index === 0 && dockButton.isAppFocused) ? ThemeBackend.mauve : (index === 0 ? ThemeBackend.subtext0 : ThemeBackend.surface2)
+                                                        }
+                                                    }
+                                                }
+
+                                                Column {
+                                                    id: contentCol
+                                                    visible: !dockButton.isOnlyElsewhere && !singlePill.visible && dockWindow.isVertical
+                                                    anchors.centerIn: parent
+                                                    spacing: dockWindow.s(2.5)
+
+                                                    Repeater {
+                                                        model: Math.min(3, Math.max(1, dockButton.appWindowCount))
+                                                        delegate: Rectangle {
+                                                            width: dockWindow.s(3.5)
+                                                            height: dockWindow.s(3.5)
+                                                            radius: width / 2
+                                                            color: (index === 0 && dockButton.isAppFocused) ? ThemeBackend.mauve : (index === 0 ? ThemeBackend.subtext0 : ThemeBackend.surface2)
+                                                        }
+                                                    }
+                                                }
+                                            }
+
                                             MouseArea {
                                                 id: btnMa
                                                 anchors.fill: parent
@@ -1500,6 +1889,7 @@ Variants {
                                                 cursorShape: (dockWindow.editMode || inDragHold)
                                                     ? (drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
                                                     : Qt.PointingHandCursor
+                                                acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
 
                                                 property bool inDragHold: false
 
@@ -1522,7 +1912,8 @@ Variants {
                                                     }
                                                 }
 
-                                                onPressed: {
+                                                onPressed: function(mouse) {
+                                                    if (mouse.button !== Qt.LeftButton) return;
                                                     inDragHold = false;
                                                     if (dockWindow.editMode) {
                                                         dockWindow.dragSourceIndex = dockButton.itemIndex;
@@ -1592,17 +1983,498 @@ Variants {
                                                     }
                                                 }
 
-                                                onClicked: {
+                                                onClicked: function(mouse) {
                                                     if (dockWindow.editMode || inDragHold || drag.active) return;
-                                                    btnPopAnim.start();
-                                                    dockButton.flashOpacity = 0.4;
-                                                    btnFlashAnim.start();
-                                                    if (typeof Sounds !== "undefined") {
-                                                        Sounds.playSfx("reusables/iconbutton/click.wav");
+
+                                                    if (mouse.button === Qt.MiddleButton) {
+                                                        btnPopAnim.start();
+                                                        dockButton.flashOpacity = 0.4;
+                                                        btnFlashAnim.start();
+                                                        if (typeof Sounds !== "undefined") Sounds.playSfx("reusables/iconbutton/click.wav");
+                                                        dockWindow.launchApp(model.desktop_id);
+                                                        return;
                                                     }
-                                                    dockWindow.launchApp(model.desktop_id);
+
+                                                    if (mouse.button === Qt.RightButton) {
+                                                        if (typeof dockWindow.openWindowPopup === "function") {
+                                                            dockWindow.openWindowPopup(model.desktop_id, dockButton);
+                                                        }
+                                                        return;
+                                                    }
+
+                                                    if (mouse.button === Qt.LeftButton) {
+                                                        btnPopAnim.start();
+                                                        dockButton.flashOpacity = 0.4;
+                                                        btnFlashAnim.start();
+                                                        if (typeof Sounds !== "undefined") Sounds.playSfx("reusables/iconbutton/click.wav");
+                                                        dockWindow.activateOrLaunch(model.desktop_id, mouse.modifiers);
+                                                    }
                                                 }
                                             }
+                                        }
+                                    }
+                                }
+
+                                Item {
+                                    id: dockSeparator
+                                    visible: dockWindow.showRunningApps && runningAppsModel.count > 0 && dockAppsModel.count > 0 && !dockWindow.editMode
+                                    Layout.preferredWidth: dockWindow.isVertical ? dockWindow.s(dockWindow.dockElementSize) : dockWindow.s(1)
+                                    Layout.preferredHeight: dockWindow.isVertical ? dockWindow.s(1) : dockWindow.s(dockWindow.dockElementSize)
+                                    Layout.alignment: Qt.AlignCenter
+
+                                    Rectangle {
+                                        anchors.centerIn: parent
+                                        width: dockWindow.isVertical ? Math.round(dockWindow.s(dockWindow.dockElementSize) * 0.5) : 1
+                                        height: dockWindow.isVertical ? 1 : Math.round(dockWindow.s(dockWindow.dockElementSize) * 0.5)
+                                        radius: 1
+                                        color: Qt.alpha(ThemeBackend.surface2, 0.7)
+                                    }
+                                }
+
+                                Repeater {
+                                    id: runningAppsRepeater
+                                    model: (dockWindow.showRunningApps && !dockWindow.editMode) ? runningAppsModel : null
+
+                                    delegate: Item {
+                                        id: runningDockButton
+                                        implicitWidth: dockWindow.s(dockWindow.dockElementSize)
+                                        implicitHeight: dockWindow.s(dockWindow.dockElementSize)
+                                        Layout.preferredWidth: dockWindow.s(dockWindow.dockElementSize)
+                                        Layout.preferredHeight: dockWindow.s(dockWindow.dockElementSize)
+                                        Layout.alignment: Qt.AlignCenter
+
+                                        property int itemIndex: dockAppsModel.count + 1 + index
+                                        property real popScale: 1.0
+                                        property real flashOpacity: 0.0
+                                        property color btnColor: ThemeBackend.surface0
+                                        property int cornerRadius: Math.round(dockWindow.s(dockWindow.dockElementSize) * 0.28)
+                                        property int btnSize: dockWindow.s(dockWindow.dockElementSize)
+
+                                        readonly property var runningInfo: {
+                                            let dummy = dockWindow.runningInfoRevision;
+                                            return dockWindow.getRunningInfoForApp(model.desktop_id);
+                                        }
+                                        readonly property bool isAppRunning: runningInfo !== null && runningInfo.hasWindows
+                                        readonly property bool isAppHere: runningInfo !== null && runningInfo.count > 0
+                                        readonly property bool isAppFocused: runningInfo !== null && runningInfo.isFocused
+                                        readonly property int appWindowCount: runningInfo !== null ? runningInfo.count : 0
+                                        readonly property bool isOnlyElsewhere: runningInfo !== null && runningInfo.count === 0 && runningInfo.elsewhere.length > 0
+
+                                        Item {
+                                            id: runningFloatWrapper
+                                            anchors.fill: parent
+
+                                            Rectangle {
+                                                id: runningBtnShape
+                                                anchors.fill: parent
+                                                radius: runningDockButton.cornerRadius
+                                                clip: true
+                                                color: runningBtnMa.pressed ? Qt.darker(runningDockButton.btnColor, 1.12) : (runningBtnMa.containsMouse ? Qt.lighter(runningDockButton.btnColor, 1.12) : runningDockButton.btnColor)
+                                                scale: runningDockButton.popScale
+
+                                                Behavior on color { ColorAnimation { duration: 180 } }
+
+                                                Image {
+                                                    id: runningAppIcon
+                                                    anchors.fill: parent
+                                                    anchors.margins: dockWindow.s(Math.round(dockWindow.dockElementSize * 0.14))
+                                                    fillMode: Image.PreserveAspectFit
+                                                    asynchronous: true
+                                                    smooth: true
+                                                    mipmap: true
+                                                    property bool failedLoad: false
+                                                    visible: source !== "" && status === Image.Ready && !failedLoad
+
+                                                    source: {
+                                                        let ic = model.icon || "";
+                                                        if (!ic) return "";
+                                                        if (ic.startsWith("file://") || ic.startsWith("image://") || ic.startsWith("http://") || ic.startsWith("https://")) return ic;
+                                                        return ic.startsWith("/") ? "file://" + ic : "image://icon/" + ic;
+                                                    }
+                                                    onStatusChanged: {
+                                                        if (status === Image.Error) failedLoad = true;
+                                                    }
+                                                }
+
+                                                Text {
+                                                    anchors.centerIn: parent
+                                                    visible: runningAppIcon.source === "" || runningAppIcon.failedLoad || runningAppIcon.status === Image.Error
+                                                    text: model.name ? model.name.charAt(0).toUpperCase() : "?"
+                                                    font.family: ThemeBackend.fontFamily
+                                                    font.pixelSize: dockWindow.s(Math.round(dockWindow.dockElementSize * 0.42))
+                                                    font.weight: Font.Bold
+                                                    color: ThemeBackend.text
+                                                }
+
+                                                Rectangle {
+                                                    anchors.fill: parent
+                                                    radius: runningDockButton.cornerRadius
+                                                    color: "#ffffff"
+                                                    opacity: runningDockButton.flashOpacity
+                                                    PropertyAnimation on opacity {
+                                                        id: runningBtnFlashAnim
+                                                        to: 0
+                                                        duration: 400
+                                                        easing.type: Easing.OutExpo
+                                                    }
+                                                }
+                                            }
+
+                                            Item {
+                                                id: runningIndicatorContainer
+                                                visible: dockWindow.showRunningIndicators && runningDockButton.isAppRunning
+                                                opacity: (visible && dockContainer.revealProgress > 0.1) ? 1.0 : 0.0
+
+                                                anchors.horizontalCenter: !dockWindow.isVertical ? parent.horizontalCenter : undefined
+                                                anchors.verticalCenter: dockWindow.isVertical ? parent.verticalCenter : undefined
+
+                                                anchors.bottom: dockWindow.dockPosition === "bottom" ? parent.bottom : undefined
+                                                anchors.top: dockWindow.dockPosition === "top" ? parent.top : undefined
+                                                anchors.left: dockWindow.dockPosition === "left" ? parent.left : undefined
+                                                anchors.right: dockWindow.dockPosition === "right" ? parent.right : undefined
+
+                                                anchors.bottomMargin: dockWindow.dockPosition === "bottom" ? dockWindow.s(2) : 0
+                                                anchors.topMargin: dockWindow.dockPosition === "top" ? dockWindow.s(2) : 0
+                                                anchors.leftMargin: dockWindow.dockPosition === "left" ? dockWindow.s(2) : 0
+                                                anchors.rightMargin: dockWindow.dockPosition === "right" ? dockWindow.s(2) : 0
+
+                                                width: dockWindow.isVertical ? dockWindow.s(4) : runningRow.implicitWidth
+                                                height: dockWindow.isVertical ? runningCol.implicitHeight : dockWindow.s(4)
+
+                                                Rectangle {
+                                                    visible: runningDockButton.isOnlyElsewhere
+                                                    anchors.centerIn: parent
+                                                    width: dockWindow.s(4)
+                                                    height: dockWindow.s(4)
+                                                    radius: width / 2
+                                                    color: "transparent"
+                                                    border.width: 1
+                                                    border.color: ThemeBackend.overlay0
+                                                }
+
+                                                Rectangle {
+                                                    id: runningSinglePill
+                                                    visible: !runningDockButton.isOnlyElsewhere && runningDockButton.appWindowCount === 1 && runningDockButton.isAppFocused
+                                                    anchors.centerIn: parent
+                                                    width: dockWindow.isVertical ? dockWindow.s(3.5) : dockWindow.s(14)
+                                                    height: dockWindow.isVertical ? dockWindow.s(14) : dockWindow.s(3.5)
+                                                    radius: dockWindow.s(2)
+                                                    color: ThemeBackend.mauve
+                                                }
+
+                                                Row {
+                                                    id: runningRow
+                                                    visible: !runningDockButton.isOnlyElsewhere && !runningSinglePill.visible && !dockWindow.isVertical
+                                                    anchors.centerIn: parent
+                                                    spacing: dockWindow.s(2.5)
+
+                                                    Repeater {
+                                                        model: Math.min(3, Math.max(1, runningDockButton.appWindowCount))
+                                                        delegate: Rectangle {
+                                                            width: dockWindow.s(3.5)
+                                                            height: dockWindow.s(3.5)
+                                                            radius: width / 2
+                                                            color: (index === 0 && runningDockButton.isAppFocused) ? ThemeBackend.mauve : (index === 0 ? ThemeBackend.subtext0 : ThemeBackend.surface2)
+                                                        }
+                                                    }
+                                                }
+
+                                                Column {
+                                                    id: runningCol
+                                                    visible: !runningDockButton.isOnlyElsewhere && !runningSinglePill.visible && dockWindow.isVertical
+                                                    anchors.centerIn: parent
+                                                    spacing: dockWindow.s(2.5)
+
+                                                    Repeater {
+                                                        model: Math.min(3, Math.max(1, runningDockButton.appWindowCount))
+                                                        delegate: Rectangle {
+                                                            width: dockWindow.s(3.5)
+                                                            height: dockWindow.s(3.5)
+                                                            radius: width / 2
+                                                            color: (index === 0 && runningDockButton.isAppFocused) ? ThemeBackend.mauve : (index === 0 ? ThemeBackend.subtext0 : ThemeBackend.surface2)
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            MouseArea {
+                                                id: runningBtnMa
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
+                                                cursorShape: Qt.PointingHandCursor
+
+                                                onClicked: function(mouse) {
+                                                    if (mouse.button === Qt.MiddleButton) {
+                                                        dockWindow.launchApp(model.desktop_id);
+                                                        return;
+                                                    }
+                                                    if (mouse.button === Qt.RightButton) {
+                                                        if (typeof dockWindow.openWindowPopup === "function") {
+                                                            dockWindow.openWindowPopup(model.desktop_id, runningDockButton);
+                                                        }
+                                                        return;
+                                                    }
+                                                    if (mouse.button === Qt.LeftButton) {
+                                                        runningDockButton.flashOpacity = 0.4;
+                                                        runningBtnFlashAnim.start();
+                                                        if (typeof Sounds !== "undefined") Sounds.playSfx("reusables/iconbutton/click.wav");
+                                                        dockWindow.activateOrLaunch(model.desktop_id, mouse.modifiers);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    id: windowPopupDismiss
+                    anchors.fill: parent
+                    visible: dockWindow.isWindowPopupOpen
+                    z: 150
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: dockWindow.closeWindowPopup()
+                    }
+                }
+
+                Item {
+                    id: windowPopup
+                    visible: dockWindow.isWindowPopupOpen
+                    z: 200
+
+                    width: dockWindow.s(280)
+                    readonly property real maxListHeight: dockWindow.s(240)
+                    readonly property real listContentHeight: Math.min(maxListHeight, popupListView.contentHeight)
+                    height: listContentHeight + actionFooter.implicitHeight + dockWindow.s(16)
+
+                    readonly property var targetPos: {
+                        if (!dockWindow.popupTargetItem) return ({ x: 0, y: 0 });
+                        return dockWindow.popupTargetItem.mapToItem(dockWindow.contentItem, 0, 0);
+                    }
+
+                    x: {
+                        if (!dockWindow.popupTargetItem) return 0;
+                        if (dockWindow.isVertical) {
+                            if (dockWindow.dockPosition === "left") {
+                                return Math.round(dockContainer.x + dockContainer.width + dockWindow.s(10));
+                            } else {
+                                return Math.round(dockContainer.x - width - dockWindow.s(10));
+                            }
+                        }
+                        let centered = Math.round(targetPos.x + (dockWindow.popupTargetItem.width - width) / 2);
+                        return Math.max(dockWindow.s(10), Math.min(dockWindow.effectiveWindowWidth - width - dockWindow.s(10), centered));
+                    }
+
+                    y: {
+                        if (!dockWindow.popupTargetItem) return 0;
+                        if (!dockWindow.isVertical) {
+                            if (dockWindow.dockPosition === "bottom") {
+                                return Math.round(dockContainer.y - height - dockWindow.s(10));
+                            } else {
+                                return Math.round(dockContainer.y + dockContainer.height + dockWindow.s(10));
+                            }
+                        }
+                        let centered = Math.round(targetPos.y + (dockWindow.popupTargetItem.height - height) / 2);
+                        return Math.max(dockWindow.s(10), Math.min(dockWindow.effectiveWindowHeight - height - dockWindow.s(10), centered));
+                    }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: ThemeBackend.borderRadius
+                        color: ThemeBackend.base
+                        border.width: 1
+                        border.color: Qt.alpha(ThemeBackend.surface1, 0.6)
+                        clip: true
+
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: dockWindow.s(8)
+                            spacing: dockWindow.s(6)
+
+                            ListView {
+                                id: popupListView
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: windowPopup.listContentHeight
+                                visible: count > 0
+                                clip: true
+                                model: dockWindow.popupWindowsList
+
+                                delegate: Rectangle {
+                                    width: popupListView.width
+                                    height: dockWindow.s(32)
+                                    radius: ThemeBackend.borderRadius * 0.5
+                                    color: itemMa.containsMouse ? Qt.alpha(ThemeBackend.surface0, 0.7) : "transparent"
+
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: dockWindow.s(6)
+                                        anchors.rightMargin: dockWindow.s(6)
+                                        spacing: dockWindow.s(6)
+
+                                        Rectangle {
+                                            width: dockWindow.s(4)
+                                            height: dockWindow.s(4)
+                                            radius: 2
+                                            color: modelData.focused ? ThemeBackend.mauve : ThemeBackend.surface2
+                                        }
+
+                                        Text {
+                                            Layout.fillWidth: true
+                                            text: modelData.title || (typeof AppMatcher !== "undefined" ? AppMatcher.canonicalId(dockWindow.popupDesktopId) : "Window")
+                                            font.family: ThemeBackend.fontFamily
+                                            font.pixelSize: dockWindow.s(11)
+                                            color: modelData.focused ? ThemeBackend.mauve : ThemeBackend.text
+                                            elide: Text.ElideRight
+                                        }
+
+                                        Rectangle {
+                                            visible: modelData.workspaceLabel !== ""
+                                            implicitWidth: wsText.implicitWidth + dockWindow.s(8)
+                                            implicitHeight: dockWindow.s(16)
+                                            radius: dockWindow.s(8)
+                                            color: ThemeBackend.surface0
+
+                                            Text {
+                                                id: wsText
+                                                anchors.centerIn: parent
+                                                text: modelData.workspaceLabel
+                                                font.family: ThemeBackend.fontFamily
+                                                font.pixelSize: dockWindow.s(9)
+                                                color: ThemeBackend.subtext0
+                                            }
+                                        }
+
+                                        Rectangle {
+                                            width: dockWindow.s(20)
+                                            height: dockWindow.s(20)
+                                            radius: dockWindow.s(10)
+                                            color: closeMa.containsMouse ? ThemeBackend.red : "transparent"
+
+                                            Text {
+                                                anchors.centerIn: parent
+                                                text: "󰅖"
+                                                font.family: ThemeBackend.fontFamily
+                                                font.pixelSize: dockWindow.s(11)
+                                                color: closeMa.containsMouse ? ThemeBackend.crust : ThemeBackend.subtext0
+                                            }
+
+                                            MouseArea {
+                                                id: closeMa
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    WindowTracker.close(modelData);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    MouseArea {
+                                        id: itemMa
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        z: -1
+                                        onClicked: {
+                                            WindowTracker.focus(modelData);
+                                            dockWindow.closeWindowPopup();
+                                        }
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                height: 1
+                                color: Qt.alpha(ThemeBackend.surface1, 0.4)
+                                visible: popupListView.count > 0
+                            }
+
+                            RowLayout {
+                                id: actionFooter
+                                Layout.fillWidth: true
+                                spacing: dockWindow.s(4)
+
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    height: dockWindow.s(26)
+                                    radius: ThemeBackend.borderRadius * 0.4
+                                    color: newWinMa.containsMouse ? ThemeBackend.surface0 : "transparent"
+
+                                    RowLayout {
+                                        anchors.centerIn: parent
+                                        spacing: dockWindow.s(4)
+                                        Text {
+                                            text: "󰐕"
+                                            font.family: ThemeBackend.fontFamily
+                                            font.pixelSize: dockWindow.s(11)
+                                            color: ThemeBackend.text
+                                        }
+                                        Text {
+                                            text: I18n.t("guide.dock.window_menu.new_window", "New window")
+                                            font.family: ThemeBackend.fontFamily
+                                            font.pixelSize: dockWindow.s(10)
+                                            color: ThemeBackend.text
+                                        }
+                                    }
+
+                                    MouseArea {
+                                        id: newWinMa
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: {
+                                            dockWindow.launchApp(dockWindow.popupDesktopId);
+                                            dockWindow.closeWindowPopup();
+                                        }
+                                    }
+                                }
+
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                    height: dockWindow.s(26)
+                                    radius: ThemeBackend.borderRadius * 0.4
+                                    color: pinMa.containsMouse ? ThemeBackend.surface0 : "transparent"
+
+                                    readonly property bool isPinned: dockWindow.isAppInDock(dockWindow.popupDesktopId)
+
+                                    RowLayout {
+                                        anchors.centerIn: parent
+                                        spacing: dockWindow.s(4)
+                                        Text {
+                                            text: isPinned ? "󰤱" : "󰐃"
+                                            font.family: ThemeBackend.fontFamily
+                                            font.pixelSize: dockWindow.s(11)
+                                            color: ThemeBackend.text
+                                        }
+                                        Text {
+                                            text: isPinned ? I18n.t("guide.dock.window_menu.unpin", "Unpin") : I18n.t("guide.dock.window_menu.pin", "Pin to dock")
+                                            font.family: ThemeBackend.fontFamily
+                                            font.pixelSize: dockWindow.s(10)
+                                            color: ThemeBackend.text
+                                        }
+                                    }
+
+                                    MouseArea {
+                                        id: pinMa
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: {
+                                            if (parent.isPinned) {
+                                                dockWindow.removeAppByDesktopId(dockWindow.popupDesktopId);
+                                            } else {
+                                                let ent = (typeof AppMatcher !== "undefined") ? AppMatcher.entry(dockWindow.popupDesktopId) : null;
+                                                dockWindow.addApp(ent || { id: dockWindow.popupDesktopId, desktop_id: dockWindow.popupDesktopId });
+                                            }
+                                            dockWindow.closeWindowPopup();
                                         }
                                     }
                                 }
