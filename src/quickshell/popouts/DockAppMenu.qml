@@ -151,7 +151,7 @@ PanelWindow {
                 property: "animProgress"
                 from: menuContainer.animProgress > 0.8 ? 0.2 : 0.0
                 to: 1.0
-                duration: 420
+                duration: 260
                 easing.type: Easing.OutBack
                 easing.overshoot: 1.1
             }
@@ -161,7 +161,7 @@ PanelWindow {
                 target: menuContainer
                 property: "animProgress"
                 to: 0.0
-                duration: 220
+                duration: 160
                 easing.type: Easing.InCubic
                 onFinished: {
                     if (!dockAppMenuWindow.isVisible) {
