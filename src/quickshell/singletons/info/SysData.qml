@@ -38,8 +38,6 @@ Item {
         }
     }
 
-    // Parses one cpu|ram%|ramGB|temp|rx|tx|disk%|diskUsedGB|diskTotalGB line.
-    // Network fields are skipped: throughput comes from sampleNet() instead.
     function applyUsage(text) {
         text = text ? text.trim() : "";
         if (!text) return;
@@ -64,12 +62,10 @@ Item {
         }
     }
 
-    // Live network throughput: interface byte counters are read in-process from
-    // /proc/net/dev (a passive kernel read, no traffic is generated) with
-    // millisecond timing, independent of the slower fetcher cycle.
     property real lastNetRxBytes: -1
     property real lastNetTxBytes: -1
     property real lastNetSampleMs: 0
+    property int netInterval: root.onBattery ? 6000 : 3000
 
     function resetNet() {
         lastNetRxBytes = -1;
@@ -114,7 +110,7 @@ Item {
 
     Timer {
         id: netTimer
-        interval: root.onBattery ? 3000 : 1500
+        interval: root.netInterval
         repeat: true
         running: false
         triggeredOnStart: true
