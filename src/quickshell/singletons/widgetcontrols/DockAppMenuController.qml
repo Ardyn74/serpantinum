@@ -20,6 +20,7 @@ Item {
     property string appIcon: ""
     property bool isPinned: false
     property var windows: []
+    property real buttonSize: 0
 
     function isSameApp(idA, idB) {
         if (!idA || !idB) return false;
@@ -32,7 +33,7 @@ Item {
         return a === b;
     }
 
-    function show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList) {
+    function show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList, btnSize) {
         controller.screen = scr;
         controller.targetX = posX;
         controller.targetY = posY;
@@ -42,6 +43,7 @@ Item {
         controller.appIcon = icon || "";
         controller.isPinned = Boolean(pinned);
         controller.windows = winList || [];
+        controller.buttonSize = btnSize || 0;
         controller.isVisible = true;
         controller.menuTriggered();
     }
@@ -51,11 +53,11 @@ Item {
         controller.windows = [];
     }
 
-    function toggle(scr, posX, posY, dockPos, dId, name, icon, pinned, winList) {
+    function toggle(scr, posX, posY, dockPos, dId, name, icon, pinned, winList, btnSize) {
         if (controller.isVisible && isSameApp(controller.desktopId, dId)) {
             controller.hide();
         } else {
-            controller.show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList);
+            controller.show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList, btnSize);
         }
     }
 

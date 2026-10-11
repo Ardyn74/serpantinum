@@ -56,6 +56,7 @@ PanelWindow {
     property real targetY: DockAppMenuController.targetY
     property string dockPosition: DockAppMenuController.dockPosition
     property var windowsList: DockAppMenuController.windows
+    readonly property bool hasWindows: windowsList && windowsList.length > 0
 
     Connections {
         target: DockAppMenuController
@@ -65,46 +66,24 @@ PanelWindow {
         }
     }
 
-    property real cornerRadius: {
-        return (typeof ThemeBackend !== "undefined" && ThemeBackend.borderRadius !== undefined && ThemeBackend.borderRadius !== null)
-            ? ThemeBackend.borderRadius
-            : s(12);
+    readonly property var dockSettings: (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.dock) ? Config.rawSettings.dock : ({})
+
+    property real cornerRadius: ThemeBackend.borderRadius !== undefined && ThemeBackend.borderRadius !== null
+        ? ThemeBackend.borderRadius
+        : s(12)
+
+    property real surfaceOpacity: {
+        let v = 100;
+        if (dockSettings.opacity !== undefined) v = Number(dockSettings.opacity);
+        else if (dockSettings.transparency !== undefined) v = 100 - Number(dockSettings.transparency);
+        return Math.max(0.0, Math.min(1.0, v / 100.0));
     }
 
-    property color menuBackgroundColor: {
-        if (typeof ThemeBackend !== "undefined" && ThemeBackend.base) {
-            return ThemeBackend.base;
-        }
-        return "#1e1e2e";
-    }
-
-    property color buttonColor: {
-        if (typeof ThemeBackend !== "undefined" && ThemeBackend.surface0) {
-            return ThemeBackend.surface0;
-        }
-        return "#313244";
-    }
-
-    property color primaryButtonColor: {
-        if (typeof ThemeBackend !== "undefined" && ThemeBackend.primary) {
-            return ThemeBackend.primary;
-        }
-        if (typeof ThemeBackend !== "undefined" && ThemeBackend.mauve) {
-            return ThemeBackend.mauve;
-        }
-        return "#cba6f7";
-    }
-
-    property real menuWidth: s(240)
+    property real menuWidth: s(248)
     property real menuHeight: contentCol.implicitHeight
-    property real menuOffset: s(10)
+    property real menuOffset: s(16) + (dockSettings.floating ? s(8) : 0)
 
-    property real dockButtonSize: {
-        if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.dock && Config.rawSettings.dock.elementSize) {
-            return s(Config.rawSettings.dock.elementSize);
-        }
-        return s(44);
-    }
+    property real dockButtonSize: DockAppMenuController.buttonSize > 0 ? DockAppMenuController.buttonSize : (dockSettings.elementSize ? s(dockSettings.elementSize) : s(44))
 
     property real computedTargetX: {
         let w = menuWidth;
@@ -130,17 +109,22 @@ PanelWindow {
         }
     }
 
+    property real edgeMargin: s(12)
+
     property real clampedX: {
-        let margin = s(8);
-        return Math.max(margin, Math.min(dockAppMenuWindow.width - menuWidth - margin, computedTargetX));
+        let maxX = dockAppMenuWindow.width - menuWidth - edgeMargin;
+        let x = isNaN(computedTargetX) ? edgeMargin : computedTargetX;
+        return Math.max(edgeMargin, Math.min(maxX, x));
     }
 
     property real clampedY: {
-        let margin = s(8);
-        return Math.max(margin, Math.min(dockAppMenuWindow.height - menuHeight - margin, computedTargetY));
+        let maxY = dockAppMenuWindow.height - menuHeight - edgeMargin;
+        let y = isNaN(computedTargetY) ? edgeMargin : computedTargetY;
+        return Math.max(edgeMargin, Math.min(maxY, y));
     }
 
     visible: isVisible || menuContainer.animProgress > 0.001
+
 
     Item {
         id: rootContainer
@@ -157,9 +141,9 @@ PanelWindow {
                 property: "animProgress"
                 from: menuContainer.animProgress > 0.8 ? 0.2 : 0.0
                 to: 1.0
-                duration: 380
+                duration: 420
                 easing.type: Easing.OutBack
-                easing.overshoot: 1.25
+                easing.overshoot: 1.28
             }
 
             NumberAnimation {
@@ -167,7 +151,7 @@ PanelWindow {
                 target: menuContainer
                 property: "animProgress"
                 to: 0.0
-                duration: 180
+                duration: 200
                 easing.type: Easing.InQuad
                 onFinished: {
                     if (!dockAppMenuWindow.isVisible) {
@@ -190,7 +174,7 @@ PanelWindow {
                 yScale: 0.85 + (0.15 * menuContainer.animProgress)
             }
 
-            Column {
+            ColumnLayout {
                 id: contentCol
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -198,25 +182,42 @@ PanelWindow {
                 spacing: dockAppMenuWindow.s(4)
 
                 Rectangle {
-                    id: headerBox
-                    width: parent.width
-                    height: headerRow.implicitHeight + dockAppMenuWindow.s(10)
-                    color: dockAppMenuWindow.menuBackgroundColor
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: dockAppMenuWindow.s(32) + dockAppMenuWindow.s(8)
+                    color: Qt.alpha(ThemeBackend.base, dockAppMenuWindow.surfaceOpacity)
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
-                    RowLayout {
-                        id: headerRow
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.leftMargin: dockAppMenuWindow.s(10)
-                        anchors.rightMargin: dockAppMenuWindow.s(10)
-                        spacing: dockAppMenuWindow.s(8)
+                    Item {
+                        anchors.fill: parent
+                        anchors.margins: dockAppMenuWindow.s(4)
+
+                        ClickButton {
+                            anchors.fill: parent
+                            cornerRadius: dockAppMenuWindow.s(8)
+                            contentAlignment: Qt.AlignLeft
+                            horizontalPadding: dockAppMenuWindow.s(40)
+                            textFontSize: dockAppMenuWindow.s(12)
+                            buttonText: DockAppMenuController.appName || DockAppMenuController.desktopId
+                            accentColor: ThemeBackend.surface0
+                            textColor: ThemeBackend.text
+                            onClicked: {
+                                if (dockAppMenuWindow.hasWindows) {
+                                    WindowTracker.focusWindow(dockAppMenuWindow.windowsList[0]);
+                                } else if (typeof DesktopEntries !== "undefined" && DockAppMenuController.desktopId) {
+                                    let entry = DesktopEntries.byId(DockAppMenuController.desktopId);
+                                    if (entry) entry.execute();
+                                }
+                                DockAppMenuController.hide();
+                            }
+                        }
 
                         Image {
-                            Layout.preferredWidth: dockAppMenuWindow.s(22)
-                            Layout.preferredHeight: dockAppMenuWindow.s(22)
+                            anchors.left: parent.left
+                            anchors.leftMargin: dockAppMenuWindow.s(10)
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: dockAppMenuWindow.s(20)
+                            height: dockAppMenuWindow.s(20)
                             source: DockAppMenuController.appIcon ? (DockAppMenuController.appIcon.indexOf("/") !== -1 || DockAppMenuController.appIcon.startsWith("image://") ? DockAppMenuController.appIcon : ("image://icon/" + DockAppMenuController.appIcon)) : ""
                             sourceSize.width: width
                             sourceSize.height: height
@@ -224,21 +225,15 @@ PanelWindow {
                             visible: status === Image.Ready
                         }
 
-                        Text {
-                            Layout.fillWidth: true
-                            text: DockAppMenuController.appName || DockAppMenuController.desktopId
-                            color: ThemeBackend.text
-                            font.pixelSize: dockAppMenuWindow.s(13)
-                            font.weight: Font.DemiBold
-                            elide: Text.ElideRight
-                        }
-
                         Rectangle {
-                            visible: dockAppMenuWindow.windowsList && dockAppMenuWindow.windowsList.length > 0
-                            Layout.preferredWidth: badgeText.implicitWidth + dockAppMenuWindow.s(10)
-                            Layout.preferredHeight: dockAppMenuWindow.s(18)
+                            visible: dockAppMenuWindow.hasWindows
+                            anchors.right: parent.right
+                            anchors.rightMargin: dockAppMenuWindow.s(8)
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: Math.max(height, badgeText.implicitWidth + dockAppMenuWindow.s(10))
+                            height: dockAppMenuWindow.s(18)
                             radius: height / 2
-                            color: dockAppMenuWindow.buttonColor
+                            color: Qt.alpha(ThemeBackend.base, 0.6)
 
                             Text {
                                 id: badgeText
@@ -253,15 +248,14 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    id: windowsBox
-                    visible: dockAppMenuWindow.windowsList && dockAppMenuWindow.windowsList.length > 0
-                    width: parent.width
-                    height: windowsCol.implicitHeight + dockAppMenuWindow.s(8)
-                    color: dockAppMenuWindow.menuBackgroundColor
+                    visible: dockAppMenuWindow.hasWindows
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: windowsCol.implicitHeight + dockAppMenuWindow.s(8)
+                    color: Qt.alpha(ThemeBackend.base, dockAppMenuWindow.surfaceOpacity)
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
-                    Column {
+                    ColumnLayout {
                         id: windowsCol
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -272,45 +266,58 @@ PanelWindow {
                         Repeater {
                             model: dockAppMenuWindow.windowsList
 
-                            delegate: Item {
-                                width: parent.width
-                                height: dockAppMenuWindow.s(30)
+                            delegate: RowLayout {
+                                id: windowRow
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: dockAppMenuWindow.s(30)
+                                spacing: 0
 
-                                RowLayout {
-                                    anchors.fill: parent
-                                    spacing: dockAppMenuWindow.s(2)
+                                HoverHandler { id: rowHover }
 
-                                    ClickButton {
-                                        Layout.fillWidth: true
-                                        height: parent.height
-                                        cornerRadius: dockAppMenuWindow.s(7)
-                                        contentAlignment: Qt.AlignLeft
-                                        horizontalPadding: dockAppMenuWindow.s(8)
-                                        buttonIcon: "󰖲"
-                                        iconFontSize: dockAppMenuWindow.s(13)
-                                        textFontSize: dockAppMenuWindow.s(11)
-                                        buttonText: {
-                                            let t = modelData.title || I18n.t("guide.dock.window_menu.untitled", "Untitled");
-                                            let ws = (modelData.workspaceLabel !== undefined && modelData.workspaceLabel !== "") ? (" [" + modelData.workspaceLabel + "]") : "";
-                                            return (t.length > 22 ? (t.substring(0, 20) + "…") : t) + ws;
-                                        }
-                                        accentColor: modelData.focused ? dockAppMenuWindow.primaryButtonColor : dockAppMenuWindow.buttonColor
-                                        textColor: modelData.focused ? ThemeBackend.crust : ThemeBackend.text
-                                        onClicked: {
-                                            WindowTracker.focusWindow(modelData);
-                                            DockAppMenuController.hide();
-                                        }
+                                ClickButton {
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    cornerRadius: dockAppMenuWindow.s(7)
+                                    contentAlignment: Qt.AlignLeft
+                                    horizontalPadding: dockAppMenuWindow.s(8)
+                                    buttonIcon: "󰖲"
+                                    iconFontSize: dockAppMenuWindow.s(13)
+                                    textFontSize: dockAppMenuWindow.s(11)
+                                    buttonText: {
+                                        let t = modelData.title || I18n.t("guide.dock.window_menu.untitled", "Untitled");
+                                        let ws = (modelData.workspaceLabel !== undefined && modelData.workspaceLabel !== "") ? (" [" + modelData.workspaceLabel + "]") : "";
+                                        return t + ws;
+                                    }
+                                    accentColor: modelData.focused ? ThemeBackend.mauve : ThemeBackend.surface0
+                                    textColor: modelData.focused ? ThemeBackend.crust : ThemeBackend.text
+                                    onClicked: {
+                                        WindowTracker.focusWindow(modelData);
+                                        DockAppMenuController.hide();
+                                    }
+                                }
+
+                                Item {
+                                    Layout.preferredWidth: rowHover.hovered ? dockAppMenuWindow.s(30) + dockAppMenuWindow.s(2) : 0
+                                    Layout.fillHeight: true
+                                    clip: true
+                                    Behavior on Layout.preferredWidth {
+                                        NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
                                     }
 
                                     IconButton {
-                                        width: dockAppMenuWindow.s(28)
-                                        height: parent.height
-                                        size: height
+                                        x: parent.width - width
+                                        width: dockAppMenuWindow.s(30)
+                                        height: dockAppMenuWindow.s(30)
+                                        size: dockAppMenuWindow.s(30)
                                         cornerRadius: dockAppMenuWindow.s(7)
-                                        accentColor: dockAppMenuWindow.buttonColor
+                                        accentColor: ThemeBackend.surface0
                                         textColor: ThemeBackend.red
                                         buttonIcon: "󰅖"
                                         iconFontSize: dockAppMenuWindow.s(13)
+                                        opacity: rowHover.hovered ? 1.0 : 0.0
+                                        Behavior on opacity {
+                                            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+                                        }
                                         onClicked: {
                                             WindowTracker.close(modelData);
                                             DockAppMenuController.hide();
@@ -323,14 +330,13 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    id: actionsBox
-                    width: parent.width
-                    height: actionsCol.implicitHeight + dockAppMenuWindow.s(8)
-                    color: dockAppMenuWindow.menuBackgroundColor
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: actionsCol.implicitHeight + dockAppMenuWindow.s(8)
+                    color: Qt.alpha(ThemeBackend.base, dockAppMenuWindow.surfaceOpacity)
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
-                    Column {
+                    ColumnLayout {
                         id: actionsCol
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -339,8 +345,8 @@ PanelWindow {
                         spacing: dockAppMenuWindow.s(2)
 
                         ClickButton {
-                            width: parent.width
-                            height: dockAppMenuWindow.s(29)
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: dockAppMenuWindow.s(29)
                             cornerRadius: dockAppMenuWindow.s(8)
                             contentAlignment: Qt.AlignLeft
                             horizontalPadding: dockAppMenuWindow.s(8)
@@ -348,7 +354,7 @@ PanelWindow {
                             iconFontSize: dockAppMenuWindow.s(14)
                             textFontSize: dockAppMenuWindow.s(11)
                             buttonText: I18n.t("guide.dock.window_menu.new_window", "New window")
-                            accentColor: dockAppMenuWindow.buttonColor
+                            accentColor: ThemeBackend.surface0
                             textColor: ThemeBackend.text
                             onClicked: {
                                 if (typeof DesktopEntries !== "undefined" && DockAppMenuController.desktopId) {
@@ -360,8 +366,8 @@ PanelWindow {
                         }
 
                         ClickButton {
-                            width: parent.width
-                            height: dockAppMenuWindow.s(29)
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: dockAppMenuWindow.s(29)
                             cornerRadius: dockAppMenuWindow.s(8)
                             contentAlignment: Qt.AlignLeft
                             horizontalPadding: dockAppMenuWindow.s(8)
@@ -369,7 +375,7 @@ PanelWindow {
                             iconFontSize: dockAppMenuWindow.s(14)
                             textFontSize: dockAppMenuWindow.s(11)
                             buttonText: DockAppMenuController.isPinned ? I18n.t("guide.dock.window_menu.unpin", "Unpin from dock") : I18n.t("guide.dock.window_menu.pin", "Pin to dock")
-                            accentColor: dockAppMenuWindow.buttonColor
+                            accentColor: ThemeBackend.surface0
                             textColor: ThemeBackend.text
                             onClicked: {
                                 if (DockAppMenuController.isPinned) {
@@ -377,6 +383,7 @@ PanelWindow {
                                 } else {
                                     DockAppMenuController.pinApp(DockAppMenuController.desktopId, DockAppMenuController.appName, DockAppMenuController.appIcon);
                                 }
+                                DockAppMenuController.hide();
                             }
                         }
                     }

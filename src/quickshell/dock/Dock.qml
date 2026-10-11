@@ -2072,7 +2072,8 @@ Variants {
                                                             model.name || (info ? info.appId : ""),
                                                             model.icon || "",
                                                             true,
-                                                            winList
+                                                            winList,
+                                                            dockButton.width
                                                         );
                                                         return;
                                                     }
@@ -2097,7 +2098,8 @@ Variants {
                                                                 model.name || (info ? info.appId : ""),
                                                                 model.icon || "",
                                                                 true,
-                                                                winList
+                                                                winList,
+                                                                dockButton.width
                                                             );
                                                             return;
                                                         }
