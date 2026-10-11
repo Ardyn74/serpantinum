@@ -426,7 +426,21 @@ Item {
         if (!win) return;
         let nid = (typeof win === "object") ? win.nativeId : win;
         if (nid === undefined || nid === null || nid === "") return;
-        Quickshell.execDetached(["bash", "-c", "niri msg action focus-window --id " + nid]);
+        let ws = (typeof win === "object" && win.workspaceLabel !== undefined) ? win.workspaceLabel : "";
+        if (!ws && typeof NiriState !== "undefined" && NiriState.windowsMap && NiriState.workspacesMap) {
+            let nw = NiriState.windowsMap[nid];
+            if (nw && nw.workspace_id !== undefined) {
+                let nws = NiriState.workspacesMap[nw.workspace_id];
+                if (nws) {
+                    ws = String(nws.idx !== undefined ? nws.idx : (nws.id !== undefined ? nws.id : ""));
+                }
+            }
+        }
+        if (ws) {
+            Quickshell.execDetached(["bash", "-c", "niri msg action focus-workspace \"" + ws + "\" && niri msg action focus-window --id " + nid]);
+        } else {
+            Quickshell.execDetached(["bash", "-c", "niri msg action focus-window --id " + nid]);
+        }
     }
 
     function _closeNiri(win) {

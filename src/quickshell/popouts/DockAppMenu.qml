@@ -22,11 +22,22 @@ PanelWindow {
 
     onIsVisibleChanged: {
         if (isVisible) {
+            rootContainer.lastTriggerTime = Date.now();
             rootContainer.forceActiveFocus();
+            closeAnim.stop();
+            openAnim.restart();
         } else {
             openAnim.stop();
             closeAnim.restart();
         }
+    }
+
+    Item {
+        id: maskTarget
+        x: dockAppMenuWindow.clampedX
+        y: dockAppMenuWindow.clampedY
+        width: dockAppMenuWindow.menuWidth
+        height: dockAppMenuWindow.menuHeight
     }
 
     mask: Region {
@@ -51,10 +62,9 @@ PanelWindow {
     Connections {
         target: DockAppMenuController
         function onMenuTriggered() {
+            rootContainer.lastTriggerTime = Date.now();
             rootContainer.forceActiveFocus();
             closeAnim.stop();
-            openAnim.stop();
-            menuContainer.animProgress = 0.0;
             openAnim.restart();
         }
     }
@@ -142,8 +152,10 @@ PanelWindow {
         focus: dockAppMenuWindow.isVisible
         Keys.onEscapePressed: DockAppMenuController.hide()
 
+        property real lastTriggerTime: 0
+
         onActiveFocusChanged: {
-            if (!activeFocus && dockAppMenuWindow.isVisible && menuContainer.animProgress > 0.5) {
+            if (!activeFocus && dockAppMenuWindow.isVisible && (Date.now() - lastTriggerTime > 250) && menuContainer.animProgress > 0.3) {
                 DockAppMenuController.hide();
             }
         }
@@ -151,14 +163,6 @@ PanelWindow {
         MouseArea {
             anchors.fill: parent
             onClicked: DockAppMenuController.hide()
-        }
-
-        Item {
-            id: maskTarget
-            x: dockAppMenuWindow.clampedX
-            y: dockAppMenuWindow.clampedY
-            width: dockAppMenuWindow.menuWidth
-            height: dockAppMenuWindow.menuHeight
         }
 
         Item {
@@ -170,19 +174,19 @@ PanelWindow {
                 id: openAnim
                 target: menuContainer
                 property: "animProgress"
-                from: 0.0
+                from: menuContainer.animProgress > 0.8 ? 0.2 : 0.0
                 to: 1.0
-                duration: 90
-                easing.type: Easing.OutCubic
+                duration: 380
+                easing.type: Easing.OutBack
+                easing.overshoot: 1.25
             }
 
             NumberAnimation {
                 id: closeAnim
                 target: menuContainer
                 property: "animProgress"
-                from: 1.0
                 to: 0.0
-                duration: 60
+                duration: 180
                 easing.type: Easing.InQuad
                 onFinished: {
                     if (!dockAppMenuWindow.isVisible) {
@@ -196,13 +200,13 @@ PanelWindow {
             width: dockAppMenuWindow.menuWidth
             height: dockAppMenuWindow.menuHeight
 
-            opacity: 0.75 + (0.25 * animProgress)
+            opacity: Math.max(0.0, Math.min(1.0, animProgress * 1.5))
 
             transform: Scale {
                 origin.x: Math.max(0, Math.min(menuContainer.width, dockAppMenuWindow.targetX - dockAppMenuWindow.clampedX))
                 origin.y: Math.max(0, Math.min(menuContainer.height, dockAppMenuWindow.targetY - dockAppMenuWindow.clampedY))
-                xScale: 0.92 + (0.08 * menuContainer.animProgress)
-                yScale: 0.92 + (0.08 * menuContainer.animProgress)
+                xScale: 0.85 + (0.15 * menuContainer.animProgress)
+                yScale: 0.85 + (0.15 * menuContainer.animProgress)
             }
 
             Column {

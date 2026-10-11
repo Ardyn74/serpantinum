@@ -2061,6 +2061,34 @@ Variants {
                                                     }
 
                                                     if (mouse.button === Qt.LeftButton) {
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId !== model.desktop_id) {
+                                                            let pt = dockButton.mapToItem(null, 0, 0);
+                                                            let globX = pt.x + (dockButton.width / 2);
+                                                            let globY = pt.y + (dockButton.height / 2);
+                                                            let info = dockWindow.getRunningInfoForApp(model.desktop_id);
+                                                            let winList = [];
+                                                            if (info) {
+                                                                if (info.here) winList = winList.concat(info.here);
+                                                                if (info.elsewhere) winList = winList.concat(info.elsewhere);
+                                                            }
+                                                            DockAppMenuController.show(
+                                                                dockWindow.screen,
+                                                                globX,
+                                                                globY,
+                                                                dockWindow.dockPosition,
+                                                                model.desktop_id,
+                                                                model.name || (info ? info.appId : ""),
+                                                                model.icon || "",
+                                                                true,
+                                                                winList
+                                                            );
+                                                            return;
+                                                        }
+
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId === model.desktop_id) {
+                                                            DockAppMenuController.hide();
+                                                        }
+
                                                         btnPopAnim.start();
                                                         dockButton.flashOpacity = 0.4;
                                                         btnFlashAnim.start();
@@ -2293,6 +2321,34 @@ Variants {
                                                         return;
                                                     }
                                                     if (mouse.button === Qt.LeftButton) {
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId !== model.desktop_id) {
+                                                            let pt = runningDockButton.mapToItem(null, 0, 0);
+                                                            let globX = pt.x + (runningDockButton.width / 2);
+                                                            let globY = pt.y + (runningDockButton.height / 2);
+                                                            let info = dockWindow.getRunningInfoForApp(model.desktop_id);
+                                                            let winList = [];
+                                                            if (info) {
+                                                                if (info.here) winList = winList.concat(info.here);
+                                                                if (info.elsewhere) winList = winList.concat(info.elsewhere);
+                                                            }
+                                                            DockAppMenuController.show(
+                                                                dockWindow.screen,
+                                                                globX,
+                                                                globY,
+                                                                dockWindow.dockPosition,
+                                                                model.desktop_id,
+                                                                model.name || (info ? info.appId : ""),
+                                                                model.icon || "",
+                                                                false,
+                                                                winList
+                                                            );
+                                                            return;
+                                                        }
+
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId === model.desktop_id) {
+                                                            DockAppMenuController.hide();
+                                                        }
+
                                                         runningDockButton.flashOpacity = 0.4;
                                                         runningBtnFlashAnim.start();
                                                         if (typeof Sounds !== "undefined") Sounds.playSfx("reusables/iconbutton/click.wav");
