@@ -375,7 +375,7 @@ Item {
         return root._swayWindowList || [];
     }
 
-    function focus(win) {
+    function focusWindow(win) {
         if (!win) return;
         let nid = (typeof win === "object") ? win.nativeId : win;
         if (nid) _recordFocus(nid);
@@ -399,6 +399,14 @@ Item {
             win.native.activate();
             return;
         }
+    }
+
+    function activate(win) {
+        root.focusWindow(win);
+    }
+
+    function activateWindow(win) {
+        root.focusWindow(win);
     }
 
     function close(win) {

@@ -160,10 +160,6 @@ PanelWindow {
             }
         }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: DockAppMenuController.hide()
-        }
 
         Item {
             id: menuContainer
@@ -316,7 +312,7 @@ PanelWindow {
                                         accentColor: modelData.focused ? dockAppMenuWindow.primaryButtonColor : dockAppMenuWindow.buttonColor
                                         textColor: modelData.focused ? ThemeBackend.crust : ThemeBackend.text
                                         onClicked: {
-                                            WindowTracker.focus(modelData);
+                                            WindowTracker.focusWindow(modelData);
                                             DockAppMenuController.hide();
                                         }
                                     }

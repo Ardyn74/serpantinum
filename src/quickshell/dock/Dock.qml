@@ -241,6 +241,9 @@ Variants {
                 onEffectiveAutohideChanged: hideTimer.stop()
                 onActiveIndexChanged: {
                     hideTimer.stop();
+                    if (typeof DockAppMenuController !== "undefined") {
+                        DockAppMenuController.hide();
+                    }
                     dockWindow._recomputeRunningInfo();
                 }
 
@@ -449,7 +452,6 @@ Variants {
                     let cid = (typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(desktopId) : String(desktopId).toLowerCase().replace(/\.desktop$/, "");
                     let dId = (typeof AppMatcher !== "undefined") ? AppMatcher.resolve(desktopId) : "";
                     let cDid = dId ? ((typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(dId) : dId.toLowerCase()) : "";
-                    let dummy = runningInfoRevision;
                     return runningInfoMap[cid] || (cDid ? runningInfoMap[cDid] : null) || (dId ? runningInfoMap[dId] : null) || runningInfoMap[desktopId] || runningInfoMap["app:" + cid] || null;
                 }
 
@@ -1025,7 +1027,7 @@ Variants {
                     }
 
                     if (targetWin) {
-                        WindowTracker.focus(targetWin);
+                        WindowTracker.focusWindow(targetWin);
                     } else {
                         dockWindow.launchApp(desktopId);
                     }
@@ -1621,10 +1623,7 @@ Variants {
                                         property bool isBeingDragged: btnMa.drag.active
                                         property int btnSize: dockWindow.s(dockWindow.dockElementSize)
 
-                                        readonly property var runningInfo: {
-                                            let dummy = dockWindow.runningInfoRevision;
-                                            return dockWindow.getRunningInfoForApp(model.desktop_id);
-                                        }
+                                        readonly property var runningInfo: dockWindow.getRunningInfoForApp(model.desktop_id)
                                         readonly property bool isAppRunning: runningInfo !== null && runningInfo.hasWindows
                                         readonly property bool isAppHere: runningInfo !== null && runningInfo.count > 0
                                         readonly property bool isAppFocused: runningInfo !== null && runningInfo.isFocused
@@ -2138,10 +2137,7 @@ Variants {
                                         property int cornerRadius: Math.round(dockWindow.s(dockWindow.dockElementSize) * 0.28)
                                         property int btnSize: dockWindow.s(dockWindow.dockElementSize)
 
-                                        readonly property var runningInfo: {
-                                            let dummy = dockWindow.runningInfoRevision;
-                                            return dockWindow.getRunningInfoForApp(model.desktop_id);
-                                        }
+                                        readonly property var runningInfo: dockWindow.getRunningInfoForApp(model.desktop_id)
                                         readonly property bool isAppRunning: runningInfo !== null && runningInfo.hasWindows
                                         readonly property bool isAppHere: runningInfo !== null && runningInfo.count > 0
                                         readonly property bool isAppFocused: runningInfo !== null && runningInfo.isFocused
