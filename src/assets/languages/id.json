@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "Sembunyikan otomatis cerdas",
         "desc": "Sembunyikan dok secara otomatis hanya saat jendela terbuka, tetap tampilkan di desktop"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

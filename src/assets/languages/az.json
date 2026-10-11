@@ -791,6 +791,9 @@
       "smart_autohide": {
         "title": "Ağıllı avto-gizlətmə",
         "desc": "Doku yalnız pəncərələr açıq olduqda gizlət, masaüstündə görünən saxla"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

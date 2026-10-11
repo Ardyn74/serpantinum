@@ -1,0 +1,60 @@
+pragma Singleton
+import QtQuick
+import Quickshell
+import "../../"
+
+Item {
+    id: controller
+
+    signal menuTriggered()
+    signal requestPin(string desktopId, string name, string icon)
+    signal requestUnpin(string desktopId)
+
+    property bool isVisible: false
+    property var screen: null
+    property real targetX: 0
+    property real targetY: 0
+    property string dockPosition: "bottom"
+    property string desktopId: ""
+    property string appName: ""
+    property string appIcon: ""
+    property bool isPinned: false
+    property var windows: []
+
+    function show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList) {
+        controller.screen = scr;
+        controller.targetX = posX;
+        controller.targetY = posY;
+        controller.dockPosition = dockPos || "bottom";
+        controller.desktopId = dId || "";
+        controller.appName = name || "";
+        controller.appIcon = icon || "";
+        controller.isPinned = Boolean(pinned);
+        controller.windows = winList || [];
+        controller.isVisible = true;
+        controller.menuTriggered();
+    }
+
+    function hide() {
+        controller.isVisible = false;
+        controller.windows = [];
+    }
+
+    function toggle(scr, posX, posY, dockPos, dId, name, icon, pinned, winList) {
+        if (controller.isVisible && controller.desktopId === dId) {
+            controller.hide();
+        } else {
+            controller.show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList);
+        }
+    }
+
+    function pinApp(dId, name, icon) {
+        controller.requestPin(dId, name, icon);
+        controller.hide();
+    }
+
+    function unpinApp(dId) {
+        controller.requestUnpin(dId);
+        controller.hide();
+    }
+}

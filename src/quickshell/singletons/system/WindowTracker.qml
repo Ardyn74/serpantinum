@@ -17,13 +17,19 @@ Item {
     property var groupOrder: []
     property var activeWorkspaceByOutput: ({})
 
-    readonly property bool isNiri: (typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? (SystemInfo.desktopEnv.toLowerCase().indexOf("niri") !== -1) : false
-    readonly property bool isSway: (typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? (SystemInfo.desktopEnv.toLowerCase().indexOf("sway") !== -1) : false
-    readonly property bool isHyprland: (typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? (SystemInfo.desktopEnv.toLowerCase().indexOf("hyprland") !== -1) : false
+    readonly property bool isNiri: Boolean(Quickshell.env("NIRI_SOCKET")) || ((typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? (SystemInfo.desktopEnv.toLowerCase().indexOf("niri") !== -1) : false)
+    readonly property bool isSway: Boolean(Quickshell.env("SWAYSOCK")) || ((typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? (SystemInfo.desktopEnv.toLowerCase().indexOf("sway") !== -1) : false)
+    readonly property bool isHyprland: Boolean(Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE")) || ((typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? (SystemInfo.desktopEnv.toLowerCase().indexOf("hyprland") !== -1) : false)
 
     property var _mruTimestamps: ({})
     property int _seqCounter: 0
     property var _swayWindowList: []
+
+    Component.onCompleted: {
+        if (isNiri && typeof NiriState !== "undefined") NiriState.subscribe();
+        if (isSway) _syncSwayStream(true);
+        _requestRebuild();
+    }
 
     function subscribe() {
         subscribers++;
@@ -119,7 +125,8 @@ Item {
             let rawApp = node.app_id || (node.window_properties ? node.window_properties.class : "") || "";
             let appKey = AppMatcher.normalizeKey(rawApp);
             let dId = AppMatcher.resolve(rawApp);
-            let gKey = dId !== "" ? dId : ("app:" + appKey);
+            let cid = dId !== "" ? AppMatcher.canonicalId(dId) : AppMatcher.canonicalId(rawApp);
+            let gKey = cid !== "" ? cid : (appKey !== "" ? appKey : ("win:" + node.id));
             let isFoc = Boolean(node.focused);
             if (isFoc) root._recordFocus(node.id);
 
@@ -135,7 +142,8 @@ Item {
                 output: out,
                 focused: isFoc,
                 lastFocus: root._getMru(node.id),
-                desktopId: dId,
+                desktopId: dId !== "" ? (dId.endsWith(".desktop") ? dId : (dId + ".desktop")) : (rawApp ? (rawApp + ".desktop") : ""),
+                canonicalId: cid,
                 groupKey: gKey,
                 native: null
             });
@@ -159,7 +167,6 @@ Item {
     }
 
     function _requestRebuild() {
-        if (subscribers <= 0) return;
         if (!debounceTimer.running) {
             debounceTimer.restart();
         }
@@ -176,8 +183,6 @@ Item {
     }
 
     function _rebuild() {
-        if (subscribers <= 0) return;
-
         let rawList = [];
 
         if (isNiri) {
@@ -241,7 +246,8 @@ Item {
             let rawApp = (t.wayland && t.wayland.appId) ? t.wayland.appId : "";
             let appKey = AppMatcher.normalizeKey(rawApp);
             let dId = AppMatcher.resolve(rawApp);
-            let gKey = dId !== "" ? dId : ("app:" + appKey);
+            let cid = dId !== "" ? AppMatcher.canonicalId(dId) : AppMatcher.canonicalId(rawApp);
+            let gKey = cid !== "" ? cid : (appKey !== "" ? appKey : ("win:" + addr));
             let isFoc = Boolean(t.activated);
             if (isFoc) _recordFocus(addr);
 
@@ -261,7 +267,8 @@ Item {
                 output: monName,
                 focused: isFoc,
                 lastFocus: _getMru(addr),
-                desktopId: dId,
+                desktopId: dId !== "" ? (dId.endsWith(".desktop") ? dId : (dId + ".desktop")) : (rawApp ? (rawApp + ".desktop") : ""),
+                canonicalId: cid,
                 groupKey: gKey,
                 native: t
             });
@@ -279,7 +286,8 @@ Item {
             let rawApp = t.appId || "";
             let appKey = AppMatcher.normalizeKey(rawApp);
             let dId = AppMatcher.resolve(rawApp);
-            let gKey = dId !== "" ? dId : ("app:" + appKey);
+            let cid = dId !== "" ? AppMatcher.canonicalId(dId) : AppMatcher.canonicalId(rawApp);
+            let gKey = cid !== "" ? cid : (appKey !== "" ? appKey : ("win:" + addr));
             let isFoc = Boolean(t.activated);
             if (isFoc) _recordFocus(addr);
 
@@ -300,7 +308,8 @@ Item {
                 output: monName,
                 focused: isFoc,
                 lastFocus: _getMru(addr),
-                desktopId: dId,
+                desktopId: dId !== "" ? (dId.endsWith(".desktop") ? dId : (dId + ".desktop")) : (rawApp ? (rawApp + ".desktop") : ""),
+                canonicalId: cid,
                 groupKey: gKey,
                 native: t
             });
@@ -322,7 +331,8 @@ Item {
             let rawApp = w.app_id || "";
             let appKey = AppMatcher.normalizeKey(rawApp);
             let dId = AppMatcher.resolve(rawApp);
-            let gKey = dId !== "" ? dId : ("app:" + appKey);
+            let cid = dId !== "" ? AppMatcher.canonicalId(dId) : AppMatcher.canonicalId(rawApp);
+            let gKey = cid !== "" ? cid : (appKey !== "" ? appKey : ("win:" + w.id));
 
             let ws = wsMap[w.workspace_id] || null;
             let wsIdx = -1;
@@ -352,7 +362,8 @@ Item {
                 output: outName,
                 focused: isFoc,
                 lastFocus: _getMru(w.id),
-                desktopId: dId,
+                desktopId: dId !== "" ? (dId.endsWith(".desktop") ? dId : (dId + ".desktop")) : (rawApp ? (rawApp + ".desktop") : ""),
+                canonicalId: cid,
                 groupKey: gKey,
                 native: null
             });
@@ -366,7 +377,8 @@ Item {
 
     function focus(win) {
         if (!win) return;
-        if (win.nativeId) _recordFocus(win.nativeId);
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid) _recordFocus(nid);
 
         if (isNiri) {
             root._focusNiri(win);
@@ -378,12 +390,12 @@ Item {
             return;
         }
 
-        if (isHyprland && typeof Hyprland !== "undefined" && win.nativeId) {
-            Hyprland.dispatch("focuswindow address:" + win.nativeId);
+        if (isHyprland && typeof Hyprland !== "undefined" && nid) {
+            Hyprland.dispatch("focuswindow address:" + nid);
             return;
         }
 
-        if (win.native && typeof win.native.activate === "function") {
+        if (typeof win === "object" && win && win.native && typeof win.native.activate === "function") {
             win.native.activate();
             return;
         }
@@ -391,41 +403,51 @@ Item {
 
     function close(win) {
         if (!win) return;
-        if (win.native && typeof win.native.close === "function") {
+        if (typeof win === "object" && win && win.native && typeof win.native.close === "function") {
             win.native.close();
             return;
         }
-        if (isHyprland && typeof Hyprland !== "undefined" && win.nativeId) {
-            Hyprland.dispatch("closewindow address:" + win.nativeId);
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (isHyprland && typeof Hyprland !== "undefined" && nid) {
+            Hyprland.dispatch("closewindow address:" + nid);
             return;
         }
-        if (isNiri && win.nativeId) {
+        if (isNiri && nid) {
             root._closeNiri(win);
             return;
         }
-        if (isSway && win.nativeId) {
+        if (isSway && nid) {
             root._closeSway(win);
             return;
         }
     }
 
     function _focusNiri(win) {
-        if (!win || win.nativeId === undefined || win.nativeId === null) return;
-        Quickshell.execDetached(["niri", "msg", "action", "focus-window", "--id", String(win.nativeId)]);
+        if (!win) return;
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid === undefined || nid === null || nid === "") return;
+        Quickshell.execDetached(["bash", "-c", "niri msg action focus-window --id " + nid]);
     }
 
     function _closeNiri(win) {
-        if (!win || win.nativeId === undefined || win.nativeId === null) return;
-        Quickshell.execDetached(["niri", "msg", "action", "close-window", "--id", String(win.nativeId)]);
+        if (!win) return;
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid === undefined || nid === null || nid === "") return;
+        Quickshell.execDetached(["bash", "-c", "niri msg action close-window --id " + nid]);
     }
+
     function _focusSway(win) {
-        if (!win || win.nativeId === undefined || win.nativeId === null) return;
-        Quickshell.execDetached(["swaymsg", "[con_id=" + win.nativeId + "] focus"]);
+        if (!win) return;
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid === undefined || nid === null || nid === "") return;
+        Quickshell.execDetached(["bash", "-c", "swaymsg '[con_id=" + nid + "] focus'"]);
     }
 
     function _closeSway(win) {
-        if (!win || win.nativeId === undefined || win.nativeId === null) return;
-        Quickshell.execDetached(["swaymsg", "[con_id=" + win.nativeId + "] kill"]);
+        if (!win) return;
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid === undefined || nid === null || nid === "") return;
+        Quickshell.execDetached(["bash", "-c", "swaymsg '[con_id=" + nid + "] kill'"]);
     }
 
     Connections {
@@ -457,7 +479,10 @@ Item {
 
     Connections {
         target: (typeof NiriState !== "undefined") ? NiriState : null
-        function onNiriStateChanged() {
+        function onWindowsUpdated() {
+            if (root.isNiri) root._requestRebuild();
+        }
+        function onWindowsMapChanged() {
             if (root.isNiri) root._requestRebuild();
         }
     }

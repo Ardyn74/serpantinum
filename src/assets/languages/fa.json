@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "پنهان‌سازی خودکار هوشمند",
         "desc": "پنهان‌سازی خودکار داک تنها هنگام باز بودن پنجره‌ها و نمایش آن در میزکار"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

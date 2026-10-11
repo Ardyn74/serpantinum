@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "Ocultação automática inteligente",
         "desc": "Ocultar a dock apenas quando houver janelas abertas, mantendo-a visível na área de trabalho"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

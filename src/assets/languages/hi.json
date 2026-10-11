@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "स्मार्ट स्वतः छुपाएं",
         "desc": "केवल विंडो खुली होने पर डॉक स्वतः छुपाएं, डेस्कटॉप पर दृश्यमान रखें"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

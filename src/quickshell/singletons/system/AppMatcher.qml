@@ -16,8 +16,11 @@ Item {
 
     function canonicalId(id) {
         if (!id) return "";
-        let s = String(id).toLowerCase();
-        return s.endsWith(".desktop") ? s.slice(0, -8) : s;
+        let s = String(id).toLowerCase().trim();
+        while (s.endsWith(".desktop")) {
+            s = s.slice(0, -8);
+        }
+        return s;
     }
 
     function normalizeKey(value) {
@@ -56,7 +59,9 @@ Item {
         _keyToId = Object.assign({}, nameKeys, tailKeys, execKeys, classKeys, idKeys);
         _entryById = byId;
         _resolveCache = ({});
-        _dirty = false;
+        if (entries.length > 0) {
+            _dirty = false;
+        }
     }
 
     function resolve(appId) {
@@ -66,14 +71,18 @@ Item {
         let cached = _resolveCache[key];
         if (cached !== undefined) return cached;
 
-        let id = _keyToId[key];
+        let cidKey = canonicalId(key);
+        let id = _keyToId[key] || _keyToId[cidKey];
         if (id === undefined) {
-            let tail = key.substring(key.lastIndexOf(".") + 1);
-            if (tail !== key) id = _keyToId[tail];
+            let tail = cidKey.substring(cidKey.lastIndexOf(".") + 1);
+            if (tail !== cidKey) id = _keyToId[tail];
         }
         if (id === undefined && typeof DesktopEntries !== "undefined" && typeof DesktopEntries.heuristicLookup === "function") {
             let found = DesktopEntries.heuristicLookup(String(appId));
             if (found && found.id) id = canonicalId(found.id);
+        }
+        if (id === undefined) {
+            id = cidKey;
         }
         let out = id !== undefined ? id : "";
         _resolveCache[key] = out;
@@ -84,6 +93,14 @@ Item {
         if (_dirty) rebuild();
         let cid = canonicalId(id);
         return cid !== "" ? (_entryById[cid] || null) : null;
+    }
+
+    Connections {
+        target: (typeof DesktopEntries !== "undefined") ? DesktopEntries : null
+        function onApplicationsChanged() {
+            root._dirty = true;
+            root.indexChanged();
+        }
     }
 
     Connections {

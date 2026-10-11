@@ -40,7 +40,7 @@ Item {
         "cascadeScale": false,
         "focusRunning": true,
         "showRunningIndicators": true,
-        "showRunningApps": false,
+        "showRunningApps": true,
         "runningScope": "auto"
     })
 

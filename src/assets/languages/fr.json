@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "Masquage automatique intelligent",
         "desc": "Masquer automatiquement le dock uniquement lorsque des fenêtres sont ouvertes, le garder visible sur le bureau"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

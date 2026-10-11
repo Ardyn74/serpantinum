@@ -841,6 +841,9 @@
       "smart_autohide": {
         "title": "Умное автоскрытие",
         "desc": "Скрывать док только при открытых окнах, оставлять на рабочем столе"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

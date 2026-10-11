@@ -797,6 +797,9 @@
       "smart_autohide": {
         "title": "Slim automatisch verbergen",
         "desc": "Dock alleen automatisch verbergen wanneer er vensters geopend zijn, zichtbaar houden op het bureaublad"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

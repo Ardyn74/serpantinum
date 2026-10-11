@@ -796,6 +796,9 @@
       "smart_autohide": {
         "title": "Nascondi automaticamente intelligente",
         "desc": "Nascondi il dock solo quando ci sono finestre aperte, mantienilo visibile sul desktop"
+      },
+      "window_menu": {
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {

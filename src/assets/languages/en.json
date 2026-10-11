@@ -821,7 +821,8 @@
       "window_menu": {
         "new_window": "New window",
         "pin": "Pin to dock",
-        "unpin": "Unpin from dock"
+        "unpin": "Unpin from dock",
+        "untitled": "Untitled"
       }
     },
     "lyrics_picker": {
