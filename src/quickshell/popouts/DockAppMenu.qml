@@ -16,14 +16,12 @@ PanelWindow {
 
     WlrLayershell.namespace: "dockappmenu"
     WlrLayershell.layer: WlrLayer.Overlay
-    focusable: dockAppMenuWindow.isVisible
+    focusable: false
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
 
     onIsVisibleChanged: {
         if (isVisible) {
-            rootContainer.lastTriggerTime = Date.now();
-            rootContainer.forceActiveFocus();
             closeAnim.stop();
             openAnim.restart();
         } else {
@@ -62,8 +60,6 @@ PanelWindow {
     Connections {
         target: DockAppMenuController
         function onMenuTriggered() {
-            rootContainer.lastTriggerTime = Date.now();
-            rootContainer.forceActiveFocus();
             closeAnim.stop();
             openAnim.restart();
         }
@@ -149,17 +145,6 @@ PanelWindow {
     Item {
         id: rootContainer
         anchors.fill: parent
-        focus: dockAppMenuWindow.isVisible
-        Keys.onEscapePressed: DockAppMenuController.hide()
-
-        property real lastTriggerTime: 0
-
-        onActiveFocusChanged: {
-            if (!activeFocus && dockAppMenuWindow.isVisible && (Date.now() - lastTriggerTime > 250) && menuContainer.animProgress > 0.3) {
-                DockAppMenuController.hide();
-            }
-        }
-
 
         Item {
             id: menuContainer

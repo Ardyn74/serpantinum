@@ -441,6 +441,13 @@ Variants {
                             }
                             newMap["app:" + String(grp.appId).toLowerCase()] = grpInfo;
                         }
+                        if (typeof AppMatcher !== "undefined") {
+                            let resolved = AppMatcher.resolve(grp.appId || grp.desktopId);
+                            if (resolved) {
+                                newMap[resolved] = grpInfo;
+                                newMap[AppMatcher.canonicalId(resolved)] = grpInfo;
+                            }
+                        }
                     }
 
                     dockWindow.runningInfoMap = newMap;
@@ -448,11 +455,11 @@ Variants {
                 }
 
                 function getRunningInfoForApp(desktopId) {
-                    if (!desktopId) return null;
-                    let cid = (typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(desktopId) : String(desktopId).toLowerCase().replace(/\.desktop$/, "");
-                    let dId = (typeof AppMatcher !== "undefined") ? AppMatcher.resolve(desktopId) : "";
-                    let cDid = dId ? ((typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(dId) : dId.toLowerCase()) : "";
-                    return runningInfoMap[cid] || (cDid ? runningInfoMap[cDid] : null) || (dId ? runningInfoMap[dId] : null) || runningInfoMap[desktopId] || runningInfoMap["app:" + cid] || null;
+                    if (!desktopId || !runningInfoMap) return null;
+                    let raw = String(desktopId).trim();
+                    let lower = raw.toLowerCase();
+                    let cid = lower.endsWith(".desktop") ? lower.slice(0, -8) : lower;
+                    return runningInfoMap[raw] || runningInfoMap[cid] || runningInfoMap["app:" + cid] || (typeof AppMatcher !== "undefined" ? runningInfoMap[AppMatcher.canonicalId(desktopId)] : null) || null;
                 }
 
                 Connections {
@@ -1395,6 +1402,17 @@ Variants {
                         opacity: dockWindow.dockOpacity
                         layer.enabled: dockWindow.dockOpacity < 1.0
 
+                        MouseArea {
+                            anchors.fill: parent
+                            z: -1
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            onClicked: {
+                                if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible) {
+                                    DockAppMenuController.hide();
+                                }
+                            }
+                        }
+
                         Rectangle {
                             id: dockBg
                             anchors.fill: parent
@@ -2060,7 +2078,7 @@ Variants {
                                                     }
 
                                                     if (mouse.button === Qt.LeftButton) {
-                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId !== model.desktop_id) {
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && !DockAppMenuController.isSameApp(DockAppMenuController.desktopId, model.desktop_id)) {
                                                             let pt = dockButton.mapToItem(null, 0, 0);
                                                             let globX = pt.x + (dockButton.width / 2);
                                                             let globY = pt.y + (dockButton.height / 2);
@@ -2084,7 +2102,7 @@ Variants {
                                                             return;
                                                         }
 
-                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId === model.desktop_id) {
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.isSameApp(DockAppMenuController.desktopId, model.desktop_id)) {
                                                             DockAppMenuController.hide();
                                                         }
 
@@ -2317,7 +2335,7 @@ Variants {
                                                         return;
                                                     }
                                                     if (mouse.button === Qt.LeftButton) {
-                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId !== model.desktop_id) {
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && !DockAppMenuController.isSameApp(DockAppMenuController.desktopId, model.desktop_id)) {
                                                             let pt = runningDockButton.mapToItem(null, 0, 0);
                                                             let globX = pt.x + (runningDockButton.width / 2);
                                                             let globY = pt.y + (runningDockButton.height / 2);
@@ -2341,7 +2359,7 @@ Variants {
                                                             return;
                                                         }
 
-                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.desktopId === model.desktop_id) {
+                                                        if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && DockAppMenuController.isSameApp(DockAppMenuController.desktopId, model.desktop_id)) {
                                                             DockAppMenuController.hide();
                                                         }
 

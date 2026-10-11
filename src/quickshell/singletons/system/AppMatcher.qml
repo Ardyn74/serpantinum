@@ -59,9 +59,7 @@ Item {
         _keyToId = Object.assign({}, nameKeys, tailKeys, execKeys, classKeys, idKeys);
         _entryById = byId;
         _resolveCache = ({});
-        if (entries.length > 0) {
-            _dirty = false;
-        }
+        _dirty = false;
     }
 
     function resolve(appId) {

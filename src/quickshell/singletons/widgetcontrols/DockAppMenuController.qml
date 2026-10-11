@@ -21,6 +21,17 @@ Item {
     property bool isPinned: false
     property var windows: []
 
+    function isSameApp(idA, idB) {
+        if (!idA || !idB) return false;
+        if (idA === idB) return true;
+        if (typeof AppMatcher !== "undefined") {
+            return AppMatcher.canonicalId(idA) === AppMatcher.canonicalId(idB);
+        }
+        let a = String(idA).toLowerCase().replace(/\.desktop$/, "");
+        let b = String(idB).toLowerCase().replace(/\.desktop$/, "");
+        return a === b;
+    }
+
     function show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList) {
         controller.screen = scr;
         controller.targetX = posX;
@@ -41,7 +52,7 @@ Item {
     }
 
     function toggle(scr, posX, posY, dockPos, dId, name, icon, pinned, winList) {
-        if (controller.isVisible && controller.desktopId === dId) {
+        if (controller.isVisible && isSameApp(controller.desktopId, dId)) {
             controller.hide();
         } else {
             controller.show(scr, posX, posY, dockPos, dId, name, icon, pinned, winList);
