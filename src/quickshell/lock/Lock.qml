@@ -729,11 +729,13 @@ Scope {
                     Behavior on ramUsedGb { enabled: screenRoot.wingsReveal > 0.98; NumberAnimation { duration: 800; easing.type: Easing.OutQuint } }
 
                     property real netRx: isNaN(SysData.netRx) ? 0 : SysData.netRx
+                    Behavior on netRx { enabled: screenRoot.wingsReveal > 0.98; NumberAnimation { duration: 1200; easing.type: Easing.OutCubic } }
                     property real netTx: isNaN(SysData.netTx) ? 0 : SysData.netTx
+                    Behavior on netTx { enabled: screenRoot.wingsReveal > 0.98; NumberAnimation { duration: 1200; easing.type: Easing.OutCubic } }
                     function formatBytes(bytes) {
-                        if (bytes <= 0 || isNaN(bytes)) return "0 B/s";
+                        if (!(bytes >= 1)) return "0 B/s";
                         let k = 1024, sizes = ["B/s", "KB/s", "MB/s", "GB/s"];
-                        let i = Math.floor(Math.log(bytes) / Math.log(k));
+                        let i = Math.min(sizes.length - 1, Math.floor(Math.log(bytes) / Math.log(k)));
                         return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
                     }
                     property string rxSpeedStr: formatBytes(netRx)
@@ -1858,20 +1860,6 @@ Scope {
                                     ColumnLayout {
                                         anchors.centerIn: parent
                                         spacing: screenRoot.s(6)
-
-                                        ClickButton {
-                                            Layout.alignment: Qt.AlignHCenter
-                                            buttonText: SysData.isScanningNet ? "Scanning..." : "Scan"
-                                            buttonIcon: SysData.isScanningNet ? "\uF110" : "\uF021"
-                                            iconFontSize: Math.round(screenRoot.s(14))
-                                            textFontSize: Math.round(screenRoot.s(12))
-                                            accentColor: Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.7)
-                                            textColor: ThemeBackend.text
-                                            cornerRadius: Math.round(screenRoot.s(8))
-                                            horizontalPadding: Math.round(screenRoot.s(10))
-                                            enabled: !SysData.isScanningNet
-                                            onClicked: SysData.scanNetwork()
-                                        }
 
                                         Rectangle {
                                             Layout.preferredHeight: screenRoot.s(26)
