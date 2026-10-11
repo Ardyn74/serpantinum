@@ -24,6 +24,8 @@ PanelWindow {
         if (isVisible) {
             rootContainer.forceActiveFocus();
             updateNightLightState();
+            closeAnim.stop();
+            openAnim.restart();
         } else {
             openAnim.stop();
             closeAnim.restart();
@@ -61,8 +63,6 @@ PanelWindow {
         function onMenuTriggered() {
             rootContainer.forceActiveFocus();
             closeAnim.stop();
-            openAnim.stop();
-            menuContainer.animProgress = 0.0;
             openAnim.restart();
         }
     }
@@ -390,20 +390,20 @@ PanelWindow {
                 id: openAnim
                 target: menuContainer
                 property: "animProgress"
-                from: 0.0
+                from: menuContainer.animProgress > 0.8 ? 0.2 : 0.0
                 to: 1.0
-                duration: 90
-                easing.type: Easing.OutCubic
+                duration: 260
+                easing.type: Easing.OutBack
+                easing.overshoot: 1.1
             }
 
             NumberAnimation {
                 id: closeAnim
                 target: menuContainer
                 property: "animProgress"
-                from: 1.0
                 to: 0.0
-                duration: 60
-                easing.type: Easing.InQuad
+                duration: 160
+                easing.type: Easing.InCubic
                 onFinished: {
                     if (!desktopMenuWindow.isVisible) {
                         menuContainer.animProgress = 0.0;
@@ -416,13 +416,13 @@ PanelWindow {
             width: desktopMenuWindow.menuWidth
             height: desktopMenuWindow.menuHeight
 
-            opacity: 0.75 + (0.25 * animProgress)
+            opacity: Math.max(0.0, Math.min(1.0, animProgress * 2.5))
 
             transform: Scale {
-                origin.x: Math.max(0, Math.min(menuContainer.width, desktopMenuWindow.targetX - desktopMenuWindow.clampedX))
-                origin.y: Math.max(0, Math.min(menuContainer.height, desktopMenuWindow.targetY - desktopMenuWindow.clampedY))
-                xScale: 0.92 + (0.08 * menuContainer.animProgress)
-                yScale: 0.92 + (0.08 * menuContainer.animProgress)
+                origin.x: desktopMenuWindow.targetX - desktopMenuWindow.clampedX
+                origin.y: desktopMenuWindow.targetY - desktopMenuWindow.clampedY
+                xScale: Math.max(0.0, menuContainer.animProgress)
+                yScale: Math.max(0.0, menuContainer.animProgress)
             }
 
             Column {
