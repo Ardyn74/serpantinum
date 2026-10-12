@@ -911,8 +911,6 @@ Variants {
                     let targetLower = target.toLowerCase();
                     let targetNoExt = targetLower.endsWith(".desktop") ? targetLower.slice(0, -8) : targetLower;
                     let targetCid = (typeof AppMatcher !== "undefined") ? AppMatcher.canonicalId(target) : targetNoExt;
-                    let targetRes = (typeof AppMatcher !== "undefined") ? AppMatcher.resolve(target) : "";
-                    let targetResCid = (typeof AppMatcher !== "undefined" && targetRes) ? AppMatcher.canonicalId(targetRes) : "";
 
                     for (let i = 0; i < dockAppsModel.count; i++) {
                         let it = dockAppsModel.get(i);
@@ -926,10 +924,22 @@ Variants {
 
                         if (typeof AppMatcher !== "undefined") {
                             let curCid = AppMatcher.canonicalId(cur);
-                            if (curCid && (curCid === targetCid || (targetResCid && curCid === targetResCid))) return true;
+                            if (curCid && curCid === targetCid) return true;
+                        }
+                    }
+
+                    if (typeof AppMatcher !== "undefined") {
+                        let targetRes = AppMatcher.resolve(target);
+                        let targetResCid = targetRes ? AppMatcher.canonicalId(targetRes) : "";
+                        for (let i = 0; i < dockAppsModel.count; i++) {
+                            let it = dockAppsModel.get(i);
+                            if (!it || !it.desktop_id) continue;
+                            let cur = String(it.desktop_id).trim();
+                            let curCid = AppMatcher.canonicalId(cur);
+                            if (targetResCid && curCid && curCid === targetResCid) return true;
                             let curRes = AppMatcher.resolve(cur);
                             let curResCid = curRes ? AppMatcher.canonicalId(curRes) : "";
-                            if (curResCid && (curResCid === targetCid || curResCid === targetResCid)) return true;
+                            if (curResCid && (curResCid === targetCid || (targetResCid && curResCid === targetResCid))) return true;
                         }
                     }
                     return false;
@@ -2749,7 +2759,7 @@ Variants {
                                         height: dockWindow.s(44)
                                         radius: ThemeBackend.borderRadius
                                         readonly property var resolvedItem: (modelData !== undefined && modelData) ? modelData : model
-                                        readonly property bool isAdded: dockWindow.isAppInDock(resolvedItem.id || "")
+                                        readonly property bool isAdded: (resolvedItem && resolvedItem.id) ? dockWindow.isAppInDock(resolvedItem.id) : false
 
                                         color: isAdded ? ThemeBackend.mauve : (pickerMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.4) : Qt.alpha(ThemeBackend.surface0, 0.25))
                                         border.width: 0

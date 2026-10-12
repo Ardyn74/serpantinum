@@ -1,6 +1,7 @@
 pragma Singleton
 import QtQuick
 import Quickshell
+import "AppMatcherInternal.js" as Internal
 
 Item {
     id: root
@@ -8,11 +9,6 @@ Item {
     signal indexChanged()
 
     readonly property var wrapperExecs: ["env", "sh", "bash", "zsh", "fish", "flatpak", "snap", "gtk-launch", "xdg-open", "gio", "systemd-run", "uwsm", "uwsm-app", "nix", "nix-shell", "java", "python", "python3", "wine", "electron", "dex", "sudo", "pkexec"]
-
-    property var _keyToId: ({})
-    property var _entryById: ({})
-    property var _resolveCache: ({})
-    property bool _dirty: true
 
     function canonicalId(id) {
         if (!id) return "";
@@ -56,25 +52,19 @@ Item {
             _put(nameKeys, normalizeKey(e.name), cid);
         }
 
-        _keyToId = Object.assign({}, nameKeys, tailKeys, execKeys, classKeys, idKeys);
-        _entryById = byId;
-        _resolveCache = ({});
-        _dirty = false;
+        Internal.setTables(byId, Object.assign({}, nameKeys, tailKeys, execKeys, classKeys, idKeys));
     }
 
     function resolve(appId) {
         let key = normalizeKey(appId);
         if (key === "") return "";
-        if (_dirty) rebuild();
-        let cached = _resolveCache[key];
+        if (Internal.isDirty()) rebuild();
+        let cached = Internal.getCached(key);
         if (cached !== undefined) return cached;
 
         let cidKey = canonicalId(key);
-        let id = _keyToId[key] || _keyToId[cidKey];
-        if (id === undefined) {
-            let tail = cidKey.substring(cidKey.lastIndexOf(".") + 1);
-            if (tail !== cidKey) id = _keyToId[tail];
-        }
+        let tail = cidKey.substring(cidKey.lastIndexOf(".") + 1);
+        let id = Internal.lookupKey(key, cidKey, tail);
         if (id === undefined && typeof DesktopEntries !== "undefined" && typeof DesktopEntries.heuristicLookup === "function") {
             let found = DesktopEntries.heuristicLookup(String(appId));
             if (found && found.id) id = canonicalId(found.id);
@@ -83,20 +73,23 @@ Item {
             id = cidKey;
         }
         let out = id !== undefined ? id : "";
-        _resolveCache[key] = out;
-        return out;
+        return Internal.setCached(key, out);
     }
 
     function entry(id) {
-        if (_dirty) rebuild();
+        if (Internal.isDirty()) rebuild();
         let cid = canonicalId(id);
-        return cid !== "" ? (_entryById[cid] || null) : null;
+        return cid !== "" ? Internal.getEntry(cid) : null;
+    }
+
+    Component.onCompleted: {
+        rebuild();
     }
 
     Connections {
         target: (typeof DesktopEntries !== "undefined") ? DesktopEntries : null
         function onApplicationsChanged() {
-            root._dirty = true;
+            Internal.markDirty();
             root.indexChanged();
         }
     }
@@ -104,7 +97,7 @@ Item {
     Connections {
         target: (typeof DesktopEntries !== "undefined" && DesktopEntries.applications) ? DesktopEntries.applications : null
         function onValuesChanged() {
-            root._dirty = true;
+            Internal.markDirty();
             root.indexChanged();
         }
     }
