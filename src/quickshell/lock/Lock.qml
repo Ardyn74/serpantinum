@@ -2063,60 +2063,15 @@ Scope {
                                             Layout.alignment: Qt.AlignVCenter
                                             spacing: 2
 
-                                            Item {
-                                                id: lockMediaTitleClip
+                                            MarqueeText {
                                                 Layout.fillWidth: true
-                                                implicitHeight: lockMediaTitleText.implicitHeight
-                                                clip: true
-
-                                                property int marqueeSpacing: screenRoot.s(30)
-                                                property real scrollProgress: 0.0
-
-                                                Item {
-                                                    id: lockMediaMarquee
-                                                    height: parent.height
-                                                    x: lockMediaTitleText.implicitWidth > lockMediaTitleClip.width ? -lockMediaTitleClip.scrollProgress * (lockMediaTitleText.implicitWidth + lockMediaTitleClip.marqueeSpacing) : 0
-
-                                                    Row {
-                                                        spacing: lockMediaTitleClip.marqueeSpacing
-                                                        Text {
-                                                            id: lockMediaTitleText
-                                                            text: screenRoot.isMediaActive ? (MprisController.trackTitle || "Unknown Track") : I18n.t("music.nothing_playing")
-                                                            font.family: ThemeBackend.fontFamily
-                                                            font.weight: Font.Black
-                                                            font.pixelSize: screenRoot.s(13)
-                                                            color: ThemeBackend.text
-
-                                                            onTextChanged: {
-                                                                lockMediaTitleClip.scrollProgress = 0.0;
-                                                            }
-                                                        }
-
-                                                        Text {
-                                                            text: lockMediaTitleText.text
-                                                            font.family: ThemeBackend.fontFamily
-                                                            font.weight: Font.Black
-                                                            font.pixelSize: screenRoot.s(13)
-                                                            color: ThemeBackend.text
-                                                            visible: lockMediaTitleText.implicitWidth > lockMediaTitleClip.width
-                                                        }
-                                                    }
-                                                }
-
-                                                SequentialAnimation {
-                                                    loops: Animation.Infinite
-                                                    running: screenRoot.wingsReveal > 0.98 && screenRoot.isMediaActive && MprisController.isPlaying && (lockMediaTitleText.implicitWidth > lockMediaTitleClip.width)
-
-                                                    PauseAnimation { duration: 3000 }
-                                                    NumberAnimation {
-                                                        target: lockMediaTitleClip
-                                                        property: "scrollProgress"
-                                                        from: 0.0
-                                                        to: 1.0
-                                                        duration: (lockMediaTitleText.implicitWidth + lockMediaTitleClip.marqueeSpacing) * 25
-                                                    }
-                                                    PropertyAction { target: lockMediaTitleClip; property: "scrollProgress"; value: 0.0 }
-                                                }
+                                                text: screenRoot.isMediaActive ? (MprisController.trackTitle || "Unknown Track") : I18n.t("music.nothing_playing")
+                                                color: ThemeBackend.text
+                                                font.family: ThemeBackend.fontFamily
+                                                font.weight: Font.Black
+                                                font.pixelSize: screenRoot.s(13)
+                                                marqueeSpacing: screenRoot.s(30)
+                                                active: screenRoot.wingsReveal > 0.98 && screenRoot.isMediaActive && MprisController.isPlaying
                                             }
 
                                             Text {
