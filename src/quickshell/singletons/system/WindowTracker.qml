@@ -396,13 +396,13 @@ Item {
         let addr = root._formatHyprAddress(nid);
         if (typeof Hyprland !== "undefined") {
             if (Hyprland.usingLua !== false) {
-                Hyprland.dispatch("(function() local cp = hl.get_cursor_pos(); hl.dispatch(hl.dsp.focus({ window = \"" + addr + "\" })); if cp and cp.x and cp.y then return hl.dsp.cursor.move({ x = cp.x, y = cp.y }) end return hl.dsp.no_op() end)()");
+                Hyprland.dispatch("hl.dsp.focus({ window = \"" + addr + "\" })");
             } else {
                 Hyprland.dispatch("focuswindow " + addr);
             }
             return;
         }
-        Quickshell.execDetached(["sh", "-c", "hyprctl dispatch '(function() local cp = hl.get_cursor_pos(); hl.dispatch(hl.dsp.focus({ window = \"" + addr + "\" })); if cp and cp.x and cp.y then return hl.dsp.cursor.move({ x = cp.x, y = cp.y }) end return hl.dsp.no_op() end)()' 2>/dev/null || hyprctl dispatch focuswindow " + addr]);
+        Quickshell.execDetached(["sh", "-c", "hyprctl dispatch 'hl.dsp.focus({ window = \"" + addr + "\" })' 2>/dev/null || hyprctl dispatch focuswindow " + addr]);
     }
 
     function _closeHyprland(win) {
