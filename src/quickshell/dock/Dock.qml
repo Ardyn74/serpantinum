@@ -242,7 +242,7 @@ Variants {
                 onEffectiveAutohideChanged: hideTimer.stop()
                 onActiveIndexChanged: {
                     hideTimer.stop();
-                    if (typeof DockAppMenuController !== "undefined") {
+                    if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible) {
                         DockAppMenuController.hide();
                     }
                     dockWindow._recomputeRunningInfo();
@@ -1197,12 +1197,6 @@ Variants {
                     }
                     Region {
                         item: dockWindow.editMode ? appPicker : null
-                    }
-                    Region {
-                        item: dockWindow.isWindowPopupOpen ? windowPopupDismiss : null
-                    }
-                    Region {
-                        item: dockWindow.isWindowPopupOpen ? windowPopup : null
                     }
                 }
 

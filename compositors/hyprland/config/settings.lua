@@ -33,10 +33,6 @@ hl.config({
     },
   },
 
-  cursor = {
-    no_warps = true,
-  },
-
   misc = {
     focus_on_activate = false,
     font_family = "JetBrains Mono",
