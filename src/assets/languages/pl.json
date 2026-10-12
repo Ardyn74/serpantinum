@@ -1474,6 +1474,26 @@
         "title": "Inteligentne automatyczne ukrywanie",
         "desc": "Automatycznie ukrywaj dok tylko wtedy, gdy otwarte są okna; pozostawiaj widoczny na pulpicie"
       },
+      "focus_running": {
+        "title": "Aktywuj istniejące okno",
+        "desc": "Kliknięcie ikony aplikacji aktywuje jej otwarte okno zamiast uruchamiania nowej instancji"
+      },
+      "show_running_indicators": {
+        "title": "Wskaźniki uruchomienia",
+        "desc": "Pokaż wskaźniki w postaci kropki lub paska na ikonach otwartych aplikacji"
+      },
+      "show_running_apps": {
+        "title": "Pokaż otwarte aplikacje",
+        "desc": "Wyświetlaj nieprzypięte otwarte aplikacje w doku"
+      },
+      "running_scope": {
+        "title": "Zakres aktywnych okien",
+        "desc": "Filtruj uruchomione okna wyświetlane i kontrolowane przez dok",
+        "auto": "Automatycznie (domyślne kompozytora)",
+        "all": "Wszystkie obszary robocze i monitory",
+        "output": "Tylko bieżący monitor",
+        "workspace": "Tylko aktywny obszar roboczy"
+      },
       "window_menu": {
         "untitled": "Untitled"
       }
