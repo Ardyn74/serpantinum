@@ -182,6 +182,7 @@ Variants {
 
                 property bool isNiri: false
                 property bool isSway: false
+                property bool isHyprland: false
                 readonly property string myOutput: (dockWindow.screen && dockWindow.screen.name) ? dockWindow.screen.name : ""
                 readonly property int niriActiveIndex: NiriState.activeIndexFor(myOutput)
                 readonly property var niriOccupiedMap: NiriState.occupiedMap
@@ -194,8 +195,8 @@ Variants {
                         idx = niriActiveIndex;
                     } else if (isSway) {
                         idx = swayActiveIndex;
-                    } else if (typeof Hyprland !== "undefined") {
-                        const fw = Hyprland.focusedWorkspace;
+                    } else if (isHyprland || typeof Hyprland !== "undefined") {
+                        const fw = (typeof Hyprland !== "undefined") ? Hyprland.focusedWorkspace : null;
                         if (!fw) return -1;
                         idx = fw.id - 1;
                     }
@@ -1034,7 +1035,9 @@ Variants {
                     }
 
                     if (targetWin) {
-                        WindowTracker.focusWindow(targetWin);
+                        if (typeof WindowTracker !== "undefined") {
+                            WindowTracker.focusWindow(targetWin);
+                        }
                     } else {
                         dockWindow.launchApp(desktopId);
                     }
@@ -1044,6 +1047,7 @@ Variants {
                     let de = (typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? SystemInfo.desktopEnv.toLowerCase() : "";
                     dockWindow.isNiri = Boolean(Quickshell.env("NIRI_SOCKET")) || de.indexOf("niri") !== -1;
                     dockWindow.isSway = Boolean(Quickshell.env("SWAYSOCK")) || de.indexOf("sway") !== -1;
+                    dockWindow.isHyprland = Boolean(Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE")) || de.indexOf("hyprland") !== -1;
                     if (dockWindow.isNiri) {
                         NiriState.subscribe();
                     }

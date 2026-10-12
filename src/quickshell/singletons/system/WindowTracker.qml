@@ -243,17 +243,19 @@ Item {
             let t = toplevels[i];
             if (!t) continue;
             let addr = t.address ? String(t.address) : String(i);
-            let rawApp = (t.wayland && t.wayland.appId) ? t.wayland.appId : "";
+            let rawApp = (t.wayland && t.wayland.appId) ? t.wayland.appId : ((t.lastIpcObject && (t.lastIpcObject["class"] || t.lastIpcObject["initialClass"])) ? (t.lastIpcObject["class"] || t.lastIpcObject["initialClass"]) : "");
             let appKey = AppMatcher.normalizeKey(rawApp);
             let dId = AppMatcher.resolve(rawApp);
             let cid = dId !== "" ? AppMatcher.canonicalId(dId) : AppMatcher.canonicalId(rawApp);
             let gKey = cid !== "" ? cid : (appKey !== "" ? appKey : ("win:" + addr));
-            let isFoc = Boolean(t.activated);
+            let isFoc = Boolean(t.activated || (typeof Hyprland !== "undefined" && Hyprland.activeToplevel && Hyprland.activeToplevel.address === t.address));
             if (isFoc) _recordFocus(addr);
 
-            let wsId = (t.workspace && t.workspace.id !== undefined) ? t.workspace.id : -1;
-            let wsName = (t.workspace && t.workspace.name) ? String(t.workspace.name) : (wsId >= 0 ? String(wsId) : "");
-            let monName = (t.monitor && t.monitor.name) ? String(t.monitor.name) : "";
+            let wsObj = t.workspace || (t.lastIpcObject ? t.lastIpcObject.workspace : null);
+            let rawWsId = (wsObj && wsObj.id !== undefined) ? wsObj.id : -1;
+            let wsId = (rawWsId > 0) ? (rawWsId - 1) : -1;
+            let wsName = (wsObj && wsObj.name) ? String(wsObj.name) : (rawWsId >= 0 ? String(rawWsId) : "");
+            let monName = (t.monitor && t.monitor.name) ? String(t.monitor.name) : ((t.lastIpcObject && t.lastIpcObject.monitor !== undefined) ? String(t.lastIpcObject.monitor) : "");
 
             list.push({
                 id: "hypr:" + addr,
@@ -261,7 +263,7 @@ Item {
                 seq: ++_seqCounter,
                 appId: rawApp,
                 appKey: appKey,
-                title: t.title || "",
+                title: t.title || (t.lastIpcObject && t.lastIpcObject.title ? t.lastIpcObject.title : ""),
                 workspace: wsId,
                 workspaceLabel: wsName,
                 output: monName,
@@ -375,6 +377,50 @@ Item {
         return root._swayWindowList || [];
     }
 
+    function _formatHyprAddress(nid) {
+        if (!nid) return "";
+        let s = String(nid).trim();
+        if (s.startsWith("address:")) {
+            s = s.substring(8).trim();
+        }
+        if (!s.startsWith("0x")) {
+            s = "0x" + s;
+        }
+        return "address:" + s;
+    }
+
+    function _focusHyprland(win) {
+        if (!win) return;
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid === undefined || nid === null || nid === "") return;
+        let addr = root._formatHyprAddress(nid);
+        if (typeof Hyprland !== "undefined") {
+            if (Hyprland.usingLua !== false) {
+                Hyprland.dispatch("hl.dsp.focus({ window = \"" + addr + "\" })");
+            } else {
+                Hyprland.dispatch("focuswindow " + addr);
+            }
+            return;
+        }
+        Quickshell.execDetached(["sh", "-c", "hyprctl dispatch 'hl.dsp.focus({ window = \"" + addr + "\" })' 2>/dev/null || hyprctl dispatch focuswindow " + addr]);
+    }
+
+    function _closeHyprland(win) {
+        if (!win) return;
+        let nid = (typeof win === "object") ? win.nativeId : win;
+        if (nid === undefined || nid === null || nid === "") return;
+        let addr = root._formatHyprAddress(nid);
+        if (typeof Hyprland !== "undefined") {
+            if (Hyprland.usingLua !== false) {
+                Hyprland.dispatch("hl.dsp.window.close({ window = \"" + addr + "\" })");
+            } else {
+                Hyprland.dispatch("closewindow " + addr);
+            }
+            return;
+        }
+        Quickshell.execDetached(["sh", "-c", "hyprctl dispatch 'hl.dsp.window.close({ window = \"" + addr + "\" })' 2>/dev/null || hyprctl dispatch closewindow " + addr]);
+    }
+
     function focusWindow(win) {
         if (!win) return;
         let nid = (typeof win === "object") ? win.nativeId : win;
@@ -390,8 +436,8 @@ Item {
             return;
         }
 
-        if (isHyprland && typeof Hyprland !== "undefined" && nid) {
-            Hyprland.dispatch("focuswindow address:" + nid);
+        if (isHyprland) {
+            root._focusHyprland(win);
             return;
         }
 
@@ -416,8 +462,8 @@ Item {
             return;
         }
         let nid = (typeof win === "object") ? win.nativeId : win;
-        if (isHyprland && typeof Hyprland !== "undefined" && nid) {
-            Hyprland.dispatch("closewindow address:" + nid);
+        if (isHyprland) {
+            root._closeHyprland(win);
             return;
         }
         if (isNiri && nid) {
@@ -492,6 +538,13 @@ Item {
         function onActiveToplevelChanged() { root._requestRebuild(); }
         function onFocusedMonitorChanged() { root._requestRebuild(); }
         function onFocusedWorkspaceChanged() { root._requestRebuild(); }
+        function onRawEvent(event) {
+            if (!event || !event.name) return;
+            let n = event.name;
+            if (n === "activewindow" || n === "activewindowv2" || n === "openwindow" || n === "closewindow" || n === "movewindow" || n === "workspace" || n === "focusedmon") {
+                root._requestRebuild();
+            }
+        }
     }
 
     Connections {

@@ -254,7 +254,9 @@ PanelWindow {
                             textColor: ThemeBackend.text
                             onClicked: {
                                 if (dockAppMenuWindow.hasWindows) {
-                                    WindowTracker.focusWindow(dockAppMenuWindow.windowsList[0]);
+                                    if (typeof WindowTracker !== "undefined") {
+                                        WindowTracker.focusWindow(dockAppMenuWindow.windowsList[0]);
+                                    }
                                 } else if (typeof DesktopEntries !== "undefined" && DockAppMenuController.desktopId) {
                                     let entry = DesktopEntries.byId(DockAppMenuController.desktopId);
                                     if (entry) entry.execute();
@@ -342,7 +344,9 @@ PanelWindow {
                                     accentColor: modelData.focused ? ThemeBackend.mauve : ThemeBackend.surface0
                                     textColor: modelData.focused ? ThemeBackend.crust : ThemeBackend.text
                                     onClicked: {
-                                        WindowTracker.focusWindow(modelData);
+                                        if (typeof WindowTracker !== "undefined") {
+                                            WindowTracker.focusWindow(modelData);
+                                        }
                                         DockAppMenuController.hide();
                                     }
                                 }
@@ -370,7 +374,9 @@ PanelWindow {
                                             NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
                                         }
                                         onClicked: {
-                                            WindowTracker.close(modelData);
+                                            if (typeof WindowTracker !== "undefined") {
+                                                WindowTracker.close(modelData);
+                                            }
                                             DockAppMenuController.hide();
                                         }
                                     }
