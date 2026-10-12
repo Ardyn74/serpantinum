@@ -19,6 +19,7 @@ Item {
 
     readonly property bool isCompact: module ? module.isCompact : false
     readonly property var barWindow: module ? module.barWindow : null
+    readonly property real barOpacity: (module && module.barOpacity !== undefined) ? module.barOpacity : (barWindow && barWindow.barOpacity !== undefined ? barWindow.barOpacity : (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined ? (Config.rawSettings.bar.opacity / 100.0) : 1.0))
 
     property var player: MprisController.activePlayer
     property bool isMediaActive: player !== null && player.playbackState !== MprisPlaybackState.Stopped && player.trackTitle !== ""
@@ -181,6 +182,7 @@ Item {
                     buttonIcon: "󰒮"
                     iconFontSize: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                     accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
+                    bgOpacity: root.barOpacity
                     textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: if (player && player.canGoPrevious) player.previous()
@@ -194,6 +196,7 @@ Item {
                     buttonIcon: root.isPlaying ? "󰏤" : "󰐊"
                     iconFontSize: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                     accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
+                    bgOpacity: root.barOpacity
                     textColor: isHoveredOrHighlighted ? ThemeBackend.green : (root.isCompact ? Qt.lighter(ThemeBackend.text, 1.1) : ThemeBackend.text)
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: if (player && player.canTogglePlaying) player.togglePlaying()
@@ -207,6 +210,7 @@ Item {
                     buttonIcon: "󰒭"
                     iconFontSize: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                     accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
+                    bgOpacity: root.barOpacity
                     textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: if (player && player.canGoNext) player.next()
