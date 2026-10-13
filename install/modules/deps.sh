@@ -2,7 +2,6 @@
 
 SUPPORTED_DISTROS=(
     "arch"
-    "fedora"
     "endeavouros"
     "manjaro"
     "cachyos"
@@ -80,6 +79,10 @@ check_supported_os() {
                 return 0
             fi
         done
+
+        if declare -f pm_supports_os >/dev/null && pm_supports_os; then
+            return 0
+        fi
 
         echo "$(t "installer.os.error_unsupported" "os=$DETECTED_OS")"
         exit 1
@@ -180,7 +183,9 @@ install_dependencies() {
 
     if [ "$OPT_SDDM" = true ]; then
         target_list+=("sddm" "qt6-declarative" "qt6-svg")
+        target_list+=("${PM_SDDM_EXTRA_PKGS[@]}")
     fi
+    target_list+=("${PM_EXTRA_PKGS[@]}")
 
     if [[ ("$install_state" == "fresh" || "$install_state" == "legacy") && "$is_reinstall" != "true" ]]; then
         pm_full_upgrade
@@ -205,6 +210,11 @@ install_dependencies() {
         local SAFE_JOBS=$(( $(nproc) / 2 ))
         [[ $SAFE_JOBS -lt 1 ]] && SAFE_JOBS=1
         [[ $SAFE_JOBS -gt 4 ]] && SAFE_JOBS=4
+
+        if declare -f pm_install_batch >/dev/null; then
+            pm_install_batch "${MISSING_PKGS[@]}"
+            MISSING_PKGS=("${PM_BATCH_LEFT[@]}")
+        fi
 
         for pkg in "${MISSING_PKGS[@]}"; do
             echo -e "\n\e[36m=================================================================\e[0m"

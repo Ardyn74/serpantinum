@@ -2,6 +2,11 @@
 
 PM_BOOTSTRAP_TOOLS=(fzf jq curl git pciutils unzip fontconfig)
 
+PM_EXTRA_PKGS=(jetbrains-mono-fonts fontawesome-6-free-fonts xdg-user-dirs xwayland-satellite pipewire-utils)
+PM_SDDM_EXTRA_PKGS=(sddm-wayland-generic)
+PM_SDDM_WAYLAND_DEFAULT=true
+PM_SDDM_CURSOR_FIX=true
+
 declare -A PM_PKG_MAP=(
     [kitty]="kitty"
     [cava]="cava"
@@ -53,7 +58,7 @@ declare -A PM_PKG_MAP=(
     [xdg-desktop-portal-gtk]="xdg-desktop-portal-gtk"
     [slurp]="slurp"
     [wmctrl]="wmctrl"
-    [power-profiles-daemon]="power-profiles-daemon"
+    [power-profiles-daemon]="ppd-service"
     [easyeffects]="easyeffects"
     [lsp-plugins-lv2]="lsp-plugins-lv2"
     [nautilus]="nautilus"
@@ -80,12 +85,30 @@ declare -A PM_PKG_MAP=(
 declare -A PM_COPR_MAP=(
     [quickshell]="errornointernet/quickshell"
     [hyprland]="mineiro/hyprland"
-    [satty]="mineiro/hyprland"
     [cliphist]="mecattaf/duoRPM"
     [matugen]="mecattaf/duoRPM"
     [wl-gammarelay-rs]="mecattaf/duoRPM"
     [gpu-screen-recorder]="arabianq/gpu-screen-recorder"
 )
+
+declare -A PM_RELEASE_MAP=(
+    [satty]="https://github.com/gabm/Satty/releases/latest/download/satty-x86_64-unknown-linux-gnu.tar.gz"
+)
+
+pm_supports_os() {
+    [ -f /etc/os-release ] || return 1
+    [ -e /run/ostree-booted ] && return 1
+    local id like
+    id=$(awk -F= '/^ID=/{gsub(/"/, "", $2); print $2}' /etc/os-release)
+    like=$(awk -F= '/^ID_LIKE=/{gsub(/"/, "", $2); print $2}' /etc/os-release)
+    case "$id" in
+        rhel|centos|rocky|almalinux|ol|scientific|amzn) return 1 ;;
+    esac
+    case " $id $like " in
+        *" fedora "*) return 0 ;;
+    esac
+    return 1
+}
 
 pm_prepare_repos() {
     true
@@ -110,6 +133,12 @@ pm_resolve_name() {
 pm_missing_pkgs() {
     local pkg spec alt satisfied
     for pkg in "$@"; do
+        if [ -n "${PM_RELEASE_MAP[$pkg]:-}" ]; then
+            if ! command -v "$pkg" &>/dev/null && [ ! -x "$HOME/.local/bin/$pkg" ]; then
+                echo "$pkg"
+            fi
+            continue
+        fi
         spec="$(pm_resolve_name "$pkg")"
         satisfied=false
         while IFS= read -r alt; do
@@ -139,9 +168,53 @@ pm_enable_copr() {
     sudo dnf copr enable -y "$repo"
 }
 
+pm_install_release_binary() {
+    local url="$1" binary="$2"
+    local bin_dir="$HOME/.local/bin"
+    local tmp found
+    [ "$(uname -m)" = "x86_64" ] || return 1
+    tmp="$(mktemp -d)"
+    mkdir -p "$bin_dir"
+    if curl -fsSL --connect-timeout 15 --retry 3 "$url" -o "$tmp/pkg.tar.gz" && tar -xzf "$tmp/pkg.tar.gz" -C "$tmp"; then
+        found="$(find "$tmp" -type f -name "$binary" | head -n 1)"
+        if [ -n "$found" ]; then
+            install -m 0755 "$found" "$bin_dir/$binary"
+            rm -rf "$tmp"
+            return 0
+        fi
+    fi
+    rm -rf "$tmp"
+    return 1
+}
+
+pm_install_batch() {
+    PM_BATCH_LEFT=("$@")
+    local batch=() names=() rest=() pkg
+    for pkg in "$@"; do
+        if [ -n "${PM_RELEASE_MAP[$pkg]:-}" ] || [ -n "${PM_COPR_MAP[$pkg]:-}" ]; then
+            rest+=("$pkg")
+        else
+            batch+=("$pkg")
+            names+=("$(pm_resolve_name "$pkg" | cut -d'|' -f1)")
+        fi
+    done
+    [ ${#batch[@]} -gt 0 ] || return 0
+    if sudo dnf install -y "${names[@]}"; then
+        for pkg in "${batch[@]}"; do
+            echo -e "\n\e[32m[ OK ] $(t "installer.deps.install_ok" "pkg=$pkg")\e[0m"
+        done
+        PM_BATCH_LEFT=("${rest[@]}")
+    fi
+}
+
 pm_install_pkg() {
     local pkg="$1"
     local spec target
+
+    if [ -n "${PM_RELEASE_MAP[$pkg]:-}" ]; then
+        pm_install_release_binary "${PM_RELEASE_MAP[$pkg]}" "$pkg"
+        return
+    fi
     spec="$(pm_resolve_name "$pkg")"
     target="${spec%%|*}"
 
@@ -153,6 +226,35 @@ pm_install_pkg() {
     fi
 
     sudo dnf install -y "$target"
+}
+
+pm_enable_display_manager() {
+    local svc="$1" init_sys="$2"
+    if [ "$init_sys" = "systemd" ]; then
+        sudo systemctl enable --force "$svc.service" 2>/dev/null || true
+    else
+        enable_system_service "$svc" "$init_sys"
+    fi
+}
+
+pm_disable_display_manager() {
+    local svc="$1" init_sys="$2"
+    if [ "$init_sys" = "systemd" ]; then
+        sudo systemctl disable "$svc.service" 2>/dev/null || true
+    else
+        disable_system_service "$svc" "$init_sys"
+    fi
+}
+
+pm_configure_sddm_cursor() {
+    local conf="$1" theme=""
+    if [ -d /usr/share/icons/Adwaita/cursors ]; then
+        theme="Adwaita"
+    else
+        theme="$(find /usr/share/icons -mindepth 2 -maxdepth 2 -type d -name cursors 2>/dev/null | head -n 1 | xargs -r dirname | xargs -r basename)"
+    fi
+    [ -n "$theme" ] || return 0
+    sudo sed -i -e "/^ThemeDir=/a CursorTheme=$theme" -e "/^ThemeDir=/a CursorSize=24" "$conf"
 }
 
 pm_remove_pkg() {
