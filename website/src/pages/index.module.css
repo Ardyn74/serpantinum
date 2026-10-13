@@ -98,3 +98,16 @@
   position: relative;
   z-index: 1;
 }
+
+@media screen and (max-width: 480px) {
+  .heroSubtitle {
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .actionButton {
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+  }
+}

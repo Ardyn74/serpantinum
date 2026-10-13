@@ -449,3 +449,22 @@
     transform: scale(1) rotate(0deg);
   }
 }
+
+@media (max-width: 480px) {
+  .card {
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+    padding: 1.4rem 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .distroRow,
+  .compositorGrid {
+    gap: 1rem;
+  }
+
+  .distroGrid {
+    grid-template-columns: 1fr;
+  }
+}

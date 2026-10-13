@@ -101,6 +101,8 @@ const config: Config = {
           href: 'https://github.com/ilyamiro/serpantinum',
           label: 'GitHub',
           position: 'right',
+          className: 'navbar-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },
