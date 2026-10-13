@@ -84,10 +84,11 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
           path: '../docs',
+          editUrl: 'https://github.com/ilyamiro/serpantinum/edit/master/docs/',
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: ['./src/css/custom.css', './src/css/docs.css'],
         },
       } satisfies Preset.Options,
     ],
