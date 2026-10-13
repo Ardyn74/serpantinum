@@ -73,7 +73,7 @@ Item {
     }
 
     implicitWidth: targetWidth
-    implicitHeight: isPreview ? (barWindow ? barWindow.s(isCompact ? 40 : 44) : 44) : (parent ? parent.height : 0)
+    implicitHeight: barWindow ? barWindow.s(isCompact ? 40 : 44) : (isCompact ? 40 : 44)
 
     function formatTime(sec) {
         sec = Math.floor(sec || 0);
@@ -186,7 +186,7 @@ Item {
                             font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)
                             marqueeSpacing: barWindow ? barWindow.s(40) : 40
                             speed: 30
-                            active: root.visible && (!barWindow || barWindow.visible) && (!module || module.moduleActive) && root.isPlaying
+                            active: Boolean(root.visible && (!barWindow || barWindow.visible) && (!module || module.moduleActive) && root.isPlaying)
                         }
 
                         Text {
