@@ -9,6 +9,7 @@ import {
   type WheelEvent as ReactWheelEvent,
 } from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useLazyPreviews} from '@site/src/hooks/useLazyPreviews';
 
 import styles from './styles.module.css';
 
@@ -24,33 +25,32 @@ export default function DesktopPreviews(): ReactNode {
   const previewItems: PreviewItem[] = [
     {
       id: 1,
-      src: useBaseUrl('/img/previews/preview_1.png'),
+      src: useBaseUrl('/img/previews/preview_1.webp'),
       alt: 'Serpantinum Desktop Preview 1',
     },
     {
       id: 2,
-      src: useBaseUrl('/img/previews/preview_2.png'),
+      src: useBaseUrl('/img/previews/preview_2.webp'),
       alt: 'Serpantinum Desktop Preview 2',
     },
     {
       id: 3,
-      src: useBaseUrl('/img/previews/preview_3.png'),
+      src: useBaseUrl('/img/previews/preview_3.webp'),
       alt: 'Serpantinum Desktop Preview 3',
     },
     {
       id: 4,
-      src: useBaseUrl('/img/previews/preview_4.png'),
+      src: useBaseUrl('/img/previews/preview_4.webp'),
       alt: 'Serpantinum Desktop Preview 4',
     },
   ];
 
-  const sectionRef = useRef<HTMLElement | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [isRevealed, setIsRevealed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const {ref: sectionRef, shouldLoad, markLoaded} = useLazyPreviews<HTMLElement>(currentIndex);
 
   const isDraggingRef = useRef(false);
   const dragStartXRef = useRef(0);
@@ -121,27 +121,6 @@ export default function DesktopPreviews(): ReactNode {
       }
     };
   }, [resetTimer]);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const checkVisibility = () => {
-      const rect = el.getBoundingClientRect();
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-      const inView = rect.top < windowHeight * 0.78 && rect.bottom > 80;
-      setIsRevealed(inView);
-    };
-
-    window.addEventListener('scroll', checkVisibility, { passive: true });
-    window.addEventListener('resize', checkVisibility, { passive: true });
-    checkVisibility();
-
-    return () => {
-      window.removeEventListener('scroll', checkVisibility);
-      window.removeEventListener('resize', checkVisibility);
-    };
-  }, []);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -242,13 +221,13 @@ export default function DesktopPreviews(): ReactNode {
         <button
           type="button"
           className={`${styles.navButton} ${
-            isRevealed ? styles.navButtonPrevVisible : styles.navButtonPrevHidden
+            styles.navButtonPrevVisible
           }`}
           onClick={handleManualPrev}
           aria-label="Previous preview">
           <svg
             className={`${styles.arrowIcon} ${
-              isRevealed ? styles.arrowIconPrevVisible : styles.arrowIconPrevHidden
+              styles.arrowIconPrevVisible
             }`}
             width="24"
             height="24"
@@ -282,11 +261,12 @@ export default function DesktopPreviews(): ReactNode {
               return (
                 <div key={item.id} className={slideClass} aria-hidden={!isActive}>
                   <img
-                    src={item.src}
+                    src={shouldLoad(index) ? item.src : undefined}
+                    onLoad={markLoaded}
+                    decoding="async"
                     alt={item.alt}
                     className={styles.previewImage}
                     draggable={false}
-                    loading={index === 0 ? 'eager' : 'lazy'}
                   />
                 </div>
               );
@@ -297,13 +277,13 @@ export default function DesktopPreviews(): ReactNode {
         <button
           type="button"
           className={`${styles.navButton} ${
-            isRevealed ? styles.navButtonNextVisible : styles.navButtonNextHidden
+            styles.navButtonNextVisible
           }`}
           onClick={handleManualNext}
           aria-label="Next preview">
           <svg
             className={`${styles.arrowIcon} ${
-              isRevealed ? styles.arrowIconNextVisible : styles.arrowIconNextHidden
+              styles.arrowIconNextVisible
             }`}
             width="24"
             height="24"

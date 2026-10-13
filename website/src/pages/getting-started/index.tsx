@@ -13,6 +13,7 @@ import Heading from '@theme/Heading';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useHistory} from '@docusaurus/router';
+import {useLazyPreviews} from '@site/src/hooks/useLazyPreviews';
 import FluidBackground from '@site/src/components/FluidBackground';
 
 import styles from './styles.module.css';
@@ -29,19 +30,19 @@ const SLIDE_DURATION_MS = 5000;
 const STEPS: StepCard[] = [
   {
     title: 'Install',
-    image: '/img/previews/steps/install_preview.png',
+    image: '/img/previews/steps/install_preview.webp',
     buttonText: 'Install',
     buttonLink: '/installation/arch',
   },
   {
     title: 'Configure',
-    image: '/img/previews/steps/configure_preview.png',
+    image: '/img/previews/steps/configure_preview.webp',
     buttonText: 'Configure',
     buttonLink: '/configure',
   },
   {
     title: 'Enjoy!',
-    image: '/img/previews/steps/enjoy_preview.png',
+    image: '/img/previews/steps/enjoy_preview.webp',
     buttonText: 'Enjoy!',
     buttonLink: '/',
   },
@@ -51,6 +52,7 @@ export default function GettingStarted(): ReactNode {
   const history = useHistory();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const {ref: carouselRef, shouldLoad, markLoaded} = useLazyPreviews<HTMLDivElement>(currentIndex);
 
   const stepUrls = [
     useBaseUrl('/installation/arch'),
@@ -256,6 +258,7 @@ export default function GettingStarted(): ReactNode {
         </div>
 
         <div
+          ref={carouselRef}
           className={styles.carouselContainer}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}>
@@ -319,11 +322,12 @@ export default function GettingStarted(): ReactNode {
                   }}>
                   <div className={styles.imageWrapper}>
                     <img
-                      src={previewUrl}
+                      src={shouldLoad(index) ? previewUrl : undefined}
+                      onLoad={markLoaded}
+                      decoding="async"
                       alt={step.title}
                       className={styles.cardImage}
                       draggable={false}
-                      loading="lazy"
                     />
                   </div>
                   <div className={styles.cardBody}>
