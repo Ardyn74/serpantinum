@@ -156,6 +156,23 @@ export default function SupportedPlatforms(): ReactNode {
             <span className={styles.platformName}>NixOS</span>
           </Link>
 
+          <Link
+            to="/installation"
+            className={clsx(styles.card, isRevealed && styles.cardRevealed)}
+            style={{'--card-delay': '60ms'} as React.CSSProperties}>
+            <div
+              className={clsx(styles.logoWrapper, isRevealed && styles.logoRevealed)}
+              style={{'--logo-delay': '140ms'} as React.CSSProperties}>
+              <img
+                src={useBaseUrl('/img/logos/fedora.png')}
+                alt="Fedora logo"
+                className={styles.logoImage}
+                loading="lazy"
+              />
+            </div>
+            <span className={styles.platformName}>Fedora</span>
+          </Link>
+
           <div
             className={clsx(
               styles.archGroup,
@@ -164,7 +181,7 @@ export default function SupportedPlatforms(): ReactNode {
             onPointerEnter={handlePointerEnter}
             onPointerLeave={handlePointerLeave}>
             <Link
-              to="/installation/arch"
+              to="/installation"
               className={clsx(
                 styles.card,
                 styles.archCard,
@@ -207,7 +224,7 @@ export default function SupportedPlatforms(): ReactNode {
                   {ARCH_DISTROS.map((distro) => (
                     <Link
                       key={distro.id}
-                      to="/installation/arch"
+                      to="/installation"
                       className={styles.distroItem}>
                       <span className={styles.distroName}>{distro.name}</span>
                     </Link>

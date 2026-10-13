@@ -175,7 +175,7 @@ const config: Config = {
             },
             {
               label: 'Installation',
-              to: '/installation/arch',
+              to: '/installation',
             },
             {
               label: 'Variables',
