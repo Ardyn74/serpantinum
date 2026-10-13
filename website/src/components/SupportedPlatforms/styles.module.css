@@ -514,3 +514,23 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .logoWrapper {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+
+  .cardRevealed,
+  .logoRevealed {
+    animation: none !important;
+  }
+
+  .integratedShelf,
+  .logoImage,
+  .distroItem {
+    transition: none;
+  }
+}

@@ -67,3 +67,21 @@
     animation: none !important;
   }
 }
+
+@media (max-width: 768px) {
+  .waveContainer {
+    height: 100lvh;
+  }
+
+  .waveLayer:nth-child(n + 3) {
+    display: none;
+  }
+
+  .waveAnim1 {
+    animation-duration: 70s;
+  }
+
+  .waveAnim2 {
+    animation-duration: 55s;
+  }
+}

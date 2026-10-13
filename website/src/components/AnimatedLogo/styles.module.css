@@ -36,3 +36,16 @@
     height: 210px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .logoContainer {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 0.25rem;
+  }
+
+  .canvas {
+    width: 160px;
+    height: 160px;
+  }
+}
