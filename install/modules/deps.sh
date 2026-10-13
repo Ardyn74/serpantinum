@@ -88,18 +88,9 @@ check_supported_os() {
     fi
 }
 
-enable_multilib() {
-    if [ -f /etc/pacman.conf ]; then
-        if grep -q "^#\[multilib\]" /etc/pacman.conf; then
-            sudo sed -i '/^#\[multilib\]/{s/^#//;n;s/^#//}' /etc/pacman.conf
-            sudo pacman -Sy --noconfirm >/dev/null 2>&1 || true
-        fi
-    fi
-}
-
 bootstrap_installer_deps() {
     suppress_tty_sleep
-    enable_multilib
+    pm_prepare_repos
 
     local missing=()
     for tool in fzf jq curl git pciutils unzip fontconfig base-devel; do
@@ -109,32 +100,10 @@ bootstrap_installer_deps() {
     done
 
     if [ ${#missing[@]} -gt 0 ]; then
-        sudo pacman -Sy --noconfirm --needed "${missing[@]}"
+        pm_bootstrap_install "${missing[@]}"
     fi
 
-    if ! command -v yay &>/dev/null && ! command -v paru &>/dev/null; then
-        local cache_build="${XDG_CACHE_HOME:-"$HOME/.cache"}/serpantinum-yay-bin"
-        rm -rf "$cache_build"
-        mkdir -p "$cache_build"
-        git clone https://aur.archlinux.org/yay-bin.git "$cache_build"
-        (cd "$cache_build" && makepkg -si --noconfirm)
-        rm -rf "$cache_build"
-    fi
-}
-
-install_pkg() {
-    local pkg="$1"
-    local safe_jobs="$2"
-
-    if pacman -Si "$pkg" &>/dev/null; then
-        sudo pacman -S --noconfirm --needed "$pkg"
-    elif command -v yay &>/dev/null; then
-        env CARGO_BUILD_JOBS="$safe_jobs" MAKEFLAGS="-j$safe_jobs" yay -S --noconfirm --needed "$pkg"
-    elif command -v paru &>/dev/null; then
-        env CARGO_BUILD_JOBS="$safe_jobs" MAKEFLAGS="-j$safe_jobs" paru -S --noconfirm --needed "$pkg"
-    else
-        sudo pacman -S --noconfirm --needed "$pkg"
-    fi
+    pm_bootstrap_helper
 }
 
 install_fonts() {
@@ -201,9 +170,7 @@ install_dependencies() {
     shift 2 2>/dev/null || true
     local compositors=("$@")
 
-    if pacman -Qq quickshell-git &>/dev/null; then
-        yay -R --noconfirm quickshell-git 2>/dev/null || sudo pacman -Rdd --noconfirm quickshell-git 2>/dev/null || true
-    fi
+    pm_remove_conflicting_pkg "quickshell-git"
 
     local target_list=("${REQUIRED_PKGS[@]}")
     for comp in "${compositors[@]}"; do
@@ -216,11 +183,11 @@ install_dependencies() {
 
     if [[ ("$install_state" == "fresh" || "$install_state" == "legacy") && "$is_reinstall" != "true" ]]; then
         echo -e "\n\e[36m[ INFO ]\e[0m $(t "installer.deps.syncing")"
-        sudo pacman -Syyu --noconfirm
+        pm_full_upgrade
     fi
 
     local missing_raw
-    missing_raw=$(pacman -T "${target_list[@]}" 2>/dev/null || true)
+    missing_raw=$(pm_missing_pkgs "${target_list[@]}")
 
     local MISSING_PKGS=()
     while IFS= read -r pkg; do
@@ -244,7 +211,7 @@ install_dependencies() {
             echo -e "\e[34m::\e[0m \e[1m$(t "installer.deps.installing_pkg" "pkg=$pkg")\e[0m"
             echo -e "\e[36m=================================================================\e[0m"
 
-            if install_pkg "$pkg" "$SAFE_JOBS"; then
+            if pm_install_pkg "$pkg" "$SAFE_JOBS"; then
                 echo -e "\n\e[32m[ OK ] $(t "installer.deps.install_ok" "pkg=$pkg")\e[0m"
             else
                 echo -e "\n\e[31m[ FAILED ] $(t "installer.deps.install_failed" "pkg=$pkg")\e[0m"

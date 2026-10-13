@@ -152,11 +152,9 @@ setup_sddm() {
             if declare -f disable_system_service >/dev/null; then
                 disable_system_service "$dm" "$init_sys"
             fi
-            if command -v pacman &>/dev/null; then
-                if pacman -Qq "$dm" &>/dev/null; then
-                    echo "  $(t "installer.deploy.disabling_dm" "dm=$dm")"
-                    sudo pacman -Rns --noconfirm "$dm" >/dev/null 2>&1 || true
-                fi
+            if pm_is_installed "$dm"; then
+                echo "  $(t "installer.deploy.disabling_dm" "dm=$dm")"
+                pm_remove_pkg "$dm"
             fi
         done
     fi
