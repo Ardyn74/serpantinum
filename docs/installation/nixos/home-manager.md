@@ -1,13 +1,17 @@
 ---
 sidebar_position: 2
-title: Home Manager module
-sidebar_label: Home Manager module
+title: Home Manager
+sidebar_label: Home Manager
 slug: /installation/nixos/home-manager
 ---
 
-# NixOS: Home Manager module
+# NixOS: Home Manager
 
 The Home Manager module manages the user configuration and the systemd service. It requires the [flake input](/installation/nixos) from the previous page.
+
+:::note Same options as settings.json
+The `settings` attribute set mirrors `settings.json` one to one: every section and key described in [Variables](/configure) is available under `programs.serpantinum.settings` with the same name and structure. Only the syntax changes, since you write Nix attributes instead of JSON. Keys that are not declared in the module are passed through to `settings.json` unchanged.
+:::
 
 ```nix
 { serpantinum, ... }:

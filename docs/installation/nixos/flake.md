@@ -1,11 +1,11 @@
 ---
 sidebar_position: 1
-title: Flake and system module
-sidebar_label: Flake and system module
+title: Flake input
+sidebar_label: Flake input
 slug: /installation/nixos
 ---
 
-# NixOS: flake and system module
+# NixOS: Flake input
 
 Serpantinum provides flake outputs, a NixOS module for system dependencies, and a Home Manager module for user configuration and service management. This page covers the flake and the system module; see [Home Manager](/installation/nixos/home-manager) for the user configuration.
 
