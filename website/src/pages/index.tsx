@@ -6,6 +6,7 @@ import Layout from '@theme/Layout';
 import Head from '@docusaurus/Head';
 import DesktopPreviews from '@site/src/components/DesktopPreviews';
 import SupportedPlatforms from '@site/src/components/SupportedPlatforms';
+import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import StarHistory from '@site/src/components/StarHistory';
 import AnimatedLogo from '@site/src/components/AnimatedLogo';
 import FluidBackground from '@site/src/components/FluidBackground';
@@ -38,6 +39,9 @@ function HomepageHeader() {
           <Link className={styles.actionButton} to="/getting-started">
             Get started
           </Link>
+          <Link className={styles.secondaryButton} to="/overview">
+            Documentation
+          </Link>
         </div>
       </div>
     </header>
@@ -59,6 +63,7 @@ export default function Home(): ReactNode {
         <HomepageHeader />
         <main className={styles.mainContent}>
           <DesktopPreviews />
+          <HomepageFeatures />
           <SupportedPlatforms />
           <StarHistory />
         </main>

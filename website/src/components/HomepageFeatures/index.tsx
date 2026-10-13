@@ -6,57 +6,74 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  icon: ReactNode;
   description: ReactNode;
   to: string;
   actionText: string;
 };
 
+const iconProps = {
+  width: 56,
+  height: 56,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.6,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+  'aria-hidden': true,
+};
+
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
+    title: 'Built for you',
+    icon: (
+      <svg {...iconProps}>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" />
+      </svg>
     ),
-    to: '/docs/intro',
-    actionText: 'Quickstart',
+    description:
+      'Tune the look and behaviour of every part of the shell through simple configuration variables.',
+    to: '/configure',
+    actionText: 'Configure',
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
+    title: 'Any compositor',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="3" y="4" width="8" height="7" rx="1.5" />
+        <rect x="13" y="4" width="8" height="16" rx="1.5" />
+        <rect x="3" y="13" width="8" height="7" rx="1.5" />
+      </svg>
     ),
-    to: '/docs/intro',
-    actionText: 'Documentation',
+    description:
+      'Runs on Hyprland, Sway and Niri. Serpantinum only provides the shell, your compositor keeps its own keybinds and monitors.',
+    to: '/overview',
+    actionText: 'Overview',
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
+    title: 'Quick to install',
+    icon: (
+      <svg {...iconProps}>
+        <path d="M12 3v12" />
+        <path d="m7 10 5 5 5-5" />
+        <path d="M4 19h16" />
+      </svg>
     ),
-    to: '/docs/intro',
-    actionText: 'Architecture',
+    description:
+      'Available for Arch Linux and its derivatives as well as NixOS, with step-by-step guides for both.',
+    to: '/installation/arch',
+    actionText: 'Install',
   },
 ];
 
-function Feature({title, Svg, description, to, actionText}: FeatureItem) {
+function Feature({title, icon, description, to, actionText}: FeatureItem) {
   return (
     <div className={clsx('col col--4', styles.featureCol)}>
       <div className={styles.featureCard}>
         <div className={styles.iconWrapper}>
-          <Svg className={styles.featureSvg} role="img" />
+          {icon}
         </div>
         <div className={styles.featureBody}>
           <Heading as="h3" className={styles.featureTitle}>{title}</Heading>
@@ -85,7 +102,7 @@ function Feature({title, Svg, description, to, actionText}: FeatureItem) {
 
 export default function HomepageFeatures(): ReactNode {
   return (
-    <section className={styles.features}>
+    <section className={styles.features} aria-label="Features">
       <div className="container">
         <div className={clsx('row', styles.featuresRow)}>
           {FeatureList.map((props, idx) => (
