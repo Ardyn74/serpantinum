@@ -125,19 +125,19 @@ const config: Config = {
       },
       items: [
         {
+          type: 'search',
+          position: 'left',
+        },
+        {
           to: '/overview',
           label: 'Documentation',
-          position: 'left',
+          position: 'right',
         },
         {
           href: 'https://github.com/ilyamiro/serpantinum/blob/master/CHANGELOG.md',
           label: 'Changelog',
-          position: 'left',
-          className: 'navbar-changelog-link',
-        },
-        {
-          type: 'search',
           position: 'right',
+          className: 'navbar-changelog-link',
         },
         {
           href: 'https://github.com/ilyamiro/serpantinum',
@@ -150,6 +150,13 @@ const config: Config = {
     },
     footer: {
       style: 'dark',
+      logo: {
+        alt: 'Serpantinum Logo',
+        src: 'img/logo-light.svg',
+        srcDark: 'img/logo-dark.svg',
+        width: 44,
+        height: 44,
+      },
       links: [
         {
           title: 'Docs',
@@ -203,7 +210,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Serpantinum.`,
+      copyright: `A desktop shell built for YOU. Copyright © ${new Date().getFullYear()} Serpantinum.`,
     },
     prism: {
       theme: prismThemes.github,
