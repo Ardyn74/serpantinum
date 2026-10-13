@@ -573,6 +573,10 @@
 }
 
 @media (max-width: 996px) {
+  .navbar-changelog-link {
+    display: none;
+  }
+
   .navbar {
     padding: 0.25rem 0.75rem;
   }

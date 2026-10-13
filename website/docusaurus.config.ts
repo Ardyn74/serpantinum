@@ -88,9 +88,15 @@ const config: Config = {
       },
       items: [
         {
+          to: '/overview',
+          label: 'Documentation',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/ilyamiro/serpantinum/blob/master/CHANGELOG.md',
           label: 'Changelog',
           position: 'left',
+          className: 'navbar-changelog-link',
         },
         {
           href: 'https://github.com/ilyamiro/serpantinum',
