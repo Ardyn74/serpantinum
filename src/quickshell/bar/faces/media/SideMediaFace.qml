@@ -78,7 +78,7 @@ Item {
     }
 
     property string activeArtUrl: {
-        if (!rawArtUrl) return "";
+        if (isPreview || !rawArtUrl) return "";
         if (rawArtUrl.startsWith("file://") || rawArtUrl.startsWith("http")) return rawArtUrl;
         return "file://" + rawArtUrl;
     }

@@ -47,6 +47,7 @@ Item {
     readonly property bool showControls: readBool("mediaShowControls", "mediaShowControls")
 
     property var player: MprisController.activePlayer
+    readonly property bool hasArt: !isPreview && isMediaActive && !!MprisController.artUrl
     property bool isMediaActive: isPreview || (player !== null && player.playbackState !== MprisPlaybackState.Stopped && player.trackTitle !== "")
     readonly property bool isPlaying: isPreview || (isMediaActive && (player ? (player.playbackState === MprisPlaybackState.Playing || player.isPlaying) : MprisController.isPlaying))
 
@@ -130,13 +131,13 @@ Item {
                             font.family: ThemeBackend.fontFamily
                             font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14)
                             color: root.isCompact ? ThemeBackend.text : ThemeBackend.subtext0
-                            visible: !isMediaActive || !MprisController.artUrl
+                            visible: !root.hasArt
                         }
 
                         Image {
                             id: mediaArtImg
                             anchors.fill: parent
-                            source: (isMediaActive && MprisController.artUrl) ? (MprisController.artUrl.startsWith("file://") || MprisController.artUrl.startsWith("http") ? MprisController.artUrl : "file://" + MprisController.artUrl) : ""
+                            source: root.hasArt ? (MprisController.artUrl.startsWith("file://") || MprisController.artUrl.startsWith("http") ? MprisController.artUrl : "file://" + MprisController.artUrl) : ""
                             fillMode: Image.PreserveAspectCrop
                             visible: false
                         }
@@ -146,7 +147,7 @@ Item {
                             source: mediaArtImg
                             maskEnabled: true
                             maskSource: mediaArtMask
-                            visible: isMediaActive && MprisController.artUrl !== "" && mediaArtImg.status === Image.Ready
+                            visible: root.hasArt && mediaArtImg.status === Image.Ready
                         }
 
                         Item {
@@ -167,7 +168,7 @@ Item {
                             radius: parent.radius
                             color: ThemeBackend.surface0
                             opacity: 0.15
-                            visible: isMediaActive && MprisController.artUrl !== "" && mediaArtImg.status === Image.Ready
+                            visible: root.hasArt && mediaArtImg.status === Image.Ready
                         }
                     }
 
