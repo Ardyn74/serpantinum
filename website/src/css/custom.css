@@ -499,8 +499,8 @@
   }
 
   .navbar__item.navbar__link {
-    height: 32px;
-    padding: 0 0.7rem;
+    height: 40px;
+    padding: 0 0.85rem;
     font-size: 0.82rem;
     white-space: nowrap;
   }
@@ -511,8 +511,13 @@
 
   .navbar [class*='colorModeToggle'] [class*='toggle_'],
   .navbar [class*='colorModeToggle'] button {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar__toggle {
+    min-width: 40px;
+    min-height: 40px;
   }
 }
 
@@ -573,13 +578,7 @@
 }
 
 @media (max-width: 996px) {
-  .navbar__item.navbar-changelog-link,
-  .menu__link.navbar-changelog-link,
-  .navbar-sidebar .menu__list-item:has(> .navbar-changelog-link) {
-    display: none;
-  }
-
-  .navbar__title {
+  .navbar__item.navbar-changelog-link {
     display: none;
   }
 
@@ -588,7 +587,7 @@
   }
 
   .navbar__item.navbar-github-link {
-    width: 32px;
+    width: 40px;
   }
 
   .navbar__brand {
@@ -600,8 +599,48 @@
   }
 }
 
+@media (max-width: 480px) {
+  .navbar__title {
+    display: none;
+  }
+}
+
 @media (max-width: 380px) {
   .navbar {
     padding: 0.25rem 0.5rem;
+  }
+}
+
+@media (max-width: 996px) {
+  .footer {
+    padding: 2.5rem 0 2rem;
+  }
+
+  .footer .row.footer__links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1rem;
+    margin: 0;
+  }
+
+  .footer .row.footer__links .footer__col {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    flex: none;
+  }
+
+  .footer__title {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer__link-item {
+    display: inline-block;
+    padding: 0.2rem 0;
+  }
+
+  .footer__bottom {
+    margin-top: 2rem;
+    text-align: center;
   }
 }

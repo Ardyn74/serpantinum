@@ -156,6 +156,10 @@ const config: Config = {
               label: 'Telegram',
               href: 'https://t.me/serpantinum_git',
             },
+            {
+              label: 'GitHub',
+              href: 'https://github.com/ilyamiro/serpantinum',
+            },
           ],
         },
         {
@@ -179,17 +183,8 @@ const config: Config = {
             },
           ],
         },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/ilyamiro/serpantinum',
-            },
-          ],
-        },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Serpantinum. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Serpantinum.`,
     },
     prism: {
       theme: prismThemes.github,
