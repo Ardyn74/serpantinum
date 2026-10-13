@@ -126,7 +126,7 @@ const config: Config = {
       items: [
         {
           type: 'search',
-          position: 'left',
+          position: 'right',
         },
         {
           to: '/overview',
@@ -138,6 +138,13 @@ const config: Config = {
           label: 'Changelog',
           position: 'right',
           className: 'navbar-changelog-link',
+        },
+        {
+          href: 'https://ko-fi.com/ilyamiro',
+          label: 'Support',
+          position: 'right',
+          className: 'navbar-kofi-link',
+          'aria-label': 'Support the creator on Ko-fi',
         },
         {
           href: 'https://github.com/ilyamiro/serpantinum',
@@ -181,6 +188,10 @@ const config: Config = {
             {
               label: 'Telegram',
               href: 'https://t.me/serpantinum_git',
+            },
+            {
+              label: 'Support on Ko-fi',
+              href: 'https://ko-fi.com/ilyamiro',
             },
             {
               label: 'GitHub',
