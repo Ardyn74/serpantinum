@@ -184,6 +184,24 @@ Item {
         return true;
     }
 
+    property bool mediaShowDuration: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.mediaShowDuration !== undefined) return Boolean(bs.mediaShowDuration);
+        return true;
+    }
+
+    property bool mediaShowIcon: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.mediaShowIcon !== undefined) return Boolean(bs.mediaShowIcon);
+        return true;
+    }
+
+    property bool mediaShowControls: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.mediaShowControls !== undefined) return Boolean(bs.mediaShowControls);
+        return true;
+    }
+
     property string batStyle: {
         let bs = Config.getSetting("bar", {});
         if (bs && bs.batStyle) return bs.batStyle;
@@ -313,6 +331,18 @@ Item {
         property bool isCompact: false
         property string kbStyle: barModulesRoot.kbStyle
         property bool kbShowIcon: barModulesRoot.kbShowIcon
+        property bool isPreview: true
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property bool moduleActive: barModulesRoot.visible
+    }
+
+    QtObject {
+        id: previewMediaWidgetObj
+        function s(v) { return rootObj ? rootObj.s(v) : v; }
+        property bool isCompact: false
+        property bool mediaShowDuration: barModulesRoot.mediaShowDuration
+        property bool mediaShowIcon: barModulesRoot.mediaShowIcon
+        property bool mediaShowControls: barModulesRoot.mediaShowControls
         property bool isPreview: true
         property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
@@ -486,6 +516,24 @@ Item {
             barModulesRoot.kbShowIcon = Boolean(bs.kbShowIcon);
         } else {
             barModulesRoot.kbShowIcon = true;
+        }
+
+        if (bs && bs.mediaShowDuration !== undefined) {
+            barModulesRoot.mediaShowDuration = Boolean(bs.mediaShowDuration);
+        } else {
+            barModulesRoot.mediaShowDuration = true;
+        }
+
+        if (bs && bs.mediaShowIcon !== undefined) {
+            barModulesRoot.mediaShowIcon = Boolean(bs.mediaShowIcon);
+        } else {
+            barModulesRoot.mediaShowIcon = true;
+        }
+
+        if (bs && bs.mediaShowControls !== undefined) {
+            barModulesRoot.mediaShowControls = Boolean(bs.mediaShowControls);
+        } else {
+            barModulesRoot.mediaShowControls = true;
         }
 
         if (!barModulesRoot.batShowPercent && !barModulesRoot.batShowIcon) {
@@ -712,6 +760,27 @@ Item {
         barModulesRoot.kbShowIcon = val;
         let current = Config.getSetting("bar", {});
         current.kbShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setMediaShowDuration(val) {
+        barModulesRoot.mediaShowDuration = val;
+        let current = Config.getSetting("bar", {});
+        current.mediaShowDuration = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setMediaShowIcon(val) {
+        barModulesRoot.mediaShowIcon = val;
+        let current = Config.getSetting("bar", {});
+        current.mediaShowIcon = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setMediaShowControls(val) {
+        barModulesRoot.mediaShowControls = val;
+        let current = Config.getSetting("bar", {});
+        current.mediaShowControls = val;
         Config.setSetting("bar", current);
     }
 
@@ -3252,6 +3321,147 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.preferredWidth: 1
                                 visible: kbStylesGrid.columns === 3
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                id: mediaModuleBox
+                Layout.fillWidth: true
+                implicitHeight: mediaCardLayout.implicitHeight + rootObj.s(24)
+                radius: ThemeBackend.borderRadius
+                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
+                border.width: 1
+                clip: true
+
+                ColumnLayout {
+                    id: mediaCardLayout
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: rootObj.s(12)
+                    spacing: rootObj.s(6)
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.bottomMargin: rootObj.s(6)
+                        Layout.leftMargin: rootObj.s(4)
+                        Layout.rightMargin: rootObj.s(4)
+                        spacing: rootObj.s(8)
+
+                        Text {
+                            text: I18n.t("guide.bar.modules.media", "Media")
+                            font.family: ThemeBackend.fontFamily
+                            font.pixelSize: rootObj.s(16)
+                            font.bold: true
+                            color: ThemeBackend.text
+                        }
+                    }
+
+                    Rectangle {
+                        id: mediaPreviewBox
+                        Layout.fillWidth: true
+                        implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 160 : 72)
+                        radius: ThemeBackend.borderRadius
+                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
+                        border.width: 1
+                        clip: true
+
+                        Item {
+                            anchors.fill: parent
+                            enabled: false
+
+                            Loader {
+                                id: mediaFacePreviewLoader
+                                anchors.centerIn: parent
+                                width: item ? item.implicitWidth : 0
+                                height: item ? item.implicitHeight : 0
+                                scale: Math.min(1.0, Math.min((mediaPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (mediaPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
+                                asynchronous: false
+                                source: barModulesRoot.isSideBar
+                                    ? Qt.resolvedUrl("../../bar/faces/media/SideMediaFace.qml")
+                                    : Qt.resolvedUrl("../../bar/faces/media/MediaFace.qml")
+
+                                onLoaded: {
+                                    if (item) {
+                                        item.widget = previewMediaWidgetObj;
+                                        item.width = Qt.binding(function() { return item.implicitWidth; });
+                                        item.height = Qt.binding(function() { return item.implicitHeight; });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    SettingsRow {
+                        rootObj: barModulesRoot.rootObj
+                        settingId: "bar_media_show_duration"
+                        searchKeywords: "media song track duration time position length"
+                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                        icon: "󰥔"
+                        title: I18n.t("guide.bar.media.show_duration.title", "Show duration")
+                        description: I18n.t("guide.bar.media.show_duration.desc", "Display the elapsed and total time of the current song")
+                        visible: !barModulesRoot.isSideBar
+                        searchable: !barModulesRoot.isSideBar
+                        hiddenByConfig: barModulesRoot.isSideBar
+
+                        Toggle {
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: barModulesRoot.mediaShowDuration
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                barModulesRoot.setMediaShowDuration(c);
+                            }
+                        }
+                    }
+
+                    SettingsRow {
+                        rootObj: barModulesRoot.rootObj
+                        settingId: "bar_media_show_icon"
+                        searchKeywords: "media song track icon album art cover thumbnail"
+                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                        icon: "󰎈"
+                        title: I18n.t("guide.bar.media.show_icon.title", "Show icon")
+                        description: I18n.t("guide.bar.media.show_icon.desc", "Display the album art or music icon")
+
+                        Toggle {
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: barModulesRoot.mediaShowIcon
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                barModulesRoot.setMediaShowIcon(c);
+                            }
+                        }
+                    }
+
+                    SettingsRow {
+                        rootObj: barModulesRoot.rootObj
+                        settingId: "bar_media_show_controls"
+                        searchKeywords: "media song track controls buttons play pause previous next"
+                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                        icon: "󰐊"
+                        title: I18n.t("guide.bar.media.show_controls.title", "Show controls")
+                        description: I18n.t("guide.bar.media.show_controls.desc", "Display the previous, play and next buttons")
+
+                        Toggle {
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: barModulesRoot.mediaShowControls
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                barModulesRoot.setMediaShowControls(c);
                             }
                         }
                     }

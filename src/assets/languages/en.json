@@ -529,6 +529,23 @@
           "button": "Interactive button pill with background",
           "text": "Clean text and icon without background"
         }
+      },
+      "media": {
+        "show_duration": {
+          "title": "Show duration",
+          "desc": "Display the elapsed and total time of the current song"
+        },
+        "show_icon": {
+          "title": "Show icon",
+          "desc": "Display the album art or music icon"
+        },
+        "show_controls": {
+          "title": "Show controls",
+          "desc": "Display the previous, play and next buttons"
+        },
+        "preview": {
+          "title": "Song title"
+        }
       }
     },
     "theme": {

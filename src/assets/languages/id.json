@@ -529,6 +529,23 @@
           "button": "Tombol kapsul interaktif dengan latar belakang",
           "text": "Teks dan ikon bersih tanpa latar belakang"
         }
+      },
+      "media": {
+        "show_duration": {
+          "title": "Tampilkan durasi",
+          "desc": "Tampilkan waktu yang telah berlalu dan total durasi lagu saat ini"
+        },
+        "show_icon": {
+          "title": "Tampilkan ikon",
+          "desc": "Tampilkan sampul album atau ikon musik"
+        },
+        "show_controls": {
+          "title": "Tampilkan kontrol",
+          "desc": "Tampilkan tombol sebelumnya, putar, dan berikutnya"
+        },
+        "preview": {
+          "title": "Judul lagu"
+        }
       }
     },
     "theme": {

@@ -529,6 +529,23 @@
           "button": "Arka planlı etkileşimli düğme hapı",
           "text": "Arka plan olmadan sade metin ve simge"
         }
+      },
+      "media": {
+        "show_duration": {
+          "title": "Süreyi göster",
+          "desc": "Geçerli şarkının geçen ve toplam süresini görüntüleyin"
+        },
+        "show_icon": {
+          "title": "Simgeyi göster",
+          "desc": "Albüm kapağını veya müzik simgesini görüntüleyin"
+        },
+        "show_controls": {
+          "title": "Kontrolleri göster",
+          "desc": "Önceki, oynat ve sonraki düğmelerini görüntüleyin"
+        },
+        "preview": {
+          "title": "Şarkı adı"
+        }
       }
     },
     "theme": {
