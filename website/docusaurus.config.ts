@@ -2,6 +2,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const CF_BEACON_TOKEN = 'c2690c3444a34bc4aed5966aa3778e88';
+
 const config: Config = {
   title: 'Serpantinum',
   tagline: 'A wayland shell built for you',
@@ -23,6 +25,14 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  scripts: [
+    {
+      src: 'https://static.cloudflareinsights.com/beacon.min.js',
+      type: 'module',
+      'data-cf-beacon': JSON.stringify({token: CF_BEACON_TOKEN, spa: true}),
+    },
+  ],
 
   headTags: [
     {
