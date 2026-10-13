@@ -108,7 +108,8 @@ export default function SupportedPlatforms(): ReactNode {
     return () => observer.disconnect();
   }, []);
 
-  const handleMouseEnter = () => {
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
     if (hoverTimeoutRef.current !== null) {
       window.clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
@@ -116,10 +117,19 @@ export default function SupportedPlatforms(): ReactNode {
     setIsArchActive(true);
   };
 
-  const handleMouseLeave = () => {
+  const handlePointerLeave = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
     hoverTimeoutRef.current = window.setTimeout(() => {
       setIsArchActive(false);
     }, 320);
+  };
+
+  const toggleArch = () => {
+    if (hoverTimeoutRef.current !== null) {
+      window.clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsArchActive((active) => !active);
   };
 
   return (
@@ -151,8 +161,8 @@ export default function SupportedPlatforms(): ReactNode {
               styles.archGroup,
               isArchActive && styles.archGroupActive,
             )}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
+            onPointerEnter={handlePointerEnter}
+            onPointerLeave={handlePointerLeave}>
             <Link
               to="/installation/arch"
               className={clsx(
@@ -178,7 +188,16 @@ export default function SupportedPlatforms(): ReactNode {
               </div>
             </Link>
 
-            <div className={styles.integratedShelf}>
+            <button
+              type="button"
+              className={styles.shelfToggle}
+              aria-expanded={isArchActive}
+              aria-controls="arch-distro-shelf"
+              onClick={toggleArch}>
+              {isArchActive ? 'Hide distros' : 'Show all distros'}
+            </button>
+
+            <div id="arch-distro-shelf" className={styles.integratedShelf}>
               <div className={styles.shelfCard}>
                 <div className={styles.shelfHeader}>
                   <span className={styles.shelfTitle}>Arch-based distributions</span>
