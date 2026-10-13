@@ -18,6 +18,7 @@ Item {
     readonly property var activeTarget: widget || module
     readonly property bool isCompact: activeTarget ? activeTarget.isCompact : false
     readonly property var barWindow: activeTarget ? activeTarget.barWindow : null
+    readonly property bool isPreview: activeTarget ? Boolean(activeTarget.isPreview) : false
     readonly property bool isRightBar: module ? module.isRightBar : (barWindow ? (barWindow.barPosition === "right") : false)
     readonly property real barOpacity: (activeTarget && activeTarget.barOpacity !== undefined) ? activeTarget.barOpacity : (barWindow && barWindow.barOpacity !== undefined ? barWindow.barOpacity : (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined ? (Config.rawSettings.bar.opacity / 100.0) : 1.0))
 
@@ -94,7 +95,7 @@ Item {
     property real targetHeight: (module && !module.moduleActive) ? 0 : baseHeight
 
     implicitHeight: targetHeight
-    implicitWidth: parent ? parent.width : 0
+    implicitWidth: isPreview ? (barWindow ? barWindow.s(56) : 56) : (parent ? parent.width : 0)
 
     MouseArea {
         id: widgetMouse

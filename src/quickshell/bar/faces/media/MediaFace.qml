@@ -72,7 +72,7 @@ Item {
     }
 
     implicitWidth: targetWidth
-    implicitHeight: parent ? parent.height : 0
+    implicitHeight: isPreview ? (barWindow ? barWindow.s(isCompact ? 40 : 44) : 44) : (parent ? parent.height : 0)
 
     function formatTime(sec) {
         sec = Math.floor(sec || 0);
