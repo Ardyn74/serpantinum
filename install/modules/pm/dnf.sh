@@ -5,6 +5,7 @@ PM_BOOTSTRAP_TOOLS=(fzf jq curl git pciutils unzip fontconfig)
 PM_EXTRA_PKGS=(jetbrains-mono-fonts fontawesome-6-free-fonts xdg-user-dirs xwayland-satellite pipewire-utils)
 PM_SDDM_EXTRA_PKGS=(sddm-wayland-generic)
 PM_SDDM_WAYLAND_DEFAULT=true
+PM_SDDM_CURSOR_FIX=true
 
 declare -A PM_PKG_MAP=(
     [kitty]="kitty"
@@ -243,6 +244,17 @@ pm_disable_display_manager() {
     else
         disable_system_service "$svc" "$init_sys"
     fi
+}
+
+pm_configure_sddm_cursor() {
+    local conf="$1" theme=""
+    if [ -d /usr/share/icons/Adwaita/cursors ]; then
+        theme="Adwaita"
+    else
+        theme="$(find /usr/share/icons -mindepth 2 -maxdepth 2 -type d -name cursors 2>/dev/null | head -n 1 | xargs -r dirname | xargs -r basename)"
+    fi
+    [ -n "$theme" ] || return 0
+    sudo sed -i -e "/^ThemeDir=/a CursorTheme=$theme" -e "/^ThemeDir=/a CursorSize=24" "$conf"
 }
 
 pm_remove_pkg() {
