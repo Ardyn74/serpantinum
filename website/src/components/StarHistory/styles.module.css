@@ -59,7 +59,7 @@
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
   padding: 2rem 2.25rem 2.25rem;
   box-sizing: border-box;
-  
+  backdrop-filter: blur(8px);
 }
 
 @media (max-width: 768px) {
@@ -88,17 +88,7 @@
 
 @media (max-width: 768px) {
   .statGroup {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem 1rem;
-    width: 100%;
-  }
-
-  .githubButton {
-    width: 100%;
-    justify-content: center;
-    min-height: 44px;
-    box-sizing: border-box;
+    gap: 1.5rem;
   }
 }
 
@@ -177,56 +167,31 @@
 .chartContainer {
   position: relative;
   width: 100%;
-  height: 340px;
-  display: grid;
-  grid-template-columns: 50px 1fr;
-  grid-template-rows: 1fr auto;
-  column-gap: 0.25rem;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {
   .chartContainer {
-    height: 280px;
-    grid-template-columns: 38px 1fr;
+    height: 260px;
   }
 }
 
-.yAxis {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  pointer-events: none;
-}
-
-.yLabel {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--ifm-font-color-base);
-  opacity: 0.6;
-  text-align: right;
-  padding-right: 8px;
-  transform: translateY(-50%);
-}
-
-.yLabel:last-child {
-  transform: translateY(-80%);
-}
-
 .plotArea {
-  grid-column: 2;
-  grid-row: 1;
   position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  margin-left: 55px;
+  padding-bottom: 1px;
   border-bottom: 1px solid var(--ifm-color-emphasis-300);
-  touch-action: pan-y;
-  cursor: crosshair;
-  border-radius: 6px 6px 0 0;
 }
 
-.plotArea:focus-visible {
-  outline: 2px solid var(--ifm-color-primary);
-  outline-offset: 4px;
+@media (max-width: 768px) {
+  .plotArea {
+    margin-left: 45px;
+  }
 }
 
 .gridLines {
@@ -241,111 +206,149 @@
 .gridLine {
   width: 100%;
   border-bottom: 1px dashed var(--ifm-color-emphasis-200);
+  position: relative;
 }
 
-.chartSvg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.line {
-  stroke: var(--ifm-color-primary);
-  stroke-width: 2.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-
-.lineVisible {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1600ms cubic-bezier(0.2, 1, 0.3, 1);
-}
-
-.area {
-  opacity: 0;
-}
-
-.areaVisible {
-  opacity: 1;
-  transition: opacity 1200ms ease 400ms;
-}
-
-.cursorLine {
+.yAxis {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 1px;
-  background: var(--ifm-color-primary);
-  opacity: 0.45;
+  left: 0;
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   pointer-events: none;
 }
 
-.cursorDot {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  margin: 0 0 -7px -7px;
-  border-radius: 50%;
-  background: var(--ifm-color-primary);
-  border: 3px solid var(--homepage-card-bg);
+@media (max-width: 768px) {
+  .yAxis {
+    width: 40px;
+  }
+}
+
+.yLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+  opacity: 0.6;
+  text-align: right;
+  padding-right: 8px;
+  transform: translateY(-50%);
+}
+
+.barsTrack {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 0.5rem;
   box-sizing: border-box;
-  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .barsTrack {
+    gap: 4px;
+    padding: 0;
+  }
+}
+
+.barCol {
+  flex: 1;
+  max-width: 46px;
+  min-width: 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.barPillar {
+  width: 100%;
+  border-radius: 4px 4px 1px 1px;
+  background-color: var(--ifm-color-primary);
+  opacity: 0.9;
+  box-shadow: none;
+  transition:
+    height 600ms cubic-bezier(0.2, 1, 0.3, 1),
+    transform 160ms ease,
+    opacity 160ms ease;
+  position: relative;
+}
+
+[data-theme='dark'] .barPillar {
+  background-color: #cba6f7;
+  box-shadow: none;
+}
+
+.barCol:hover .barPillar {
+  transform: scaleY(1.02);
+  opacity: 1;
 }
 
 .tooltip {
   position: absolute;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
   background: var(--ifm-background-surface-color);
   color: var(--ifm-font-color-base);
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.75rem;
   border-radius: 8px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
   white-space: nowrap;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  border: none;
+  opacity: 0;
   pointer-events: none;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
   z-index: 25;
 }
 
-.tooltipDate {
-  font-size: 0.72rem;
-  font-weight: 500;
-  opacity: 0.7;
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--ifm-background-surface-color) transparent transparent transparent;
+}
+
+.barCol:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .xAxis {
-  grid-column: 2;
-  grid-row: 2;
-  position: relative;
-  height: 1.75rem;
-  margin-top: 0.5rem;
+  margin-left: 55px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0.5rem 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .xAxis {
+    margin-left: 45px;
+    padding: 0.5rem 0 0;
+  }
 }
 
 .xLabel {
-  position: absolute;
-  top: 0;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--ifm-font-color-base);
   opacity: 0.7;
-}
-
-.xLabel:last-child {
-  transform: translateX(-100%);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lineVisible,
-  .areaVisible {
-    transition: none;
-  }
 }
