@@ -300,7 +300,7 @@
         "focus": "Focus",
         "sysmon": "System monitor",
         "timedate": {
-          "name": "Time & Date",
+          "name": "Time & date",
           "style": {
             "name": {
               "classic": "Classic",
@@ -379,7 +379,7 @@
       },
       "timedate": {
         "show_date": {
-          "title": "Show Date",
+          "title": "Show date",
           "desc": "Display the date text alongside the clock"
         },
         "style": {
@@ -389,7 +389,7 @@
       },
       "vis": {
         "bars": {
-          "title": "Amount of Bars",
+          "title": "Amount of bars",
           "desc": "Number of frequency bars to display"
         },
         "alignment": {
@@ -404,23 +404,23 @@
           "right": "Right"
         },
         "continuous": {
-          "title": "Continuous Wave",
+          "title": "Continuous wave",
           "desc": "Render a smooth fluid wave instead of discrete bars"
         }
       },
       "sysmon": {
         "style": {
-          "title": "Circle Style",
+          "title": "Circle style",
           "desc": "Visual appearance of the progress rings",
           "wave": "Wave",
           "circle": "Circle"
         },
         "cpu": {
-          "title": "CPU Usage",
+          "title": "CPU usage",
           "desc": "Display processor utilization ring"
         },
         "ram": {
-          "title": "Memory Usage",
+          "title": "Memory usage",
           "desc": "Display memory (RAM) utilization ring"
         },
         "temp": {
@@ -428,21 +428,21 @@
           "desc": "Display system temperature ring"
         },
         "disk": {
-          "title": "Disk Usage",
+          "title": "Disk usage",
           "desc": "Display storage disk utilization ring"
         }
       },
       "bat": {
         "show_percent": {
-          "title": "Show Percentage",
+          "title": "Show percentage",
           "desc": "Display the numeric battery charge percentage"
         },
         "show_icon": {
-          "title": "Show Icon",
+          "title": "Show icon",
           "desc": "Display the battery icon or graphic indicator"
         },
         "style": {
-          "title": "Battery Style",
+          "title": "Battery style",
           "desc": "Choose the visual appearance of the battery indicator",
           "name": {
             "classic": "Classic",
@@ -456,11 +456,11 @@
       },
       "wifi": {
         "show_icon": {
-          "title": "Show Icon",
+          "title": "Show icon",
           "desc": "Display the network icon or signal indicator"
         },
         "show_name": {
-          "title": "Show Name",
+          "title": "Show name",
           "desc": "Display the network SSID or connection status text"
         },
         "style": {
@@ -476,11 +476,11 @@
       },
       "bt": {
         "show_icon": {
-          "title": "Show Icon",
+          "title": "Show icon",
           "desc": "Display the bluetooth status icon"
         },
         "show_name": {
-          "title": "Show Name",
+          "title": "Show name",
           "desc": "Display the connected bluetooth device name"
         },
         "style": {
@@ -496,11 +496,11 @@
       },
       "vol": {
         "show_icon": {
-          "title": "Show Icon",
+          "title": "Show icon",
           "desc": "Display the volume speaker icon"
         },
         "show_percent": {
-          "title": "Show Percentage",
+          "title": "Show percentage",
           "desc": "Display the numeric audio volume percentage"
         },
         "style": {
@@ -516,7 +516,7 @@
       },
       "kb": {
         "show_icon": {
-          "title": "Show Icon",
+          "title": "Show icon",
           "desc": "Display the keyboard layout icon"
         },
         "style": {

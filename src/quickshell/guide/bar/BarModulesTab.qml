@@ -884,7 +884,7 @@ Item {
                         searchKeywords: "pills numbers pacman workspaces style"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰮯"
-                        title: I18n.t("guide.bar.workspaces.style.title", "Workspaces Style")
+                        title: I18n.t("guide.bar.workspaces.style.title", "Workspaces style")
                         description: I18n.t("guide.bar.workspaces.style.desc", "Choose the visual style for workspace indicators")
 
                         bottomContent: GridLayout {
@@ -1135,7 +1135,7 @@ Item {
                         spacing: rootObj.s(8)
 
                         Text {
-                            text: I18n.t("guide.bar.modules.timedate.name", "Time & Date")
+                            text: I18n.t("guide.bar.modules.timedate.name", "Time & date")
                             font.family: ThemeBackend.fontFamily
                             font.pixelSize: rootObj.s(16)
                             font.bold: true
@@ -1147,7 +1147,7 @@ Item {
                         rootObj: barModulesRoot.rootObj
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰃭"
-                        title: I18n.t("guide.bar.timedate.show_date.title", "Show Date")
+                        title: I18n.t("guide.bar.timedate.show_date.title", "Show date")
                         description: I18n.t("guide.bar.timedate.show_date.desc", "Display the date text alongside the clock")
 
                         Toggle {
@@ -1167,7 +1167,7 @@ Item {
                         rootObj: barModulesRoot.rootObj
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰅐"
-                        title: I18n.t("guide.bar.time.title", "Time Format")
+                        title: I18n.t("guide.bar.time.title", "Time format")
                         description: I18n.t("guide.bar.time.desc", "Format pattern (e.g. HH:mm:ss)")
 
                         Input {
@@ -1199,7 +1199,7 @@ Item {
                         searchKeywords: "classic material badge time date clock style"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰥔"
-                        title: I18n.t("guide.bar.timedate.style.title", "Time & Date Style")
+                        title: I18n.t("guide.bar.timedate.style.title", "Time & date style")
                         description: I18n.t("guide.bar.timedate.style.desc", "Choose the visual style for the clock and date display")
 
                         bottomContent: GridLayout {
@@ -1493,7 +1493,7 @@ Item {
                         searchKeywords: "visualizer bars count amount cava"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰝚"
-                        title: I18n.t("guide.bar.vis.bars.title", "Amount of Bars")
+                        title: I18n.t("guide.bar.vis.bars.title", "Amount of bars")
                         description: I18n.t("guide.bar.vis.bars.desc", "Number of frequency bars to display")
 
                         NumberSelector {
@@ -1589,7 +1589,7 @@ Item {
                         searchKeywords: "visualizer continuous wave smooth fluid"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰓃"
-                        title: I18n.t("guide.bar.vis.continuous.title", "Continuous Wave")
+                        title: I18n.t("guide.bar.vis.continuous.title", "Continuous wave")
                         description: I18n.t("guide.bar.vis.continuous.desc", "Render a smooth fluid wave instead of discrete bars")
 
                         Toggle {
@@ -1633,7 +1633,7 @@ Item {
                         spacing: rootObj.s(8)
 
                         Text {
-                            text: I18n.t("guide.bar.modules.sysmon", "System Monitor")
+                            text: I18n.t("guide.bar.modules.sysmon", "System monitor")
                             font.family: ThemeBackend.fontFamily
                             font.pixelSize: rootObj.s(16)
                             font.bold: true
@@ -1692,7 +1692,7 @@ Item {
                         searchKeywords: "sysmon system monitor circle style wave ring"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󱐋"
-                        title: I18n.t("guide.bar.sysmon.style.title", "Circle Style")
+                        title: I18n.t("guide.bar.sysmon.style.title", "Circle style")
                         description: I18n.t("guide.bar.sysmon.style.desc", "Visual appearance of the progress rings")
 
                         Switch {
@@ -1722,7 +1722,7 @@ Item {
                         searchKeywords: "sysmon cpu processor load usage"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰍛"
-                        title: I18n.t("guide.bar.sysmon.cpu.title", "CPU Usage")
+                        title: I18n.t("guide.bar.sysmon.cpu.title", "CPU usage")
                         description: I18n.t("guide.bar.sysmon.cpu.desc", "Display processor utilization ring")
 
                         Toggle {
@@ -1744,7 +1744,7 @@ Item {
                         searchKeywords: "sysmon ram memory usage"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰘚"
-                        title: I18n.t("guide.bar.sysmon.ram.title", "Memory Usage")
+                        title: I18n.t("guide.bar.sysmon.ram.title", "Memory usage")
                         description: I18n.t("guide.bar.sysmon.ram.desc", "Display memory (RAM) utilization ring")
 
                         Toggle {
@@ -1788,7 +1788,7 @@ Item {
                         searchKeywords: "sysmon disk storage usage space drive"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰋊"
-                        title: I18n.t("guide.bar.sysmon.disk.title", "Disk Usage")
+                        title: I18n.t("guide.bar.sysmon.disk.title", "Disk usage")
                         description: I18n.t("guide.bar.sysmon.disk.desc", "Display storage disk utilization ring")
 
                         Toggle {
@@ -1883,7 +1883,7 @@ Item {
                         searchKeywords: "battery charge percentage percent number"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰚥"
-                        title: I18n.t("guide.bar.bat.show_percent.title", "Show Percentage")
+                        title: I18n.t("guide.bar.bat.show_percent.title", "Show percentage")
                         description: I18n.t("guide.bar.bat.show_percent.desc", "Display the numeric battery charge percentage")
                         visible: !barModulesRoot.isSideBar
                         searchable: !barModulesRoot.isSideBar
@@ -1909,7 +1909,7 @@ Item {
                         searchKeywords: "battery icon symbol indicator"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰁹"
-                        title: I18n.t("guide.bar.bat.show_icon.title", "Show Icon")
+                        title: I18n.t("guide.bar.bat.show_icon.title", "Show icon")
                         description: I18n.t("guide.bar.bat.show_icon.desc", "Display the battery icon or graphic indicator")
 
                         Toggle {
@@ -1933,7 +1933,7 @@ Item {
                         searchKeywords: "battery style look visual classic minimal text ios android capsule"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰂄"
-                        title: I18n.t("guide.bar.bat.style.title", "Battery Style")
+                        title: I18n.t("guide.bar.bat.style.title", "Battery style")
                         description: I18n.t("guide.bar.bat.style.desc", "Choose the visual appearance of the battery indicator")
 
                         bottomContent: GridLayout {
@@ -2180,7 +2180,7 @@ Item {
                         searchKeywords: "network wifi ethernet icon symbol indicator"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰤨"
-                        title: I18n.t("guide.bar.wifi.show_icon.title", "Show Icon")
+                        title: I18n.t("guide.bar.wifi.show_icon.title", "Show icon")
                         description: I18n.t("guide.bar.wifi.show_icon.desc", "Display the network icon or signal indicator")
 
                         Toggle {
@@ -2203,7 +2203,7 @@ Item {
                         searchKeywords: "network wifi ethernet ssid name title"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰤥"
-                        title: I18n.t("guide.bar.wifi.show_name.title", "Show Name")
+                        title: I18n.t("guide.bar.wifi.show_name.title", "Show name")
                         description: I18n.t("guide.bar.wifi.show_name.desc", "Display the network SSID or connection status text")
 
                         Toggle {
@@ -2474,7 +2474,7 @@ Item {
                         searchKeywords: "bluetooth icon symbol indicator"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰂲"
-                        title: I18n.t("guide.bar.bt.show_icon.title", "Show Icon")
+                        title: I18n.t("guide.bar.bt.show_icon.title", "Show icon")
                         description: I18n.t("guide.bar.bt.show_icon.desc", "Display the bluetooth status icon")
 
                         Toggle {
@@ -2497,7 +2497,7 @@ Item {
                         searchKeywords: "bluetooth device name title connected"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰂯"
-                        title: I18n.t("guide.bar.bt.show_name.title", "Show Name")
+                        title: I18n.t("guide.bar.bt.show_name.title", "Show name")
                         description: I18n.t("guide.bar.bt.show_name.desc", "Display the connected bluetooth device name")
 
                         Toggle {
@@ -2768,7 +2768,7 @@ Item {
                         searchKeywords: "volume audio sound icon symbol indicator"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰕾"
-                        title: I18n.t("guide.bar.vol.show_icon.title", "Show Icon")
+                        title: I18n.t("guide.bar.vol.show_icon.title", "Show icon")
                         description: I18n.t("guide.bar.vol.show_icon.desc", "Display the volume speaker icon")
 
                         Toggle {
@@ -2791,7 +2791,7 @@ Item {
                         searchKeywords: "volume percentage percent level audio sound"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰚥"
-                        title: I18n.t("guide.bar.vol.show_percent.title", "Show Percentage")
+                        title: I18n.t("guide.bar.vol.show_percent.title", "Show percentage")
                         description: I18n.t("guide.bar.vol.show_percent.desc", "Display the numeric audio volume percentage")
 
                         Toggle {
@@ -3062,7 +3062,7 @@ Item {
                         searchKeywords: "keyboard layout icon symbol indicator"
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰌌"
-                        title: I18n.t("guide.bar.kb.show_icon.title", "Show Icon")
+                        title: I18n.t("guide.bar.kb.show_icon.title", "Show icon")
                         description: I18n.t("guide.bar.kb.show_icon.desc", "Display the keyboard layout icon")
                         visible: !barModulesRoot.isSideBar
                         searchable: !barModulesRoot.isSideBar

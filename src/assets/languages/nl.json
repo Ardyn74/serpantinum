@@ -300,7 +300,7 @@
         "focus": "Focus",
         "sysmon": "Systeemmonitor",
         "timedate": {
-          "name": "Tijd & Datum",
+          "name": "Tijd & datum",
           "style": {
             "name": {
               "classic": "Klassiek",
