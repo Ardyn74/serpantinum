@@ -84,6 +84,7 @@ const config: Config = {
         docsRouteBasePath: '/',
         docsDir: '../docs',
         indexBlog: false,
+        searchBarShortcutHint: false,
         highlightSearchTermsOnTargetPage: true,
         explicitSearchResultPath: true,
       },
@@ -125,26 +126,19 @@ const config: Config = {
       },
       items: [
         {
-          type: 'search',
-          position: 'right',
-        },
-        {
           to: '/overview',
           label: 'Documentation',
-          position: 'right',
+          position: 'left',
         },
         {
           href: 'https://github.com/ilyamiro/serpantinum/blob/master/CHANGELOG.md',
           label: 'Changelog',
-          position: 'right',
+          position: 'left',
           className: 'navbar-changelog-link',
         },
         {
-          href: 'https://ko-fi.com/ilyamiro',
-          label: 'Support',
+          type: 'search',
           position: 'right',
-          className: 'navbar-kofi-link',
-          'aria-label': 'Support the creator on Ko-fi',
         },
         {
           href: 'https://github.com/ilyamiro/serpantinum',
@@ -152,6 +146,13 @@ const config: Config = {
           position: 'right',
           className: 'navbar-github-link',
           'aria-label': 'GitHub repository',
+        },
+        {
+          href: 'https://ko-fi.com/ilyamiro',
+          label: 'Support',
+          position: 'right',
+          className: 'navbar-kofi-link',
+          'aria-label': 'Support the creator on Ko-fi',
         },
       ],
     },
