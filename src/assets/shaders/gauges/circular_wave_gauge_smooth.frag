@@ -37,15 +37,25 @@ void main() {
     vec2 d = p - center;
     float dist = length(d);
 
-    float strokeW = strokeWidth > 0.0 ? strokeWidth : 2.2;
+    float outer = min(center.x, center.y) - 1.0;
+    if (outer <= 0.0) {
+        fragColor = vec4(0.0);
+        return;
+    }
+
+    float strokeW = min(strokeWidth > 0.0 ? strokeWidth : 2.2, outer * 0.6);
     float amp = (useSineWave > 0.5) ? (params.x > 0.0 ? params.x : strokeW * 0.35) : 0.0;
-    float radius = params.y > 0.0 ? params.y : min(center.x, center.y) - amp - strokeW * 0.5 - 1.0;
+    amp = min(amp, strokeW * 0.5);
+    float radius = params.y > 0.0 ? params.y : outer - amp - strokeW * 0.5;
     if (radius <= 0.0) {
         fragColor = vec4(0.0);
         return;
     }
 
-    float cycles = params.z > 0.0 ? params.z : max(6.0, floor(2.0 * PI * radius / (strokeW * 3.6) + 0.5));
+    float cycles = params.z > 0.0 ? params.z : max(3.0, floor(2.0 * PI * radius / (strokeW * 3.6) + 0.5));
+    if (amp > 0.0) {
+        amp = min(amp, 0.5 * radius / cycles);
+    }
 
     float theta = atan(d.y, d.x) + PI * 0.5;
     if (theta < 0.0) theta += 2.0 * PI;
