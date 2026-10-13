@@ -125,6 +125,17 @@ install_wallpapers() {
     fi
 }
 
+configure_sddm_cursor() {
+    local conf="$1" theme=""
+    if [ -d /usr/share/icons/Adwaita/cursors ]; then
+        theme="Adwaita"
+    else
+        theme="$(find /usr/share/icons -mindepth 2 -maxdepth 2 -type d -name cursors 2>/dev/null | head -n 1 | xargs -r dirname | xargs -r basename)"
+    fi
+    [ -n "$theme" ] || return 0
+    sudo sed -i -e "/^ThemeDir=/a CursorTheme=$theme" -e "/^ThemeDir=/a CursorSize=24" "$conf"
+}
+
 setup_sddm() {
     local project_root="$1"
     local install_state="${2:-$INSTALL_STATE}"
@@ -209,9 +220,7 @@ InputMethod=
 EOF
     fi
 
-    if [ "$PM_SDDM_CURSOR_FIX" = true ]; then
-        pm_configure_sddm_cursor /etc/sddm.conf.d/10-material-you.conf
-    fi
+    configure_sddm_cursor /etc/sddm.conf.d/10-material-you.conf
 
     if declare -f pm_enable_display_manager >/dev/null; then
         pm_enable_display_manager "sddm" "$init_sys"
