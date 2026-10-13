@@ -1,5 +1,7 @@
 ### 2.2.9
 
+- fix(install): install adwaita cursor theme for the fedora sddm greeter
+- docs: add Fedora to the site and split installation and NixOS pages
 - chore: ignore python cache directories
 - perf(theme): build theme tiles progressively on first open
 - perf(theme): scan fonts with a single fc-scan call
