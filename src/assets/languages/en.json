@@ -1289,7 +1289,8 @@
       "materialAnalog": "Material Analog",
       "lumen": "Lumen",
       "lyrics": "Lyrics",
-      "simpleLyrics": "Simple Lyrics"
+      "simpleLyrics": "Simple Lyrics",
+      "circle": "Circle"
     },
     "presets": {
       "minimal": {
@@ -1315,12 +1316,18 @@
     },
     "settings": {
       "lyricsLines": "Lines",
-      "lyricsAlignment": "Alignment"
+      "lyricsAlignment": "Alignment",
+      "usageStyle": "Style",
+      "lineThickness": "Thickness"
     },
     "align": {
       "left": "Left",
       "center": "Center",
       "right": "Right"
+    },
+    "style": {
+      "wave": "Wave",
+      "circle": "Circle"
     }
   },
   "cli": {
