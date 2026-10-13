@@ -19,7 +19,13 @@ else
 fi
 
 if [[ -z "$PROJECT_ROOT" || ! -f "$PROJECT_ROOT/install/modules/deps.sh" || ! -d "$PROJECT_ROOT/src" ]]; then
-    command -v git &>/dev/null || sudo pacman -Sy --noconfirm --needed git
+    if ! command -v git &>/dev/null; then
+        if command -v pacman &>/dev/null; then
+            sudo pacman -Sy --noconfirm --needed git
+        elif command -v dnf &>/dev/null; then
+            sudo dnf install -y git
+        fi
+    fi
     if [ ! -d "$CACHE_BASE/.git" ]; then
         rm -rf "$CACHE_BASE"
         mkdir -p "$CACHE_BASE"

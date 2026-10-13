@@ -5,6 +5,8 @@ PM_MODULES_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/pm"
 detect_package_manager() {
     if command -v pacman &>/dev/null; then
         echo "pacman"
+    elif command -v dnf &>/dev/null; then
+        echo "dnf"
     fi
 }
 

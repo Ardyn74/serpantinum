@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+PM_BOOTSTRAP_TOOLS=(fzf jq curl git pciutils unzip fontconfig base-devel)
+
 pm_prepare_repos() {
     if [ -f /etc/pacman.conf ]; then
         if grep -q "^#\[multilib\]" /etc/pacman.conf; then
@@ -25,6 +27,7 @@ pm_bootstrap_helper() {
 }
 
 pm_full_upgrade() {
+    echo -e "\n\e[36m[ INFO ]\e[0m $(t "installer.deps.syncing")"
     sudo pacman -Syyu --noconfirm
 }
 

@@ -2,6 +2,7 @@
 
 SUPPORTED_DISTROS=(
     "arch"
+    "fedora"
     "endeavouros"
     "manjaro"
     "cachyos"
@@ -93,7 +94,7 @@ bootstrap_installer_deps() {
     pm_prepare_repos
 
     local missing=()
-    for tool in fzf jq curl git pciutils unzip fontconfig base-devel; do
+    for tool in "${PM_BOOTSTRAP_TOOLS[@]}"; do
         if ! command -v "$tool" &>/dev/null; then
             missing+=("$tool")
         fi
@@ -182,7 +183,6 @@ install_dependencies() {
     fi
 
     if [[ ("$install_state" == "fresh" || "$install_state" == "legacy") && "$is_reinstall" != "true" ]]; then
-        echo -e "\n\e[36m[ INFO ]\e[0m $(t "installer.deps.syncing")"
         pm_full_upgrade
     fi
 
