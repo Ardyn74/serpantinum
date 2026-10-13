@@ -573,7 +573,13 @@
 }
 
 @media (max-width: 996px) {
-  .navbar-changelog-link {
+  .navbar__item.navbar-changelog-link,
+  .menu__link.navbar-changelog-link,
+  .navbar-sidebar .menu__list-item:has(> .navbar-changelog-link) {
+    display: none;
+  }
+
+  .navbar__title {
     display: none;
   }
 
@@ -597,9 +603,5 @@
 @media (max-width: 380px) {
   .navbar {
     padding: 0.25rem 0.5rem;
-  }
-
-  .navbar__title {
-    display: none;
   }
 }
