@@ -825,27 +825,39 @@
     color: transparent;
   }
 
-  .navbar__search-input:focus {
+  .navbar__search:focus-within {
     position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    right: 0.75rem;
-    width: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    background-color: var(--ifm-navbar-background-color);
+    z-index: 5;
+  }
+
+  .navbar__search:focus-within .algolia-autocomplete {
+    display: block !important;
+    width: 100%;
+  }
+
+  .navbar__search-input:focus {
+    width: 100%;
+    padding-left: 2.25rem;
+    padding-right: 0.75rem;
+  }
+
+  .navbar__search:focus-within [class*='searchIcon'] {
+    left: 1.5rem;
     transform: translateY(-50%);
-    z-index: 2;
-    background-color: var(--ifm-background-surface-color);
-    box-shadow: 0 0 0 1px var(--ifm-color-emphasis-300);
+    z-index: 3;
   }
 
   .navbar__search [class*='searchIcon'] {
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-
-  .navbar__search-input:focus ~ [class*='searchIcon'] {
-    left: 1.5rem;
-    transform: translateY(-50%);
-    z-index: 3;
   }
 
   .navbar__search [class*='dropdownMenu'] {
