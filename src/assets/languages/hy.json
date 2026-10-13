@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Ապազուգակցել",
-      "scan": "Որոնել"
+      "scan": "Որոնել",
+      "sign_in": "Մուտք գործել"
     }
   },
   "notifications": {

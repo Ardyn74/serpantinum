@@ -985,7 +985,8 @@
     },
     "actions": {
       "unpair": "Забути",
-      "scan": "Сканувати"
+      "scan": "Сканувати",
+      "sign_in": "Увійти"
     }
   },
   "notifications": {

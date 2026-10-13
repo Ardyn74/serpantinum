@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Dissocier",
-      "scan": "Analyser"
+      "scan": "Analyser",
+      "sign_in": "Se connecter"
     }
   },
   "notifications": {

@@ -1006,7 +1006,8 @@
     },
     "actions": {
       "unpair": "Desvincular",
-      "scan": "Escanear"
+      "scan": "Escanear",
+      "sign_in": "Iniciar sesión"
     }
   },
   "notifications": {

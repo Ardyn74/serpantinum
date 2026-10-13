@@ -131,7 +131,8 @@
     },
     "actions": {
       "unpair": "Rozparuj",
-      "scan": "Skanuj"
+      "scan": "Skanuj",
+      "sign_in": "Zaloguj się"
     }
   },
   "notifications": {

@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Eşleşmeyi kaldır",
-      "scan": "Tara"
+      "scan": "Tara",
+      "sign_in": "Oturum aç"
     }
   },
   "notifications": {

@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "取消配對",
-      "scan": "掃描"
+      "scan": "掃描",
+      "sign_in": "登入"
     }
   },
   "notifications": {

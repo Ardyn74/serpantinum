@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "取消配对",
-      "scan": "扫描"
+      "scan": "扫描",
+      "sign_in": "登录"
     }
   },
   "notifications": {

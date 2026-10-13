@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "페어링 해제",
-      "scan": "검색"
+      "scan": "검색",
+      "sign_in": "로그인"
     }
   },
   "notifications": {

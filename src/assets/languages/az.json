@@ -956,7 +956,8 @@
     },
     "actions": {
       "unpair": "Cütləşdirməni ləğv et",
-      "scan": "Axtar"
+      "scan": "Axtar",
+      "sign_in": "Daxil ol"
     }
   },
   "notifications": {

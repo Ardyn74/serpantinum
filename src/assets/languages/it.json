@@ -961,7 +961,8 @@
     },
     "actions": {
       "unpair": "Scollega",
-      "scan": "Scansiona"
+      "scan": "Scansiona",
+      "sign_in": "Accedi"
     }
   },
   "notifications": {

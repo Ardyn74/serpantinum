@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Ontkoppelen",
-      "scan": "Scannen"
+      "scan": "Scannen",
+      "sign_in": "Inloggen"
     }
   },
   "notifications": {

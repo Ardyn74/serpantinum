@@ -128,7 +128,8 @@
     },
     "actions": {
       "unpair": "ペアリング解除",
-      "scan": "スキャン"
+      "scan": "スキャン",
+      "sign_in": "サインイン"
     }
   },
   "notifications": {

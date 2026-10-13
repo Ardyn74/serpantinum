@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Hủy ghép nối",
-      "scan": "Quét"
+      "scan": "Quét",
+      "sign_in": "Đăng nhập"
     }
   },
   "notifications": {

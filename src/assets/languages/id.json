@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Putuskan pasangan",
-      "scan": "Pindai"
+      "scan": "Pindai",
+      "sign_in": "Masuk"
     }
   },
   "notifications": {

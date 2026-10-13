@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "Desemparelhar",
-      "scan": "Escanear"
+      "scan": "Escanear",
+      "sign_in": "Iniciar sessão"
     }
   },
   "notifications": {

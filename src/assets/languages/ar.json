@@ -1131,7 +1131,8 @@
   "network": {
     "actions": {
       "scan": "بحث",
-      "unpair": "إلغاء الاقتران"
+      "unpair": "إلغاء الاقتران",
+      "sign_in": "تسجيل الدخول"
     },
     "status": {
       "calculating": "جارٍ الحساب...",

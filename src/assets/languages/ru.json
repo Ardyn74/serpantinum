@@ -1006,7 +1006,8 @@
     },
     "actions": {
       "unpair": "Забыть",
-      "scan": "Сканировать"
+      "scan": "Сканировать",
+      "sign_in": "Войти"
     }
   },
   "notifications": {

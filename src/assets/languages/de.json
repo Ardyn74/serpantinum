@@ -1006,7 +1006,8 @@
     },
     "actions": {
       "unpair": "Entkoppeln",
-      "scan": "Suchen"
+      "scan": "Suchen",
+      "sign_in": "Anmelden"
     }
   },
   "notifications": {

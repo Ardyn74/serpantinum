@@ -962,7 +962,8 @@
     },
     "actions": {
       "unpair": "لغو جفت‌سازی",
-      "scan": "پویش"
+      "scan": "پویش",
+      "sign_in": "ورود"
     }
   },
   "notifications": {
