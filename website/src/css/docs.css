@@ -255,3 +255,26 @@
     background-color: var(--docs-surface);
   }
 }
+
+.navbar__search-input {
+  height: 36px;
+  border-radius: 9px;
+  background-color: rgba(124, 68, 158, 0.07);
+  color: var(--ifm-font-color-base);
+  border: none;
+}
+
+[data-theme='dark'] .navbar__search-input {
+  background-color: rgba(203, 166, 247, 0.08);
+}
+
+.navbar__search-input:focus {
+  outline: 2px solid var(--ifm-color-primary);
+}
+
+@media (max-width: 996px) {
+  .navbar__search-input {
+    height: 40px;
+    min-width: 40px;
+  }
+}
