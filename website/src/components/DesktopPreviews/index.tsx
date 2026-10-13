@@ -4,6 +4,7 @@ import {
   useCallback,
   useRef,
   type ReactNode,
+  type KeyboardEvent as ReactKeyboardEvent,
   type MouseEvent as ReactMouseEvent,
   type TouchEvent as ReactTouchEvent,
   type WheelEvent as ReactWheelEvent,
@@ -46,6 +47,8 @@ export default function DesktopPreviews(): ReactNode {
   ];
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pausedRef = useRef(false);
+  const reducedMotionRef = useRef(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
@@ -90,8 +93,14 @@ export default function DesktopPreviews(): ReactNode {
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
+    if (reducedMotionRef.current) {
+      timerRef.current = null;
+      return;
+    }
     timerRef.current = setInterval(() => {
-      handleNext();
+      if (!pausedRef.current) {
+        handleNext();
+      }
     }, SLIDE_DURATION_MS);
   }, [handleNext]);
 
@@ -114,6 +123,9 @@ export default function DesktopPreviews(): ReactNode {
   );
 
   useEffect(() => {
+    reducedMotionRef.current = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
     resetTimer();
     return () => {
       if (timerRef.current) {
@@ -122,23 +134,23 @@ export default function DesktopPreviews(): ReactNode {
     };
   }, [resetTimer]);
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
-        handleManualPrev();
-      } else if (e.key === 'ArrowRight') {
-        handleManualNext();
-      }
-    },
-    [handleManualPrev, handleManualNext],
-  );
+  const handleKeyDown = (e: ReactKeyboardEvent<HTMLElement>) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      handleManualPrev();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      handleManualNext();
+    }
+  };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
+  const pause = () => {
+    pausedRef.current = true;
+  };
+
+  const resume = () => {
+    pausedRef.current = false;
+  };
 
   const handleMouseDown = (e: ReactMouseEvent<HTMLDivElement>) => {
     if (e.button !== 0) return;
@@ -179,11 +191,13 @@ export default function DesktopPreviews(): ReactNode {
   }, [handleManualNext, handleManualPrev]);
 
   const handleTouchStart = (e: ReactTouchEvent<HTMLDivElement>) => {
+    pause();
     touchStartXRef.current = e.touches[0].clientX;
     touchStartYRef.current = e.touches[0].clientY;
   };
 
   const handleTouchEnd = (e: ReactTouchEvent<HTMLDivElement>) => {
+    resume();
     if (touchStartXRef.current === null) return;
     const endX = e.changedTouches[0].clientX;
     const endY = e.changedTouches[0].clientY;
@@ -216,7 +230,14 @@ export default function DesktopPreviews(): ReactNode {
     <section
       ref={sectionRef}
       className={styles.previewSection}
-      aria-label="Desktop Showcases">
+      aria-roledescription="carousel"
+      aria-label="Desktop Showcases"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+      onFocus={pause}
+      onBlur={resume}>
       <div className={styles.carouselContainer}>
         <button
           type="button"
@@ -247,7 +268,7 @@ export default function DesktopPreviews(): ReactNode {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onWheel={handleWheel}>
-          <div className={styles.slidesStage}>
+          <div className={styles.slidesStage} aria-live="off">
             {previewItems.map((item, index) => {
               const isActive = index === currentIndex;
               const isExiting = index === prevIndex;
@@ -259,7 +280,13 @@ export default function DesktopPreviews(): ReactNode {
               }
 
               return (
-                <div key={item.id} className={slideClass} aria-hidden={!isActive}>
+                <div
+                  key={item.id}
+                  className={slideClass}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${previewItems.length}`}
+                  aria-hidden={!isActive}>
                   <img
                     src={shouldLoad(index) ? item.src : undefined}
                     onLoad={markLoaded}
@@ -308,7 +335,9 @@ export default function DesktopPreviews(): ReactNode {
             }`}
             onClick={() => goToSlide(index)}
             aria-label={`Go to preview ${index + 1}`}
-          />
+            aria-current={index === currentIndex}>
+            <span className={styles.dotMark} />
+          </button>
         ))}
       </div>
     </section>

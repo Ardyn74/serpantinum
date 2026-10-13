@@ -185,21 +185,39 @@
 }
 
 @media (max-width: 768px) {
+  .previewSection {
+    padding: 0 0.75rem;
+    margin-bottom: 3rem;
+  }
+
   .carouselContainer {
-    gap: 0.75rem;
+    gap: 0;
   }
 
   .navButton {
-    width: 40px;
-    height: 40px;
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+    background: rgba(24, 24, 37, 0.55);
+    color: #ffffff;
+    backdrop-filter: none;
+    box-shadow: none;
   }
 
-  .navButtonPrevHidden {
-    transform: translate3d(calc(100% + 0.75rem), 0, 0) scale(0.65);
+  .navButton:first-of-type {
+    left: 0.5rem;
   }
 
-  .navButtonNextHidden {
-    transform: translate3d(calc(-100% - 0.75rem), 0, 0) scale(0.65);
+  .navButton:last-of-type {
+    right: 0.5rem;
+  }
+
+  .navButtonPrevVisible:hover,
+  .navButtonNextVisible:hover {
+    transform: none;
   }
 }
 
@@ -207,29 +225,56 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.6rem;
-  margin-top: 1.25rem;
+  gap: 0.1rem;
+  margin-top: 0.75rem;
   position: relative;
   z-index: 2;
 }
 
 .dot {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dotMark {
+  display: block;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: none;
   background-color: var(--ifm-color-emphasis-300);
-  cursor: pointer;
-  padding: 0;
   transition:
     background-color 200ms ease,
-    transform 200ms ease,
     width 200ms ease;
 }
 
-.dotActive {
+.dotActive .dotMark {
   background-color: var(--ifm-color-primary);
-  width: 26px;
+  width: 22px;
   border-radius: 6px;
-  transform: scale(1.05);
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 0;
+  border-radius: 8px;
+}
+
+.previewSection:focus-visible {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition-duration: 1ms;
+    filter: none;
+    transform: none;
+  }
 }
