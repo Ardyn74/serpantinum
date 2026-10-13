@@ -402,8 +402,8 @@ QtObject {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Scaler.s(16)
                         Layout.alignment: Qt.AlignVCenter
-                        from: 1
-                        to: 20
+                        from: 3
+                        to: 16
                         stepSize: 0.5
                         defaultValue: 8
                         backgroundColor: ThemeBackend.surface1
@@ -459,8 +459,8 @@ QtObject {
             row: "top",
             variants: ["circle"],
             property: "lineThickness",
-            from: 1,
-            to: 20,
+            from: 3,
+            to: 16,
             stepSize: 0.5,
             accentColor: "surface0",
             textColor: "mauve",

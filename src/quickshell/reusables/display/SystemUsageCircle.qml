@@ -28,7 +28,8 @@ Item {
     property color iconColor: ThemeBackend.subtext0
 
     readonly property real diameter: Math.min(width, height)
-    readonly property real strokePx: s(Math.max(1, root.lineThickness))
+    readonly property real referenceDiameter: s(130)
+    readonly property real strokePx: root.diameter * Math.max(3, Math.min(16, root.lineThickness)) / root.referenceDiameter
     readonly property real fillRatio: Math.max(0.0, Math.min(1.0, isNaN(value) ? 0.0 : value))
     readonly property bool showTitle: root.title !== "" && root.diameter >= s(96)
     readonly property bool showIcon: root.icon !== "" && root.diameter >= s(72)
