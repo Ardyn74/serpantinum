@@ -9,7 +9,7 @@ slug: /installation/nixos/home-manager
 
 The Home Manager module manages the user configuration and the systemd service. It requires the [flake input](/installation/nixos) from the previous page.
 
-:::note Same options as settings.json
+:::note[Same options as settings.json]
 The `settings` attribute set mirrors `settings.json` one to one: every section and key described in [Variables](/configure) is available under `programs.serpantinum.settings` with the same name and structure. Only the syntax changes, since you write Nix attributes instead of JSON. Keys that are not declared in the module are passed through to `settings.json` unchanged.
 :::
 
