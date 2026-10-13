@@ -559,7 +559,6 @@ Item {
         barModulesRoot.workspacesStyle = styleName;
         let current = Config.getSetting("bar", {});
         current.workspacesStyle = styleName;
-        if (current.sideWorkspacesStyle !== undefined) delete current.sideWorkspacesStyle;
         Config.setSetting("bar", current);
     }
 
@@ -567,7 +566,6 @@ Item {
         barModulesRoot.workspaceCount = count;
         let current = Config.getSetting("bar", {});
         current.workspaceCount = count;
-        if (current.sideWorkspaceCount !== undefined) delete current.sideWorkspaceCount;
         Config.setSetting("bar", current);
     }
 
@@ -575,7 +573,6 @@ Item {
         barModulesRoot.hideEmptyWorkspaces = val;
         let current = Config.getSetting("bar", {});
         current.hideEmptyWorkspaces = val;
-        if (current.sideHideEmptyWorkspaces !== undefined) delete current.sideHideEmptyWorkspaces;
         Config.setSetting("bar", current);
     }
 
@@ -583,7 +580,6 @@ Item {
         barModulesRoot.timeStyle = styleName;
         let current = Config.getSetting("bar", {});
         current.timeStyle = styleName;
-        if (current.sideTimeStyle !== undefined) delete current.sideTimeStyle;
         Config.setSetting("bar", current);
     }
 
@@ -592,7 +588,6 @@ Item {
         let current = Config.getSetting("bar", {});
         current.timeShowDate = show;
         if (current.showDate !== undefined) delete current.showDate;
-        if (current.sideTimeShowDate !== undefined) delete current.sideTimeShowDate;
         Config.setSetting("bar", current);
     }
 
@@ -601,7 +596,6 @@ Item {
         let current = Config.getSetting("bar", {});
         if (!current.time) current.time = {};
         current.time.format = fmt;
-        if (current.sideTime !== undefined) delete current.sideTime;
         Config.setSetting("bar", current);
     }
 
