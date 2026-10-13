@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import DesktopPreviews from '@site/src/components/DesktopPreviews';
 import SupportedPlatforms from '@site/src/components/SupportedPlatforms';
 import StarHistory from '@site/src/components/StarHistory';
@@ -47,8 +48,12 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={siteConfig.title}
+      description="Serpantinum is a customizable Wayland desktop shell for Hyprland, Sway and Niri, built for you.">
+      <Head>
+        <title>Serpantinum - a desktop shell built for YOU</title>
+        <meta property="og:title" content="Serpantinum - a desktop shell built for YOU" />
+      </Head>
       <div className={styles.pageWrapper}>
         <FluidBackground />
         <HomepageHeader />

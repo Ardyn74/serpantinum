@@ -7,7 +7,7 @@ const CF_BEACON_TOKEN = 'c2690c3444a34bc4aed5966aa3778e88';
 const config: Config = {
   title: 'Serpantinum',
   tagline: 'A wayland shell built for you',
-  favicon: 'img/logo.svg',
+  favicon: 'favicon.ico',
 
   future: {
     v4: true,
@@ -35,6 +35,18 @@ const config: Config = {
   ],
 
   headTags: [
+    {
+      tagName: 'link',
+      attributes: {rel: 'icon', href: '/favicon-48.png', type: 'image/png', sizes: '48x48'},
+    },
+    {
+      tagName: 'link',
+      attributes: {rel: 'icon', href: '/favicon-192.png', type: 'image/png', sizes: '192x192'},
+    },
+    {
+      tagName: 'link',
+      attributes: {rel: 'apple-touch-icon', href: '/apple-touch-icon.png'},
+    },
     {
       tagName: 'link',
       attributes: {
