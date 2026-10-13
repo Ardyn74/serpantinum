@@ -88,11 +88,6 @@ const config: Config = {
       },
       items: [
         {
-          to: '/getting-started',
-          position: 'left',
-          label: 'Getting started',
-        },
-        {
           href: 'https://github.com/ilyamiro/serpantinum/blob/master/CHANGELOG.md',
           label: 'Changelog',
           position: 'left',
