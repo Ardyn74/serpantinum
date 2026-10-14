@@ -564,8 +564,6 @@ PanelWindow {
         }
     }
 
-    // Lets "1,5" mean 1.5, while the comma right inside pow(...) still separates its two arguments.
-    // Returns null for any other comma, since JS would read it as the comma operator.
     function normalizeDecimalCommas(expr) {
         let out = "";
         let parens = [];
@@ -578,7 +576,6 @@ PanelWindow {
             } else if (ch === ",") {
                 let top = parens.length > 0 ? parens[parens.length - 1] : null;
                 if (top && top.isPow) {
-                    // pow(1,5,2) is ambiguous, and JS would silently drop the third argument.
                     if (++top.commas > 1) return null;
                     out += ch;
                     continue;
