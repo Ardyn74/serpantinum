@@ -75,11 +75,8 @@
     },
     "fingerprint": {
       "ready": "Dotknij czujnika",
-      "hold_longer": "Przytrzymaj palec dłużej",
       "not_recognized": "Nie rozpoznano odcisku palca",
-      "recognized": "Rozpoznano odcisk palca",
-      "too_many_attempts": "Zbyt wiele prób, użyj hasła",
-      "unavailable": "Odcisk palca niedostępny"
+      "recognized": "Rozpoznano odcisk palca"
     },
     "power": {
       "suspend": "Uśpij",

@@ -933,11 +933,8 @@
     },
     "fingerprint": {
       "ready": "Touch the sensor",
-      "hold_longer": "Hold your finger longer",
       "not_recognized": "Fingerprint not recognized",
-      "recognized": "Fingerprint recognized",
-      "too_many_attempts": "Too many attempts, use your password",
-      "unavailable": "Fingerprint unavailable"
+      "recognized": "Fingerprint recognized"
     },
     "power": {
       "suspend": "Suspend",

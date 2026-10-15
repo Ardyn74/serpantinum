@@ -930,11 +930,8 @@
     },
     "fingerprint": {
       "ready": "請觸碰感應器",
-      "hold_longer": "請將手指按住更久",
       "not_recognized": "未辨識到指紋",
-      "recognized": "指紋已辨識",
-      "too_many_attempts": "嘗試次數過多，請使用密碼",
-      "unavailable": "指紋無法使用"
+      "recognized": "指紋已辨識"
     },
     "power": {
       "suspend": "睡眠",

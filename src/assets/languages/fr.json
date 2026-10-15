@@ -930,11 +930,8 @@
     },
     "fingerprint": {
       "ready": "Touchez le capteur",
-      "hold_longer": "Maintenez le doigt plus longtemps",
       "not_recognized": "Empreinte non reconnue",
-      "recognized": "Empreinte reconnue",
-      "too_many_attempts": "Trop de tentatives, utilisez votre mot de passe",
-      "unavailable": "Empreinte indisponible"
+      "recognized": "Empreinte reconnue"
     },
     "power": {
       "suspend": "Mettre en veille",

@@ -974,11 +974,8 @@
     },
     "fingerprint": {
       "ready": "Sensor berühren",
-      "hold_longer": "Finger länger auflegen",
       "not_recognized": "Fingerabdruck nicht erkannt",
-      "recognized": "Fingerabdruck erkannt",
-      "too_many_attempts": "Zu viele Versuche, Passwort verwenden",
-      "unavailable": "Fingerabdruck nicht verfügbar"
+      "recognized": "Fingerabdruck erkannt"
     },
     "power": {
       "suspend": "Standby",

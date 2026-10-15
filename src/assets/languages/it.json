@@ -929,11 +929,8 @@
     },
     "fingerprint": {
       "ready": "Tocca il sensore",
-      "hold_longer": "Tieni il dito più a lungo",
       "not_recognized": "Impronta non riconosciuta",
-      "recognized": "Impronta riconosciuta",
-      "too_many_attempts": "Troppi tentativi, usa la password",
-      "unavailable": "Impronta non disponibile"
+      "recognized": "Impronta riconosciuta"
     },
     "power": {
       "suspend": "Sospendi",

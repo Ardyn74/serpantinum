@@ -924,11 +924,8 @@
     },
     "fingerprint": {
       "ready": "Sensora toxunun",
-      "hold_longer": "Barmağınızı daha uzun saxlayın",
       "not_recognized": "Barmaq izi tanınmadı",
-      "recognized": "Barmaq izi tanındı",
-      "too_many_attempts": "Çox cəhd edildi, paroldan istifadə edin",
-      "unavailable": "Barmaq izi əlçatan deyil"
+      "recognized": "Barmaq izi tanındı"
     },
     "power": {
       "suspend": "Yuxu rejiminə keçir",

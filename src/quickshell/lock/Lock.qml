@@ -26,6 +26,11 @@ Scope {
     property string kbLayout: "US"
     property int connectedScreenCount: 1
     property bool fingerprintAvailable: false
+    property bool fpUnsupported: false
+    property bool fpHolding: false
+    property bool fpGotInfo: false
+    property bool fpAborting: false
+    property bool pwAborting: false
     readonly property int fingerprintMaxAttempts: 5
 
     readonly property bool isDesktop: UPower.displayDevice.ready ? !UPower.displayDevice.isLaptopBattery : SystemInfo.isDesktop
@@ -57,7 +62,6 @@ Scope {
         root.updateDeInfo();
         root.updateScreenCount();
         Quickshell.execDetached(["rm", "-f", Caching.getRunDir("lock") + "/locked"]);
-        fingerprintProbe.running = true;
     }
 
     Component.onDestruction: {
@@ -173,36 +177,9 @@ Scope {
         }
     }
 
-    Process {
-        id: fingerprintProbe
-        command: [
-            "bash",
-            "-c",
-            "command -v fprintd-verify >/dev/null 2>&1 && command -v fprintd-list >/dev/null 2>&1 && fprintd-list \"${USER:-$(id -un)}\" 2>/dev/null | grep -Eq '^[[:space:]]*- #[0-9]+'"
-        ]
-        onExited: (exitCode) => {
-            root.fingerprintAvailable = exitCode === 0;
-        }
-    }
-
-    Process {
-        id: fingerprintVerify
-        property bool gotResult: false
-        command: [
-            "bash",
-            "-c",
-            "if command -v stdbuf >/dev/null 2>&1; then exec stdbuf -oL fprintd-verify; else exec fprintd-verify; fi"
-        ]
-        stdout: SplitParser {
-            onRead: (line) => root.handleFingerprintLine(line)
-        }
-        onStarted: gotResult = false
-        onExited: root.handleFingerprintExit()
-    }
-
     Timer {
         id: fingerprintRestartTimer
-        interval: 1100
+        interval: 1000
         repeat: false
         onTriggered: root.startFingerprint()
     }
@@ -212,7 +189,7 @@ Scope {
         interval: 1700
         repeat: false
         onTriggered: {
-            if (lockUI.fpState === "hold") lockUI.fpState = "ready";
+            if (lockUI.fpState === "failed") lockUI.fpState = "ready";
         }
     }
 
@@ -223,70 +200,108 @@ Scope {
         onTriggered: root.finishUnlock()
     }
 
-    function startFingerprint() {
-        if (!root.fingerprintAvailable || !rootLock.locked || root.isUnlocking) return;
-        if (lockUI.fpState === "success" || lockUI.fpState === "blocked" || lockUI.fpState === "error") return;
-        if (fingerprintVerify.running) return;
-        lockUI.fpState = "ready";
-        fingerprintVerify.running = true;
+    Timer {
+        id: passwordStartTimer
+        interval: 3000
+        repeat: false
+        onTriggered: root.startPassword(true)
     }
 
-    function stopFingerprint() {
+    Timer {
+        id: passwordRetryTimer
+        interval: 350
+        repeat: false
+        onTriggered: root.startPassword(false)
+    }
+
+    function markFingerprintUnsupported() {
+        root.fpUnsupported = true;
+        root.fpHolding = false;
+        root.fingerprintAvailable = false;
+        fingerprintRestartTimer.stop();
+        root.startPassword(true);
+    }
+
+    function startFingerprint() {
+        if (root.fpUnsupported || !rootLock.locked || root.isUnlocking || fpPam.active) return;
+        if (lockUI.fpState === "success") return;
+        root.fpGotInfo = false;
+        root.fpAborting = false;
+        fpPam.start();
+    }
+
+    function startPassword(force) {
+        if (!rootLock.locked || root.isUnlocking || pam.active) return;
+        if (!force && !root.fpUnsupported && !root.fpHolding) {
+            passwordRetryTimer.restart();
+            return;
+        }
+        root.pwAborting = false;
+        pam.start();
+    }
+
+    function beginAuth() {
+        if (!rootLock.locked || root.isUnlocking) return;
+        root.startFingerprint();
+        passwordStartTimer.restart();
+    }
+
+    function stopAuth() {
         fingerprintRestartTimer.stop();
         fingerprintSettleTimer.stop();
-        fingerprintVerify.gotResult = true;
-        fingerprintVerify.running = false;
+        passwordStartTimer.stop();
+        passwordRetryTimer.stop();
+        root.fpAborting = true;
+        root.fpHolding = false;
+        if (fpPam.active) fpPam.abort();
+        if (pam.active) {
+            root.pwAborting = true;
+            pam.abort();
+        }
     }
 
-    function restartFingerprint() {
-        if (!root.fingerprintAvailable) return;
-        root.stopFingerprint();
-        if (lockUI.fpState !== "success" && lockUI.fpState !== "blocked") lockUI.fpState = "ready";
-        fingerprintRestartTimer.restart();
+    function restartAuth() {
+        root.stopAuth();
+        root.fpUnsupported = false;
+        root.fingerprintAvailable = false;
+        if (lockUI.fpState !== "success") lockUI.fpState = "ready";
+        pamActionTimer.restart();
     }
 
-    function handleFingerprintLine(line) {
-        let m = /Verify result:\s*([\w-]+)/.exec(line);
-        if (!m || !rootLock.locked || lockUI.fpState === "success") return;
-        fingerprintVerify.gotResult = true;
-        lockUI.fpErrors = 0;
-        switch (m[1]) {
-        case "verify-match":
+    function handleFingerprintMessage() {
+        if (!rootLock.locked || root.isUnlocking || lockUI.fpState === "success") return;
+        if (fpPam.responseRequired) {
+            root.fpHolding = false;
+            root.fpAborting = true;
+            fpPam.abort();
+            if (root.fpGotInfo) fingerprintRestartTimer.restart();
+            else root.markFingerprintUnsupported();
+            return;
+        }
+        if (fpPam.messageIsError) {
+            lockUI.fpFailures = Math.min(lockUI.fpFailures + 1, root.fingerprintMaxAttempts);
+            lockUI.fpState = "failed";
+            fingerprintSettleTimer.restart();
+            return;
+        }
+        root.fpGotInfo = true;
+        root.fpHolding = true;
+        root.fingerprintAvailable = true;
+        root.startPassword(false);
+    }
+
+    function handleFingerprintCompleted(result) {
+        root.fpHolding = false;
+        if (root.fpAborting || !rootLock.locked || root.isUnlocking) return;
+        if (result === PamResult.Success) {
             fingerprintSettleTimer.stop();
             lockUI.fpState = "success";
             fingerprintUnlockTimer.restart();
-            break;
-        case "verify-no-match":
-            fingerprintSettleTimer.stop();
-            lockUI.fpFailures++;
-            lockUI.fpState = lockUI.fpFailures >= root.fingerprintMaxAttempts ? "blocked" : "failed";
-            break;
-        case "verify-retry-scan":
-        case "verify-swipe-too-short":
-        case "verify-finger-not-centered":
-        case "verify-remove-and-retry":
-            lockUI.fpState = "hold";
-            fingerprintSettleTimer.restart();
-            break;
-        default:
-            fingerprintSettleTimer.stop();
-            lockUI.fpState = "error";
-            fingerprintVerify.running = false;
-            break;
+        } else if (root.fpGotInfo) {
+            fingerprintRestartTimer.restart();
+        } else {
+            root.markFingerprintUnsupported();
         }
-    }
-
-    function handleFingerprintExit() {
-        if (!rootLock.locked || root.isUnlocking) return;
-        if (lockUI.fpState === "success" || lockUI.fpState === "blocked" || lockUI.fpState === "error") return;
-        if (!fingerprintVerify.gotResult) {
-            lockUI.fpErrors++;
-            if (lockUI.fpErrors >= 3) {
-                lockUI.fpState = "error";
-                return;
-            }
-        }
-        fingerprintRestartTimer.restart();
     }
 
     function lock() {
@@ -318,12 +333,12 @@ Scope {
         lockUI.statusText = I18n.t("lock.status.locked");
         lockUI.fpState = "ready";
         lockUI.fpFailures = 0;
-        lockUI.fpErrors = 0;
-        root.stopFingerprint();
+        root.stopAuth();
+        root.fpUnsupported = false;
+        root.fingerprintAvailable = false;
         fingerprintUnlockTimer.stop();
         rootLock.locked = true;
         pamActionTimer.start();
-        fingerprintRestartTimer.restart();
         kbPollerRestartTimer.restart();
     }
 
@@ -331,14 +346,14 @@ Scope {
         if (root.isUnlocking) return;
         root.isUnlocking = true;
         fingerprintUnlockTimer.stop();
-        root.stopFingerprint();
+        root.stopAuth();
     }
 
     function completeUnlock() {
         if (!rootLock.locked) return;
         rootLock.locked = false;
         root.isUnlocking = false;
-        root.stopFingerprint();
+        root.stopAuth();
         kbWaiter.running = false;
         kbPoller.running = false;
         Quickshell.execDetached(["rm", "-f", Caching.getRunDir("lock") + "/locked"]);
@@ -363,14 +378,10 @@ Scope {
         property string statusText: I18n.t("lock.status.locked")
         property string fpState: "ready"
         property int fpFailures: 0
-        property int fpErrors: 0
         readonly property string fpLabel: {
             switch (fpState) {
-            case "hold": return I18n.t("lock.fingerprint.hold_longer");
             case "failed": return I18n.t("lock.fingerprint.not_recognized");
             case "success": return I18n.t("lock.fingerprint.recognized");
-            case "blocked": return I18n.t("lock.fingerprint.too_many_attempts");
-            case "error": return I18n.t("lock.fingerprint.unavailable");
             default: return I18n.t("lock.fingerprint.ready");
             }
         }
@@ -380,10 +391,16 @@ Scope {
         id: pamActionTimer
         interval: 350
         onTriggered: {
-            if (rootLock.locked) {
-                pam.start();
-            }
+            root.beginAuth();
         }
+    }
+
+    PamContext {
+        id: fpPam
+
+        onPamMessage: root.handleFingerprintMessage()
+        onCompleted: (result) => root.handleFingerprintCompleted(result)
+        onError: root.markFingerprintUnsupported()
     }
 
     PamContext {
@@ -391,12 +408,13 @@ Scope {
 
         onCompleted: (result) => {
             lockUI.authenticating = false;
+            if (root.pwAborting) return;
             if (result === PamResult.Success) {
                 root.finishUnlock();
             } else {
                 lockUI.failed = true;
                 lockUI.statusText = I18n.t("lock.status.access_denied");
-                pamActionTimer.start();
+                passwordRetryTimer.start();
             }
         }
     }
@@ -407,13 +425,9 @@ Scope {
         onExited: {
             SystemInfo.fetch();
             root.updateDeInfo();
-            pamActionTimer.restart();
             kbPollerRestartTimer.restart();
             root.resumeRevision++;
-            if (rootLock.locked) {
-                pam.start();
-                root.restartFingerprint();
-            }
+            if (rootLock.locked) root.restartAuth();
         }
     }
 

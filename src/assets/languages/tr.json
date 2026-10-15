@@ -930,11 +930,8 @@
     },
     "fingerprint": {
       "ready": "Sensöre dokunun",
-      "hold_longer": "Parmağınızı daha uzun tutun",
       "not_recognized": "Parmak izi tanınmadı",
-      "recognized": "Parmak izi tanındı",
-      "too_many_attempts": "Çok fazla deneme, parolanızı kullanın",
-      "unavailable": "Parmak izi kullanılamıyor"
+      "recognized": "Parmak izi tanındı"
     },
     "power": {
       "suspend": "Askıya al",

@@ -930,11 +930,8 @@
     },
     "fingerprint": {
       "ready": "Chạm vào cảm biến",
-      "hold_longer": "Giữ ngón tay lâu hơn",
       "not_recognized": "Không nhận diện được vân tay",
-      "recognized": "Đã nhận diện vân tay",
-      "too_many_attempts": "Quá nhiều lần thử, hãy dùng mật khẩu",
-      "unavailable": "Vân tay không khả dụng"
+      "recognized": "Đã nhận diện vân tay"
     },
     "power": {
       "suspend": "Ngủ",

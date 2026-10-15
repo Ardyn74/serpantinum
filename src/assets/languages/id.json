@@ -930,11 +930,8 @@
     },
     "fingerprint": {
       "ready": "Sentuh sensor",
-      "hold_longer": "Tahan jari lebih lama",
       "not_recognized": "Sidik jari tidak dikenali",
-      "recognized": "Sidik jari dikenali",
-      "too_many_attempts": "Terlalu banyak percobaan, gunakan kata sandi",
-      "unavailable": "Sidik jari tidak tersedia"
+      "recognized": "Sidik jari dikenali"
     },
     "power": {
       "suspend": "Suspensi",

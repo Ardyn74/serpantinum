@@ -72,11 +72,8 @@
     },
     "fingerprint": {
       "ready": "センサーに触れてください",
-      "hold_longer": "指をもう少し長く当ててください",
       "not_recognized": "指紋を認識できませんでした",
-      "recognized": "指紋を認識しました",
-      "too_many_attempts": "試行回数が多すぎます。パスワードを使用してください",
-      "unavailable": "指紋を利用できません"
+      "recognized": "指紋を認識しました"
     },
     "power": {
       "suspend": "サスペンド",

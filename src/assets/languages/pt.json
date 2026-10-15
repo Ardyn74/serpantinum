@@ -930,11 +930,8 @@
     },
     "fingerprint": {
       "ready": "Toque no sensor",
-      "hold_longer": "Mantenha o dedo por mais tempo",
       "not_recognized": "Impressão digital não reconhecida",
-      "recognized": "Impressão digital reconhecida",
-      "too_many_attempts": "Muitas tentativas, use a sua senha",
-      "unavailable": "Impressão digital indisponível"
+      "recognized": "Impressão digital reconhecida"
     },
     "power": {
       "suspend": "Suspender",
