@@ -160,7 +160,7 @@ Item {
             height: root.artRadius * 2
 
             property real borderWidth: 0
-            property real targetScale: (root.isMediaActive && MprisController.isPlaying) ? (1.0 + (root.bassLevel * 0.0135) + (root.kickLevel * 0.027)) : 0.95
+            property real targetScale: (root.isMediaActive && MprisController.isPlaying) ? (1.0 + (root.bassLevel * 0.0135) + (root.kickLevel * 0.027)) : 1.0
             property real targetBounceY: (root.isMediaActive && MprisController.isPlaying) ? -(root.kickLevel * root.artRadius * 0.02025) : 0
             property real targetTilt: (root.isMediaActive && MprisController.isPlaying) ? (root.bassLevel - 0.3) * 0.9 : 0
 
