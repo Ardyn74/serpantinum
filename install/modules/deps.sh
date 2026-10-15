@@ -168,6 +168,13 @@ configure_qt_icon_theme() {
     fi
 }
 
+compositor_package_name() {
+    case "$1" in
+        mango) echo "mangowm" ;;
+        *) echo "$1" ;;
+    esac
+}
+
 install_dependencies() {
     local install_state="${1:-$INSTALL_STATE}"
     local is_reinstall="${2:-$IS_REINSTALL}"
@@ -178,7 +185,7 @@ install_dependencies() {
 
     local target_list=("${REQUIRED_PKGS[@]}")
     for comp in "${compositors[@]}"; do
-        target_list+=("$comp")
+        target_list+=("$(compositor_package_name "$comp")")
     done
 
     if [ "$OPT_SDDM" = true ]; then

@@ -77,6 +77,7 @@ declare -A PM_PKG_MAP=(
     [hyprland]="hyprland"
     [niri]="niri"
     [sway]="sway"
+    [mangowm]="mangowm"
     [sddm]="sddm"
     [qt6-declarative]="qt6-qtdeclarative"
     [qt6-svg]="qt6-qtsvg"
