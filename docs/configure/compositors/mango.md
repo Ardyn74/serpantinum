@@ -49,5 +49,5 @@ Mango uses tags instead of workspaces. The bar shows the lowest active tag of ea
 
 ## Limitations
 
-- Output scale cannot be changed at runtime. It is set with `monitor_rule` in the config.
+- The UI scale setting is hidden because output scale cannot be changed at runtime. Set it with `monitor_rule` in the config.
 - The output toggle in display settings puts the monitor to sleep instead of removing it.

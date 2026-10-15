@@ -431,9 +431,7 @@ Item {
             Quickshell.execDetached(["bash", "-c", "niri msg output " + monName + " scale " + scaleVal.toString()]);
         } else if (displayTabRoot.compositor === "sway") {
             Quickshell.execDetached(["bash", "-c", "swaymsg output " + monName + " scale " + scaleVal.toString()]);
-        } else if (displayTabRoot.compositor === "mango") {
-            return;
-        } else {
+        } else if (displayTabRoot.compositor !== "mango") {
             let mon = displayTabRoot.monitorsList.find(m => m.name === monName);
             let modeStr = mon ? (mon.dimensions + "@" + mon.framerate) : "preferred";
             let luaCmd = 'hl.monitor({ output = "' + monName + '", mode = "' + modeStr + '", position = "auto", scale = ' + scaleVal.toString() + ' })';
@@ -830,6 +828,7 @@ Item {
                         }
 
                         SettingsRow {
+                            visible: displayTabRoot.compositor !== "mango"
                             rootObj: displayTabRoot.rootObj
                             baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                             icon: "󰍍"
