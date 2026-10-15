@@ -8,8 +8,38 @@ import "AudioCache.js" as AudioCache
 Singleton {
     id: root
 
+    function pipewireNodes() {
+        try {
+            const model = Pipewire.nodes;
+            const list = model ? model.values : null;
+            return list ? list : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    property var trackedNodes: []
+
+    function refreshTrackedNodes() {
+        const list = root.pipewireNodes();
+        root.trackedNodes = list ? list : [];
+    }
+
+    Connections {
+        target: Pipewire.nodes ?? null
+        ignoreUnknownSignals: true
+        function onValuesChanged() {
+            root.refreshTrackedNodes();
+        }
+    }
+
+    Component.onCompleted: {
+        root.refreshTrackedNodes();
+        root.refreshActiveStream();
+    }
+
     PwObjectTracker {
-        objects: Pipewire.nodes?.values ?? []
+        objects: root.trackedNodes
     }
 
     function isSerpantinumStream(node) {
@@ -26,7 +56,7 @@ Singleton {
 
     readonly property var outputs: {
         let arr = [];
-        for (const n of Pipewire.nodes?.values ?? []) {
+        for (const n of root.pipewireNodes()) {
             if (!n.isStream && n.isSink && n.audio) arr.push(n);
         }
         return AudioCache.updateOutputs(arr);
@@ -34,7 +64,7 @@ Singleton {
 
     readonly property var inputs: {
         let arr = [];
-        for (const n of Pipewire.nodes?.values ?? []) {
+        for (const n of root.pipewireNodes()) {
             if (!n.isStream && !n.isSink && n.audio
                 && n.properties?.["device.class"] !== "monitor"
                 && !n.name?.endsWith(".monitor")) {
@@ -46,7 +76,7 @@ Singleton {
 
     readonly property var apps: {
         let arr = [];
-        for (const n of Pipewire.nodes?.values ?? []) {
+        for (const n of root.pipewireNodes()) {
             if (n.isStream && n.audio
                 && n.properties?.["application.id"] !== "org.PulseAudio.pavucontrol"
                 && !isSerpantinumStream(n)) {
@@ -56,17 +86,36 @@ Singleton {
         return AudioCache.updateApps(arr);
     }
 
-    readonly property bool hasActiveStream: {
-        for (const n of apps ?? []) {
-            if (!n || !n.audio) continue;
-            let p = n.properties;
-            if (!p || p["media.class"] !== "Stream/Output/Audio") continue;
-            let corked = p["pulse.corked"];
-            if (corked === "true" || corked === true) continue;
-            if (n.audio.muted || (n.audio.volume !== undefined && n.audio.volume <= 0.001)) continue;
-            return true;
+    function computeHasActiveStream(list) {
+        try {
+            for (const n of list ?? []) {
+                if (!n || !n.audio) continue;
+                let p = n.properties;
+                if (!p || p["media.class"] !== "Stream/Output/Audio") continue;
+                let corked = p["pulse.corked"];
+                if (corked === "true" || corked === true) continue;
+                if (n.audio.muted || (n.audio.volume !== undefined && n.audio.volume <= 0.001)) continue;
+                return true;
+            }
+        } catch (e) {
         }
         return false;
+    }
+
+    property bool hasActiveStream: false
+
+    function refreshActiveStream() {
+        const active = root.computeHasActiveStream(root.apps) === true;
+        if (root.hasActiveStream !== active) root.hasActiveStream = active;
+    }
+
+    onAppsChanged: root.refreshActiveStream()
+
+    Timer {
+        interval: 500
+        repeat: true
+        running: true
+        onTriggered: root.refreshActiveStream()
     }
 
     readonly property PwNode defaultSink: Pipewire.defaultAudioSink
