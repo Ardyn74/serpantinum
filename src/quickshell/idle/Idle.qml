@@ -118,44 +118,36 @@ Item {
     property bool isAppInhibited: false
 
     Process {
-        id: screensaverProc
+        id: idleHelperProc
         running: Caching.qsDir !== ""
-        command: ["python3", Caching.qsDir + "/idle/screensaver_inhibit.py"]
-        stdout: SplitParser {
-            onRead: data => idleRoot.isAppInhibited = data.trim() === "1"
-        }
-        onExited: (exitCode, exitStatus) => {
-            idleRoot.isAppInhibited = false;
-            // 0 means python-jeepney is missing, no point in retrying
-            if (exitCode !== 0) screensaverRestartTimer.restart();
-        }
-    }
-
-    Timer {
-        id: screensaverRestartTimer
-        interval: 10000
-        onTriggered: screensaverProc.running = true
-    }
-
-    Process {
-        id: sleepLockProc
-        running: idleRoot.lockOnSleep && Caching.qsDir !== ""
-        command: ["python3", Caching.qsDir + "/idle/sleep_lock.py", Caching.getRunDir("lock") + "/locked"]
+        stdinEnabled: true
+        command: ["python3", Caching.qsDir + "/idle/idle_helper.py", Caching.getRunDir("lock") + "/locked"]
         stdout: SplitParser {
             onRead: data => {
-                if (data.trim() === "sleep") idleRoot.lockSession(true);
+                let line = data.trim();
+                if (line === "inhibit 1") idleRoot.isAppInhibited = true;
+                else if (line === "inhibit 0") idleRoot.isAppInhibited = false;
+                else if (line === "sleep" && idleRoot.lockOnSleep) idleRoot.lockSession(true);
             }
         }
+        onStarted: idleRoot.syncSleepLock()
         onExited: (exitCode, exitStatus) => {
-            if (exitCode !== 0 && idleRoot.lockOnSleep) sleepLockRestartTimer.restart();
+            idleRoot.isAppInhibited = false;
+            if (exitCode !== 0) idleHelperRestartTimer.restart();
         }
     }
 
     Timer {
-        id: sleepLockRestartTimer
+        id: idleHelperRestartTimer
         interval: 10000
-        onTriggered: sleepLockProc.running = idleRoot.lockOnSleep
+        onTriggered: idleHelperProc.running = true
     }
+
+    function syncSleepLock() {
+        if (idleHelperProc.running) idleHelperProc.write("sleep-lock " + (idleRoot.lockOnSleep ? "on" : "off") + "\n");
+    }
+
+    onLockOnSleepChanged: syncSleepLock()
 
     property var allActions: {
         let list = [];
