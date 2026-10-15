@@ -184,19 +184,6 @@ PanelWindow {
                 }
             }
         }
-
-        function getWidgetGeometry(widgetName: string): void {
-            let layout = getLayout(widgetName);
-            if (layout) {
-                let geo = {
-                    startX: Math.round(layout.rx),
-                    startY: Math.round(layout.ry),
-                    endX: Math.round(layout.rx + layout.w),
-                    endY: Math.round(layout.ry + layout.h)
-                };
-                Quickshell.execDetached(["bash", "-c", "echo '" + JSON.stringify(geo) + "' > " + Caching.runDir + "/tutorial_target.json"]);
-            }
-        }
     }
 
     WlrLayershell.namespace: "qs-master"

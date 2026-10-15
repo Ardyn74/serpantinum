@@ -177,26 +177,6 @@ Variants {
                         target.toggleUpdate();
                     }
                 }
-                function getWidgetGeometry(widgetName: string): void {
-                    let target = null;
-                    if (barWindow.isVertical) target = verticalWrapper.getWidget(widgetName);
-                    else target = contentWrapper.getWidget(widgetName);
-
-                    if (target && target.width > 0) {
-                        let pos = target.mapToItem(null, 0, 0);
-
-                        let absoluteX = pos.x + barWindow.margins.left;
-                        let absoluteY = pos.y + barWindow.margins.top;
-
-                        let geo = {
-                            startX: Math.round(absoluteX),
-                            startY: Math.round(absoluteY),
-                            endX: Math.round(absoluteX + target.width),
-                            endY: Math.round(absoluteY + target.height)
-                        };
-                        Quickshell.execDetached(["bash", "-c", "echo '" + JSON.stringify(geo) + "' > " + Caching.runDir + "/tutorial_target.json"]);
-                    }
-                }
             }
 
             required property var modelData
