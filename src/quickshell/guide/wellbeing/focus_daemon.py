@@ -53,6 +53,8 @@ def detect_compositor():
         return "mango"
     if os.environ.get("NIRI_SOCKET"):
         return "niri"
+    if os.environ.get("SWAYSOCK"):
+        return "sway"
     try:
         if subprocess.run(['pgrep', '-x', 'niri'], capture_output=True).returncode == 0:
             return "niri"
@@ -63,6 +65,16 @@ def detect_compositor():
     try:
         if subprocess.run(['pgrep', '-x', 'Hyprland'], capture_output=True).returncode == 0:
             return "hyprland"
+    except Exception:
+        pass
+    try:
+        if subprocess.run(['pgrep', '-x', 'sway'], capture_output=True).returncode == 0:
+            return "sway"
+    except Exception:
+        pass
+    try:
+        if subprocess.run(['pgrep', '-x', 'mango'], capture_output=True).returncode == 0:
+            return "mango"
     except Exception:
         pass
     return "unknown"
@@ -125,6 +137,35 @@ def get_active_window_niri():
         if "quickshell" in app_cls.lower() or "qs-master" in raw_title.lower() or "qs-master" in app_cls.lower():
             return "Quickshell", "Quickshell"
             
+        app_cls = app_cls if app_cls else "Unknown"
+        raw_title = raw_title if raw_title else app_cls
+        clean_name = resolve_app_name(app_cls, raw_title)
+        return app_cls, clean_name
+    except Exception:
+        return "Desktop", "Desktop"
+
+def find_focused_sway_node(node):
+    if node.get('focused') and node.get('type') in ('con', 'floating_con'):
+        return node
+    for child in node.get('nodes', []) + node.get('floating_nodes', []):
+        found = find_focused_sway_node(child)
+        if found:
+            return found
+    return None
+
+def get_active_window_sway():
+    try:
+        output = subprocess.check_output(['swaymsg', '-t', 'get_tree'], text=True)
+        node = find_focused_sway_node(json.loads(output))
+        if not node: return "Desktop", "Desktop"
+
+        props = node.get('window_properties') or {}
+        app_cls = (node.get('app_id') or props.get('class') or '').strip()
+        raw_title = (node.get('name') or '').strip()
+
+        if "quickshell" in app_cls.lower() or "qs-master" in raw_title.lower() or "qs-master" in app_cls.lower():
+            return "Quickshell", "Quickshell"
+
         app_cls = app_cls if app_cls else "Unknown"
         raw_title = raw_title if raw_title else app_cls
         clean_name = resolve_app_name(app_cls, raw_title)
@@ -196,6 +237,23 @@ def listen_niri_ipc():
             for line in process.stdout:
                 if not line.strip(): continue
                 cls, clean_title = get_active_window_niri()
+                if is_locked():
+                    current_app_class, current_app_title = "Locked", "Locked"
+                else:
+                    current_app_class, current_app_title = cls, clean_title
+            process.wait()
+        except Exception:
+            pass
+        time.sleep(2)
+
+def listen_sway_ipc():
+    global current_app_class, current_app_title
+    while True:
+        try:
+            process = subprocess.Popen(['swaymsg', '-t', 'subscribe', '-m', '["window", "workspace"]'], stdout=subprocess.PIPE, text=True)
+            for line in process.stdout:
+                if not line.strip(): continue
+                cls, clean_title = get_active_window_sway()
                 if is_locked():
                     current_app_class, current_app_title = "Locked", "Locked"
                 else:
@@ -484,6 +542,9 @@ def main():
     if compositor == "mango":
         current_app_class, current_app_title = get_active_window_mango()
         ipc_thread = threading.Thread(target=listen_mango_ipc, daemon=True)
+    elif compositor == "sway":
+        current_app_class, current_app_title = get_active_window_sway()
+        ipc_thread = threading.Thread(target=listen_sway_ipc, daemon=True)
     elif compositor == "niri":
         current_app_class, current_app_title = get_active_window_niri()
         ipc_thread = threading.Thread(target=listen_niri_ipc, daemon=True)
