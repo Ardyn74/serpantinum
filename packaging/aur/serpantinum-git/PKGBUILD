@@ -30,7 +30,7 @@ optdepends=(
     'qt6-svg: Login screen theme'
 )
 provides=('serpantinum')
-conflicts=('serpantinum')
+conflicts=('serpantinum' 'quickshell-git')
 backup=('etc/pam.d/serpantinum')
 install=serpantinum-git.install
 source=("$pkgname::git+$url.git")

@@ -83,6 +83,7 @@ pkgbase = serpantinum
 	optdepends = sddm: Login screen theme
 	optdepends = qt6-declarative: Login screen theme
 	optdepends = qt6-svg: Login screen theme
+	conflicts = quickshell-git
 	backup = etc/pam.d/serpantinum
 	source = serpantinum-2.2.10.tar.gz::https://github.com/ilyamiro/serpantinum/archive/refs/tags/v2.2.10.tar.gz
 	sha256sums = 63dde78567668c0882b6da28f5f310179f2ccb21991dbd136551c6ae473f08d6

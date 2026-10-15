@@ -86,6 +86,7 @@ pkgbase = serpantinum-git
 	optdepends = qt6-svg: Login screen theme
 	provides = serpantinum
 	conflicts = serpantinum
+	conflicts = quickshell-git
 	backup = etc/pam.d/serpantinum
 	source = serpantinum-git::git+https://github.com/ilyamiro/serpantinum.git
 	sha256sums = SKIP

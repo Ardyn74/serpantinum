@@ -103,7 +103,7 @@ Do not run the installer script on a system where Serpantinum comes from the AUR
 | Installer step | AUR package |
 | --- | --- |
 | Install dependencies | Done, including Iosevka Nerd Font and `wl-gammarelay-rs` |
-| Replace `quickshell-git` with `quickshell` | Not done, `quickshell-git` also satisfies the dependency and is left alone |
+| Replace `quickshell-git` with `quickshell` | Done, the package conflicts with `quickshell-git` and installs `quickshell` |
 | Install `serpantinum` and `serpantinumd` | Done, in `/usr/bin` |
 | Lock screen PAM service | Done, `/etc/pam.d/serpantinum` |
 | SDDM theme files | Done, in `/usr/share/sddm/themes/material-you` |
