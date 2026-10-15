@@ -515,9 +515,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Показувати тривалість",
-          "desc": "Відображати минулий і загальний час поточного треку"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Показувати іконку",
@@ -528,7 +534,8 @@
           "desc": "Відображати кнопки «назад», «відтворення» та «вперед»"
         },
         "preview": {
-          "title": "Назва треку"
+          "title": "Назва треку",
+          "author": "Song author"
         }
       }
     },

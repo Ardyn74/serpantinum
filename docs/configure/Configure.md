@@ -133,7 +133,8 @@ The configuration file is located at `~/.config/serpantinum/settings.json` (or `
 | `bar.volShowPercent` | `boolean` | `true` | Displays numeric volume percentage. |
 | `bar.kbStyle` | `string` | `"button"` | Keyboard layout module visual style: `"button"` or `"text"`. |
 | `bar.kbShowIcon` | `boolean` | `true` | Displays keyboard glyph. |
-| `bar.mediaShowDuration` | `boolean` | `true` | Displays elapsed and total time of the current song (top and bottom bars). |
+| `bar.mediaInfoMode` | `string` | `"duration"` | Secondary line of the media module: `"duration"` or `"author"` (top and bottom bars). |
+| `bar.mediaWidth` | `integer` | `120` | Width of the media text area in pixels (top and bottom bars). |
 | `bar.mediaShowIcon` | `boolean` | `true` | Displays album art or music icon. |
 | `bar.mediaShowControls` | `boolean` | `true` | Displays previous, play and next buttons. |
 

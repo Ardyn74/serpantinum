@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "显示时长",
-          "desc": "显示当前歌曲的已播放时间和总时长"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "显示图标",
@@ -544,7 +550,8 @@
           "desc": "显示上一首、播放和下一首按钮"
         },
         "preview": {
-          "title": "歌曲标题"
+          "title": "歌曲标题",
+          "author": "Song author"
         }
       }
     },

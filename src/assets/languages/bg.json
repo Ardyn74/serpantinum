@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Показване на продължителност",
-          "desc": "Показва изминалото и общото време на текущата песен"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Показване на икона",
@@ -544,7 +550,8 @@
           "desc": "Показва бутоните за предишна, възпроизвеждане и следваща"
         },
         "preview": {
-          "title": "Заглавие на песента"
+          "title": "Заглавие на песента",
+          "author": "Song author"
         }
       }
     },

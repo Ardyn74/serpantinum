@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "نمایش مدت زمان",
-          "desc": "نمایش زمان سپری‌شده و کل آهنگ فعلی"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "نمایش نماد",
@@ -544,7 +550,8 @@
           "desc": "نمایش دکمه‌های قبلی، پخش و بعدی"
         },
         "preview": {
-          "title": "عنوان آهنگ"
+          "title": "عنوان آهنگ",
+          "author": "Song author"
         }
       }
     },

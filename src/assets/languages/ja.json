@@ -1216,9 +1216,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "再生時間を表示",
-          "desc": "現在の曲の経過時間と合計時間を表示します"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "アイコンを表示",
@@ -1229,7 +1235,8 @@
           "desc": "前へ・再生・次へボタンを表示します"
         },
         "preview": {
-          "title": "曲のタイトル"
+          "title": "曲のタイトル",
+          "author": "Song author"
         }
       }
     },

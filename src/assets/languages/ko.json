@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "재생 시간 표시",
-          "desc": "현재 곡의 경과 시간과 전체 길이를 표시합니다"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "아이콘 표시",
@@ -544,7 +550,8 @@
           "desc": "이전, 재생, 다음 버튼을 표시합니다"
         },
         "preview": {
-          "title": "곡 제목"
+          "title": "곡 제목",
+          "author": "Song author"
         }
       }
     },

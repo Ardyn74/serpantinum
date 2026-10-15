@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "अवधि दिखाएं",
-          "desc": "वर्तमान गाने का बीता हुआ और कुल समय दिखाएं"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "आइकन दिखाएं",
@@ -544,7 +550,8 @@
           "desc": "पिछला, चलाएं और अगला बटन दिखाएं"
         },
         "preview": {
-          "title": "गाने का शीर्षक"
+          "title": "गाने का शीर्षक",
+          "author": "Song author"
         }
       }
     },

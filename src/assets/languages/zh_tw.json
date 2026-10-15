@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "顯示時長",
-          "desc": "顯示目前歌曲的已播放時間與總時長"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "顯示圖示",
@@ -544,7 +550,8 @@
           "desc": "顯示上一首、播放與下一首按鈕"
         },
         "preview": {
-          "title": "歌曲標題"
+          "title": "歌曲標題",
+          "author": "Song author"
         }
       }
     },

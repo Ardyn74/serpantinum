@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Hiển thị thời lượng",
-          "desc": "Hiển thị thời gian đã phát và tổng thời lượng của bài hát hiện tại"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Hiển thị biểu tượng",
@@ -544,7 +550,8 @@
           "desc": "Hiển thị các nút trước, phát và tiếp theo"
         },
         "preview": {
-          "title": "Tên bài hát"
+          "title": "Tên bài hát",
+          "author": "Song author"
         }
       }
     },

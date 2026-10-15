@@ -532,9 +532,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Mostrar duración",
-          "desc": "Muestra el tiempo transcurrido y total de la canción actual"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Mostrar icono",
@@ -545,7 +551,8 @@
           "desc": "Muestra los botones de anterior, reproducir y siguiente"
         },
         "preview": {
-          "title": "Título de la canción"
+          "title": "Título de la canción",
+          "author": "Song author"
         }
       }
     },

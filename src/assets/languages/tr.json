@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Süreyi göster",
-          "desc": "Geçerli şarkının geçen ve toplam süresini görüntüleyin"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Simgeyi göster",
@@ -544,7 +550,8 @@
           "desc": "Önceki, oynat ve sonraki düğmelerini görüntüleyin"
         },
         "preview": {
-          "title": "Şarkı adı"
+          "title": "Şarkı adı",
+          "author": "Song author"
         }
       }
     },

@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Duur tonen",
-          "desc": "Toont de verstreken en totale tijd van het huidige nummer"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Pictogram tonen",
@@ -544,7 +550,8 @@
           "desc": "Toont de knoppen voor vorige, afspelen en volgende"
         },
         "preview": {
-          "title": "Titel van het nummer"
+          "title": "Titel van het nummer",
+          "author": "Song author"
         }
       }
     },

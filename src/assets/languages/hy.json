@@ -531,9 +531,15 @@
         }
       },
       "media": {
-        "show_duration": {
-          "title": "Ցուցադրել տևողությունը",
-          "desc": "Ցուցադրել ընթացիկ երգի անցած և ընդհանուր ժամանակը"
+        "info_mode": {
+          "title": "Secondary info",
+          "desc": "Choose whether to show the song duration or its author",
+          "duration": "Duration",
+          "author": "Author"
+        },
+        "width": {
+          "title": "Width",
+          "desc": "Width of the song title area"
         },
         "show_icon": {
           "title": "Ցուցադրել պատկերակը",
@@ -544,7 +550,8 @@
           "desc": "Ցուցադրել նախորդի, նվագարկման և հաջորդի կոճակները"
         },
         "preview": {
-          "title": "Երգի վերնագիր"
+          "title": "Երգի վերնագիր",
+          "author": "Song author"
         }
       }
     },
