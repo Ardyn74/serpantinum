@@ -37,45 +37,7 @@ Fedora and its derivatives, such as **Nobara** and **Ultramarine**, are installe
 
 Serpantinum is verified and supported across Arch Linux and its derivative distributions, on systemd, OpenRC, and other init systems, including:
 
-- **Arch Linux**
-- **EndeavourOS**
-- **Manjaro**
-- **CachyOS**
-- **Garuda Linux**
-- **ArcoLinux**
-- **Archcraft**
-- **Artix Linux**
-- **BlackArch**
-- **RebornOS**
-- **Mabox Linux**
-- **blendOS**
-- **Parch Linux**
-- **BigLinux**
-- **ArchLabs**
-- **Archman**
-- **ALCI**
-- **BlueStar**
-- **ArchBang**
-- **ArchEX**
-- **ArchStrike**
-- **Athena OS**
-- **ChimeraOS**
-- **Ctlos Linux**
-- **Crystal Linux**
-- **HefftorLinux**
-- **instantOS**
-- **Nyarch Linux**
-- **Obarun**
-- **Hyperbola**
-- **Parabola**
-- **Salient OS**
-- **Snal Linux**
-- **SteamOS / HoloISO**
-- **StormOS**
-- **TeArch**
-- **XeroLinux**
-- **Axyl**
-- **OMARCHY**
+Arch Linux · EndeavourOS · Manjaro · CachyOS · Garuda Linux · ArcoLinux · Archcraft · Artix Linux · BlackArch · RebornOS · Mabox Linux · blendOS · Parch Linux · BigLinux · ArchLabs · Archman · ALCI · BlueStar · ArchBang · ArchEX · ArchStrike · Athena OS · ChimeraOS · Ctlos Linux · Crystal Linux · HefftorLinux · instantOS · Nyarch Linux · Obarun · Hyperbola · Parabola · Salient OS · Snal Linux · SteamOS / HoloISO · StormOS · TeArch · XeroLinux · Axyl · OMARCHY
 
 ## Build from source on Arch
 
