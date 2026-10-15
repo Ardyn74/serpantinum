@@ -1018,6 +1018,11 @@
         "title": "Szerokość paska",
         "desc": "Ustaw szerokość paska w procentach"
       },
+      "center_by_edges": {
+        "title": "Wyśrodkuj według krawędzi",
+        "desc": "Zachowuje równe marginesy po lewej i prawej stronie paska zamiast wyśrodkowania według środkowego modułu",
+        "desc_vertical": "Zachowuje równe marginesy u góry i na dole paska zamiast wyśrodkowania według środkowego modułu"
+      },
       "workspaces": {
         "title": "Wybierz liczbę wyświetlanych obszarów roboczych",
         "disc": "Uwaga: nie wpływa to na rzeczywistą liczbę obszarów roboczych w kompozytorze",

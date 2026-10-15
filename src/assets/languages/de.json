@@ -333,6 +333,11 @@
         "title": "Leistenbreite",
         "desc": "Breite der Leiste in Prozent festlegen"
       },
+      "center_by_edges": {
+        "title": "An den Rändern zentrieren",
+        "desc": "Gleiche Abstände links und rechts der Leiste statt Zentrierung am mittleren Modul",
+        "desc_vertical": "Gleiche Abstände oben und unten an der Leiste statt Zentrierung am mittleren Modul"
+      },
       "workspaces": {
         "title": "Anzahl anzuzeigender Arbeitsflächen auswählen",
         "disc": "Hinweis: Dies beeinflusst nicht die tatsächliche Anzahl der Arbeitsflächen im Compositor",

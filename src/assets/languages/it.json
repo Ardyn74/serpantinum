@@ -332,6 +332,11 @@
         "title": "Larghezza barra",
         "desc": "Imposta come percentuale la larghezza della barra"
       },
+      "center_by_edges": {
+        "title": "Centra per i bordi",
+        "desc": "Mantiene margini uguali a sinistra e a destra della barra invece di centrare sul modulo centrale",
+        "desc_vertical": "Mantiene margini uguali in alto e in basso della barra invece di centrare sul modulo centrale"
+      },
       "workspaces": {
         "title": "Scegli il numero di spazi di lavoro da visualizzare",
         "desc": "Numero di spazi di lavoro da visualizzare",

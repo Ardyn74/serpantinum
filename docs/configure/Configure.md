@@ -93,10 +93,11 @@ The configuration file is located at `~/.config/serpantinum/settings.json` (or `
 | Key | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `bar.position` | `string` | `"top"` | Screen edge where the bar attaches: `"top"`, `"bottom"`, `"left"`, or `"right"`. |
-| `bar.width` | `number` | `100` | Bar length percentage (`10` to `100`). Values below 100 render a floating dock-style bar. |
+| `bar.width` | `number` | `100` | Bar length percentage (`10` to `100`). Values below 100 render a floating dock-style bar, or in `"fill"` style a bar that rounds down into the screen edge. |
 | `bar.opacity` | `number` | `100` | Background opacity percentage (`0` to `100`). |
 | `bar.style` | `string` | `"modular"` | Visual bar style: `"modular"`, `"fill"`, or `"solid"`. |
 | `bar.distinctPills` | `boolean` | `false` | Renders each module inside an isolated, detached capsule pill. |
+| `bar.centerByEdges` | `boolean` | `true` | Keeps equal margins on both ends of the bar (left and right, or top and bottom for a vertical bar) instead of centering by the middle module. |
 | `bar.autohide` | `boolean` | `false` | Automatically hides the bar until cursor enters the screen trigger area. |
 | `bar.autohideTimeout` | `number` | `1000` | Delay in milliseconds before hiding the bar after cursor leaves. |
 | `bar.workspaceCount` | `number` | `8` | Total number of persistent workspace indicators displayed. |

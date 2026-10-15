@@ -332,6 +332,11 @@
         "title": "Chiều rộng thanh tác vụ",
         "desc": "Đặt chiều rộng của thanh tác vụ theo phần trăm"
       },
+      "center_by_edges": {
+        "title": "Căn giữa theo mép",
+        "desc": "Giữ lề bằng nhau ở mép trái và phải của thanh thay vì căn giữa theo mô-đun ở giữa",
+        "desc_vertical": "Giữ lề bằng nhau ở mép trên và dưới của thanh thay vì căn giữa theo mô-đun ở giữa"
+      },
       "workspaces": {
         "title": "Chọn số lượng không gian làm việc để hiển thị",
         "disc": "Lưu ý: điều này không ảnh hưởng đến số lượng không gian làm việc thực tế trong compositor",

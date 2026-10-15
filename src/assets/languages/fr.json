@@ -332,6 +332,11 @@
         "title": "Largeur de la barre",
         "desc": "Définir la largeur de la barre en pourcentage"
       },
+      "center_by_edges": {
+        "title": "Centrer par les bords",
+        "desc": "Garde des marges égales à gauche et à droite de la barre au lieu de centrer sur le module central",
+        "desc_vertical": "Garde des marges égales en haut et en bas de la barre au lieu de centrer sur le module central"
+      },
       "workspaces": {
         "title": "Choisir le nombre d'espaces de travail à afficher",
         "disc": "Remarque : cela n'affecte pas le nombre réel d'espaces de travail dans le gestionnaire de fenêtres",

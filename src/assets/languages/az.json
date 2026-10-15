@@ -330,6 +330,11 @@
         "title": "Zolağın eni",
         "desc": "Zolağın enini faizlə təyin edin"
       },
+      "center_by_edges": {
+        "title": "Kənarlara görə mərkəzləşdir",
+        "desc": "Orta modula görə mərkəzləşdirmək əvəzinə panelin sol və sağ kənarlarında bərabər boşluq saxlayır",
+        "desc_vertical": "Orta modula görə mərkəzləşdirmək əvəzinə panelin yuxarı və aşağı kənarlarında bərabər boşluq saxlayır"
+      },
       "workspaces": {
         "title": "Göstəriləcək iş sahələrinin sayını seçin",
         "disc": "Qeyd: bu, görüntü birləşdiricisindəki iş sahələrinin həqiqi sayına təsir etmir",

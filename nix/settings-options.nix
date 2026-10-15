@@ -42,6 +42,7 @@ let
     opacity = mkOpt (types.ints.between 0 100) "Bar background opacity, 0-100.";
     style = mkOpt (types.enum [ "solid" "fill" "modular" ]) "Bar visual style.";
     distinctPills = mkOpt types.bool "Render distinct background pills for bar modules in solid/fill style.";
+    centerByEdges = mkOpt types.bool "Keep equal margins on both ends of the bar instead of centering by the middle module.";
     autohide = mkOpt types.bool "Auto-hide the bar when not in use.";
     autohideTimeout = mkOpt types.ints.positive "Milliseconds of inactivity before the bar autohides.";
     workspaceCount = mkOpt types.ints.positive "Number of workspace indicators to show.";

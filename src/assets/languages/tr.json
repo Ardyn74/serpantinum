@@ -332,6 +332,11 @@
         "title": "Çubuk genişliği",
         "desc": "Çubuk genişliğini yüzde olarak ayarlayın"
       },
+      "center_by_edges": {
+        "title": "Kenarlara göre ortala",
+        "desc": "Orta modüle göre ortalamak yerine çubuğun sol ve sağ kenarlarında eşit boşluk bırakır",
+        "desc_vertical": "Orta modüle göre ortalamak yerine çubuğun üst ve alt kenarlarında eşit boşluk bırakır"
+      },
       "workspaces": {
         "title": "Görüntülenecek çalışma alanı miktarını seçin",
         "disc": "Not: Bu, birleştiricideki gerçek çalışma alanı sayısını etkilemez",

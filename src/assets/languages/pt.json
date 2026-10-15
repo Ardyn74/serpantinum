@@ -332,6 +332,11 @@
         "title": "Largura da barra",
         "desc": "Define a largura da barra em porcentagem"
       },
+      "center_by_edges": {
+        "title": "Centralizar pelas bordas",
+        "desc": "Mantém margens iguais à esquerda e à direita da barra em vez de centralizar pelo módulo central",
+        "desc_vertical": "Mantém margens iguais acima e abaixo da barra em vez de centralizar pelo módulo central"
+      },
       "workspaces": {
         "title": "Quantidade de workspaces a exibir",
         "disc": "Nota: isto não afeta a quantidade real de workspaces no compositor",

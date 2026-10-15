@@ -332,6 +332,11 @@
         "title": "Lebar bilah",
         "desc": "Atur lebar bilah sebagai persentase"
       },
+      "center_by_edges": {
+        "title": "Pusatkan menurut tepi",
+        "desc": "Menjaga margin yang sama di tepi kiri dan kanan bilah alih-alih memusatkan berdasarkan modul tengah",
+        "desc_vertical": "Menjaga margin yang sama di tepi atas dan bawah bilah alih-alih memusatkan berdasarkan modul tengah"
+      },
       "workspaces": {
         "title": "Pilih jumlah ruang kerja yang akan ditampilkan",
         "disc": "Catatan: ini tidak memengaruhi jumlah ruang kerja sebenarnya di kompositor",

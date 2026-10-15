@@ -333,6 +333,11 @@
         "title": "Ancho de la barra",
         "desc": "Establecer el ancho de la barra como porcentaje"
       },
+      "center_by_edges": {
+        "title": "Centrar por los bordes",
+        "desc": "Mantiene márgenes iguales a izquierda y derecha de la barra en lugar de centrar por el módulo central",
+        "desc_vertical": "Mantiene márgenes iguales arriba y abajo de la barra en lugar de centrar por el módulo central"
+      },
       "workspaces": {
         "title": "Elegir cantidad de espacios de trabajo a mostrar",
         "disc": "Nota: esto no afecta la cantidad real de espacios de trabajo en el compositor",

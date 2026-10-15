@@ -332,6 +332,11 @@
         "title": "Breedte van balk",
         "desc": "Stel de breedte van de balk in als percentage"
       },
+      "center_by_edges": {
+        "title": "Centreren op randen",
+        "desc": "Houd gelijke marges links en rechts van de balk aan in plaats van te centreren op de middelste module",
+        "desc_vertical": "Houd gelijke marges boven en onder de balk aan in plaats van te centreren op de middelste module"
+      },
       "workspaces": {
         "title": "Kies het aantal weer te geven werkbladen",
         "disc": "Opmerking: dit heeft geen invloed op het werkelijke aantal werkbladen in de compositor",

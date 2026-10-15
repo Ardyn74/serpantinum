@@ -332,6 +332,11 @@
         "title": "Bar width",
         "desc": "Set the width of the bar as a percentage"
       },
+      "center_by_edges": {
+        "title": "Center by edges",
+        "desc": "Keep equal margins on the left and right edges of the bar instead of centering by the middle module",
+        "desc_vertical": "Keep equal margins on the top and bottom edges of the bar instead of centering by the middle module"
+      },
       "workspaces": {
         "title": "Choose an amount of workspaces to display",
         "disc": "Note: this doesn't affect the actual amount of workspaces in the compositor",
