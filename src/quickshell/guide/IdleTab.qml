@@ -22,6 +22,7 @@ Item {
     Behavior on opacity { NumberAnimation { duration: 250 } }
 
     property bool isNiri: false
+    property bool isMango: false
     property var expandedActionMap: ({})
 
     function toggleActionExpanded(id) {
@@ -215,7 +216,7 @@ Item {
     }
 
     function getDefaultResumeCommand(actId) {
-        if (actId === "dpms") return idleTabRoot.isNiri ? "niri msg action power-on-monitors" : "hyprctl dispatch 'hl.dsp.dpms({ action = \"enable\" })' || hyprctl dispatch dpms on";
+        if (actId === "dpms") return idleTabRoot.isNiri ? "niri msg action power-on-monitors" : idleTabRoot.isMango ? "mmsg get all-monitors 2>/dev/null | jq -r '.monitors[]?.name' | while read -r mon; do mmsg dispatch \"wakeup_monitor,$mon\"; done" : "hyprctl dispatch 'hl.dsp.dpms({ action = \"enable\" })' || hyprctl dispatch dpms on";
         return I18n.t("guide.idle.resume_command.placeholder", "Resume command");
     }
 
@@ -296,6 +297,7 @@ Item {
     Component.onCompleted: {
         let de = (typeof SystemInfo !== "undefined" && SystemInfo.desktopEnv) ? SystemInfo.desktopEnv.toLowerCase() : "";
         idleTabRoot.isNiri = de.indexOf("niri") !== -1;
+        idleTabRoot.isMango = de.indexOf("mango") !== -1;
         idleTabRoot.refreshActionIds();
     }
 
