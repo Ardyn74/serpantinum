@@ -77,32 +77,47 @@ Serpantinum is verified and supported across Arch Linux and its derivative distr
 - **Axyl**
 - **OMARCHY**
 
-## Install from the AUR
+## Build from source on Arch
 
-Arch-based distributions can install Serpantinum from the AUR instead of running the installer script. The package installs the shell system-wide and pulls in every runtime dependency the installer would. The parts of the installer that change your home directory, services, or login screen are not done by a package, so you run them yourself afterwards.
+Arch-based distributions can build Serpantinum as a native package from this repository instead of running the installer script. The package installs the shell system-wide and pulls in every runtime dependency the installer would. The parts of the installer that change your home directory, services, or login screen are not done by a package, so you run them yourself afterwards.
 
-There are two packages, and they conflict with each other:
+The repository contains two PKGBUILDs in `packaging/aur`, and they conflict with each other:
 
-| Package | Tracks |
+| Package | Builds |
 | --- | --- |
-| `serpantinum` | Tagged releases |
+| `serpantinum` | The latest tagged release |
 | `serpantinum-git` | The latest commit on `master` |
 
+Install the build tools and `wl-gammarelay-rs`, the one dependency that is not in the official repositories:
+
 ```bash
-paru -S serpantinum
+sudo pacman -S --needed base-devel git
+
+git clone https://aur.archlinux.org/wl-gammarelay-rs.git
+cd wl-gammarelay-rs
+makepkg -si
+cd ..
 ```
 
-Any AUR helper works, for example `yay -S serpantinum`.
+Then clone the repository and build the package:
+
+```bash
+git clone --depth 1 https://github.com/ilyamiro/serpantinum.git
+cd serpantinum/packaging/aur/serpantinum
+makepkg -si
+```
+
+For the latest commit instead of the latest release, use `cd serpantinum/packaging/aur/serpantinum-git`. `makepkg -si` installs the remaining dependencies with `pacman`, builds the package, and installs it.
 
 :::warning[IMPORTANT]
-Do not run the installer script on a system where Serpantinum comes from the AUR. It would place a second copy in `~/.local/share/serpantinum` and link it over the packaged one. Update through your AUR helper instead, and use the steps below for anything the installer would otherwise do. If the in-app update notification offers to run the installer, ignore it.
+Do not run the installer script on a system where Serpantinum is installed this way. It would place a second copy in `~/.local/share/serpantinum` and link it over the packaged one. Update by rebuilding the package, as described below, and use the steps that follow for anything the installer would otherwise do. If the in-app update notification offers to run the installer, ignore it.
 :::
 
 ### What the package does
 
-| Installer step | AUR package |
+| Installer step | Package |
 | --- | --- |
-| Install dependencies | Done, including Iosevka Nerd Font and `wl-gammarelay-rs` |
+| Install dependencies | Done, including Iosevka Nerd Font |
 | Replace `quickshell-git` with `quickshell` | Done, the package conflicts with `quickshell-git` and installs `quickshell` |
 | Install `serpantinum` and `serpantinumd` | Done, in `/usr/bin` |
 | Lock screen PAM service | Done, `/etc/pam.d/serpantinum` |
@@ -274,7 +289,16 @@ Log in to your compositor. The configs from step 1 start Serpantinum on login. I
 
 ### Updating and removing
 
-Update with your AUR helper, for example `paru -Syu`. Removing the package leaves everything in your home directory alone:
+To update, pull the repository and build again. The new package replaces the installed one:
+
+```bash
+cd serpantinum
+git pull
+cd packaging/aur/serpantinum
+makepkg -si
+```
+
+Removing the package leaves everything in your home directory alone:
 
 ```bash
 sudo pacman -Rns serpantinum
