@@ -40,6 +40,9 @@ Item {
         NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
     }
 
+    property bool fillDetached: isFill && !!barWindow && !barWindow.fillAttached
+    property bool outerCornersReady: fillDetached && solidBackground.x <= 3 && solidBackground.x + solidBackground.width >= contentWrapper.width - 3
+
     property bool suppressAnimation: false
     property bool layoutAnimationsEnabled: barWindow && barWindow.startupCascadeFinished && !barWindow.positionChanging && !contentWrapper.suppressAnimation
 
@@ -577,8 +580,8 @@ Item {
         y: barWindow ? (barWindow.barPosition === "bottom" ? (barWindow.baseOffsetY - height) : (barWindow.baseOffsetY + barWindow.barHeight)) : 0
         width: contentWrapper.cornerRadius
         height: contentWrapper.cornerRadius
-        visible: contentWrapper.isFill && contentWrapper.fillAttachProgress < 0.999 && (barWindow ? !barWindow.positionChanging : true)
-        opacity: (visible && (!barWindow || barWindow.isRevealed)) ? (1.0 - contentWrapper.fillAttachProgress) : 0.0
+        visible: contentWrapper.outerCornersReady && (barWindow ? !barWindow.positionChanging : true)
+        opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
         z: 0
 
         property vector2d itemSize: Qt.vector2d(width, height)
@@ -589,7 +592,7 @@ Item {
 
         Behavior on opacity {
             enabled: barWindow && !barWindow.positionChanging && barWindow.startupCascadeFinished && !contentWrapper.suppressAnimation
-            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 80; easing.type: Easing.OutCubic }
         }
     }
 
@@ -599,8 +602,8 @@ Item {
         y: barWindow ? (barWindow.barPosition === "bottom" ? (barWindow.baseOffsetY - height) : (barWindow.baseOffsetY + barWindow.barHeight)) : 0
         width: contentWrapper.cornerRadius
         height: contentWrapper.cornerRadius
-        visible: contentWrapper.isFill && contentWrapper.fillAttachProgress < 0.999 && (barWindow ? !barWindow.positionChanging : true)
-        opacity: (visible && (!barWindow || barWindow.isRevealed)) ? (1.0 - contentWrapper.fillAttachProgress) : 0.0
+        visible: contentWrapper.outerCornersReady && (barWindow ? !barWindow.positionChanging : true)
+        opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
         z: 0
 
         property vector2d itemSize: Qt.vector2d(width, height)
@@ -611,7 +614,7 @@ Item {
 
         Behavior on opacity {
             enabled: barWindow && !barWindow.positionChanging && barWindow.startupCascadeFinished && !contentWrapper.suppressAnimation
-            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 80; easing.type: Easing.OutCubic }
         }
     }
 
