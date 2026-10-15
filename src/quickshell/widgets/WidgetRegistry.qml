@@ -664,8 +664,10 @@ QtObject {
             defaultHeight: 90,
             defaultVariant: "default",
             variants: {
-                "default": { file: "faces/battery/BatteryFace.qml", icon: "1", label: I18n.t("widgets.variants.default") }
-            }
+                "default": { file: "faces/battery/BatteryFace.qml", icon: "1", label: I18n.t("widgets.variants.default") },
+                "circle":  { file: "faces/battery/BatteryFaceCircle.qml", icon: "2", label: I18n.t("widgets.variants.circle", "Circle") }
+            },
+            additionalSettings: registry.usageCircleSettings
         },
         "github": {
             name: typeof I18n !== "undefined" ? I18n.t("widgets.types.github", "GitHub") : "GitHub",
