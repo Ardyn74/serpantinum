@@ -129,10 +129,10 @@ resolve_sddm_backend() {
     local requested_wayland="${1:-false}"
     local wayland_cmd="" bin
 
-    if bin="$(find_sddm_binary kwin_wayland)"; then
-        wayland_cmd="$bin --no-global-shortcuts --no-lockscreen --locale1"
-    elif bin="$(find_sddm_binary weston)"; then
+    if bin="$(find_sddm_binary weston)"; then
         wayland_cmd="$bin --shell=kiosk"
+    elif bin="$(find_sddm_binary kwin_wayland)"; then
+        wayland_cmd="$bin --no-global-shortcuts --no-lockscreen --locale1"
     fi
 
     local has_xorg=false

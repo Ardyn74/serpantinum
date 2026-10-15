@@ -188,8 +188,8 @@ run_test "Wayland requested with weston" \
     true "wayland" "@BIN@/weston --shell=kiosk" \
     "weston"
 
-run_test "Wayland requested with both kwin and weston (prefers kwin)" \
-    true "wayland" "@BIN@/kwin_wayland --no-global-shortcuts --no-lockscreen --locale1" \
+run_test "Wayland requested with both kwin and weston (prefers weston)" \
+    true "wayland" "@BIN@/weston --shell=kiosk" \
     "kwin_wayland" "weston"
 
 run_test "Wayland requested without Wayland compositor (fallback to Xorg)" \
@@ -241,7 +241,7 @@ run_setup_test "setup_sddm writes Wayland config with weston" \
 
 run_setup_test "setup_sddm writes Wayland config with kwin_wayland" \
     true "wayland" "@BIN@/kwin_wayland --no-global-shortcuts --no-lockscreen --locale1" \
-    "kwin_wayland" "weston"
+    "kwin_wayland"
 
 run_setup_test "setup_sddm skips without touching config when nothing is available" \
     true "" ""
