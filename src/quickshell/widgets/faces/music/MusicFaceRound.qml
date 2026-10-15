@@ -21,6 +21,8 @@ Item {
     property real maxAspect: 1.0
     property bool isRound: true
 
+    property bool continuous: false
+
     property var player: MprisController.activePlayer
     property bool isMediaActive: player !== null && player.playbackState !== MprisPlaybackState.Stopped && player.trackTitle !== ""
 
@@ -74,8 +76,8 @@ Item {
 
     property real availableRadius: Math.min(width, height) / 2
     property real dynMargin: 0
-    property real artRadius: availableRadius * 0.78
-    property real barHeightScale: 0.92
+    property real artRadius: availableRadius * (continuous ? 0.72 : 0.78)
+    property real barHeightScale: continuous ? 0.96 : 0.92
     property real maxBarHeight: (availableRadius - artRadius) * barHeightScale
     property real barWidth: Math.max(2.2, (2 * Math.PI * artRadius) / barCount * 0.60)
 
@@ -137,13 +139,14 @@ Item {
             width: (root.artRadius + root.maxBarHeight) * 2 + 2
             height: width
             active: root.isSubscribed
-            count: root.barCount
+            continuous: root.continuous
+            count: root.continuous ? 96 : root.barCount
             mirrored: false
-            curve: 1.15
-            threshold: 0.0
-            gamma: 1.08
-            rise: 0.55
-            fall: 0.55
+            curve: root.continuous ? 1.25 : 1.15
+            threshold: root.continuous ? 0.03 : 0.0
+            gamma: root.continuous ? 1.25 : 1.08
+            rise: root.continuous ? 0.5 : 0.55
+            fall: root.continuous ? 0.3 : 0.55
             ringRadius: root.artRadius
             ringBarWidth: root.barWidth
             maxLength: root.maxBarHeight

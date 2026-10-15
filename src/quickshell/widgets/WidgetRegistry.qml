@@ -344,6 +344,68 @@ QtObject {
         }
     }
 
+    property Component visualizerStyleSwitchComponent: Component {
+        Item {
+            id: settingRoot
+            property var typeData: null
+            property var settingData: null
+            property var redactor: null
+            property var widget: null
+            property var widgetData: null
+            property var item: null
+
+            readonly property var targetWidget: settingRoot.widget || settingRoot.widgetData || settingRoot.item || null
+
+            implicitWidth: styleSwitch.implicitWidth
+            implicitHeight: styleSwitch.implicitHeight
+
+            readonly property var styleOptions: [
+                { id: "bars", label: I18n.t("widgets.variants.bars", "Bars") },
+                { id: "continuous", label: I18n.t("widgets.variants.continuous", "Continuous") }
+            ]
+
+            function syncValue() {
+                let w = settingRoot.targetWidget;
+                if (!w) return;
+                let idx = w.continuous === true ? 1 : 0;
+                if (styleSwitch.currentIndex !== idx) styleSwitch.currentIndex = idx;
+            }
+
+            Component.onCompleted: syncValue()
+            onTargetWidgetChanged: syncValue()
+
+            Connections {
+                target: settingRoot.targetWidget
+                ignoreUnknownSignals: true
+                function onContinuousChanged() {
+                    settingRoot.syncValue();
+                }
+            }
+
+            Switch {
+                id: styleSwitch
+                anchors.centerIn: parent
+                implicitHeight: Scaler.s(34)
+                implicitWidth: Scaler.s(190)
+                accentColor: ThemeBackend.mauve
+                baseColor: ThemeBackend.surface0
+                textColor: ThemeBackend.text
+                activeTextColor: ThemeBackend.crust
+                cornerRadius: ThemeBackend.borderRadius
+                fontPixelSize: Scaler.s(11)
+                options: settingRoot.styleOptions.map(o => o.label)
+
+                onToggled: (idx) => {
+                    if (idx < 0 || idx >= settingRoot.styleOptions.length) return;
+                    let val = settingRoot.styleOptions[idx].id === "continuous";
+                    let w = settingRoot.targetWidget;
+                    if (w && w.continuous !== undefined) w.continuous = val;
+                    if (settingRoot.redactor) settingRoot.redactor.setWidgetProperty("continuous", val);
+                }
+            }
+        }
+    }
+
     property Component usageThicknessComponent: Component {
         Item {
             id: settingRoot
@@ -526,6 +588,20 @@ QtObject {
                     accentColor: "surface0",
                     textColor: "mauve",
                     component: registry.lyricsAlignmentSelectorComponent
+                },
+                {
+                    id: "continuous",
+                    name: I18n.t("widgets.settings.visualizerStyle", "Visualizer"),
+                    icon: String.fromCodePoint(0xF147D),
+                    iconFontSize: 16,
+                    action: "continuous",
+                    type: "custom",
+                    row: "top",
+                    variants: ["round"],
+                    property: "continuous",
+                    accentColor: "surface0",
+                    textColor: "mauve",
+                    component: registry.visualizerStyleSwitchComponent
                 }
             ]
         },
