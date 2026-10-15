@@ -23,6 +23,7 @@ Scope {
 
     property bool isNiri: false
     property bool isSway: false
+    readonly property bool isMango: MangoState.isMango
     property string kbLayout: "US"
     property int connectedScreenCount: 1
     property bool fingerprintAvailable: false
@@ -82,6 +83,8 @@ Scope {
             Quickshell.execDetached(["niri", "msg", "action", "switch-layout", "next"]);
         } else if (root.isSway) {
             Quickshell.execDetached(["swaymsg", "input", "type:keyboard", "xkb_switch_layout", "next"]);
+        } else if (root.isMango) {
+            Quickshell.execDetached(["mmsg", "dispatch", "switch_keyboard_layout"]);
         } else {
             Quickshell.execDetached(["hyprctl", "switchxkblayout", "main", "next"]);
         }
@@ -104,7 +107,9 @@ Scope {
         command: [
             "bash",
             "-c",
-            root.isNiri
+            root.isMango
+                ? "layout=$(mmsg get keyboardlayout 2>/dev/null | jq -r '.layout // empty' | head -n1); [[ -z \"$layout\" || \"$layout\" == \"null\" ]] && layout=\"US\"; echo \"${layout:0:2}\" | tr '[:lower:]' '[:upper:]'"
+                : root.isNiri
                 ? "layout=$(niri msg -j keyboard-layouts 2>/dev/null | jq -r '.names[.current_idx] // empty' | head -n1); [[ -z \"$layout\" || \"$layout\" == \"null\" ]] && layout=\"US\"; echo \"${layout:0:2}\" | tr '[:lower:]' '[:upper:]'"
                 : (root.isSway
                     ? "layout=$(swaymsg -t get_inputs 2>/dev/null | jq -r '[.[] | select(.type == \"keyboard\" and .xkb_active_layout_name != null)] | .[0].xkb_active_layout_name // empty' | head -n1); [[ -z \"$layout\" || \"$layout\" == \"null\" ]] && layout=\"US\"; echo \"${layout:0:2}\" | tr '[:lower:]' '[:upper:]'"
@@ -125,7 +130,7 @@ Scope {
         command: [
             "bash",
             Caching.qsDir + "/watchers/kb_wait.sh",
-            root.isNiri ? "niri" : (root.isSway ? "sway" : "hyprland")
+            root.isMango ? "mango" : (root.isNiri ? "niri" : (root.isSway ? "sway" : "hyprland"))
         ]
         onExited: {
             kbPoller.running = false;
