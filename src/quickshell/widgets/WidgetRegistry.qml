@@ -356,14 +356,14 @@ QtObject {
 
             readonly property var targetWidget: settingRoot.widget || settingRoot.widgetData || settingRoot.item || null
 
-            implicitWidth: Scaler.s(170)
-            implicitHeight: Scaler.s(34)
+            implicitWidth: thicknessSelector.implicitWidth
+            implicitHeight: thicknessSelector.implicitHeight
 
             function syncValue() {
                 let w = settingRoot.targetWidget;
-                if (!w || thicknessSlider.isDragging) return;
+                if (!w) return;
                 let cur = (w.lineThickness !== undefined) ? w.lineThickness : 8;
-                if (thicknessSlider.value !== cur) thicknessSlider.value = cur;
+                if (thicknessSelector.value !== cur) thicknessSelector.setValue(cur);
             }
 
             Component.onCompleted: syncValue()
@@ -377,58 +377,32 @@ QtObject {
                 }
             }
 
-            Rectangle {
-                anchors.fill: parent
-                color: ThemeBackend.surface0
-                radius: ThemeBackend.borderRadius
+            NumberSelector {
+                id: thicknessSelector
+                anchors.centerIn: parent
+                implicitWidth: Scaler.s(120)
+                implicitHeight: Scaler.s(32)
+                from: 3
+                to: 16
+                stepSize: 0.5
+                decimals: 1
+                value: {
+                    let w = settingRoot.targetWidget;
+                    return (w && w.lineThickness !== undefined) ? w.lineThickness : 8;
+                }
+                fontFamily: ThemeBackend.fontFamily
+                accentColor: ThemeBackend.mauve
+                baseColor: ThemeBackend.surface0
+                buttonColor: ThemeBackend.surface1
+                textColor: ThemeBackend.text
+                buttonTextColor: ThemeBackend.subtext1
+                cornerRadius: ThemeBackend.borderRadius
 
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: Scaler.s(10)
-                    anchors.rightMargin: Scaler.s(10)
-                    spacing: Scaler.s(8)
-
-                    Text {
-                        text: (Math.round(thicknessSlider.effectiveValue * 10) / 10).toString()
-                        font.family: ThemeBackend.fontFamily
-                        font.pixelSize: Scaler.s(11)
-                        font.bold: true
-                        color: ThemeBackend.text
-                        Layout.preferredWidth: Scaler.s(26)
-                    }
-
-                    Draggable {
-                        id: thicknessSlider
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: Scaler.s(16)
-                        Layout.alignment: Qt.AlignVCenter
-                        from: 3
-                        to: 16
-                        stepSize: 0.5
-                        defaultValue: 8
-                        backgroundColor: ThemeBackend.surface1
-                        accentColor: ThemeBackend.mauve
-                        gradColor1: ThemeBackend.mauve
-                        gradColor2: Qt.lighter(ThemeBackend.mauve, 1.05)
-                        gradColor3: Qt.lighter(ThemeBackend.mauve, 1.10)
-                        cornerRadius: Scaler.s(8)
-                        handleSize: Scaler.s(16)
-                        handleColor: Qt.lighter(ThemeBackend.mauve, 1.15)
-                        handleHoverColor: Qt.lighter(ThemeBackend.mauve, 1.3)
-                        handleDragColor: Qt.lighter(ThemeBackend.mauve, 1.45)
-                        handleBorderColor: Qt.rgba(0, 0, 0, 0.2)
-                        showValueBubble: false
-
-                        onMoved: (val) => {
-                            let w = settingRoot.targetWidget;
-                            if (w && w.lineThickness !== undefined) w.lineThickness = val;
-                        }
-
-                        onDragFinished: {
-                            thicknessSlider.value = thicknessSlider.dragPreview;
-                            if (settingRoot.redactor) settingRoot.redactor.setWidgetProperty("lineThickness", thicknessSlider.value);
-                        }
-                    }
+                onTriggered: {
+                    let val = thicknessSelector.value;
+                    let w = settingRoot.targetWidget;
+                    if (w && w.lineThickness !== undefined) w.lineThickness = val;
+                    if (settingRoot.redactor) settingRoot.redactor.setWidgetProperty("lineThickness", val);
                 }
             }
         }
