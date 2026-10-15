@@ -154,6 +154,9 @@ get_active_monitor() {
     if [ -z "$mon" ] && command -v swaymsg &>/dev/null; then
         mon=$(swaymsg -t get_outputs 2>/dev/null | jq -r '.[] | select(.focused == true) | .name' 2>/dev/null)
     fi
+    if [ -z "$mon" ] && [ -n "${MANGO_INSTANCE_SIGNATURE:-}" ] && command -v mmsg &>/dev/null; then
+        mon=$(mmsg get cursorpos 2>/dev/null | jq -r '.monitor // empty' 2>/dev/null)
+    fi
     if [ -z "$mon" ] || [ "$mon" = "null" ]; then
         if [ -f "$SCRIPT_DIR/monitors_detect.sh" ]; then
             mon=$(bash "$SCRIPT_DIR/monitors_detect.sh" 2>/dev/null | head -n 1)
