@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick
+import QtQml
 import Quickshell
 import Quickshell.Services.Pipewire
 
@@ -111,11 +112,26 @@ Singleton {
 
     onAppsChanged: root.refreshActiveStream()
 
-    Timer {
-        interval: 500
-        repeat: true
-        running: true
-        onTriggered: root.refreshActiveStream()
+    Instantiator {
+        model: root.apps
+
+        delegate: QtObject {
+            id: streamWatch
+            required property var modelData
+
+            property Connections nodeConnections: Connections {
+                target: streamWatch.modelData
+                ignoreUnknownSignals: true
+                function onPropertiesChanged() { root.refreshActiveStream(); }
+            }
+
+            property Connections audioConnections: Connections {
+                target: streamWatch.modelData ? streamWatch.modelData.audio : null
+                ignoreUnknownSignals: true
+                function onMutedChanged() { root.refreshActiveStream(); }
+                function onVolumesChanged() { root.refreshActiveStream(); }
+            }
+        }
     }
 
     readonly property PwNode defaultSink: Pipewire.defaultAudioSink
