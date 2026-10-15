@@ -36,4 +36,4 @@ Compositor autostart examples:
 - Hyprland (`config/autostart.lua`): `hl.exec_cmd("serpantinumd start")`
 - Niri (`config/autostart.kdl`): `spawn-at-startup "serpantinumd" "start"`
 - Sway (`configDir/autostart`): `exec serpantinumd start`
-- Mango (`config/autostart.conf`): `exec-once=serpantinumd start`
+- Mango (`config/autostart.conf`): `exec_once=serpantinumd start`

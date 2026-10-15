@@ -14,17 +14,17 @@ Configuration is stored in `~/.config/mango`. The main file is `config.conf`, wh
 - `autostart` - startup processes
 - `keybinds` - keybindings for compositor actions and shell controls
 
-The bundled files use the option names of Mango 0.16. Mango 0.18 renamed several of them (`gappih` to `gap_inner_horizontal`, `borderpx` to `border_px`, `exec-once` to `exec_once`), so adjust them if your Mango is newer. Validate a config without starting the compositor using `mango -c ~/.config/mango/config.conf -p`.
+The bundled files use the option names of Mango 0.18. Older releases used different names (for example `gappih` and `exec-once`), so update to 0.18 or later. Validate a config without starting the compositor using `mango -c ~/.config/mango/config.conf -p`.
 
 ## Autostart
 
 The shell daemon, clipboard history, and audio effects are launched from `config/autostart.conf`:
 
 ```ini
-exec-once=wl-paste --type text --watch cliphist store
-exec-once=wl-paste --type image --watch cliphist store
-exec-once=systemctl --user enable --now easyeffects
-exec-once=serpantinumd start
+exec_once=wl-paste --type text --watch cliphist store
+exec_once=wl-paste --type image --watch cliphist store
+exec_once=systemctl --user enable --now easyeffects
+exec_once=serpantinumd start
 ```
 
 ## Keybindings
@@ -36,7 +36,7 @@ bind=SUPER,D,spawn,serpantinum msg toggle launcher
 bind=SUPER,B,spawn,serpantinum msg toggle system
 ```
 
-Tag switching is routed through the shell to update bar indicators. Mango has nine tags by default:
+Tag switching is routed through the shell to update bar indicators. Mango has nine tags by default (`tag_num`):
 
 ```ini
 bind=SUPER,1,spawn,serpantinum msg workspace 1
@@ -49,5 +49,5 @@ Mango uses tags instead of workspaces. The bar shows the lowest active tag of ea
 
 ## Limitations
 
-- Output scale cannot be changed at runtime. It is set with `monitorrule` in the config.
+- Output scale cannot be changed at runtime. It is set with `monitor_rule` in the config.
 - The output toggle in display settings puts the monitor to sleep instead of removing it.
