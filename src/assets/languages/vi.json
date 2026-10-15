@@ -921,6 +921,14 @@
       "authenticating": "Đang xác thực...",
       "enter_pin": "Nhập mã PIN"
     },
+    "fingerprint": {
+      "ready": "Chạm vào cảm biến",
+      "hold_longer": "Giữ ngón tay lâu hơn",
+      "not_recognized": "Không nhận diện được vân tay",
+      "recognized": "Đã nhận diện vân tay",
+      "too_many_attempts": "Quá nhiều lần thử, hãy dùng mật khẩu",
+      "unavailable": "Vân tay không khả dụng"
+    },
     "power": {
       "suspend": "Ngủ",
       "reboot": "Khởi động lại",

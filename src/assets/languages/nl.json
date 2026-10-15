@@ -921,6 +921,14 @@
       "authenticating": "Verifiëren...",
       "enter_pin": "Voer pincode in"
     },
+    "fingerprint": {
+      "ready": "Raak de sensor aan",
+      "hold_longer": "Houd je vinger langer vast",
+      "not_recognized": "Vingerafdruk niet herkend",
+      "recognized": "Vingerafdruk herkend",
+      "too_many_attempts": "Te veel pogingen, gebruik je wachtwoord",
+      "unavailable": "Vingerafdruk niet beschikbaar"
+    },
     "power": {
       "suspend": "Stand-by",
       "reboot": "Herstarten",

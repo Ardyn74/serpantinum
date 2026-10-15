@@ -944,6 +944,14 @@
       "authenticating": "Автентифікація...",
       "enter_pin": "Введіть PIN"
     },
+    "fingerprint": {
+      "ready": "Торкніться сенсора",
+      "hold_longer": "Тримайте палець довше",
+      "not_recognized": "Відбиток не розпізнано",
+      "recognized": "Відбиток розпізнано",
+      "too_many_attempts": "Забагато спроб, скористайтеся паролем",
+      "unavailable": "Відбиток недоступний"
+    },
     "power": {
       "suspend": "Сон",
       "reboot": "Перезавантаження",

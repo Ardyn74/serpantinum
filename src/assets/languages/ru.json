@@ -965,6 +965,14 @@
       "authenticating": "Аутентификация...",
       "enter_pin": "Введите PIN"
     },
+    "fingerprint": {
+      "ready": "Коснитесь сенсора",
+      "hold_longer": "Держите палец дольше",
+      "not_recognized": "Отпечаток не распознан",
+      "recognized": "Отпечаток распознан",
+      "too_many_attempts": "Слишком много попыток, используйте пароль",
+      "unavailable": "Отпечаток недоступен"
+    },
     "power": {
       "suspend": "Сон",
       "reboot": "Перезагрузка",

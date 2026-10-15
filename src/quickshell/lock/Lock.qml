@@ -25,6 +25,8 @@ Scope {
     property bool isSway: false
     property string kbLayout: "US"
     property int connectedScreenCount: 1
+    property bool fingerprintAvailable: false
+    readonly property int fingerprintMaxAttempts: 5
 
     readonly property bool isDesktop: UPower.displayDevice.ready ? !UPower.displayDevice.isLaptopBattery : SystemInfo.isDesktop
     readonly property int batCap: UPower.displayDevice.ready ? Math.round(UPower.displayDevice.percentage * 100) : 0
@@ -55,6 +57,7 @@ Scope {
         root.updateDeInfo();
         root.updateScreenCount();
         Quickshell.execDetached(["rm", "-f", Caching.getRunDir("lock") + "/locked"]);
+        fingerprintProbe.running = true;
     }
 
     Component.onDestruction: {
@@ -170,6 +173,122 @@ Scope {
         }
     }
 
+    Process {
+        id: fingerprintProbe
+        command: [
+            "bash",
+            "-c",
+            "command -v fprintd-verify >/dev/null 2>&1 && command -v fprintd-list >/dev/null 2>&1 && fprintd-list \"${USER:-$(id -un)}\" 2>/dev/null | grep -Eq '^[[:space:]]*- #[0-9]+'"
+        ]
+        onExited: (exitCode) => {
+            root.fingerprintAvailable = exitCode === 0;
+        }
+    }
+
+    Process {
+        id: fingerprintVerify
+        property bool gotResult: false
+        command: [
+            "bash",
+            "-c",
+            "if command -v stdbuf >/dev/null 2>&1; then exec stdbuf -oL fprintd-verify; else exec fprintd-verify; fi"
+        ]
+        stdout: SplitParser {
+            onRead: (line) => root.handleFingerprintLine(line)
+        }
+        onStarted: gotResult = false
+        onExited: root.handleFingerprintExit()
+    }
+
+    Timer {
+        id: fingerprintRestartTimer
+        interval: 1100
+        repeat: false
+        onTriggered: root.startFingerprint()
+    }
+
+    Timer {
+        id: fingerprintSettleTimer
+        interval: 1700
+        repeat: false
+        onTriggered: {
+            if (lockUI.fpState === "hold") lockUI.fpState = "ready";
+        }
+    }
+
+    Timer {
+        id: fingerprintUnlockTimer
+        interval: 480
+        repeat: false
+        onTriggered: root.finishUnlock()
+    }
+
+    function startFingerprint() {
+        if (!root.fingerprintAvailable || !rootLock.locked || root.isUnlocking) return;
+        if (lockUI.fpState === "success" || lockUI.fpState === "blocked" || lockUI.fpState === "error") return;
+        if (fingerprintVerify.running) return;
+        lockUI.fpState = "ready";
+        fingerprintVerify.running = true;
+    }
+
+    function stopFingerprint() {
+        fingerprintRestartTimer.stop();
+        fingerprintSettleTimer.stop();
+        fingerprintVerify.gotResult = true;
+        fingerprintVerify.running = false;
+    }
+
+    function restartFingerprint() {
+        if (!root.fingerprintAvailable) return;
+        root.stopFingerprint();
+        if (lockUI.fpState !== "success" && lockUI.fpState !== "blocked") lockUI.fpState = "ready";
+        fingerprintRestartTimer.restart();
+    }
+
+    function handleFingerprintLine(line) {
+        let m = /Verify result:\s*([\w-]+)/.exec(line);
+        if (!m || !rootLock.locked || lockUI.fpState === "success") return;
+        fingerprintVerify.gotResult = true;
+        lockUI.fpErrors = 0;
+        switch (m[1]) {
+        case "verify-match":
+            fingerprintSettleTimer.stop();
+            lockUI.fpState = "success";
+            fingerprintUnlockTimer.restart();
+            break;
+        case "verify-no-match":
+            fingerprintSettleTimer.stop();
+            lockUI.fpFailures++;
+            lockUI.fpState = lockUI.fpFailures >= root.fingerprintMaxAttempts ? "blocked" : "failed";
+            break;
+        case "verify-retry-scan":
+        case "verify-swipe-too-short":
+        case "verify-finger-not-centered":
+        case "verify-remove-and-retry":
+            lockUI.fpState = "hold";
+            fingerprintSettleTimer.restart();
+            break;
+        default:
+            fingerprintSettleTimer.stop();
+            lockUI.fpState = "error";
+            fingerprintVerify.running = false;
+            break;
+        }
+    }
+
+    function handleFingerprintExit() {
+        if (!rootLock.locked || root.isUnlocking) return;
+        if (lockUI.fpState === "success" || lockUI.fpState === "blocked" || lockUI.fpState === "error") return;
+        if (!fingerprintVerify.gotResult) {
+            lockUI.fpErrors++;
+            if (lockUI.fpErrors >= 3) {
+                lockUI.fpState = "error";
+                return;
+            }
+        }
+        fingerprintRestartTimer.restart();
+    }
+
     function lock() {
         if (rootLock.locked) return;
         let ts = Date.now().toString();
@@ -197,20 +316,29 @@ Scope {
         lockUI.failed = false;
         lockUI.authenticating = false;
         lockUI.statusText = I18n.t("lock.status.locked");
+        lockUI.fpState = "ready";
+        lockUI.fpFailures = 0;
+        lockUI.fpErrors = 0;
+        root.stopFingerprint();
+        fingerprintUnlockTimer.stop();
         rootLock.locked = true;
         pamActionTimer.start();
+        fingerprintRestartTimer.restart();
         kbPollerRestartTimer.restart();
     }
 
     function finishUnlock() {
         if (root.isUnlocking) return;
         root.isUnlocking = true;
+        fingerprintUnlockTimer.stop();
+        root.stopFingerprint();
     }
 
     function completeUnlock() {
         if (!rootLock.locked) return;
         rootLock.locked = false;
         root.isUnlocking = false;
+        root.stopFingerprint();
         kbWaiter.running = false;
         kbPoller.running = false;
         Quickshell.execDetached(["rm", "-f", Caching.getRunDir("lock") + "/locked"]);
@@ -233,6 +361,19 @@ Scope {
         property bool failed: false
         property bool authenticating: false
         property string statusText: I18n.t("lock.status.locked")
+        property string fpState: "ready"
+        property int fpFailures: 0
+        property int fpErrors: 0
+        readonly property string fpLabel: {
+            switch (fpState) {
+            case "hold": return I18n.t("lock.fingerprint.hold_longer");
+            case "failed": return I18n.t("lock.fingerprint.not_recognized");
+            case "success": return I18n.t("lock.fingerprint.recognized");
+            case "blocked": return I18n.t("lock.fingerprint.too_many_attempts");
+            case "error": return I18n.t("lock.fingerprint.unavailable");
+            default: return I18n.t("lock.fingerprint.ready");
+            }
+        }
     }
 
     Timer {
@@ -271,6 +412,7 @@ Scope {
             root.resumeRevision++;
             if (rootLock.locked) {
                 pam.start();
+                root.restartFingerprint();
             }
         }
     }
@@ -1188,6 +1330,25 @@ Scope {
                                 }
                             }
 
+                            FingerprintIndicator {
+                                id: clockFingerprint
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: screenRoot.s(36)
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                status: lockUI.fpState
+                                label: lockUI.fpLabel
+                                attempts: lockUI.fpFailures
+                                maxAttempts: root.fingerprintMaxAttempts
+                                glyphSize: screenRoot.s(40)
+                                labelPixelSize: screenRoot.s(12)
+                                opacity: (screenRoot.inputActive || screenRoot.centerReveal > 0.02) ? 0.0 : 1.0
+                                scale: (screenRoot.inputActive || screenRoot.centerReveal > 0.02) ? 0.92 : 1.0
+                                visible: root.fingerprintAvailable && opacity > 0.01
+
+                                Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+                            }
+
                             Rectangle {
                                 id: mainDashboardShellShadow
                                 anchors.fill: mainDashboardShell
@@ -1433,7 +1594,20 @@ Scope {
                                             }
                                         }
 
-                                        Item { Layout.fillHeight: true; Layout.preferredHeight: screenRoot.s(16) }
+                                        Item { Layout.fillHeight: true; Layout.preferredHeight: screenRoot.s(8) }
+
+                                        FingerprintIndicator {
+                                            Layout.alignment: Qt.AlignHCenter
+                                            visible: root.fingerprintAvailable
+                                            status: lockUI.fpState
+                                            label: lockUI.fpLabel
+                                            attempts: lockUI.fpFailures
+                                            maxAttempts: root.fingerprintMaxAttempts
+                                            glyphSize: screenRoot.s(44)
+                                            labelPixelSize: screenRoot.s(12)
+                                        }
+
+                                        Item { Layout.fillHeight: true; Layout.preferredHeight: screenRoot.s(8) }
                                     }
                                 }
 

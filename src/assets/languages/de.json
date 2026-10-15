@@ -965,6 +965,14 @@
       "authenticating": "Authentifizierung läuft...",
       "enter_pin": "PIN eingeben"
     },
+    "fingerprint": {
+      "ready": "Sensor berühren",
+      "hold_longer": "Finger länger auflegen",
+      "not_recognized": "Fingerabdruck nicht erkannt",
+      "recognized": "Fingerabdruck erkannt",
+      "too_many_attempts": "Zu viele Versuche, Passwort verwenden",
+      "unavailable": "Fingerabdruck nicht verfügbar"
+    },
     "power": {
       "suspend": "Standby",
       "reboot": "Neu starten",

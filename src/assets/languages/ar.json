@@ -1114,6 +1114,14 @@
       "enter_pin": "أدخل رمز PIN",
       "locked": "مقفل"
     },
+    "fingerprint": {
+      "ready": "المس المستشعر",
+      "hold_longer": "أبقِ إصبعك لفترة أطول",
+      "not_recognized": "لم يتم التعرف على البصمة",
+      "recognized": "تم التعرف على البصمة",
+      "too_many_attempts": "محاولات كثيرة جدًا، استخدم كلمة المرور",
+      "unavailable": "البصمة غير متاحة"
+    },
     "unknown": "غير معروف"
   },
   "music": {

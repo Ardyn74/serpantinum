@@ -921,6 +921,14 @@
       "authenticating": "Kimlik doğrulanıyor...",
       "enter_pin": "PIN girin"
     },
+    "fingerprint": {
+      "ready": "Sensöre dokunun",
+      "hold_longer": "Parmağınızı daha uzun tutun",
+      "not_recognized": "Parmak izi tanınmadı",
+      "recognized": "Parmak izi tanındı",
+      "too_many_attempts": "Çok fazla deneme, parolanızı kullanın",
+      "unavailable": "Parmak izi kullanılamıyor"
+    },
     "power": {
       "suspend": "Askıya al",
       "reboot": "Yeniden başlat",

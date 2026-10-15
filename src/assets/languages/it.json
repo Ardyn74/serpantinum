@@ -920,6 +920,14 @@
       "authenticating": "Autenticazione...",
       "enter_pin": "Inserisci il PIN"
     },
+    "fingerprint": {
+      "ready": "Tocca il sensore",
+      "hold_longer": "Tieni il dito più a lungo",
+      "not_recognized": "Impronta non riconosciuta",
+      "recognized": "Impronta riconosciuta",
+      "too_many_attempts": "Troppi tentativi, usa la password",
+      "unavailable": "Impronta non disponibile"
+    },
     "power": {
       "suspend": "Sospendi",
       "reboot": "Riavvia",

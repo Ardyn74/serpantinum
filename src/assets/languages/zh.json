@@ -921,6 +921,14 @@
       "authenticating": "正在验证...",
       "enter_pin": "输入 PIN 码"
     },
+    "fingerprint": {
+      "ready": "请触摸传感器",
+      "hold_longer": "请将手指按住更久",
+      "not_recognized": "未识别到指纹",
+      "recognized": "指纹已识别",
+      "too_many_attempts": "尝试次数过多，请使用密码",
+      "unavailable": "指纹不可用"
+    },
     "power": {
       "suspend": "睡眠",
       "reboot": "重启",

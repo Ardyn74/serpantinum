@@ -921,6 +921,14 @@
       "authenticating": "인증 중...",
       "enter_pin": "PIN 입력"
     },
+    "fingerprint": {
+      "ready": "센서를 터치하세요",
+      "hold_longer": "손가락을 더 오래 대고 있으세요",
+      "not_recognized": "지문을 인식하지 못했습니다",
+      "recognized": "지문이 인식되었습니다",
+      "too_many_attempts": "시도 횟수가 너무 많습니다. 비밀번호를 사용하세요",
+      "unavailable": "지문을 사용할 수 없습니다"
+    },
     "power": {
       "suspend": "절전",
       "reboot": "다시 시작",

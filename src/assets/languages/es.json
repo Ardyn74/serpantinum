@@ -965,6 +965,14 @@
       "authenticating": "Autenticando...",
       "enter_pin": "Introduce el PIN"
     },
+    "fingerprint": {
+      "ready": "Toca el sensor",
+      "hold_longer": "Mantén el dedo más tiempo",
+      "not_recognized": "Huella no reconocida",
+      "recognized": "Huella reconocida",
+      "too_many_attempts": "Demasiados intentos, usa tu contraseña",
+      "unavailable": "Huella no disponible"
+    },
     "power": {
       "suspend": "Suspender",
       "reboot": "Reiniciar",
