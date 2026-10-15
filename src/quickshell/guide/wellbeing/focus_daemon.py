@@ -49,6 +49,8 @@ CONFIG_PATH = os.environ.get("QS_SETTINGS", os.path.expanduser("~/.config/serpan
 SYSTEM_STATES = {"Desktop", "Locked", "Quickshell", "Unknown"}
 
 def detect_compositor():
+    if os.environ.get("MANGO_INSTANCE_SIGNATURE"):
+        return "mango"
     if os.environ.get("NIRI_SOCKET"):
         return "niri"
     try:
@@ -130,6 +132,25 @@ def get_active_window_niri():
     except Exception:
         return "Desktop", "Desktop"
 
+def get_active_window_mango():
+    try:
+        output = subprocess.check_output(['mmsg', 'get', 'focusing-client'], text=True)
+        data = json.loads(output)
+        if not output.strip() or data.get('error'): return "Desktop", "Desktop"
+
+        app_cls = (data.get('appid') or '').strip()
+        raw_title = (data.get('title') or '').strip()
+
+        if "quickshell" in app_cls.lower() or "qs-master" in raw_title.lower() or "qs-master" in app_cls.lower():
+            return "Quickshell", "Quickshell"
+
+        app_cls = app_cls if app_cls else "Unknown"
+        raw_title = raw_title if raw_title else app_cls
+        clean_name = resolve_app_name(app_cls, raw_title)
+        return app_cls, clean_name
+    except Exception:
+        return "Desktop", "Desktop"
+
 LOCK_RUN_DIR = os.environ.get("QS_RUN_LOCK", os.path.join(os.environ.get("QS_RUN_DIR", f"{os.environ.get('XDG_RUNTIME_DIR', '/tmp')}/serpantinum"), "lock"))
 LOCK_STATE_PATH = os.path.join(LOCK_RUN_DIR, "locked")
 
@@ -175,6 +196,23 @@ def listen_niri_ipc():
             for line in process.stdout:
                 if not line.strip(): continue
                 cls, clean_title = get_active_window_niri()
+                if is_locked():
+                    current_app_class, current_app_title = "Locked", "Locked"
+                else:
+                    current_app_class, current_app_title = cls, clean_title
+            process.wait()
+        except Exception:
+            pass
+        time.sleep(2)
+
+def listen_mango_ipc():
+    global current_app_class, current_app_title
+    while True:
+        try:
+            process = subprocess.Popen(['mmsg', 'watch', 'focusing-client'], stdout=subprocess.PIPE, text=True)
+            for line in process.stdout:
+                if not line.strip(): continue
+                cls, clean_title = get_active_window_mango()
                 if is_locked():
                     current_app_class, current_app_title = "Locked", "Locked"
                 else:
@@ -443,7 +481,10 @@ def main():
 
     compositor = detect_compositor()
     
-    if compositor == "niri":
+    if compositor == "mango":
+        current_app_class, current_app_title = get_active_window_mango()
+        ipc_thread = threading.Thread(target=listen_mango_ipc, daemon=True)
+    elif compositor == "niri":
         current_app_class, current_app_title = get_active_window_niri()
         ipc_thread = threading.Thread(target=listen_niri_ipc, daemon=True)
     else:
