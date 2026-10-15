@@ -9,7 +9,7 @@ Singleton {
     id: root
 
     PwObjectTracker {
-        objects: Pipewire.nodes.values
+        objects: Pipewire.nodes?.values ?? []
     }
 
     function isSerpantinumStream(node) {
@@ -26,7 +26,7 @@ Singleton {
 
     readonly property var outputs: {
         let arr = [];
-        for (const n of Pipewire.nodes.values) {
+        for (const n of Pipewire.nodes?.values ?? []) {
             if (!n.isStream && n.isSink && n.audio) arr.push(n);
         }
         return AudioCache.updateOutputs(arr);
@@ -34,7 +34,7 @@ Singleton {
 
     readonly property var inputs: {
         let arr = [];
-        for (const n of Pipewire.nodes.values) {
+        for (const n of Pipewire.nodes?.values ?? []) {
             if (!n.isStream && !n.isSink && n.audio
                 && n.properties?.["device.class"] !== "monitor"
                 && !n.name?.endsWith(".monitor")) {
@@ -46,7 +46,7 @@ Singleton {
 
     readonly property var apps: {
         let arr = [];
-        for (const n of Pipewire.nodes.values) {
+        for (const n of Pipewire.nodes?.values ?? []) {
             if (n.isStream && n.audio
                 && n.properties?.["application.id"] !== "org.PulseAudio.pavucontrol"
                 && !isSerpantinumStream(n)) {
@@ -57,7 +57,7 @@ Singleton {
     }
 
     readonly property bool hasActiveStream: {
-        for (const n of apps) {
+        for (const n of apps ?? []) {
             if (!n || !n.audio) continue;
             let p = n.properties;
             if (!p || p["media.class"] !== "Stream/Output/Audio") continue;
