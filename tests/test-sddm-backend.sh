@@ -4,10 +4,12 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 SDDM_FUNCS="$(
-    sed -n '/^find_sddm_binary()/,/^}/p;/^sddm_packages()/,/^}/p' "$REPO_ROOT/install/modules/deps.sh"
+    sed -n '/^find_sddm_binary()/,/^}/p;/^sddm_has_xorg()/,/^}/p;/^sddm_packages()/,/^}/p' "$REPO_ROOT/install/modules/deps.sh"
     sed -n '/^resolve_sddm_backend()/,/^}/p;/^setup_sddm()/,/^}/p' "$REPO_ROOT/install/modules/deploy.sh"
 )"
 eval "$SDDM_FUNCS"
+
+t() { echo "$1"; }
 
 pass_count=0
 fail_count=0
@@ -24,8 +26,6 @@ fail() {
     fail_count=$((fail_count + 1))
 }
 
-# Creates $1/sddm (what SDDM can see) and $1/user (only on the installer's
-# PATH). A binary named "user:foo" goes into the second one.
 make_bins() {
     local dir="$1" bin
     shift
@@ -41,7 +41,6 @@ make_bins() {
     done
 }
 
-# Prints the value of key $3 inside section [$2] of file $1.
 conf_value() {
     awk -v section="[$2]" -v key="$3=" '
         /^\[/ { current = $0; next }
@@ -49,7 +48,6 @@ conf_value() {
     ' "$1"
 }
 
-# Expected commands use @BIN@ for the directory SDDM sees.
 run_test() {
     local name="$1"
     local wayland_flag="$2"
@@ -99,9 +97,6 @@ run_fail_test() {
     rm -rf "$tmpdir"
 }
 
-# Runs the real setup_sddm under `set -e`, like install.sh does, with sudo
-# redirected into a temp root. The installer must keep going in every case.
-# An empty expected server means no config may be written.
 run_setup_test() {
     local name="$1"
     local wayland_flag="$2"
@@ -253,8 +248,14 @@ run_setup_test "setup_sddm skips without touching config when nothing is availab
 
 echo "Running SDDM package list tests..."
 
-run_packages_test "Wayland without a compositor adds weston" \
+run_packages_test "Wayland without a compositor or Xorg adds weston" \
     true yes
+
+run_packages_test "Wayland without a compositor but with Xorg does not add weston" \
+    true no "Xorg"
+
+run_packages_test "Wayland without a compositor but with the X symlink does not add weston" \
+    true no "X"
 
 run_packages_test "Wayland with kwin_wayland does not add weston" \
     true no "kwin_wayland"
