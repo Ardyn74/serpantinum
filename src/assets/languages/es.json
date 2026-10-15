@@ -1565,7 +1565,11 @@
     "deploy": {
       "configuring_sddm": "Configurando el gestor de pantalla SDDM...",
       "disabling_dm": "-> Deshabilitando gestor de pantalla en conflicto: {dm}",
-      "sddm_success": "-> Tema material you para SDDM instalado y servicio habilitado [ OK ]"
+      "sddm_success": "-> Tema material you para SDDM instalado y servicio habilitado [ OK ]",
+      "sddm_no_wayland_compositor": "No se encontró un compositor Wayland compatible para la pantalla de inicio de sesión (kwin_wayland/weston), se usa X11 para SDDM.",
+      "sddm_no_xorg": "No se encontró Xorg, se usa {compositor} para SDDM.",
+      "sddm_no_backend": "No se encontró Xorg ni un compositor Wayland compatible para la pantalla de inicio de sesión (kwin_wayland/weston) en /usr/local/bin, /usr/bin o /bin.",
+      "sddm_skipped": "Se omite la configuración de SDDM: no se encontró un servidor gráfico ni un compositor de inicio de sesión utilizable. El gestor de pantalla actual no se modifica."
     }
   },
   "translator": {

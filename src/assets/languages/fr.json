@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "Configuration du gestionnaire d'affichage SDDM...",
       "disabling_dm": "-> Désactivation du gestionnaire d'affichage en conflit : {dm}",
-      "sddm_success": "-> Thème SDDM Material You installé et service activé [ OK ]"
+      "sddm_success": "-> Thème SDDM Material You installé et service activé [ OK ]",
+      "sddm_no_wayland_compositor": "Aucun compositeur Wayland compatible pour l'écran de connexion (kwin_wayland/weston) trouvé, utilisation de X11 pour SDDM.",
+      "sddm_no_xorg": "Xorg introuvable, utilisation de {compositor} pour SDDM.",
+      "sddm_no_backend": "Ni Xorg ni un compositeur Wayland compatible pour l'écran de connexion (kwin_wayland/weston) n'ont été trouvés dans /usr/local/bin, /usr/bin ou /bin.",
+      "sddm_skipped": "Configuration de SDDM ignorée : aucun serveur d'affichage ni compositeur d'écran de connexion utilisable trouvé. Le gestionnaire de connexion actuel reste inchangé."
     }
   },
   "translator": {

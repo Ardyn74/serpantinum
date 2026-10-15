@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "Configurando o gerenciador de tela SDDM...",
       "disabling_dm": "-> Desativando gerenciador de tela conflitante: {dm}",
-      "sddm_success": "-> Tema material you do SDDM instalado e serviço ativado [ OK ]"
+      "sddm_success": "-> Tema material you do SDDM instalado e serviço ativado [ OK ]",
+      "sddm_no_wayland_compositor": "Nenhum compositor Wayland compatível para a tela de login (kwin_wayland/weston) encontrado, usando X11 para o SDDM.",
+      "sddm_no_xorg": "Xorg não encontrado, usando {compositor} para o SDDM.",
+      "sddm_no_backend": "Nem o Xorg nem um compositor Wayland compatível para a tela de login (kwin_wayland/weston) foram encontrados em /usr/local/bin, /usr/bin ou /bin.",
+      "sddm_skipped": "Configuração do SDDM ignorada: nenhum servidor gráfico ou compositor de login utilizável encontrado. O gerenciador de login atual permanece inalterado."
     }
   },
   "translator": {

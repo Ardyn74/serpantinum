@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "SDDM giriş yöneticisi yapılandırılıyor...",
       "disabling_dm": "-> Çakışan giriş yöneticisi devre dışı bırakılıyor: {dm}",
-      "sddm_success": "-> SDDM material you teması kuruldu ve hizmet etkinleştirildi [ TAMAM ]"
+      "sddm_success": "-> SDDM material you teması kuruldu ve hizmet etkinleştirildi [ TAMAM ]",
+      "sddm_no_wayland_compositor": "Giriş ekranı için desteklenen bir Wayland kompozitörü (kwin_wayland/weston) bulunamadı, SDDM için X11 kullanılıyor.",
+      "sddm_no_xorg": "Xorg bulunamadı, SDDM için {compositor} kullanılıyor.",
+      "sddm_no_backend": "/usr/local/bin, /usr/bin veya /bin içinde ne Xorg ne de giriş ekranı için desteklenen bir Wayland kompozitörü (kwin_wayland/weston) bulundu.",
+      "sddm_skipped": "SDDM kurulumu atlandı: kullanılabilir bir ekran sunucusu veya giriş kompozitörü bulunamadı. Mevcut ekran yöneticisi değiştirilmedi."
     }
   },
   "translator": {

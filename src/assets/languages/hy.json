@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "SDDM էկրանի կառավարիչը կարգավորվում է...",
       "disabling_dm": "-> Անջատվում է հակասող էկրանի կառավարիչը՝ {dm}",
-      "sddm_success": "-> SDDM Material You թեման տեղադրված է, իսկ ծառայությունը՝ միացված [ OK ]"
+      "sddm_success": "-> SDDM Material You թեման տեղադրված է, իսկ ծառայությունը՝ միացված [ OK ]",
+      "sddm_no_wayland_compositor": "Մուտքի էկրանի համար աջակցվող Wayland կոմպոզիտոր (kwin_wayland/weston) չի գտնվել, SDDM-ի համար օգտագործվում է X11։",
+      "sddm_no_xorg": "Xorg չի գտնվել, SDDM-ի համար օգտագործվում է {compositor}։",
+      "sddm_no_backend": "/usr/local/bin, /usr/bin կամ /bin թղթապանակներում չի գտնվել ո՛չ Xorg, ո՛չ մուտքի էկրանի համար աջակցվող Wayland կոմպոզիտոր (kwin_wayland/weston)։",
+      "sddm_skipped": "SDDM-ի կարգավորումը բաց է թողնվել. օգտագործելի էկրանի սերվեր կամ մուտքի կոմպոզիտոր չի գտնվել։ Ընթացիկ էկրանի կառավարիչը չի փոփոխվել։"
     }
   },
   "translator": {

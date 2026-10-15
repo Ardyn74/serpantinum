@@ -136,7 +136,7 @@ resolve_sddm_backend() {
     fi
 
     local has_xorg=false
-    if find_sddm_binary Xorg >/dev/null || find_sddm_binary X >/dev/null; then
+    if sddm_has_xorg; then
         has_xorg=true
     fi
 
@@ -145,7 +145,7 @@ resolve_sddm_backend() {
             printf 'wayland\n%s\n' "$wayland_cmd"
             return 0
         elif [ "$has_xorg" = true ]; then
-            echo -e "  \e[33m[ WARN ]\e[0m No supported Wayland greeter compositor found (kwin_wayland/weston); falling back to X11 for SDDM." >&2
+            echo -e "  \e[33m[ WARN ]\e[0m $(t "installer.deploy.sddm_no_wayland_compositor")" >&2
             echo "x11"
             return 0
         fi
@@ -154,13 +154,13 @@ resolve_sddm_backend() {
             echo "x11"
             return 0
         elif [ -n "$wayland_cmd" ]; then
-            echo -e "  \e[33m[ WARN ]\e[0m Xorg not found; using ${wayland_cmd%% *} for SDDM." >&2
+            echo -e "  \e[33m[ WARN ]\e[0m $(t "installer.deploy.sddm_no_xorg" "compositor=${wayland_cmd%% *}")" >&2
             printf 'wayland\n%s\n' "$wayland_cmd"
             return 0
         fi
     fi
 
-    echo -e "  \e[31m[ ERROR ]\e[0m Neither Xorg nor a supported Wayland greeter compositor (kwin_wayland/weston) was found in /usr/local/bin, /usr/bin or /bin." >&2
+    echo -e "  \e[31m[ ERROR ]\e[0m $(t "installer.deploy.sddm_no_backend")" >&2
     return 1
 }
 
@@ -177,7 +177,7 @@ setup_sddm() {
     local sddm_compositor_cmd=""
     local backend_output=""
     if ! backend_output=$(resolve_sddm_backend "$SDDM_WAYLAND"); then
-        echo -e "  \e[33m[ WARN ]\e[0m Skipping SDDM setup: no usable display server or greeter compositor found. The current display manager is left unchanged." >&2
+        echo -e "  \e[33m[ WARN ]\e[0m $(t "installer.deploy.sddm_skipped")" >&2
         return 0
     fi
 

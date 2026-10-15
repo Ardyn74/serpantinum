@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "正在設定 SDDM 顯示管理器...",
       "disabling_dm": "-> 正在停用衝突的顯示管理器：{dm}",
-      "sddm_success": "-> 已安裝 SDDM Material You 主題並啟用服務 [ 確定 ]"
+      "sddm_success": "-> 已安裝 SDDM Material You 主題並啟用服務 [ 確定 ]",
+      "sddm_no_wayland_compositor": "找不到登入畫面支援的 Wayland 合成器（kwin_wayland/weston），SDDM 將使用 X11。",
+      "sddm_no_xorg": "找不到 Xorg，SDDM 將使用 {compositor}。",
+      "sddm_no_backend": "在 /usr/local/bin、/usr/bin 或 /bin 中既找不到 Xorg，也找不到登入畫面支援的 Wayland 合成器（kwin_wayland/weston）。",
+      "sddm_skipped": "已略過 SDDM 設定：找不到可用的顯示伺服器或登入合成器。目前的顯示管理器保持不變。"
     }
   },
   "translator": {

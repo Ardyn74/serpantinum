@@ -1041,7 +1041,11 @@
     "deploy": {
       "configuring_sddm": "جارٍ تكوين مدير الجلسات SDDM...",
       "disabling_dm": "جارٍ تعطيل مدير تسجيل الدخول السابق ({dm})...",
-      "sddm_success": "-> تم تثبيت مظهر SDDM Material You وتمكين الخدمة [ تم بنجاح ]"
+      "sddm_success": "-> تم تثبيت مظهر SDDM Material You وتمكين الخدمة [ تم بنجاح ]",
+      "sddm_no_wayland_compositor": "لم يتم العثور على مركّب Wayland مدعوم لشاشة تسجيل الدخول (kwin_wayland/weston)، سيتم استخدام X11 لـ SDDM.",
+      "sddm_no_xorg": "لم يتم العثور على Xorg، سيتم استخدام {compositor} لـ SDDM.",
+      "sddm_no_backend": "لم يتم العثور على Xorg ولا على مركّب Wayland مدعوم لشاشة تسجيل الدخول (kwin_wayland/weston) في /usr/local/bin أو /usr/bin أو /bin.",
+      "sddm_skipped": "تم تخطي إعداد SDDM: لم يتم العثور على خادم عرض أو مركّب لشاشة تسجيل الدخول صالح للاستخدام. لم يتم تغيير مدير العرض الحالي."
     },
     "deps": {
       "all_installed": "-> جميع الحزم مثبتة بالفعل! تخطي مرحلة تنزيل الحزم.",

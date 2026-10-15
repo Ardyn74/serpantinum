@@ -658,7 +658,11 @@
     "deploy": {
       "configuring_sddm": "Konfigurowanie menedżera logowania SDDM...",
       "disabling_dm": "-> Wyłączanie konfliktującego menedżera logowania: {dm}",
-      "sddm_success": "-> Motyw Material You dla SDDM zainstalowany i usługa włączona [ OK ]"
+      "sddm_success": "-> Motyw Material You dla SDDM zainstalowany i usługa włączona [ OK ]",
+      "sddm_no_wayland_compositor": "Nie znaleziono obsługiwanego kompozytora Wayland dla ekranu logowania (kwin_wayland/weston), SDDM używa X11.",
+      "sddm_no_xorg": "Nie znaleziono Xorg, SDDM używa {compositor}.",
+      "sddm_no_backend": "Nie znaleziono ani Xorg, ani obsługiwanego kompozytora Wayland dla ekranu logowania (kwin_wayland/weston) w /usr/local/bin, /usr/bin ani /bin.",
+      "sddm_skipped": "Pominięto konfigurację SDDM: nie znaleziono użytecznego serwera wyświetlania ani kompozytora ekranu logowania. Obecny menedżer logowania pozostaje bez zmian."
     }
   },
   "translator": {

@@ -1533,7 +1533,11 @@
     "deploy": {
       "configuring_sddm": "Configuring SDDM display manager...",
       "disabling_dm": "-> Disabling conflicting display manager: {dm}",
-      "sddm_success": "-> SDDM material you theme installed and service enabled [ OK ]"
+      "sddm_success": "-> SDDM material you theme installed and service enabled [ OK ]",
+      "sddm_no_wayland_compositor": "No supported Wayland greeter compositor found (kwin_wayland/weston), falling back to X11 for SDDM.",
+      "sddm_no_xorg": "Xorg not found, using {compositor} for SDDM.",
+      "sddm_no_backend": "Neither Xorg nor a supported Wayland greeter compositor (kwin_wayland/weston) was found in /usr/local/bin, /usr/bin or /bin.",
+      "sddm_skipped": "Skipping SDDM setup: no usable display server or greeter compositor found. The current display manager is left unchanged."
     }
   },
   "translator": {

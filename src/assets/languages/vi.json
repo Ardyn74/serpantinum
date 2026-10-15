@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "Đang cấu hình trình quản lý hiển thị SDDM...",
       "disabling_dm": "-> Đang vô hiệu hóa trình quản lý hiển thị xung đột: {dm}",
-      "sddm_success": "-> Đã cài đặt chủ đề Material You cho SDDM và bật dịch vụ [ OK ]"
+      "sddm_success": "-> Đã cài đặt chủ đề Material You cho SDDM và bật dịch vụ [ OK ]",
+      "sddm_no_wayland_compositor": "Không tìm thấy compositor Wayland được hỗ trợ cho màn hình đăng nhập (kwin_wayland/weston), SDDM dùng X11.",
+      "sddm_no_xorg": "Không tìm thấy Xorg, SDDM dùng {compositor}.",
+      "sddm_no_backend": "Không tìm thấy Xorg hay compositor Wayland được hỗ trợ cho màn hình đăng nhập (kwin_wayland/weston) trong /usr/local/bin, /usr/bin hoặc /bin.",
+      "sddm_skipped": "Bỏ qua thiết lập SDDM: không tìm thấy máy chủ hiển thị hoặc compositor đăng nhập khả dụng. Trình quản lý đăng nhập hiện tại được giữ nguyên."
     }
   },
   "translator": {

@@ -1520,7 +1520,11 @@
     "deploy": {
       "configuring_sddm": "Configurazione del display manager SDDM...",
       "disabling_dm": "-> Disabilitazione del display manager in conflitto: {dm}",
-      "sddm_success": "-> Tema SDDM Material You installato e servizio abilitato [ OK ]"
+      "sddm_success": "-> Tema SDDM Material You installato e servizio abilitato [ OK ]",
+      "sddm_no_wayland_compositor": "Nessun compositor Wayland supportato per la schermata di accesso (kwin_wayland/weston) trovato, uso di X11 per SDDM.",
+      "sddm_no_xorg": "Xorg non trovato, uso di {compositor} per SDDM.",
+      "sddm_no_backend": "Né Xorg né un compositor Wayland supportato per la schermata di accesso (kwin_wayland/weston) sono stati trovati in /usr/local/bin, /usr/bin o /bin.",
+      "sddm_skipped": "Configurazione di SDDM saltata: nessun server grafico o compositor di accesso utilizzabile trovato. Il display manager attuale resta invariato."
     }
   },
   "translator": {

@@ -1568,7 +1568,11 @@
     "deploy": {
       "configuring_sddm": "SDDM-Display-Manager wird konfiguriert...",
       "disabling_dm": "-> Konfliktverursachender Display-Manager wird deaktiviert: {dm}",
-      "sddm_success": "-> SDDM Material-You-Design installiert und Dienst aktiviert [ OK ]"
+      "sddm_success": "-> SDDM Material-You-Design installiert und Dienst aktiviert [ OK ]",
+      "sddm_no_wayland_compositor": "Kein unterstützter Wayland-Compositor für den Anmeldebildschirm (kwin_wayland/weston) gefunden, SDDM verwendet X11.",
+      "sddm_no_xorg": "Xorg nicht gefunden, SDDM verwendet {compositor}.",
+      "sddm_no_backend": "Weder Xorg noch ein unterstützter Wayland-Compositor für den Anmeldebildschirm (kwin_wayland/weston) wurde in /usr/local/bin, /usr/bin oder /bin gefunden.",
+      "sddm_skipped": "SDDM-Einrichtung übersprungen: Kein nutzbarer Displayserver oder Anmelde-Compositor gefunden. Der aktuelle Display-Manager bleibt unverändert."
     }
   },
   "translator": {

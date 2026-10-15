@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "SDDM-inlogbeheerder configureren...",
       "disabling_dm": "-> Conflicterende inlogbeheerder uitschakelen: {dm}",
-      "sddm_success": "-> SDDM Material You-thema geïnstalleerd en service ingeschakeld [ OK ]"
+      "sddm_success": "-> SDDM Material You-thema geïnstalleerd en service ingeschakeld [ OK ]",
+      "sddm_no_wayland_compositor": "Geen ondersteunde Wayland-compositor voor het inlogscherm (kwin_wayland/weston) gevonden, X11 wordt gebruikt voor SDDM.",
+      "sddm_no_xorg": "Xorg niet gevonden, {compositor} wordt gebruikt voor SDDM.",
+      "sddm_no_backend": "Noch Xorg noch een ondersteunde Wayland-compositor voor het inlogscherm (kwin_wayland/weston) is gevonden in /usr/local/bin, /usr/bin of /bin.",
+      "sddm_skipped": "SDDM-configuratie overgeslagen: geen bruikbare displayserver of inlogcompositor gevonden. De huidige displaymanager blijft ongewijzigd."
     }
   },
   "translator": {

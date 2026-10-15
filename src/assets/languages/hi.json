@@ -1521,7 +1521,11 @@
     "deploy": {
       "configuring_sddm": "SDDM डिस्प्ले मैनेजर कॉन्फ़िगर किया जा रहा है...",
       "disabling_dm": "-> परस्पर विरोधी डिस्प्ले मैनेजर को अक्षम किया जा रहा है: {dm}",
-      "sddm_success": "-> SDDM material you थीम इंस्टॉल हुई और सेवा सक्षम की गई [ ठीक ]"
+      "sddm_success": "-> SDDM material you थीम इंस्टॉल हुई और सेवा सक्षम की गई [ ठीक ]",
+      "sddm_no_wayland_compositor": "लॉगिन स्क्रीन के लिए समर्थित Wayland कंपोज़िटर (kwin_wayland/weston) नहीं मिला, SDDM के लिए X11 का उपयोग किया जा रहा है।",
+      "sddm_no_xorg": "Xorg नहीं मिला, SDDM के लिए {compositor} का उपयोग किया जा रहा है।",
+      "sddm_no_backend": "/usr/local/bin, /usr/bin या /bin में न Xorg मिला और न ही लॉगिन स्क्रीन के लिए समर्थित Wayland कंपोज़िटर (kwin_wayland/weston)।",
+      "sddm_skipped": "SDDM सेटअप छोड़ा गया: कोई उपयोग योग्य डिस्प्ले सर्वर या लॉगिन कंपोज़िटर नहीं मिला। मौजूदा डिस्प्ले मैनेजर में कोई बदलाव नहीं किया गया।"
     }
   },
   "translator": {
