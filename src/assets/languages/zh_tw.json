@@ -169,7 +169,11 @@
       "hooks": {
         "title": "勾點 (Shell 指令)"
       },
-      "custom_action_desc": "自訂逾時動作與指令"
+      "custom_action_desc": "自訂逾時動作與指令",
+      "lock_on_sleep": {
+        "title": "睡眠前鎖定",
+        "desc": "在系統暫停前鎖定工作階段，例如闔上螢幕時"
+      }
     },
     "welcome": {
       "by_author": "由 @{author} 製作",

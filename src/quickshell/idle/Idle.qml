@@ -20,6 +20,7 @@ Item {
     property var defaultIdleSettings: ({
         "enabled": false,
         "manualInhibit": false,
+        "lockOnSleep": true,
         "actions": {
             "dim": {
                 "id": "dim",
@@ -101,6 +102,7 @@ Item {
     property bool idleEnabled: idleSettings && idleSettings.enabled !== undefined ? idleSettings.enabled : false
     property bool manualInhibit: idleSettings && idleSettings.manualInhibit !== undefined ? idleSettings.manualInhibit : false
     property bool isIdleSystemActive: idleEnabled && !manualInhibit
+    property bool lockOnSleep: idleSettings && idleSettings.lockOnSleep !== undefined ? idleSettings.lockOnSleep : true
     property bool isDimmed: false
     property bool isLocked: false
 
@@ -133,6 +135,26 @@ Item {
         id: screensaverRestartTimer
         interval: 10000
         onTriggered: screensaverProc.running = true
+    }
+
+    Process {
+        id: sleepLockProc
+        running: idleRoot.lockOnSleep && Caching.qsDir !== ""
+        command: ["python3", Caching.qsDir + "/idle/sleep_lock.py", Caching.getRunDir("lock") + "/locked"]
+        stdout: SplitParser {
+            onRead: data => {
+                if (data.trim() === "sleep") idleRoot.lockSession(true);
+            }
+        }
+        onExited: (exitCode, exitStatus) => {
+            if (exitCode !== 0 && idleRoot.lockOnSleep) sleepLockRestartTimer.restart();
+        }
+    }
+
+    Timer {
+        id: sleepLockRestartTimer
+        interval: 10000
+        onTriggered: sleepLockProc.running = idleRoot.lockOnSleep
     }
 
     property var allActions: {
@@ -214,8 +236,10 @@ Item {
         }
     }
 
-    function lockSession() {
-        Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/lock.sh"]);
+    function lockSession(isStatic) {
+        let cmd = ["bash", Caching.serpantinumDir + "/scripts/lock.sh"];
+        if (isStatic === true) cmd.push("--static");
+        Quickshell.execDetached(cmd);
     }
 
     function performLock() {

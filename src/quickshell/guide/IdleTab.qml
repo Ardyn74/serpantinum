@@ -34,6 +34,7 @@ Item {
     property var defaultIdleSettings: ({
         "enabled": false,
         "manualInhibit": false,
+        "lockOnSleep": true,
         "actions": {
             "dim": {
                 "id": "dim",
@@ -115,6 +116,7 @@ Item {
 
     property bool idleEnabled: idleSettings && idleSettings.enabled !== undefined ? idleSettings.enabled : false
     property bool manualInhibit: idleSettings && idleSettings.manualInhibit !== undefined ? idleSettings.manualInhibit : false
+    property bool lockOnSleep: idleSettings && idleSettings.lockOnSleep !== undefined ? idleSettings.lockOnSleep : true
 
     property var actionIdsList: ["dim", "lock", "dpms", "suspend"]
 
@@ -770,6 +772,25 @@ Item {
                     handleColor: ThemeBackend.crust
                     handleOffColor: ThemeBackend.text
                     onToggled: function(c) { idleTabRoot.updateRootSetting("enabled", c); }
+                }
+            }
+
+            SettingsRow {
+                rootObj: idleTabRoot.rootObj
+                settingId: "idle_lock_on_sleep"
+                searchKeywords: "lock sleep suspend lid close hibernate"
+                icon: "󰌾"
+                title: I18n.t("guide.idle.lock_on_sleep.title", "Lock before sleep")
+                description: I18n.t("guide.idle.lock_on_sleep.desc", "Lock the session before the system suspends, such as when closing the lid")
+
+                Toggle {
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    checked: idleTabRoot.lockOnSleep
+                    accentColor: ThemeBackend.mauve
+                    baseColor: ThemeBackend.surface1
+                    handleColor: ThemeBackend.crust
+                    handleOffColor: ThemeBackend.text
+                    onToggled: function(c) { idleTabRoot.updateRootSetting("lockOnSleep", c); }
                 }
             }
 

@@ -170,7 +170,11 @@
       "hooks": {
         "title": "Ganchos (comandos de shell)"
       },
-      "custom_action_desc": "Acción y comando personalizados por tiempo de espera"
+      "custom_action_desc": "Acción y comando personalizados por tiempo de espera",
+      "lock_on_sleep": {
+        "title": "Bloquear antes de suspender",
+        "desc": "Bloquear la sesión antes de que el sistema se suspenda, por ejemplo al cerrar la tapa"
+      }
     },
     "welcome": {
       "by_author": "por @{author}",

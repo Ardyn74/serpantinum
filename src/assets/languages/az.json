@@ -167,7 +167,11 @@
       "hooks": {
         "title": "Hadisə əmrləri (qabıq əmrləri)"
       },
-      "custom_action_desc": "Xüsusi vaxt aşımı fəaliyyəti və əmri"
+      "custom_action_desc": "Xüsusi vaxt aşımı fəaliyyəti və əmri",
+      "lock_on_sleep": {
+        "title": "Yuxudan əvvəl kilidlə",
+        "desc": "Sistem dayandırılmazdan əvvəl, məsələn qapaq bağlananda, sessiyanı kilidlə"
+      }
     },
     "welcome": {
       "by_author": "Müəllif: @{author}",

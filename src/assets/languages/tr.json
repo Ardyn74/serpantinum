@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Kancalar (kabuk komutları)"
       },
-      "custom_action_desc": "Özel zaman aşımı eylemi ve komutu"
+      "custom_action_desc": "Özel zaman aşımı eylemi ve komutu",
+      "lock_on_sleep": {
+        "title": "Uykudan önce kilitle",
+        "desc": "Kapak kapatıldığında olduğu gibi sistem askıya alınmadan önce oturumu kilitle"
+      }
     },
     "welcome": {
       "by_author": "@{author} tarafından",

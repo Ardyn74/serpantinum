@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Kait (perintah shell)"
       },
-      "custom_action_desc": "Tindakan batas waktu kustom dan perintah"
+      "custom_action_desc": "Tindakan batas waktu kustom dan perintah",
+      "lock_on_sleep": {
+        "title": "Kunci sebelum tidur",
+        "desc": "Kunci sesi sebelum sistem ditangguhkan, misalnya saat menutup layar laptop"
+      }
     },
     "welcome": {
       "by_author": "oleh @{author}",

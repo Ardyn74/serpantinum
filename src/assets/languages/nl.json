@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Hooks (shell-opdrachten)"
       },
-      "custom_action_desc": "Aangepaste time-outactie en opdracht"
+      "custom_action_desc": "Aangepaste time-outactie en opdracht",
+      "lock_on_sleep": {
+        "title": "Vergrendelen voor slaapstand",
+        "desc": "Vergrendel de sessie voordat het systeem in de slaapstand gaat, bijvoorbeeld bij het sluiten van het scherm"
+      }
     },
     "welcome": {
       "by_author": "door @{author}",

@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Hook (lệnh shell)"
       },
-      "custom_action_desc": "Hành động và lệnh hết thời gian tùy chỉnh"
+      "custom_action_desc": "Hành động và lệnh hết thời gian tùy chỉnh",
+      "lock_on_sleep": {
+        "title": "Khóa trước khi ngủ",
+        "desc": "Khóa phiên trước khi hệ thống tạm ngưng, ví dụ khi đóng nắp"
+      }
     },
     "welcome": {
       "by_author": "bởi @{author}",

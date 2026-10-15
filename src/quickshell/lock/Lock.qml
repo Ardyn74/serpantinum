@@ -18,6 +18,7 @@ Scope {
     id: root
 
     property string freezeTimestamp: ""
+    property bool staticLock: false
     property bool isUnlocking: false
     property int resumeRevision: 0
 
@@ -326,8 +327,18 @@ Scope {
         }
     }
 
+    function lockStatic() {
+        if (rootLock.locked) return;
+        grimLockSnapProcess.running = false;
+        grimTimeoutTimer.stop();
+        root.staticLock = true;
+        root.freezeTimestamp = "";
+        root.doLock();
+    }
+
     function lock() {
         if (rootLock.locked) return;
+        root.staticLock = false;
         let ts = Date.now().toString();
         let mons = [];
         if (Quickshell.screens) {
@@ -389,6 +400,9 @@ Scope {
         target: "lock"
         function activate(): void {
             root.lock();
+        }
+        function activateStatic(): void {
+            root.lockStatic();
         }
     }
 
@@ -661,7 +675,7 @@ Scope {
 
                     property bool powerMenuOpen: false
                     property bool inputActive: false
-                    property bool isPlayingIntro: true
+                    property bool isPlayingIntro: !root.staticLock
 
                     property real centerReveal: 0.0
                     property real wingsReveal: 0.0
@@ -856,8 +870,8 @@ Scope {
                         }
                     }
 
-                    property real panelReveal: 0.0
-                    property real contentReveal: 0.0
+                    property real panelReveal: root.staticLock ? 1.0 : 0.0
+                    property real contentReveal: root.staticLock ? 1.0 : 0.0
                     property real mainOpacity: 1.0
 
                     property bool isSysSubscribed: false

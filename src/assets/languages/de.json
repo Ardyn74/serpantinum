@@ -170,7 +170,11 @@
       "hooks": {
         "title": "Hooks (Shell-Befehle)"
       },
-      "custom_action_desc": "Benutzerdefinierte Timeout-Aktion und Befehl"
+      "custom_action_desc": "Benutzerdefinierte Timeout-Aktion und Befehl",
+      "lock_on_sleep": {
+        "title": "Vor dem Ruhezustand sperren",
+        "desc": "Sitzung sperren, bevor das System in den Ruhezustand geht, z. B. beim Schließen des Deckels"
+      }
     },
     "welcome": {
       "by_author": "von @{author}",

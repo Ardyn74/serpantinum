@@ -851,7 +851,11 @@
       "hooks": {
         "title": "Uchwyty (polecenia powłoki)"
       },
-      "custom_action_desc": "Niestandardowa akcja bezczynności i polecenie"
+      "custom_action_desc": "Niestandardowa akcja bezczynności i polecenie",
+      "lock_on_sleep": {
+        "title": "Blokuj przed uśpieniem",
+        "desc": "Blokuj sesję przed uśpieniem systemu, na przykład po zamknięciu pokrywy"
+      }
     },
     "welcome": {
       "by_author": "autor: @{author}",

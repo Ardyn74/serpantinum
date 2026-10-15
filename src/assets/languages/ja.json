@@ -851,7 +851,11 @@
       "hooks": {
         "title": "フック (シェルコマンド)"
       },
-      "custom_action_desc": "カスタムタイムアウトアクションとコマンド"
+      "custom_action_desc": "カスタムタイムアウトアクションとコマンド",
+      "lock_on_sleep": {
+        "title": "スリープ前にロック",
+        "desc": "蓋を閉じたときなど、システムがサスペンドする前にセッションをロックします"
+      }
     },
     "welcome": {
       "by_author": "by @{author}",

@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Azioni automatiche (comandi shell)"
       },
-      "custom_action_desc": "Azione e comando personalizzati per timeout"
+      "custom_action_desc": "Azione e comando personalizzati per timeout",
+      "lock_on_sleep": {
+        "title": "Blocca prima della sospensione",
+        "desc": "Blocca la sessione prima che il sistema si sospenda, ad esempio chiudendo il coperchio"
+      }
     },
     "welcome": {
       "by_author": "fatto da @{author}",

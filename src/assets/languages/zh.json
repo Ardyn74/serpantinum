@@ -169,7 +169,11 @@
       "hooks": {
         "title": "钩子（Shell 命令）"
       },
-      "custom_action_desc": "自定义超时操作与命令"
+      "custom_action_desc": "自定义超时操作与命令",
+      "lock_on_sleep": {
+        "title": "睡眠前锁定",
+        "desc": "在系统挂起前锁定会话，例如合上盖子时"
+      }
     },
     "welcome": {
       "by_author": "作者 @{author}",

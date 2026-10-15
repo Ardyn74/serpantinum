@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Hooks (comandos shell)"
       },
-      "custom_action_desc": "Ação e comando personalizados por tempo limite"
+      "custom_action_desc": "Ação e comando personalizados por tempo limite",
+      "lock_on_sleep": {
+        "title": "Bloquear antes de suspender",
+        "desc": "Bloquear a sessão antes de o sistema suspender, por exemplo ao fechar a tampa"
+      }
     },
     "welcome": {
       "by_author": "por @{author}",

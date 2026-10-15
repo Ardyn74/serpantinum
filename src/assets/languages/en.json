@@ -169,7 +169,11 @@
       "hooks": {
         "title": "Hooks (shell commands)"
       },
-      "custom_action_desc": "Custom timeout action and command"
+      "custom_action_desc": "Custom timeout action and command",
+      "lock_on_sleep": {
+        "title": "Lock before sleep",
+        "desc": "Lock the session before the system suspends, such as when closing the lid"
+      }
     },
     "welcome": {
       "by_author": "by @{author}",
