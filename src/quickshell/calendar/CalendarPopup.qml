@@ -703,12 +703,12 @@ Item {
 
                     Repeater {
                         id: hourRepeater
-                        model: window.weatherData && window.weatherData.forecast[window.weatherView] && window.weatherData.forecast[window.weatherView].hourly ? window.weatherData.forecast[window.weatherView].hourly.slice(0, 8) : []
+                        model: window && window.weatherData && window.weatherData.forecast[window.weatherView] && window.weatherData.forecast[window.weatherView].hourly ? window.weatherData.forecast[window.weatherView].hourly.slice(0, 8) : []
 
                         delegate: Item {
                             property int mCount: hourRepeater.count
-                            property bool isToday: window.weatherView === 0
-                            property bool isHighlighted: isToday && index === window.activeHourIndex
+                            property bool isToday: !!window && window.weatherView === 0
+                            property bool isHighlighted: isToday && !!window && index === window.activeHourIndex
 
                             property real rx: window.s(268) * orbitCanvas.scale
                             property real ry: window.s(124) * orbitCanvas.scale
@@ -748,7 +748,7 @@ Item {
                                     anchors.fill: parent
                                     radius: parent.radius
                                     forceClear: true
-                                    tintColor: isHighlighted ? window.textAccent : window.surface0
+                                    tintColor: window ? (isHighlighted ? window.textAccent : window.surface0) : ThemeBackend.surface0
                                     tintAmount: isHighlighted ? 0.4 : 0.2
                                     tintStrength: 1.0
                                     press: hrMa.pressed ? 0.8 : (hrMa.containsMouse ? 0.25 : 0)
