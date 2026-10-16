@@ -1241,10 +1241,10 @@ PanelWindow {
             WallpaperBlur {
                 z: -1
                 anchors.fill: parent
-                topLeftRadius: parent.topLeftRadius
-                topRightRadius: parent.topRightRadius
-                bottomLeftRadius: parent.bottomLeftRadius
-                bottomRightRadius: parent.bottomRightRadius
+                topLeftRadius: parent.topLeftRadius >= 0 ? parent.topLeftRadius : parent.radius
+                topRightRadius: parent.topRightRadius >= 0 ? parent.topRightRadius : parent.radius
+                bottomLeftRadius: parent.bottomLeftRadius >= 0 ? parent.bottomLeftRadius : parent.radius
+                bottomRightRadius: parent.bottomRightRadius >= 0 ? parent.bottomRightRadius : parent.radius
             }
 
             Rectangle {
