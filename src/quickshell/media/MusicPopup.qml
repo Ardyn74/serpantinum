@@ -1945,9 +1945,21 @@ Item {
                                                                     layer.enabled: true 
                                                                 }
 
+                                                                GlassFill {
+                                                                    id: eqFillGlass
+                                                                    anchors.fill: parent
+                                                                    radius: ThemeBackend.borderRadius
+                                                                    forceClear: true
+                                                                    tintColor: root.eqAccentColor
+                                                                    tintAmount: 0.6
+                                                                    tintStrength: 1.0
+                                                                    press: eqSlider.pressed ? 0.5 : (eqSlider.hovered ? 0.2 : 0)
+                                                                    Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                                                }
+
                                                                 Rectangle {
                                                                     anchors.fill: parent
-                                                                    color: root.eqAccentColor
+                                                                    color: eqFillGlass.active ? "transparent" : root.eqAccentColor
 
                                                                     Rectangle {
                                                                         anchors.fill: parent
@@ -2277,7 +2289,23 @@ Item {
                                                     opacity: width > 0.5 ? 1.0 : 0.0
                                                     Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
+                                                    GlassFill {
+                                                        id: balanceFillGlass
+                                                        x: balanceFillRect.x
+                                                        width: balanceFillRect.width
+                                                        height: balanceFillRect.height
+                                                        radius: balanceFillRect.radius
+                                                        forceClear: true
+                                                        tintColor: ThemeBackend.mauve
+                                                        tintAmount: 0.6
+                                                        tintStrength: 1.0
+                                                        press: balanceSlider.pressed ? 0.5 : (balanceSlider.hovered ? 0.2 : 0)
+                                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                                    }
+
                                                     Rectangle {
+                                                        id: balanceFillRect
+                                                        visible: !balanceFillGlass.active
                                                         x: balanceSlider.value < 0 ? 0 : -height / 2
                                                         width: parent.width + height / 2
                                                         height: parent.height
