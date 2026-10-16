@@ -454,9 +454,17 @@ Item {
                                     Layout.fillWidth: false
                                     Layout.preferredHeight: dockTabRoot.rootObj.s(48)
                                     radius: ThemeBackend.borderRadius
-                                    color: Qt.alpha(ThemeBackend.surface1, 0.3)
+                                    color: appCardGlass1.active ? "transparent" : Qt.alpha(ThemeBackend.surface1, 0.3)
+
+                                    GlassFill {
+                                        id: appCardGlass1
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: Qt.alpha(ThemeBackend.surface1, 0.3)
+                                        tintAmount: 0.25
+                                    }
                                     border.color: Qt.alpha(ThemeBackend.surface2, 0.35)
-                                    border.width: 1
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                                     RowLayout {
                                         anchors.fill: parent

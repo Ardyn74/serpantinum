@@ -725,9 +725,17 @@ Item {
                     Layout.fillWidth: true
                     clip: true
                     radius: ThemeBackend.borderRadius
-                    color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    color: widgetCardGlass1.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                    GlassFill {
+                        id: widgetCardGlass1
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        tintAmount: 0.25
+                    }
                     border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                    border.width: 1
+                    border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                     property string monName: modelData.name
                     property var widgetsList: (displayWidgetsRoot.monitorWidgetsMap && displayWidgetsRoot.monitorWidgetsMap[monName]) ? displayWidgetsRoot.monitorWidgetsMap[monName] : []
@@ -1188,9 +1196,17 @@ Item {
                                     width: widgetsGrid.colWidth
                                     height: rootObj.s(48)
                                     radius: ThemeBackend.borderRadius
-                                    color: Qt.alpha(ThemeBackend.surface1, 0.3)
+                                    color: widgetCardGlass2.active ? "transparent" : Qt.alpha(ThemeBackend.surface1, 0.3)
+
+                                    GlassFill {
+                                        id: widgetCardGlass2
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: Qt.alpha(ThemeBackend.surface1, 0.3)
+                                        tintAmount: 0.25
+                                    }
                                     border.color: Qt.alpha(ThemeBackend.surface2, 0.35)
-                                    border.width: 1
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                                     property string wType: modelData.wType || modelData.type || "time"
                                     property var typeInfo: (typeof WidgetRegistry !== "undefined" && WidgetRegistry.types && WidgetRegistry.types[wType]) ? WidgetRegistry.types[wType] : null

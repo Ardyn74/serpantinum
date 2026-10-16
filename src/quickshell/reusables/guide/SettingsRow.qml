@@ -452,7 +452,7 @@ Rectangle {
     GlassFill {
         id: rowGlass
         anchors.fill: parent
-        allowed: !root.inBlob
+        allowed: !root.inBlob || root.blobPlacement.nested
         radius: root.cornerRadius
         tintColor: ThemeBackend.surface0
         tintAmount: (root.clickable && cardMa.containsMouse ? 0.34 : 0.26) * (root.dimmed ? 0.5 : 1.0)
