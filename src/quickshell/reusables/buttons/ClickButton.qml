@@ -51,12 +51,15 @@ Item {
 
     property bool isHoveredOrHighlighted: btnMa.containsMouse || root.action_highlight
 
+    property real bgOpacity: 1.0
+    function withBgOpacity(c) { return Qt.rgba(c.r, c.g, c.b, c.a * root.bgOpacity); }
+
     Rectangle {
         id: btnShape
         anchors.fill: parent
         radius: root.cornerRadius
         clip: true
-        color: (btnMa.pressed && root.enabled) ? Qt.darker(root.accentColor, 1.28) : (root.isHoveredOrHighlighted ? Qt.darker(root.accentColor, 1.14) : root.accentColor)
+        color: root.withBgOpacity((btnMa.pressed && root.enabled) ? Qt.darker(root.accentColor, 1.28) : (root.isHoveredOrHighlighted ? Qt.darker(root.accentColor, 1.14) : root.accentColor))
         opacity: 1.0
 
         Behavior on color { ColorAnimation { duration: 180 } }

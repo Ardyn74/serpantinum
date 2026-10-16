@@ -961,6 +961,12 @@ Item {
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             radius: ThemeBackend.borderRadius
 
+            WallpaperBlur {
+                z: -1
+                anchors.fill: parent
+                radius: parent.radius
+            }
+
             Rectangle {
                 id: innerBgMask
                 anchors.fill: parent
@@ -982,6 +988,7 @@ Item {
                 Item {
                     id: blurCrossfader
                     anchors.fill: parent
+                    visible: ThemeBackend.elementOpacity >= 0.999
                     property string blurUrl: root.activeBlur ? (root.activeBlur.startsWith("file://") || root.activeBlur.startsWith("http") ? root.activeBlur : "file://" + root.activeBlur) : ""
                     property bool showingA: true
 
@@ -1434,6 +1441,7 @@ Item {
                                     buttonText: (root.activeDeviceIcon || "󰓃") + " " + (root.activeDeviceName || I18n.t("music.speaker"))
                                     textFontSize: root.s(11.5)
                                     accentColor: ThemeBackend.surface0 || "#313244"
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     textColor: ThemeBackend.text || "#cdd6f4"
                                 }
                                 Dropdown {
@@ -1448,7 +1456,7 @@ Item {
                                     fontPixelSize: root.s(11.5)
                                     iconSize: root.s(12)
                                     accentColor: ThemeBackend.mauve || "#cba6f7"
-                                    baseColor: ThemeBackend.surface0 || "#313244"
+                                    baseColor: Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
                                     hoverColor: ThemeBackend.surface1 || "#45475a"
                                     dropdownColor: ThemeBackend.surface0
                                     borderColor: Qt.alpha(ThemeBackend.surface2 || "#585b70", 0.6)
@@ -1467,6 +1475,7 @@ Item {
                                     buttonText: I18n.t("music.via_source", { "source": root.targetPlayer ? (root.targetPlayer.identity || root.targetPlayer.desktopEntry || "Media") : I18n.t("music.offline") })
                                     textFontSize: root.s(11.5)
                                     accentColor: ThemeBackend.surface0 || "#313244"
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     textColor: ThemeBackend.subtext0 || "#9399b2"
                                 }
                             }
@@ -1556,6 +1565,7 @@ Item {
                                 buttonIcon: "󰒮"
                                 iconFontSize: root.s(11)
                                 accentColor: ThemeBackend.surface0 || "#313244"
+                                bgOpacity: ThemeBackend.elementOpacity
                                 textColor: isHoveredOrHighlighted ? (ThemeBackend.text || "#cdd6f4") : (ThemeBackend.subtext0 || "#a6adc8")
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: if (root.targetPlayer && root.targetPlayer.canGoPrevious) root.targetPlayer.previous()
@@ -1569,6 +1579,7 @@ Item {
                                 buttonIcon: (root.targetPlayer && root.targetPlayer.isPlaying) ? "󰏤" : "󰐊"
                                 iconFontSize: root.s(15)
                                 accentColor: ThemeBackend.surface0 || "#313244"
+                                bgOpacity: ThemeBackend.elementOpacity
                                 textColor: isHoveredOrHighlighted ? (ThemeBackend.mauve || "#cba6f7") : (ThemeBackend.text || "#cdd6f4")
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: if (root.targetPlayer && root.targetPlayer.canTogglePlaying) root.targetPlayer.togglePlaying()
@@ -1582,6 +1593,7 @@ Item {
                                 buttonIcon: "󰒭"
                                 iconFontSize: root.s(11)
                                 accentColor: ThemeBackend.surface0 || "#313244"
+                                bgOpacity: ThemeBackend.elementOpacity
                                 textColor: isHoveredOrHighlighted ? (ThemeBackend.text || "#cdd6f4") : (ThemeBackend.subtext0 || "#a6adc8")
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: if (root.targetPlayer && root.targetPlayer.canGoNext) root.targetPlayer.next()
@@ -1626,7 +1638,7 @@ Item {
                             ]
                             currentIndex: 0
                             accentColor: ThemeBackend.mauve || "#cba6f7"
-                            baseColor: ThemeBackend.surface0 || "#313244"
+                            baseColor: Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
                             textColor: ThemeBackend.subtext0 || "#a6adc8"
                             activeTextColor: ThemeBackend.base || "#1e1e2e"
                             cornerRadius: ThemeBackend.borderRadius
@@ -1680,6 +1692,7 @@ Item {
                             accentColor: root.audioTestRunning
                                 ? (ThemeBackend.mauve || "#cba6f7")
                                 : (ThemeBackend.surface0 || "#313244")
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: root.audioTestRunning
                                 ? (ThemeBackend.base || "#1e1e2e")
                                 : (ThemeBackend.text || "#cdd6f4")
@@ -1713,6 +1726,7 @@ Item {
                                 }
                                 return root.eqData && root.eqData.pending ? (ThemeBackend.mauve || "#cba6f7") : (ThemeBackend.surface0 || "#313244");
                             }
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: {
                                 if (bottomSectionSwitch.currentIndex !== 0) {
                                     return ThemeBackend.text || "#cdd6f4";
@@ -1906,7 +1920,7 @@ Item {
                                                             width: root.s(12); height: eqSlider.availableHeight
                                                             radius: ThemeBackend.borderRadius
                                                             
-                                                            color: Qt.rgba((ThemeBackend.surface0 ? ThemeBackend.surface0.r : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.g : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.b : 0.3), 0.7)
+                                                            color: Qt.rgba((ThemeBackend.surface0 ? ThemeBackend.surface0.r : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.g : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.b : 0.3), 0.7 * ThemeBackend.elementOpacity)
 
                                                             layer.enabled: true
                                                             layer.effect: MultiEffect {
@@ -2185,7 +2199,7 @@ Item {
                                     opacity: root.audioIntroBalance
                                     transform: Translate { y: root.s(14) * (1 - root.audioIntroBalance) }
                                     radius: ThemeBackend.borderRadius
-                                    color: ThemeBackend.surface0 || "#313244"
+                                    color: Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
 
                                     Item {
                                         id: balanceControl
@@ -2243,7 +2257,7 @@ Item {
                                                 width: balanceSlider.availableWidth
                                                 height: balanceSlider.trackHeight
                                                 radius: height / 2
-                                                color: ThemeBackend.surface2 || "#585b70"
+                                                color: Qt.alpha(ThemeBackend.surface2 || "#585b70", ThemeBackend.elementOpacity)
                                                 border.width: 1
                                                 border.color: Qt.rgba(1, 1, 1, 0.06)
                                                 clip: true
@@ -2359,7 +2373,7 @@ Item {
                                             Layout.fillWidth: true
                                             Layout.preferredWidth: 1
                                             rootObj: root
-                                            baseColor: ThemeBackend.surface0 || "#313244"
+                                            baseColor: Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
                                             title: modelData.label
                                             titlePixelSize: 12
                                             titleBold: true
@@ -2374,7 +2388,7 @@ Item {
                                                 horizontalPadding: 0
                                                 checked: root.eqData[modelData.key] === true
                                                 accentColor: ThemeBackend.mauve || "#cba6f7"
-                                                baseColor: ThemeBackend.surface2 || "#585b70"
+                                                baseColor: Qt.alpha(ThemeBackend.surface2 || "#585b70", ThemeBackend.elementOpacity)
                                                 handleColor: ThemeBackend.base || "#1e1e2e"
                                                 handleOffColor: ThemeBackend.text || "#cdd6f4"
                                                 onToggled: checked => root.setAudioFlag(modelData.key, checked)
@@ -2395,7 +2409,7 @@ Item {
                                     rootObj: root
                                     opacity: root.audioIntroDynamics
                                     transform: Translate { y: root.s(14) * (1 - root.audioIntroDynamics) }
-                                    baseColor: ThemeBackend.surface0 || "#313244"
+                                    baseColor: Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
                                     title: typeof I18n !== "undefined" ? I18n.t("music.audio.dynamic_range", "Dynamic range") : "Dynamic range"
                                     titlePixelSize: 12
                                     titleBold: true
@@ -2415,7 +2429,7 @@ Item {
                                         currentIndex: String(root.eqData.dynamics || "off") === "night" ? 2
                                             : (String(root.eqData.dynamics || "off") === "balanced" ? 1 : 0)
                                         accentColor: ThemeBackend.mauve || "#cba6f7"
-                                        baseColor: ThemeBackend.surface2 || "#585b70"
+                                        baseColor: Qt.alpha(ThemeBackend.surface2 || "#585b70", ThemeBackend.elementOpacity)
                                         textColor: ThemeBackend.subtext0 || "#a6adc8"
                                         activeTextColor: ThemeBackend.base || "#1e1e2e"
                                         cornerRadius: ThemeBackend.borderRadius
@@ -2498,6 +2512,7 @@ Item {
 
     component PresetButton : ClickButton {
         property string name: ""
+        bgOpacity: ThemeBackend.elementOpacity
         Layout.fillWidth: true
         Layout.preferredWidth: 1
         implicitHeight: root.s(28)

@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import "../"
+import "../reusables"
 
 Variants {
     model: Quickshell.screens
@@ -1077,8 +1078,14 @@ Variants {
                 height: (floatingWidget.activeEdge === "bottom" || floatingWidget.activeEdge === "top") ? floatingWidget.s(11) : peekBarLength
                 radius: Math.min(floatingWidget.containerRadius, Math.min(width, height) / 2)
 
-                color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, 1.0)
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                 border.width: 0
+
+                WallpaperBlur {
+                    z: -1
+                    anchors.fill: parent
+                    radius: parent.radius
+                }
 
                 opacity: 1.0
                 scale: floatingWidget.isPeekVisible ? 1.0 : 0.6
@@ -1238,7 +1245,7 @@ Variants {
                         height: floatingWidget.outerCornerRadius
                         property vector2d itemSize: Qt.vector2d(width, height)
                         property real cornerIndex: 2.0
-                        property color color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, 0.95)
+                        property color color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                         fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
                     }
 
@@ -1250,7 +1257,7 @@ Variants {
                         height: floatingWidget.outerCornerRadius
                         property vector2d itemSize: Qt.vector2d(width, height)
                         property real cornerIndex: 0.0
-                        property color color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, 0.95)
+                        property color color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                         fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
                     }
                     Rectangle {
@@ -1264,8 +1271,17 @@ Variants {
                         bottomLeftRadius: 0
                         topRightRadius: floatingWidget.containerRadius
                         bottomRightRadius: floatingWidget.containerRadius
-                        color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, 1.0)
+                        color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                         border.width: 0
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            topLeftRadius: parent.topLeftRadius
+                            topRightRadius: parent.topRightRadius
+                            bottomLeftRadius: parent.bottomLeftRadius
+                            bottomRightRadius: parent.bottomRightRadius
+                        }
 
                         MouseArea {
                             id: sidebarDragArea

@@ -20,6 +20,8 @@ Item {
     property real wavePhase: internalWavePhase
     property bool isLive: true
     property bool hasShadow: false
+    property bool blurred: false
+    property real bgOpacity: 1.0
     property color shadowColor: Qt.rgba(0, 0, 0, 0.22)
 
     Timer {
@@ -115,9 +117,18 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: root.cardRadius
-        color: root.colorBase
+        color: Qt.alpha(root.colorBase, root.bgOpacity)
         border.width: 1
         border.color: root.borderColor
+
+        Loader {
+            z: -1
+            anchors.fill: parent
+            active: root.blurred
+            sourceComponent: WallpaperBlur {
+                radius: root.cardRadius
+            }
+        }
     }
 
     FluidWave {
@@ -145,6 +156,7 @@ Item {
             size: Math.round(root.iconSize)
             cornerRadius: Math.round(root.iconCornerRadius)
             accentColor: root.iconAccentColor
+            bgOpacity: root.bgOpacity
             textColor: root.iconTextColor
             buttonIcon: root.icon
             iconFontSize: Math.round(root.iconFontSize)

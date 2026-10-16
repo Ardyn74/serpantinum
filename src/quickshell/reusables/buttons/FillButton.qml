@@ -26,6 +26,7 @@ Item {
     property color baseColor: "#181825"
     property color hoverColor: "#1e1e2e"
     property color textColor: "#cdd6f4"
+    property real bgOpacity: 1.0
     property color filledTextColor: "#11111b"
     property int fillDuration: 800
     property int autoResetTimeout: 1200
@@ -283,7 +284,7 @@ Item {
         anchors.fill: parent
         radius: root.effectiveRadius
         clip: true
-        color: root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor
+        color: Qt.alpha(root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor, root.bgOpacity * (root.isHoveredOrHighlighted ? root.hoverColor.a : root.baseColor.a))
 
         Behavior on color { ColorAnimation { duration: 180 } }
 

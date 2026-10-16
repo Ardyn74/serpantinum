@@ -315,7 +315,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: ThemeBackend.mantle
+            color: "transparent"
             radius: ThemeBackend.borderRadius
             z: -1
         }
@@ -390,7 +390,7 @@ Item {
             width: root.s(270)
             height: root.s(36)
             radius: ThemeBackend.borderRadius
-            color: ThemeBackend.surface0
+            color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
             border.width: 1
             border.color: ThemeBackend.surface1
             z: 10
@@ -502,7 +502,7 @@ Item {
                         isActive: root.isActiveTab && stateCache.activeMode === 0 && root.isTimerIdle
                         isWidgetVisible: root.widgetVisible
                         iconFont: root.iconFont
-                        baseColor: ThemeBackend.surface0
+                        baseColor: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                         accentColor: ThemeBackend.mauve
                         textColor: ThemeBackend.text
                         subTextColor: ThemeBackend.subtext0
@@ -531,6 +531,7 @@ Item {
                         buttonIcon: "\uF0E2"
                         iconFontSize: root.s(16)
                         accentColor: ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: ThemeBackend.text
                         anchors.right: timerPlayBtn.left
                         anchors.rightMargin: root.s(20)
@@ -555,6 +556,7 @@ Item {
                         buttonIcon: root.isTimerRunning ? "\uF04C" : "\uF04B"
                         iconFontSize: root.s(24)
                         accentColor: ThemeBackend.mauve
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: ThemeBackend.mantle
                         anchors.centerIn: parent
                         onClicked: root.toggleActiveTabState()
@@ -611,7 +613,7 @@ Item {
                                     width: lapList.width
                                     height: root.s(32)
                                     radius: ThemeBackend.borderRadius
-                                    color: ThemeBackend.surface0
+                                    color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                                     border.width: 1
                                     border.color: ThemeBackend.surface1
 
@@ -645,6 +647,7 @@ Item {
                         buttonIcon: stopwatchView.isRunning ? "\uF024" : "\uF0E2"
                         iconFontSize: root.s(16)
                         accentColor: ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: ThemeBackend.text
                         anchors.right: swPlayBtn.left
                         anchors.rightMargin: root.s(20)
@@ -674,6 +677,7 @@ Item {
                         buttonIcon: stopwatchView.isRunning ? "\uF04C" : "\uF04B"
                         iconFontSize: root.s(24)
                         accentColor: ThemeBackend.mauve
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: ThemeBackend.mantle
                         anchors.centerIn: parent
                         onClicked: root.toggleActiveTabState()
@@ -753,7 +757,7 @@ Item {
                         width: root.s(270)
                         height: root.s(160)
                         radius: ThemeBackend.borderRadius
-                        color: ThemeBackend.surface0
+                        color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                         border.width: 1
                         border.color: ThemeBackend.surface1
                         visible: pomodoroView.showSettings
@@ -778,6 +782,7 @@ Item {
                                         buttonIcon: "-"
                                         iconFontSize: root.s(14)
                                         accentColor: ThemeBackend.surface1
+                                        bgOpacity: ThemeBackend.elementOpacity
                                         textColor: ThemeBackend.text
                                         onClicked: {
                                             stateCache[modelData.target] = Math.max(modelData.min, stateCache[modelData.target] - modelData.step);
@@ -791,6 +796,7 @@ Item {
                                         buttonIcon: "+"
                                         iconFontSize: root.s(14)
                                         accentColor: ThemeBackend.surface1
+                                        bgOpacity: ThemeBackend.elementOpacity
                                         textColor: ThemeBackend.text
                                         onClicked: {
                                             stateCache[modelData.target] = Math.min(modelData.max, stateCache[modelData.target] + modelData.step);
@@ -817,6 +823,7 @@ Item {
                         buttonIcon: "\uF013"
                         iconFontSize: root.s(16)
                         accentColor: ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: pomodoroView.showSettings ? ThemeBackend.mauve : ThemeBackend.text
                         anchors.right: pomoPlayBtn.left
                         anchors.rightMargin: root.s(20)
@@ -831,6 +838,7 @@ Item {
                         buttonIcon: pomodoroView.isRunning ? "\uF04C" : "\uF04B"
                         iconFontSize: root.s(24)
                         accentColor: pomodoroView.getPhaseColor()
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: ThemeBackend.mantle
                         anchors.centerIn: parent
                         onClicked: {
@@ -845,6 +853,7 @@ Item {
                         buttonIcon: "\uF051"
                         iconFontSize: root.s(16)
                         accentColor: ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: ThemeBackend.text
                         anchors.left: pomoPlayBtn.right
                         anchors.leftMargin: root.s(20)

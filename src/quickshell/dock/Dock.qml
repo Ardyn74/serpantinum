@@ -1909,7 +1909,7 @@ Variants {
                                                 anchors.fill: parent
                                                 radius: dockButton.cornerRadius
                                                 clip: true
-                                                color: btnMa.pressed ? Qt.darker(dockButton.btnColor, 1.12) : (btnMa.containsMouse ? Qt.lighter(dockButton.btnColor, 1.12) : dockButton.btnColor)
+                                                color: Qt.alpha(btnMa.pressed ? Qt.darker(dockButton.btnColor, 1.12) : (btnMa.containsMouse ? Qt.lighter(dockButton.btnColor, 1.12) : dockButton.btnColor), ThemeBackend.elementOpacity)
 
                                                 Behavior on color {
                                                     ColorAnimation { duration: 180 }
@@ -2376,7 +2376,7 @@ Variants {
                                                 anchors.fill: parent
                                                 radius: runningDockButton.cornerRadius
                                                 clip: true
-                                                color: runningBtnMa.pressed ? Qt.darker(runningDockButton.btnColor, 1.12) : (runningBtnMa.containsMouse ? Qt.lighter(runningDockButton.btnColor, 1.12) : runningDockButton.btnColor)
+                                                color: Qt.alpha(runningBtnMa.pressed ? Qt.darker(runningDockButton.btnColor, 1.12) : (runningBtnMa.containsMouse ? Qt.lighter(runningDockButton.btnColor, 1.12) : runningDockButton.btnColor), ThemeBackend.elementOpacity)
                                                 transformOrigin: Item.Center
                                                 scale: runningDockButton.targetScale * runningDockButton.popScale
 

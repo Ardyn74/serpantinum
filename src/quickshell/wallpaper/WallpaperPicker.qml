@@ -1870,7 +1870,13 @@ Item {
         Behavior on anchors.topMargin { NumberAnimation { duration: 650; easing.type: Easing.OutQuint } }
         Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
         anchors.horizontalCenter: parent.horizontalCenter; z: 200; height: window.s(48); width: filterRow.width + window.s(20); radius: ThemeBackend.borderRadius
-        color: Qt.rgba(ThemeBackend.base.r, ThemeBackend.base.g, ThemeBackend.base.b, 0.90); border.color: ThemeBackend.surface0; border.width: 1
+        color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity); border.width: 0; border.color: "transparent"
+
+        WallpaperBlur {
+            z: -1
+            anchors.fill: parent
+            radius: parent.radius
+        }
 
         Row {
             id: filterRow; anchors.centerIn: parent ? parent : undefined; spacing: window.s(8)
@@ -1880,7 +1886,7 @@ Item {
                 property real paddingLeft: window.showSpinner ? window.s(36) : window.s(12)
                 property real targetWidth: window.showNotification ? Math.min(notifTextDrawer.implicitWidth + paddingLeft + window.s(16), window.s(300)) : 0
                 width: targetWidth; visible: width > 0.1; radius: ThemeBackend.borderRadius; clip: true; anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                color: ThemeBackend.surface0; border.color: ThemeBackend.surface1; border.width: 1
+                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity); border.color: ThemeBackend.surface1; border.width: 1
                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Behavior on border.color { ColorAnimation { duration: 200 } }
@@ -1914,7 +1920,7 @@ Item {
                 property real expandedWidth: window.s(34) + monitorListRow.implicitWidth + window.s(6)
                 width: visible ? (window.isMonitorSelectorOpen ? expandedWidth : window.s(34)) : 0
                 radius: ThemeBackend.borderRadius; clip: true; anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                color: window.isMonitorSelectorOpen ? ThemeBackend.surface2 : ThemeBackend.surface0; border.color: window.isMonitorSelectorOpen ? ThemeBackend.text : ThemeBackend.surface1; border.width: window.isMonitorSelectorOpen ? window.s(1.5) : 1
+                color: Qt.alpha(window.isMonitorSelectorOpen ? ThemeBackend.surface2 : ThemeBackend.surface0, ThemeBackend.elementOpacity); border.color: window.isMonitorSelectorOpen ? ThemeBackend.text : ThemeBackend.surface1; border.width: window.isMonitorSelectorOpen ? window.s(1.5) : 1
                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Behavior on border.color { ColorAnimation { duration: 200 } }
@@ -1925,6 +1931,7 @@ Item {
                     cornerRadius: window.s(10)
                     iconSize: window.s(14)
                     accentColor: "transparent"
+                    bgOpacity: ThemeBackend.elementOpacity
                     textColor: window.isMonitorSelectorOpen ? ThemeBackend.text : ThemeBackend.subtext0
                     anchors.left: parent ? parent.left : undefined
                     anchors.verticalCenter: parent ? parent.verticalCenter : undefined
@@ -1956,6 +1963,7 @@ Item {
                             buttonText: model.name
                             textFontSize: window.s(10)
                             accentColor: model.selected ? ThemeBackend.text : ThemeBackend.surface1
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: model.selected ? ThemeBackend.base : ThemeBackend.text
                             enabled: window.isMonitorSelectorOpen && !window.isApplying
                             anchors.verticalCenter: parent ? parent.verticalCenter : undefined
@@ -1987,6 +1995,7 @@ Item {
                         cornerRadius: window.s(10)
                         iconSize: window.s(14)
                         accentColor: window.currentFilter === modelData.name ? ThemeBackend.surface2 : ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: window.currentFilter === modelData.name ? ThemeBackend.text : ThemeBackend.subtext0
                         action_highlight: window.currentFilter === modelData.name
                         paintCanvas: function(ctx, canvas) {
@@ -2007,6 +2016,7 @@ Item {
                         cornerRadius: window.s(10)
                         iconSize: window.s(14)
                         accentColor: window.currentFilter === modelData.name ? ThemeBackend.surface2 : ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: window.currentFilter === modelData.name ? ThemeBackend.text : ThemeBackend.subtext0
                         action_highlight: window.currentFilter === modelData.name
                         paintCanvas: function(ctx, canvas) {
@@ -2033,6 +2043,7 @@ Item {
                         cornerRadius: window.s(10)
                         iconSize: window.s(12)
                         accentColor: window.currentFilter === modelData.name ? ThemeBackend.surface2 : ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.elementOpacity
                         textColor: window.currentFilter === modelData.name ? ThemeBackend.text : ThemeBackend.subtext0
                         action_highlight: window.currentFilter === modelData.name
                         paintCanvas: function(ctx, canvas) {
@@ -2052,7 +2063,7 @@ Item {
                         visible: modelData.hex === "" && modelData.name !== "Video" && modelData.name !== "All" && modelData.name !== "History"
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
-                        color: window.currentFilter === modelData.name ? ThemeBackend.surface2 : (filterMouse.containsMouse ? ThemeBackend.surface1 : ThemeBackend.surface0)
+                        color: Qt.alpha(window.currentFilter === modelData.name ? ThemeBackend.surface2 : (filterMouse.containsMouse ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
                         border.color: window.currentFilter === modelData.name ? ThemeBackend.text : ThemeBackend.surface1
                         border.width: window.currentFilter === modelData.name ? window.s(1.5) : 1
                         scale: window.currentFilter === modelData.name ? 1.05 : (filterMouse.containsMouse ? 1.03 : 1.0)
@@ -2121,6 +2132,7 @@ Item {
                     cornerRadius: window.s(10)
                     iconSize: window.s(34)
                     accentColor: window.isSearchPaused ? ThemeBackend.surface2 : ThemeBackend.surface0
+                    bgOpacity: ThemeBackend.elementOpacity
                     textColor: window.isSearchPaused ? ThemeBackend.text : ThemeBackend.subtext0
                     action_highlight: window.isSearchPaused
                     paintCanvas: function(ctx, canvas) {
@@ -2163,6 +2175,7 @@ Item {
                     cornerRadius: window.s(10)
                     iconSize: window.s(14)
                     accentColor: searchContainer.isSearchOpen ? ThemeBackend.surface2 : ThemeBackend.surface0
+                    bgOpacity: ThemeBackend.elementOpacity
                     textColor: searchContainer.isSearchOpen ? ThemeBackend.text : ThemeBackend.subtext0
                     action_highlight: searchContainer.isSearchOpen
                     paintCanvas: function(ctx, canvas) {
@@ -2200,7 +2213,7 @@ Item {
                     visible: opacity > 0.01
                     Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                     cornerRadius: ThemeBackend.borderRadius
-                    baseColor: Qt.rgba(ThemeBackend.surface0.r, ThemeBackend.surface0.g, ThemeBackend.surface0.b, 0.85)
+                    baseColor: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                     borderColor: ThemeBackend.text
                     textColor: ThemeBackend.text
                     subTextColor: ThemeBackend.subtext0
@@ -2235,6 +2248,7 @@ Item {
                     cornerRadius: ThemeBackend.borderRadius
                     iconSize: window.s(34)
                     accentColor: ThemeBackend.surface1
+                    bgOpacity: ThemeBackend.elementOpacity
                     textColor: ThemeBackend.text
                     paintCanvas: function(ctx, canvas) {
                         var s = window.s;

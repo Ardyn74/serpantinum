@@ -106,11 +106,14 @@ Item {
     onOptionsChanged: recalculateLayout()
     onFontPixelSizeChanged: recalculateLayout()
 
+    property real bgOpacity: 1.0
+    function withBgOpacity(c) { return Qt.rgba(c.r, c.g, c.b, c.a * root.bgOpacity); }
+
     Rectangle {
         id: bgShape
         anchors.fill: parent
         radius: root.cornerRadius
-        color: root.baseColor
+        color: root.withBgOpacity(root.baseColor)
         clip: true
         opacity: root.enabled ? 1.0 : 0.5
 

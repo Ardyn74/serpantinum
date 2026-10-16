@@ -125,7 +125,7 @@ Item {
             scale: pwrMa.pressed ? 0.95 : (pwrMa.containsMouse ? 1.05 : 1.0)
             Behavior on scale { enabled: window.visible; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
     
-            color: window.currentPower ? "transparent" : (pwrMa.containsMouse ? Qt.lighter(ThemeBackend.base, 1.6) : Qt.lighter(ThemeBackend.base, 1.3))
+            color: window.currentPower ? "transparent" : Qt.alpha(pwrMa.containsMouse ? Qt.lighter(ThemeBackend.base, 1.6) : Qt.lighter(ThemeBackend.base, 1.3), ThemeBackend.elementOpacity)
             Behavior on color { enabled: window.visible; ColorAnimation { duration: 200 } }
     
             border.color: window.currentPowerPending ? window.activeColor : (window.currentPower ? "transparent" : (pwrMa.containsMouse ? Qt.lighter(ThemeBackend.base, 1.45) : Qt.lighter(ThemeBackend.base, 1.25)))
@@ -135,7 +135,7 @@ Item {
             Rectangle {
                 anchors.fill: parent
                 radius: parent.radius
-                opacity: window.currentPower ? 1.0 : 0.0
+                opacity: window.currentPower ? ThemeBackend.elementOpacity : 0.0
                 Behavior on opacity { enabled: window.powerAnimAllowed && window.visible; NumberAnimation { duration: 800; easing.type: Easing.InOutQuint } }
                 gradient: Gradient {
                     orientation: Gradient.Horizontal

@@ -18,14 +18,14 @@ Item {
     readonly property var hostWindow: QsWindow.window
     readonly property var hostScreen: hostWindow ? hostWindow.screen : null
     readonly property string screenName: hostScreen && hostScreen.name ? hostScreen.name : ""
-    readonly property bool active: ThemeBackend.blurBackground && ThemeBackend.elementOpacity < 0.999 && width > 0 && height > 0 && hostScreen !== null
+    readonly property bool active: ThemeBackend.blurBackground && ThemeBackend.elementOpacity < 0.999 && width > 0 && height > 0 && hostScreen !== null && hostWindow.visible
 
     readonly property var engine: Wallpaper.engines[screenName] || null
 
     property real imageX: 0
     property real imageY: 0
-    property real imageWidth: 0
-    property real imageHeight: 0
+    property real imageScale: 1
+    property real imageRotation: 0
     property int revision: 0
 
     readonly property string snapshotDir: Caching.getCacheDir("wallpaper")
@@ -47,7 +47,9 @@ Item {
     readonly property int incomingSlot: engine ? engine.activeLayer : 0
     readonly property string newSource: layerSource(incomingSlot)
     readonly property string oldSource: engine ? layerSource(incomingSlot === 0 ? 1 : 0) : ""
-    readonly property size textureSize: hostScreen ? Qt.size(Math.max(1, hostScreen.width / 2), Math.max(1, hostScreen.height / 2)) : Qt.size(1, 1)
+    readonly property real screenWidth: hostScreen ? hostScreen.width : 1
+    readonly property real screenHeight: hostScreen ? hostScreen.height : 1
+    readonly property size textureSize: Qt.size(Math.max(1, Math.round(screenWidth / 4)), Math.max(1, Math.round(screenHeight / 4)))
 
     visible: active
     clip: false
@@ -67,11 +69,15 @@ Item {
         else if (a.bottom) wy = scr.height - w.height - m.bottom;
         else wy = (scr.height - w.height) / 2;
         const p0 = root.mapFromItem(null, -wx, -wy);
-        const p1 = root.mapFromItem(null, scr.width - wx, scr.height - wy);
+        const px = root.mapFromItem(null, 1 - wx, -wy);
+        const dx = px.x - p0.x;
+        const dy = px.y - p0.y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        if (!isFinite(len) || len <= 0) return;
         root.imageX = p0.x;
         root.imageY = p0.y;
-        root.imageWidth = p1.x - p0.x;
-        root.imageHeight = p1.y - p0.y;
+        root.imageScale = len;
+        root.imageRotation = Math.atan2(dy, dx) * 180 / Math.PI;
     }
 
     FrameAnimation {
@@ -80,12 +86,7 @@ Item {
     }
 
     onActiveChanged: {
-        if (active) {
-            refreshGeometry();
-        } else {
-            imageWidth = 0;
-            imageHeight = 0;
-        }
+        if (active) refreshGeometry();
     }
 
     FileView {
@@ -96,12 +97,12 @@ Item {
 
     Item {
         id: oldLayer
-        x: root.imageX
-        y: root.imageY
-        width: root.imageWidth
-        height: root.imageHeight
+        width: root.screenWidth
+        height: root.screenHeight
         visible: false
         layer.enabled: true
+        layer.textureSize: root.textureSize
+        layer.smooth: true
 
         Image {
             anchors.fill: parent
@@ -116,12 +117,12 @@ Item {
 
     Item {
         id: newLayer
-        x: root.imageX
-        y: root.imageY
-        width: root.imageWidth
-        height: root.imageHeight
+        width: root.screenWidth
+        height: root.screenHeight
         visible: false
         layer.enabled: true
+        layer.textureSize: root.textureSize
+        layer.smooth: true
 
         Image {
             anchors.fill: parent
@@ -160,8 +161,11 @@ Item {
             id: blend
             x: root.imageX
             y: root.imageY
-            width: root.imageWidth
-            height: root.imageHeight
+            width: root.screenWidth
+            height: root.screenHeight
+            scale: root.imageScale
+            transformOrigin: Item.TopLeft
+            rotation: root.imageRotation
 
             property variant oldTex: oldLayer
             property variant newTex: newLayer

@@ -432,7 +432,7 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            color: ThemeBackend.mantle
+            color: "transparent"
             radius: ThemeBackend.borderRadius
 
             Item {
@@ -463,6 +463,7 @@ Item {
                             iconFontSize: root.s(14)
                             textFontSize: root.s(12)
                             accentColor: ThemeBackend.surface0
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: ThemeBackend.text
                             cornerRadius: root.s(10)
                             implicitHeight: root.s(32)
@@ -493,6 +494,7 @@ Item {
                             buttonIcon: "󰐃"
                             textColor: root.areSelectedNotesPinned ? ThemeBackend.mauve : ThemeBackend.subtext0
                             accentColor: root.areSelectedNotesPinned ? root.alpha(ThemeBackend.mauve, 0.2) : ThemeBackend.surface0
+                            bgOpacity: ThemeBackend.elementOpacity
                             Layout.alignment: Qt.AlignVCenter
                             onClicked: root.togglePinSelectedNotes()
                         }
@@ -506,6 +508,7 @@ Item {
                             buttonIcon: "󰅖"
                             textColor: ThemeBackend.subtext0
                             accentColor: ThemeBackend.surface0
+                            bgOpacity: ThemeBackend.elementOpacity
                             Layout.alignment: Qt.AlignVCenter
                             onClicked: root.clearSelection()
                         }
@@ -519,6 +522,7 @@ Item {
                             buttonIcon: "󰆴"
                             textColor: ThemeBackend.red
                             accentColor: root.alpha(ThemeBackend.red, 0.18)
+                            bgOpacity: ThemeBackend.elementOpacity
                             Layout.alignment: Qt.AlignVCenter
                             onClicked: root.deleteSelectedNotes()
                         }
@@ -592,7 +596,7 @@ Item {
                                 if (noteDelegateWrapper.isSelected) {
                                     return ThemeBackend.mauve;
                                 }
-                                return itemMouseArea.containsMouse ? Qt.lighter(ThemeBackend.surface1, 1.04) : ThemeBackend.surface1;
+                                return Qt.alpha(itemMouseArea.containsMouse ? Qt.lighter(ThemeBackend.surface1, 1.04) : ThemeBackend.surface1, ThemeBackend.elementOpacity);
                             }
                             clip: true
 
@@ -615,7 +619,7 @@ Item {
                                         radius: root.s(8)
                                         color: noteDelegateWrapper.isSelected
                                             ? Qt.rgba(0, 0, 0, 0.15)
-                                            : ThemeBackend.surface2
+                                            : Qt.alpha(ThemeBackend.surface2, ThemeBackend.elementOpacity)
 
                                         Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
@@ -683,6 +687,7 @@ Item {
                                         size: root.s(26)
                                         cornerRadius: root.s(6)
                                         accentColor: ThemeBackend.surface2
+                                        bgOpacity: ThemeBackend.elementOpacity
                                         iconColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.subtext1
                                         autoToggle: false
                                         flipped: isTargetNote && root.expandProgress > 0.5
@@ -818,7 +823,7 @@ Item {
                     id: editorCard
                     anchors.fill: parent
                     anchors.margins: root.s(8)
-                    color: ThemeBackend.surface1
+                    color: Qt.alpha(ThemeBackend.surface1, ThemeBackend.elementOpacity)
                     radius: ThemeBackend.borderRadius
                     clip: true
 
@@ -845,6 +850,7 @@ Item {
                                     buttonIcon: "󰅖"
                                     textColor: ThemeBackend.text
                                     accentColor: ThemeBackend.surface2
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     Layout.alignment: Qt.AlignVCenter
                                     onClicked: root.saveCurrentNote()
                                 }
@@ -946,6 +952,7 @@ Item {
                                     buttonIcon: "󰐃"
                                     textColor: root.editingNotePinned ? ThemeBackend.mauve : ThemeBackend.subtext0
                                     accentColor: root.editingNotePinned ? root.alpha(ThemeBackend.mauve, 0.2) : ThemeBackend.surface2
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     Layout.alignment: Qt.AlignVCenter
                                     onClicked: root.editingNotePinned = !root.editingNotePinned
                                 }
@@ -959,6 +966,7 @@ Item {
                                     buttonIcon: root.isMarkdownPreview ? "󰈙" : "󰂺"
                                     textColor: root.isMarkdownPreview ? ThemeBackend.mauve : ThemeBackend.subtext0
                                     accentColor: root.isMarkdownPreview ? root.alpha(ThemeBackend.mauve, 0.2) : ThemeBackend.surface2
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     Layout.alignment: Qt.AlignVCenter
                                     onClicked: root.isMarkdownPreview = !root.isMarkdownPreview
                                 }
@@ -971,6 +979,7 @@ Item {
                                     iconFontSize: root.s(13)
                                     textFontSize: root.s(12)
                                     accentColor: ThemeBackend.mauve
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     textColor: ThemeBackend.base
                                     cornerRadius: root.s(8)
                                     implicitHeight: root.s(32)
@@ -989,6 +998,7 @@ Item {
                                 id: nameInput
                                 anchors.fill: parent
                                 baseColor: ThemeBackend.surface0
+                                bgOpacity: ThemeBackend.elementOpacity
                                 textColor: ThemeBackend.text
                                 placeholderText: I18n.t("quickactions.notes.title_placeholder")
                                 cornerRadius: root.s(8)
@@ -1002,7 +1012,7 @@ Item {
                                 id: previewTitleBar
                                 anchors.fill: parent
                                 radius: root.s(8)
-                                color: ThemeBackend.surface0
+                                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                                 visible: root.isMarkdownPreview
 
                                 Text {
@@ -1041,6 +1051,7 @@ Item {
                                 id: contentInput
                                 anchors.fill: parent
                                 baseColor: ThemeBackend.surface0
+                                bgOpacity: ThemeBackend.elementOpacity
                                 textColor: ThemeBackend.text
                                 placeholderText: I18n.t("quickactions.notes.content_placeholder")
                                 cornerRadius: root.s(8)
@@ -1053,7 +1064,7 @@ Item {
                             Rectangle {
                                 id: previewContainer
                                 anchors.fill: parent
-                                color: ThemeBackend.surface0
+                                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                                 radius: root.s(8)
                                 visible: root.isMarkdownPreview
 

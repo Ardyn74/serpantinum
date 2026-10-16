@@ -119,7 +119,7 @@ Item {
                     id: wsVisualShape
                     anchors.fill: parent
                     radius: widget ? widget.s(widget.isCompact ? 8 : 10) : 10
-                    color: wsPill.isActive ? "transparent" : (wsPill.isOccupied ? ThemeBackend.surface2 : ((widget && widget.isCompact) ? ThemeBackend.surface1 : ThemeBackend.surface0))
+                    color: wsPill.isActive ? "transparent" : Qt.alpha(wsPill.isOccupied ? ThemeBackend.surface2 : ((widget && widget.isCompact) ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
                     border.width: 0
 
                     Behavior on color { ColorAnimation { duration: 250 } }

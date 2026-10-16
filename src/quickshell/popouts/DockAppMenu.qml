@@ -232,6 +232,12 @@ PanelWindow {
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
+                    WallpaperBlur {
+                        z: -1
+                        anchors.fill: parent
+                        radius: parent.radius
+                    }
+
                     Item {
                         anchors.fill: parent
                         anchors.margins: dockAppMenuWindow.s(4)
@@ -244,6 +250,7 @@ PanelWindow {
                             textFontSize: dockAppMenuWindow.s(12)
                             buttonText: DockAppMenuController.appName || DockAppMenuController.desktopId
                             accentColor: ThemeBackend.surface0
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: ThemeBackend.text
                             onClicked: {
                                 if (dockAppMenuWindow.hasWindows) {
@@ -301,6 +308,12 @@ PanelWindow {
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
+                    WallpaperBlur {
+                        z: -1
+                        anchors.fill: parent
+                        radius: parent.radius
+                    }
+
                     ColumnLayout {
                         id: windowsCol
                         anchors.left: parent.left
@@ -335,6 +348,7 @@ PanelWindow {
                                         return t + ws;
                                     }
                                     accentColor: modelData.focused ? ThemeBackend.mauve : ThemeBackend.surface0
+                                    bgOpacity: ThemeBackend.elementOpacity
                                     textColor: modelData.focused ? ThemeBackend.crust : ThemeBackend.text
                                     onClicked: {
                                         if (typeof WindowTracker !== "undefined") {
@@ -359,6 +373,7 @@ PanelWindow {
                                         size: dockAppMenuWindow.s(30)
                                         cornerRadius: dockAppMenuWindow.s(7)
                                         accentColor: ThemeBackend.surface0
+                                        bgOpacity: ThemeBackend.elementOpacity
                                         textColor: ThemeBackend.red
                                         buttonIcon: "󰅖"
                                         iconFontSize: dockAppMenuWindow.s(13)
@@ -386,6 +401,12 @@ PanelWindow {
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
+                    WallpaperBlur {
+                        z: -1
+                        anchors.fill: parent
+                        radius: parent.radius
+                    }
+
                     ColumnLayout {
                         id: actionsCol
                         anchors.left: parent.left
@@ -405,6 +426,7 @@ PanelWindow {
                             textFontSize: dockAppMenuWindow.s(11)
                             buttonText: I18n.t("guide.dock.window_menu.new_window", "New window")
                             accentColor: ThemeBackend.surface0
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: ThemeBackend.text
                             onClicked: {
                                 if (typeof DesktopEntries !== "undefined" && DockAppMenuController.desktopId) {
@@ -426,6 +448,7 @@ PanelWindow {
                             textFontSize: dockAppMenuWindow.s(11)
                             buttonText: DockAppMenuController.isPinned ? I18n.t("guide.dock.window_menu.unpin", "Unpin from dock") : I18n.t("guide.dock.window_menu.pin", "Pin to dock")
                             accentColor: ThemeBackend.surface0
+                            bgOpacity: ThemeBackend.elementOpacity
                             textColor: ThemeBackend.text
                             onClicked: {
                                 if (DockAppMenuController.isPinned) {

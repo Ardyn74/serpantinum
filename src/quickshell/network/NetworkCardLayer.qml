@@ -294,6 +294,7 @@ Item {
                 accentColor: window.activeColor
                 baseColor: ThemeBackend.base
                 hoverColor: ThemeBackend.surface0
+                bgOpacity: ThemeBackend.elementOpacity
                 textColor: dynamicTextColor
                 filledTextColor: ThemeBackend.crust
                 action_highlight: isHighlighted
@@ -312,6 +313,7 @@ Item {
                 anchors.fill: parent
                 cornerRadius: ThemeBackend.borderRadius
                 accentColor: ThemeBackend.surface0
+                bgOpacity: ThemeBackend.elementOpacity
                 textColor: dynamicTextColor
                 action_highlight: isHighlighted
                 buttonText: ""

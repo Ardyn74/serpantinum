@@ -327,13 +327,16 @@ FocusScope {
         }
     }
 
+    property real bgOpacity: 1.0
+    function withBgOpacity(c) { return Qt.rgba(c.r, c.g, c.b, c.a * root.bgOpacity); }
+
     Rectangle {
         id: bgShape
         anchors.fill: parent
         radius: root.cornerRadius
         clip: true
         opacity: root.enabled ? 1.0 : 0.5
-        color: root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor
+        color: root.withBgOpacity(root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor)
         Behavior on color { ColorAnimation { duration: 180 } }
 
         scale: (root.hasError ? 1.04 : (root.isBusy ? 0.98 : 1.0)) * root.focusPop
