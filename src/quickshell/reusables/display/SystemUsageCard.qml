@@ -96,7 +96,7 @@ Item {
     property color filledTitleColor: Qt.rgba(ThemeBackend.crust.r, ThemeBackend.crust.g, ThemeBackend.crust.b, 0.85)
     property color filledSubTextColor: ThemeBackend.crust
 
-    readonly property bool glassActive: cardGlass.active
+    readonly property bool glassActive: cardGlass.active || (root.blurred && ThemeBackend.liquidGlass)
     readonly property color effFilledTextColor: glassActive ? ThemeBackend.text : filledTextColor
     readonly property color effFilledMidTextColor: glassActive ? Qt.alpha(ThemeBackend.text, 0.7) : filledMidTextColor
     readonly property color effFilledTitleColor: glassActive ? Qt.alpha(ThemeBackend.text, 0.85) : filledTitleColor
@@ -130,6 +130,7 @@ Item {
         GlassFill {
             id: cardGlass
             anchors.fill: parent
+            allowed: !root.blurred
             radius: root.cardRadius
             tintColor: root.colorBase
             tintAmount: 0.3 * root.bgOpacity
@@ -138,9 +139,10 @@ Item {
         Loader {
             z: -1
             anchors.fill: parent
-            active: root.blurred && !cardGlass.active
+            active: root.blurred
             sourceComponent: WallpaperBlur {
                 radius: root.cardRadius
+                standalone: true
             }
         }
     }

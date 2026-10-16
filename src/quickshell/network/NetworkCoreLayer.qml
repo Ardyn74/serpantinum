@@ -72,6 +72,7 @@ Item {
             MultiEffect {
                 source: centralCore
                 anchors.fill: centralCore
+                visible: !ThemeBackend.liquidGlass
                 shadowEnabled: window.visible && window.currentPower
                 shadowColor: "#000000"
                 shadowOpacity: window.currentPower ? 0.5 : 0.0
@@ -99,7 +100,9 @@ Item {
                     NumberAnimation { to: 1.0; duration: 600; easing.type: Easing.OutQuint }
                 }
 
-                gradient: Gradient {
+                gradient: coreGlass.active ? null : legacyGradient
+
+                readonly property Gradient legacyGradient: Gradient {
                     orientation: Gradient.Vertical
                     GradientStop {
                         position: 0.0
@@ -129,13 +132,28 @@ Item {
                     if (centralCore.isDangerState && window.currentConn && !showPassword) return Qt.tint(Qt.lighter(window.activeColor, 1.1), Qt.rgba(ThemeBackend.red.r, ThemeBackend.red.g, ThemeBackend.red.b, 0.45));
                     return window.currentConn || showPassword ? Qt.lighter(window.activeColor, 1.1) : ThemeBackend.surface1;
                 }
-                border.width: window.s(2)
+                border.width: ThemeBackend.liquidGlass ? 0 : window.s(2)
                 Behavior on border.color { enabled: window.visible; ColorAnimation { duration: 300 } }
+
+                GlassFill {
+                    id: coreGlass
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: (window.currentConn || showPassword) && !isMyDisconnecting ? (centralCore.isDangerState && !showPassword ? ThemeBackend.red : window.activeColor) : ThemeBackend.surface0
+                    tintAmount: (window.currentConn || showPassword) && !isMyDisconnecting ? 0.8 : 0.3
+                    tintStrength: (window.currentConn || showPassword) && !isMyDisconnecting ? 1.0 : 0.5
+                    shadow: 1
+                    press: centralCore.disconnectFill > 0 ? 0.6 + 0.4 * centralCore.disconnectFill : (coreMa.containsMouse ? 0.25 : 0)
+                    pulse: Math.min(1, centralCore.flashOpacity * 2.5)
+                    Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+                    Behavior on tintAmount { NumberAnimation { duration: 300 } }
+                }
 
                 Rectangle {
                     anchors.fill: parent
                     radius: parent.radius
                     color: "#ffffff"
+                    visible: !coreGlass.active
                     opacity: centralCore.flashOpacity
                     PropertyAnimation on opacity { id: coreFlashAnim; to: 0; duration: 500; easing.type: Easing.OutExpo }
                 }
@@ -144,7 +162,7 @@ Item {
                     id: coreWave
                     anchors.fill: parent
                     visible: window.visible && centralCore.disconnectFill > 0
-                    opacity: 0.95
+                    opacity: coreGlass.active ? 0.6 : 0.95
 
                     property real wavePhase: 0.0
                     NumberAnimation on wavePhase {

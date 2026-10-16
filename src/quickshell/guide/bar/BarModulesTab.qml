@@ -1029,6 +1029,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: styleCard.flashOpacity
+                                        visible: !cardGlass1.active
                                         PropertyAnimation on opacity { id: flashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 
@@ -1333,11 +1334,22 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: timeCardMouse.pressed
+                                    color: timeCardGlass.active ? "transparent" : (timeCardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (timeCardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (timeCardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (timeCardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
+
+                                    GlassFill {
+                                        id: timeCardGlass
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: timeCardMouse.pressed ? 0.8 : (timeCardHover.hovered ? 0.25 : 0)
+                                        pulse: Math.min(1, timeStyleCard.flashOpacity * 2.5)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
 
                                     border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
@@ -1359,6 +1371,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: timeStyleCard.flashOpacity
+                                        visible: !timeCardGlass.active
                                         PropertyAnimation on opacity { id: timeFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 
@@ -1590,14 +1603,13 @@ Item {
                                 width: (visFacePreviewLoader.item ? visFacePreviewLoader.item.implicitWidth : 0) * visFacePreviewLoader.scale
                                 height: (visFacePreviewLoader.item ? visFacePreviewLoader.item.implicitHeight : rootObj.s(32)) * visFacePreviewLoader.scale
                                 radius: ThemeBackend.borderRadius
-                                color: gf4.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.5)
+                                color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.alpha(ThemeBackend.surface0, 0.5)
 
-                                GlassFill {
-                                    id: gf4
+                                WallpaperBlur {
+                                    z: -1
                                     anchors.fill: parent
                                     radius: parent.radius
-                                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.5)
-                                    tintAmount: 0.25
+                                    standalone: true
                                 }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
                                 border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -1812,14 +1824,13 @@ Item {
                                 width: (sysmonFacePreviewLoader.item ? sysmonFacePreviewLoader.item.implicitWidth : 0) * sysmonFacePreviewLoader.scale
                                 height: (sysmonFacePreviewLoader.item ? sysmonFacePreviewLoader.item.implicitHeight : rootObj.s(32)) * sysmonFacePreviewLoader.scale
                                 radius: ThemeBackend.borderRadius
-                                color: gf6.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.5)
+                                color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.alpha(ThemeBackend.surface0, 0.5)
 
-                                GlassFill {
-                                    id: gf6
+                                WallpaperBlur {
+                                    z: -1
                                     anchors.fill: parent
                                     radius: parent.radius
-                                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.5)
-                                    tintAmount: 0.25
+                                    standalone: true
                                 }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
                                 border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2169,6 +2180,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: batStyleCard.flashOpacity
+                                        visible: !cardGlass2.active
                                         PropertyAnimation on opacity { id: batFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 
@@ -2492,6 +2504,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: wifiStyleCard.flashOpacity
+                                        visible: !cardGlass3.active
                                         PropertyAnimation on opacity { id: wifiFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 
@@ -2815,6 +2828,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: btStyleCard.flashOpacity
+                                        visible: !cardGlass4.active
                                         PropertyAnimation on opacity { id: btFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 
@@ -3138,6 +3152,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: volStyleCard.flashOpacity
+                                        visible: !cardGlass5.active
                                         PropertyAnimation on opacity { id: volFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 
@@ -3440,6 +3455,7 @@ Item {
                                         radius: parent.radius
                                         color: "#ffffff"
                                         opacity: kbStyleCard.flashOpacity
+                                        visible: !cardGlass6.active
                                         PropertyAnimation on opacity { id: kbFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                                     }
 

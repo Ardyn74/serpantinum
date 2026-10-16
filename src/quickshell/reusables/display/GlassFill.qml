@@ -30,7 +30,7 @@ Item {
     property Item backdrop: null
     property Item registeredBackdrop: null
 
-    readonly property bool active: allowed && root.visible && ThemeBackend.liquidGlass && backdrop !== null && backdrop.active && width > 0 && height > 0
+    readonly property bool active: allowed && tintColor.a > 0.02 && root.visible && ThemeBackend.liquidGlass && backdrop !== null && backdrop.active && width > 0 && height > 0
 
     function findBackdrop() {
         let e = root.parent;

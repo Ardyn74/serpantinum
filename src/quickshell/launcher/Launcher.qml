@@ -1612,7 +1612,8 @@ PanelWindow {
                                 anchors.fill: parent
                                 radius: parent.radius
                                 tintColor: ThemeBackend.mauve
-                                tintAmount: 0.5
+                                tintAmount: 0.85
+                                tintStrength: 1.0
                                 press: 0.3
                             }
 
@@ -1802,7 +1803,7 @@ PanelWindow {
                                             font.family: ThemeBackend.fontFamily
                                             font.pixelSize: launcherWindow.s(12)
                                             font.weight: delegateRoot.isSelected ? Font.Bold : Font.Medium
-                                            color: (delegateRoot.isSelected && !hlGlass.active) ? ThemeBackend.crust : ThemeBackend.text
+                                            color: delegateRoot.isSelected ? ThemeBackend.crust : ThemeBackend.text
                                             horizontalAlignment: I18n.textAlignment
                                             elide: Text.ElideRight
                                             verticalAlignment: Text.AlignVCenter
@@ -1818,7 +1819,7 @@ PanelWindow {
                                             font.family: ThemeBackend.fontFamily
                                             font.pixelSize: launcherWindow.s(10)
                                             font.weight: Font.Normal
-                                            color: (delegateRoot.isSelected && !hlGlass.active) ? ThemeBackend.crust : (delegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.subtext0)
+                                            color: delegateRoot.isSelected ? ThemeBackend.crust : ThemeBackend.subtext0
                                             horizontalAlignment: I18n.textAlignment
                                             opacity: delegateRoot.isSelected ? 0.9 : 0.85
                                             elide: Text.ElideRight
@@ -1963,7 +1964,8 @@ PanelWindow {
                                         anchors.fill: parent
                                         radius: parent.radius
                                         tintColor: emojiDelegateRoot.isSelected ? ThemeBackend.mauve : ThemeBackend.surface0
-                                        tintAmount: emojiDelegateRoot.isSelected ? 0.5 : 0.25
+                                        tintStrength: emojiDelegateRoot.isSelected ? 1.0 : 0.5
+                                        tintAmount: emojiDelegateRoot.isSelected ? 0.85 : 0.25
                                         press: emojiMa.pressed ? 0.8 : (emojiMa.containsMouse ? 0.25 : 0)
                                     }
                                     border.color: emojiDelegateRoot.isSelected ? "transparent" : Qt.alpha(ThemeBackend.surface2, 0.3)
@@ -1993,7 +1995,7 @@ PanelWindow {
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: launcherWindow.s(9)
                                         font.weight: emojiDelegateRoot.isSelected ? Font.Bold : Font.Normal
-                                        color: (emojiDelegateRoot.isSelected && !emojiGlass.active) ? ThemeBackend.crust : (emojiDelegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.subtext0)
+                                        color: emojiDelegateRoot.isSelected ? ThemeBackend.crust : ThemeBackend.subtext0
                                         elide: Text.ElideRight
                                         horizontalAlignment: Text.AlignHCenter
                                         maximumLineCount: 1
