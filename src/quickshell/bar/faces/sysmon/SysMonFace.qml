@@ -15,6 +15,9 @@ Item {
     property var module: null
     property var widget: module
 
+    property string orientation: (activeTarget && activeTarget.orientation !== undefined) ? activeTarget.orientation : "horizontal"
+    readonly property bool isVertical: orientation === "vertical"
+
     readonly property var activeTarget: widget || module
     readonly property bool isCompact: activeTarget ? activeTarget.isCompact : false
     readonly property var barWindow: activeTarget ? activeTarget.barWindow : null
@@ -88,11 +91,26 @@ Item {
     }
     onIsSysVisibleChanged: updateSubscription()
 
-    property real targetWidth: ((!activeTarget || activeTarget.moduleActive) && sysLayout.implicitWidth > 0) ? (sysLayout.implicitWidth + (barWindow ? barWindow.s(isCompact ? 8 : 10) : (isCompact ? 8 : 10))) : 0
-    property bool isFaceVisible: showLayout && targetWidth > 0
+    readonly property real layoutLength: isVertical ? sysLayout.implicitHeight : sysLayout.implicitWidth
+    property real targetLength: ((!activeTarget || activeTarget.moduleActive) && layoutLength > 0) ? (layoutLength + (barWindow ? barWindow.s(isCompact ? 8 : 10) : (isCompact ? 8 : 10))) : 0
+    property bool isFaceVisible: showLayout && targetLength > 0
 
-    implicitWidth: targetWidth
-    implicitHeight: parent ? parent.height : 0
+    function syncImplicitSize() {
+        let cross = module ? module.thickness : (parent ? (isVertical ? parent.width : parent.height) : 0);
+        implicitWidth = isVertical ? cross : targetLength;
+        implicitHeight = isVertical ? targetLength : cross;
+    }
+
+    onTargetLengthChanged: syncImplicitSize()
+    onIsVerticalChanged: syncImplicitSize()
+    onModuleChanged: syncImplicitSize()
+    onParentChanged: syncImplicitSize()
+
+    Timer {
+        running: true
+        interval: 0
+        onTriggered: root.syncImplicitSize()
+    }
 
     Timer {
         running: (!activeTarget || activeTarget.moduleActive) && barWindow && barWindow.isStartupReady && barWindow.isDataReady && !root.showLayout
@@ -101,8 +119,10 @@ Item {
     }
 
     transform: Translate {
-        x: root.showLayout ? 0 : (barWindow ? barWindow.s(60) : 60)
+        x: (root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.s(60) : 60)
+        y: (!root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.s(60) : 60)
         Behavior on x { NumberAnimation { duration: 800; easing.type: Easing.OutQuint } }
+        Behavior on y { NumberAnimation { duration: 800; easing.type: Easing.OutQuint } }
     }
 
     component SysMonCircle: Rectangle {
@@ -136,7 +156,9 @@ Item {
 
         opacity: initAnimTrigger ? 1.0 : 0.0
         transform: Translate {
-            y: initAnimTrigger ? 0 : (barWindow ? barWindow.s(15) : 15)
+            x: (!root.isVertical || initAnimTrigger) ? 0 : (barWindow ? barWindow.s(15) : 15)
+            y: (root.isVertical || initAnimTrigger) ? 0 : (barWindow ? barWindow.s(15) : 15)
+            Behavior on x { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
             Behavior on y { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
         }
         Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
@@ -171,8 +193,9 @@ Item {
         }
     }
 
-    Row {
+    AxisFlow {
         id: sysLayout
+        vertical: root.isVertical
         anchors.centerIn: parent
         spacing: barWindow ? barWindow.s(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6)
         property int circleSize: root.circleSize

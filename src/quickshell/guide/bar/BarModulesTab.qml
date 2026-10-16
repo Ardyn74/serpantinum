@@ -237,6 +237,7 @@ Item {
         "workspaceCount": 5,
         "activeIndex": 1,
         "isCompact": false,
+        "orientation": barModulesRoot.isSideBar ? "vertical" : "horizontal",
         "isOccupied": function(idx) { return idx === 0 || idx === 1 || idx === 2; },
         "focusWorkspace": function(idx) {},
         "barWindow": { "startupCascadeFinished": true, "barOpacity": barModulesRoot.barOpacity },
@@ -247,6 +248,7 @@ Item {
         id: previewTimeWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property bool showDate: barModulesRoot.timeShowDate
         property string timeStr: (typeof DateTime !== "undefined" && DateTime.time) ? DateTime.time : "14:28"
         property string hourStr: (typeof DateTime !== "undefined" && DateTime.hour) ? DateTime.hour : "14"
@@ -264,6 +266,7 @@ Item {
         id: previewVisWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property int barCount: barModulesRoot.visBarCount
         property string visAlignment: barModulesRoot.visAlignment
         property bool visContinuous: barModulesRoot.visContinuous
@@ -276,6 +279,7 @@ Item {
         id: previewSysWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string sysmonStyle: barModulesRoot.sysmonStyle
         property var sysmonStats: barModulesRoot.sysmonStats
         property bool isPreview: true
@@ -287,6 +291,7 @@ Item {
         id: previewBatWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string batStyle: barModulesRoot.batStyle
         property bool batShowPercent: barModulesRoot.batShowPercent
         property bool batShowIcon: barModulesRoot.batShowIcon
@@ -299,6 +304,7 @@ Item {
         id: previewWifiWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string wifiStyle: barModulesRoot.wifiStyle
         property bool wifiShowIcon: barModulesRoot.wifiShowIcon
         property bool wifiShowName: barModulesRoot.wifiShowName
@@ -311,6 +317,7 @@ Item {
         id: previewBtWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string btStyle: barModulesRoot.btStyle
         property bool btShowIcon: barModulesRoot.btShowIcon
         property bool btShowName: barModulesRoot.btShowName
@@ -323,6 +330,7 @@ Item {
         id: previewVolWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string volStyle: barModulesRoot.volStyle
         property bool volShowIcon: barModulesRoot.volShowIcon
         property bool volShowPercent: barModulesRoot.volShowPercent
@@ -335,6 +343,7 @@ Item {
         id: previewKbWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string kbStyle: barModulesRoot.kbStyle
         property bool kbShowIcon: barModulesRoot.kbShowIcon
         property bool isPreview: true
@@ -346,6 +355,7 @@ Item {
         id: previewMediaWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
         property string mediaInfoMode: barModulesRoot.mediaInfoMode
         property int mediaWidth: barModulesRoot.mediaWidth
         property bool mediaShowIcon: barModulesRoot.mediaShowIcon
@@ -359,7 +369,7 @@ Item {
         if (!moduleId) return "";
         let modId = (variantId !== undefined) ? moduleId : "workspaces";
         let vId = (variantId !== undefined) ? variantId : moduleId;
-        return BarModuleRegistry.variantFaceFile(modId, vId, barModulesRoot.isSideBar);
+        return BarModuleRegistry.variantFaceFile(modId, vId);
     }
 
     function syncSettings() {
@@ -1547,7 +1557,7 @@ Item {
                                 height: item ? item.implicitHeight : rootObj.s(32)
                                 scale: Math.min(1.0, Math.min((visPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (visPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar ? Qt.resolvedUrl("../../bar/faces/vis/SideVisFace.qml") : Qt.resolvedUrl("../../bar/faces/vis/VisFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/vis/VisFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -1746,7 +1756,7 @@ Item {
                                 height: item ? item.implicitHeight : rootObj.s(32)
                                 scale: Math.min(1.0, Math.min((sysmonPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (sysmonPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar ? Qt.resolvedUrl("../../bar/faces/sysmon/SideSysMonFace.qml") : Qt.resolvedUrl("../../bar/faces/sysmon/SysMonFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/sysmon/SysMonFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -1935,9 +1945,7 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((batPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (batPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar
-                                    ? Qt.resolvedUrl("../../bar/faces/bat/SideBatFace.qml")
-                                    : Qt.resolvedUrl("../../bar/faces/bat/BatFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/bat/BatFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -2108,6 +2116,7 @@ Item {
                                                     id: cardMockWidget
                                                     function s(v) { return rootObj ? rootObj.s(v) : v; }
                                                     property bool isCompact: false
+                                                    property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
                                                     property string batStyle: modelData.id
                                                     property bool batShowPercent: barModulesRoot.batShowPercent
                                                     property bool batShowIcon: barModulesRoot.batShowIcon
@@ -2129,9 +2138,7 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((batCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (batCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
-                                                    source: barModulesRoot.isSideBar
-                                                        ? Qt.resolvedUrl("../../bar/faces/bat/SideBatFace.qml")
-                                                        : Qt.resolvedUrl("../../bar/faces/bat/BatFace.qml")
+                                                    source: Qt.resolvedUrl("../../bar/faces/bat/BatFace.qml")
 
                                                     onLoaded: {
                                                         if (item) {
@@ -2232,9 +2239,7 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((wifiPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (wifiPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar
-                                    ? Qt.resolvedUrl("../../bar/faces/wifi/SideWifiFace.qml")
-                                    : Qt.resolvedUrl("../../bar/faces/wifi/WifiFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/wifi/WifiFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -2402,6 +2407,7 @@ Item {
                                                     id: cardMockWidget
                                                     function s(v) { return rootObj ? rootObj.s(v) : v; }
                                                     property bool isCompact: false
+                                                    property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
                                                     property string wifiStyle: modelData.id
                                                     property bool wifiShowIcon: barModulesRoot.wifiShowIcon
                                                     property bool wifiShowName: barModulesRoot.wifiShowName
@@ -2423,9 +2429,7 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((wifiCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (wifiCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
-                                                    source: barModulesRoot.isSideBar
-                                                        ? Qt.resolvedUrl("../../bar/faces/wifi/SideWifiFace.qml")
-                                                        : Qt.resolvedUrl("../../bar/faces/wifi/WifiFace.qml")
+                                                    source: Qt.resolvedUrl("../../bar/faces/wifi/WifiFace.qml")
 
                                                     onLoaded: {
                                                         if (item) {
@@ -2526,9 +2530,7 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((btPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (btPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar
-                                    ? Qt.resolvedUrl("../../bar/faces/bt/SideBtFace.qml")
-                                    : Qt.resolvedUrl("../../bar/faces/bt/BtFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/bt/BtFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -2696,6 +2698,7 @@ Item {
                                                     id: cardMockWidget
                                                     function s(v) { return rootObj ? rootObj.s(v) : v; }
                                                     property bool isCompact: false
+                                                    property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
                                                     property string btStyle: modelData.id
                                                     property bool btShowIcon: barModulesRoot.btShowIcon
                                                     property bool btShowName: barModulesRoot.btShowName
@@ -2717,9 +2720,7 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((btCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (btCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
-                                                    source: barModulesRoot.isSideBar
-                                                        ? Qt.resolvedUrl("../../bar/faces/bt/SideBtFace.qml")
-                                                        : Qt.resolvedUrl("../../bar/faces/bt/BtFace.qml")
+                                                    source: Qt.resolvedUrl("../../bar/faces/bt/BtFace.qml")
 
                                                     onLoaded: {
                                                         if (item) {
@@ -2820,9 +2821,7 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((volPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (volPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar
-                                    ? Qt.resolvedUrl("../../bar/faces/vol/SideVolFace.qml")
-                                    : Qt.resolvedUrl("../../bar/faces/vol/VolFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/vol/VolFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -2990,6 +2989,7 @@ Item {
                                                     id: cardMockWidget
                                                     function s(v) { return rootObj ? rootObj.s(v) : v; }
                                                     property bool isCompact: false
+                                                    property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
                                                     property string volStyle: modelData.id
                                                     property bool volShowIcon: barModulesRoot.volShowIcon
                                                     property bool volShowPercent: barModulesRoot.volShowPercent
@@ -3011,9 +3011,7 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((volCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (volCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
-                                                    source: barModulesRoot.isSideBar
-                                                        ? Qt.resolvedUrl("../../bar/faces/vol/SideVolFace.qml")
-                                                        : Qt.resolvedUrl("../../bar/faces/vol/VolFace.qml")
+                                                    source: Qt.resolvedUrl("../../bar/faces/vol/VolFace.qml")
 
                                                     onLoaded: {
                                                         if (item) {
@@ -3114,9 +3112,7 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((kbPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (kbPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar
-                                    ? Qt.resolvedUrl("../../bar/faces/kb/SideKbFace.qml")
-                                    : Qt.resolvedUrl("../../bar/faces/kb/KbFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/kb/KbFace.qml")
 
                                 onLoaded: {
                                     if (item) {
@@ -3263,6 +3259,7 @@ Item {
                                                     id: cardMockWidget
                                                     function s(v) { return rootObj ? rootObj.s(v) : v; }
                                                     property bool isCompact: false
+                                                    property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
                                                     property string kbStyle: modelData.id
                                                     property bool kbShowIcon: barModulesRoot.kbShowIcon
                                                     property bool isPreview: true
@@ -3283,9 +3280,7 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((kbCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (kbCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
-                                                    source: barModulesRoot.isSideBar
-                                                        ? Qt.resolvedUrl("../../bar/faces/kb/SideKbFace.qml")
-                                                        : Qt.resolvedUrl("../../bar/faces/kb/KbFace.qml")
+                                                    source: Qt.resolvedUrl("../../bar/faces/kb/KbFace.qml")
 
                                                     onLoaded: {
                                                         if (item) {
@@ -3386,9 +3381,7 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((mediaPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (mediaPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
-                                source: barModulesRoot.isSideBar
-                                    ? Qt.resolvedUrl("../../bar/faces/media/SideMediaFace.qml")
-                                    : Qt.resolvedUrl("../../bar/faces/media/MediaFace.qml")
+                                source: Qt.resolvedUrl("../../bar/faces/media/MediaFace.qml")
 
                                 onLoaded: {
                                     if (item) {

@@ -703,8 +703,9 @@ Item {
     Repeater {
         id: moduleRepeater
         model: BarModuleRegistry.moduleIds()
-        delegate: BarSideModule {
+        delegate: BarModule {
             id: barMod
+            orientation: "vertical"
             moduleId: modelData
             z: BarModuleRegistry.moduleZ(modelData)
             barWindow: contentWrapper.barWindow
