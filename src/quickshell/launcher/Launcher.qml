@@ -1611,10 +1611,10 @@ PanelWindow {
                                 id: hlGlass
                                 anchors.fill: parent
                                 radius: parent.radius
-                                tintColor: ThemeBackend.mauve
-                                tintAmount: 0.85
+                                tintColor: ThemeBackend.text
+                                tintAmount: 0.18
                                 tintStrength: 1.0
-                                press: 0.3
+                                press: 0.6
                             }
 
                             property real targetY: (appList.currentIndex >= 0 && appModel.count > 0)
@@ -1716,8 +1716,8 @@ PanelWindow {
                                                 id: iconBoxGlass
                                                 anchors.fill: parent
                                                 radius: parent.radius
-                                                tintColor: delegateRoot.isSelected ? ThemeBackend.mauve : ThemeBackend.surface2
-                                                tintAmount: delegateRoot.isSelected ? 0.4 : 0.3
+                                                tintColor: delegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.surface2
+                                                tintAmount: delegateRoot.isSelected ? 0.16 : 0.3
                                             }
 
                                             Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
@@ -1963,10 +1963,10 @@ PanelWindow {
                                         id: emojiGlass
                                         anchors.fill: parent
                                         radius: parent.radius
-                                        tintColor: emojiDelegateRoot.isSelected ? ThemeBackend.mauve : ThemeBackend.surface0
+                                        tintColor: emojiDelegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.surface0
                                         tintStrength: emojiDelegateRoot.isSelected ? 1.0 : 0.5
-                                        tintAmount: emojiDelegateRoot.isSelected ? 0.85 : 0.25
-                                        press: emojiMa.pressed ? 0.8 : (emojiMa.containsMouse ? 0.25 : 0)
+                                        tintAmount: emojiDelegateRoot.isSelected ? 0.18 : 0.25
+                                        press: emojiMa.pressed ? 0.8 : (emojiDelegateRoot.isSelected ? 0.6 : (emojiMa.containsMouse ? 0.25 : 0))
                                     }
                                     border.color: emojiDelegateRoot.isSelected ? "transparent" : Qt.alpha(ThemeBackend.surface2, 0.3)
 
