@@ -576,117 +576,138 @@ Item {
                 }
             }
 
-            SettingsBlob {
-                SettingsRow {
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: rootObj.s(10)
+
+                SettingsBlob {
                     Layout.fillWidth: true
-                    rootObj: osdTabRoot.rootObj
-                    icon: "󰘲"
-                    title: I18n.t("guide.osd.capslock.title", "Show on Caps Lock")
-                    titlePixelSize: 12
-                    wrapText: true
-                    titleColor: osdTabRoot.isVertical ? ThemeBackend.subtext0 : ThemeBackend.text
-                    opacity: osdTabRoot.isVertical ? 0.6 : 1.0
-                    Behavior on opacity { NumberAnimation { duration: 250 } }
-                    spacing: rootObj.s(10)
+                    Layout.preferredWidth: 1
+                    Layout.alignment: Qt.AlignTop
+                    baseColor: osdTabRoot.isVertical ? Qt.alpha(ThemeBackend.surface0, 0.18) : Qt.alpha(ThemeBackend.surface0, 0.4)
 
-                    Text {
-                        visible: osdTabRoot.isVertical
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        text: I18n.t("guide.common.unavailable", "Unavailable")
-                        font.family: ThemeBackend.fontFamily
-                        font.pixelSize: rootObj.s(11)
-                        font.bold: true
-                        color: ThemeBackend.subtext0
-                    }
+                    SettingsRow {
+                        rootObj: osdTabRoot.rootObj
+                        icon: "󰘲"
+                        title: I18n.t("guide.osd.capslock.title", "Show on Caps Lock")
+                        titlePixelSize: 12
+                        wrapText: true
+                        titleColor: osdTabRoot.isVertical ? ThemeBackend.subtext0 : ThemeBackend.text
+                        opacity: osdTabRoot.isVertical ? 0.6 : 1.0
+                        Behavior on opacity { NumberAnimation { duration: 250 } }
+                        spacing: rootObj.s(10)
 
-                    Toggle {
-                        visible: !osdTabRoot.isVertical
-                        enabled: !osdTabRoot.isVertical
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        checked: osdTabRoot.showCapsLock
-                        accentColor: ThemeBackend.mauve
-                        baseColor: ThemeBackend.surface1
-                        handleColor: ThemeBackend.crust
-                        handleOffColor: ThemeBackend.text
-                        onToggled: function(c) {
-                            osdTabRoot.showCapsLock = c;
-                            osdTabRoot.updateOsdSetting("showCapsLock", c);
+                        Text {
+                            visible: osdTabRoot.isVertical
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            text: I18n.t("guide.common.unavailable", "Unavailable")
+                            font.family: ThemeBackend.fontFamily
+                            font.pixelSize: rootObj.s(11)
+                            font.bold: true
+                            color: ThemeBackend.subtext0
+                        }
+
+                        Toggle {
+                            visible: !osdTabRoot.isVertical
+                            enabled: !osdTabRoot.isVertical
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: osdTabRoot.showCapsLock
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                osdTabRoot.showCapsLock = c;
+                                osdTabRoot.updateOsdSetting("showCapsLock", c);
+                            }
                         }
                     }
                 }
 
-                SettingsRow {
+                SettingsBlob {
                     Layout.fillWidth: true
-                    rootObj: osdTabRoot.rootObj
-                    icon: "󰎤"
-                    title: I18n.t("guide.osd.numlock.title", "Show on Num Lock")
-                    titlePixelSize: 12
-                    wrapText: true
-                    titleColor: osdTabRoot.isVertical ? ThemeBackend.subtext0 : ThemeBackend.text
-                    opacity: osdTabRoot.isVertical ? 0.6 : 1.0
-                    Behavior on opacity { NumberAnimation { duration: 250 } }
-                    spacing: rootObj.s(10)
+                    Layout.preferredWidth: 1
+                    Layout.alignment: Qt.AlignTop
+                    baseColor: osdTabRoot.isVertical ? Qt.alpha(ThemeBackend.surface0, 0.18) : Qt.alpha(ThemeBackend.surface0, 0.4)
 
-                    Text {
-                        visible: osdTabRoot.isVertical
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        text: I18n.t("guide.common.unavailable", "Unavailable")
-                        font.family: ThemeBackend.fontFamily
-                        font.pixelSize: rootObj.s(11)
-                        font.bold: true
-                        color: ThemeBackend.subtext0
-                    }
+                    SettingsRow {
+                        rootObj: osdTabRoot.rootObj
+                        icon: "󰎤"
+                        title: I18n.t("guide.osd.numlock.title", "Show on Num Lock")
+                        titlePixelSize: 12
+                        wrapText: true
+                        titleColor: osdTabRoot.isVertical ? ThemeBackend.subtext0 : ThemeBackend.text
+                        opacity: osdTabRoot.isVertical ? 0.6 : 1.0
+                        Behavior on opacity { NumberAnimation { duration: 250 } }
+                        spacing: rootObj.s(10)
 
-                    Toggle {
-                        visible: !osdTabRoot.isVertical
-                        enabled: !osdTabRoot.isVertical
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        checked: osdTabRoot.showNumLock
-                        accentColor: ThemeBackend.mauve
-                        baseColor: ThemeBackend.surface1
-                        handleColor: ThemeBackend.crust
-                        handleOffColor: ThemeBackend.text
-                        onToggled: function(c) {
-                            osdTabRoot.showNumLock = c;
-                            osdTabRoot.updateOsdSetting("showNumLock", c);
+                        Text {
+                            visible: osdTabRoot.isVertical
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            text: I18n.t("guide.common.unavailable", "Unavailable")
+                            font.family: ThemeBackend.fontFamily
+                            font.pixelSize: rootObj.s(11)
+                            font.bold: true
+                            color: ThemeBackend.subtext0
+                        }
+
+                        Toggle {
+                            visible: !osdTabRoot.isVertical
+                            enabled: !osdTabRoot.isVertical
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: osdTabRoot.showNumLock
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                osdTabRoot.showNumLock = c;
+                                osdTabRoot.updateOsdSetting("showNumLock", c);
+                            }
                         }
                     }
                 }
 
-                SettingsRow {
+                SettingsBlob {
                     Layout.fillWidth: true
-                    rootObj: osdTabRoot.rootObj
-                    icon: "󰀝"
-                    title: I18n.t("guide.osd.airplane.title", "Show on Airplane Mode")
-                    titlePixelSize: 12
-                    wrapText: true
-                    titleColor: osdTabRoot.isVertical ? ThemeBackend.subtext0 : ThemeBackend.text
-                    opacity: osdTabRoot.isVertical ? 0.6 : 1.0
-                    Behavior on opacity { NumberAnimation { duration: 250 } }
-                    spacing: rootObj.s(10)
+                    Layout.preferredWidth: 1
+                    Layout.alignment: Qt.AlignTop
+                    baseColor: osdTabRoot.isVertical ? Qt.alpha(ThemeBackend.surface0, 0.18) : Qt.alpha(ThemeBackend.surface0, 0.4)
 
-                    Text {
-                        visible: osdTabRoot.isVertical
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        text: I18n.t("guide.common.unavailable", "Unavailable")
-                        font.family: ThemeBackend.fontFamily
-                        font.pixelSize: rootObj.s(11)
-                        font.bold: true
-                        color: ThemeBackend.subtext0
-                    }
+                    SettingsRow {
+                        rootObj: osdTabRoot.rootObj
+                        icon: "󰀝"
+                        title: I18n.t("guide.osd.airplane.title", "Show on Airplane Mode")
+                        titlePixelSize: 12
+                        wrapText: true
+                        titleColor: osdTabRoot.isVertical ? ThemeBackend.subtext0 : ThemeBackend.text
+                        opacity: osdTabRoot.isVertical ? 0.6 : 1.0
+                        Behavior on opacity { NumberAnimation { duration: 250 } }
+                        spacing: rootObj.s(10)
 
-                    Toggle {
-                        visible: !osdTabRoot.isVertical
-                        enabled: !osdTabRoot.isVertical
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        checked: osdTabRoot.showAirplane
-                        accentColor: ThemeBackend.mauve
-                        baseColor: ThemeBackend.surface1
-                        handleColor: ThemeBackend.crust
-                        handleOffColor: ThemeBackend.text
-                        onToggled: function(c) {
-                            osdTabRoot.showAirplane = c;
-                            osdTabRoot.updateOsdSetting("showAirplane", c);
+                        Text {
+                            visible: osdTabRoot.isVertical
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            text: I18n.t("guide.common.unavailable", "Unavailable")
+                            font.family: ThemeBackend.fontFamily
+                            font.pixelSize: rootObj.s(11)
+                            font.bold: true
+                            color: ThemeBackend.subtext0
+                        }
+
+                        Toggle {
+                            visible: !osdTabRoot.isVertical
+                            enabled: !osdTabRoot.isVertical
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: osdTabRoot.showAirplane
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                osdTabRoot.showAirplane = c;
+                                osdTabRoot.updateOsdSetting("showAirplane", c);
+                            }
                         }
                     }
                 }
