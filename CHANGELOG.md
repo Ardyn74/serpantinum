@@ -1,3 +1,68 @@
+### 2.2.11
+
+- fix(osd): lay out lock and airplane toggles in a horizontal row
+- refactor(slider): remove keyboard control from draggable
+- fix(settings): add bottom padding to expanded settings group
+- feat(theme): add global element opacity setting and dock background toggle
+- fix(audio): guard mpris and lyrics bindings against undefined values
+- style(music): stretch audio rows to the tab switcher width
+- feat(music): restyle audio tab controls with settings rows, new balance slider and entrance animation
+- chore(media): remove explanatory comments from equalizer script
+- Add native channel balance controls to the Music popup (#421)
+- feat(guide): group related settings rows into blobs across guide tabs
+- feat(bar): add adjustable bar thickness setting with module scaling
+- refactor(bar): merge side module and face variants into single orientation-aware files
+- feat(telemetry): withhold os and compositor when disabled, send arch and session when enabled
+- fix(widgets): clear stretch flags when a widget is moved or resized
+- perf(datetime): recompute minute-level strings only when the minute changes
+- perf(wallpaper): enable transition mask layers only during transitions
+- perf(idle): merge screensaver inhibit and sleep lock into one helper process
+- perf(screenshot): load overlay lazily on first use
+- perf(main): bind input mask to final target geometry
+- refactor(main): remove unused getWidgetGeometry ipc handlers
+- perf(clock): compute lumen clock glow once per tick
+- perf(audio): watch stream changes instead of polling every 500 ms
+- perf(lyrics): poll slowly and publish position only on line or word boundaries
+- perf(marquee): scroll text through a shader
+- fix(screenshot): crop frozen frame instead of recapturing live screen
+- feat(music): add bars and continuous switch to round music face
+- feat(visualizer): add ring wave shader for continuous circular mode
+- fix(music): remove gap between paused cover and bars in round face
+- feat(inputs): repeat number selector step while arrow is held
+- refactor(widgets): use number selector for usage circle thickness
+- feat(widgets): add circle variant to battery widget
+- chore: update flake.lock
+- fix(bar): sync fill outer corners with bar width/height transitions
+- fix(audio): avoid undefined assignments in pipewire tracker and active stream
+- fix: make seek bar wave visible at the start of a track
+- refactor: use wavy seek bar in side music popout
+- feat(bar): add center by edges option and rounded edge-attached fill bar length
+- feat: highlight bash, ini, json, lua and nix code blocks on the website
+- style: fit docs tables to their content width
+- docs: condense Arch distribution list into a single paragraph
+- chore: remove tests directory
+- fix(sddm): prefer weston over kwin_wayland to keep SDDM's default greeter
+- refactor(sddm): localize greeter backend messages and drop comments
+- fix(sddm): install weston only when no compositor or Xorg is available
+- fix(sddm): look up greeter binaries where SDDM can run them
+- refactor(installer): share the SDDM package list with the package overview
+- fix(sddm): keep the installer running when setup_sddm resolves x11 or no backend
+- fix(sddm): validate display backend before modifying system configuration
+- fix(sddm): configure explicit compositor command for wayland and safe fallbacks
+- chore: remove generated .SRCINFO files
+- docs: replace AUR install with build from source on Arch
+- fix: make AUR packages replace quickshell-git with quickshell
+- fix: stop AUR packages from conflicting with quickshell-git
+- docs: add AUR installation guide with manual setup steps
+- feat: add AUR packages and skip update checks for packaged installs
+- fix: guard pipewire node list against undefined during reload
+- fix: keep paused player active instead of switching to idle source
+- fix: keep dock app menu background opaque when dock opacity changes
+- fix: apply brightness while dragging sliders
+- feat: lock session before system sleep without screenshot (#435)
+- fix: use opaque favicon background
+- feat: add right click to close notifications setting
+
 ### 2.2.10
 
 - docs: mention fedora and mango support in readme
