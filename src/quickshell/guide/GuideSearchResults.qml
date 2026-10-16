@@ -170,11 +170,11 @@ Flickable {
                                 required property var modelData
                                 required property int index
 
-                                property bool isSelected: popup.searchSelectedIndex >= 0 &&
-                                                          popup.searchSelectedIndex < popup.flatSearchResults.length &&
-                                                          (popup.flatSearchResults[popup.searchSelectedIndex] === directItemRow.modelData ||
-                                                           (popup.flatSearchResults[popup.searchSelectedIndex] && popup.flatSearchResults[popup.searchSelectedIndex].key === directItemRow.modelData.key) ||
-                                                           (popup.flatSearchResults[popup.searchSelectedIndex] && popup.flatSearchResults[popup.searchSelectedIndex].id === directItemRow.modelData.id))
+                                property bool isSelected: {
+                                    if (!popup || !directItemRow.modelData) return false;
+                                    let sel = popup.flatSearchResults[popup.searchSelectedIndex];
+                                    return !!sel && (sel === directItemRow.modelData || sel.key === directItemRow.modelData.key || sel.id === directItemRow.modelData.id);
+                                }
 
                                 onIsSelectedChanged: {
                                     if (isSelected) {
@@ -380,11 +380,11 @@ Flickable {
                                                 required property var modelData
                                                 required property int index
 
-                                                property bool isSelected: popup.searchSelectedIndex >= 0 &&
-                                                                          popup.searchSelectedIndex < popup.flatSearchResults.length &&
-                                                                          (popup.flatSearchResults[popup.searchSelectedIndex] === subItemRow.modelData ||
-                                                                           (popup.flatSearchResults[popup.searchSelectedIndex] && popup.flatSearchResults[popup.searchSelectedIndex].key === subItemRow.modelData.key) ||
-                                                                           (popup.flatSearchResults[popup.searchSelectedIndex] && popup.flatSearchResults[popup.searchSelectedIndex].id === subItemRow.modelData.id))
+                                                property bool isSelected: {
+                                                    if (!popup || !subItemRow.modelData) return false;
+                                                    let sel = popup.flatSearchResults[popup.searchSelectedIndex];
+                                                    return !!sel && (sel === subItemRow.modelData || sel.key === subItemRow.modelData.key || sel.id === subItemRow.modelData.id);
+                                                }
 
                                                 onIsSelectedChanged: {
                                                     if (isSelected) {
