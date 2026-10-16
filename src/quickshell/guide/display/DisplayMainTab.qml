@@ -592,12 +592,12 @@ Item {
                     radius: ThemeBackend.borderRadius
 
                     property string monName: modelData.name
-                    property var monSettings: (displayTabRoot.displaySettings && displayTabRoot.displaySettings.monitors && displayTabRoot.displaySettings.monitors[monName]) ? displayTabRoot.displaySettings.monitors[monName] : ({})
+                    property var monSettings: (displayTabRoot && displayTabRoot.displaySettings && displayTabRoot.displaySettings.monitors && displayTabRoot.displaySettings.monitors[monName]) ? displayTabRoot.displaySettings.monitors[monName] : ({})
 
-                    property bool monitorPowered: monSettings.powerEnabled !== undefined ? monSettings.powerEnabled : (modelData.active !== undefined ? modelData.active : true)
-                    property bool filterEnabled: monSettings.enabled !== undefined ? monSettings.enabled : false
-                    property bool filterAuto: monSettings.auto !== undefined ? monSettings.auto : false
-                    property real currentTemp: monSettings.temperature !== undefined ? monSettings.temperature : 50
+                    property bool monitorPowered: monSettings && monSettings.powerEnabled !== undefined ? monSettings.powerEnabled : (modelData && modelData.active !== undefined ? modelData.active : true)
+                    property bool filterEnabled: monSettings && monSettings.enabled !== undefined ? monSettings.enabled : false
+                    property bool filterAuto: monSettings && monSettings.auto !== undefined ? monSettings.auto : false
+                    property real currentTemp: monSettings && monSettings.temperature !== undefined ? monSettings.temperature : 50
                     property real currentScale: modelData.scale !== undefined ? modelData.scale : 1.0
 
                     readonly property color cardTint: monitorPowered ? Qt.alpha(ThemeBackend.surface0, 0.4) : Qt.darker(Qt.alpha(ThemeBackend.surface0, 0.4), 1.1)
@@ -641,6 +641,7 @@ Item {
                     }
 
                     onMonSettingsChanged: {
+                        if (!monSettings) return;
                         if (monSettings.powerEnabled !== undefined) {
                             monitorPowered = monSettings.powerEnabled;
                         }
