@@ -185,8 +185,8 @@ Item {
             anchors.fill: parent
             radius: ThemeBackend.borderRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            border.color: ThemeBackend.surface0
-            border.width: 1
+            border.width: 0
+            border.color: "transparent"
             clip: true
 
             WallpaperBlur {
