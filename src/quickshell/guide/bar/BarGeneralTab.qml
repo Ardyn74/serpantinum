@@ -1083,244 +1083,248 @@ Item {
             width: parent.width
             spacing: rootObj.s(6)
 
-            SettingsRow {
-                rootObj: barTabRoot.rootObj
-                icon: "󱂬"
-                title: I18n.t("guide.bar.position.title")
-                description: I18n.t("guide.bar.position.desc")
+            SettingsBlob {
+                SettingsRow {
+                    rootObj: barTabRoot.rootObj
+                    icon: "󱂬"
+                    title: I18n.t("guide.bar.position.title")
+                    description: I18n.t("guide.bar.position.desc")
 
-                Dropdown {
-                    id: barPosDropdown
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    implicitWidth: rootObj.s(180)
-                    implicitHeight: rootObj.s(32)
-                    options: [I18n.t("guide.bar.position.top"), I18n.t("guide.bar.position.bottom"), I18n.t("guide.bar.position.left"), I18n.t("guide.bar.position.right")]
-                    currentIndex: barTabRoot.barPosition === "bottom" ? 1 : (barTabRoot.barPosition === "left" ? 2 : (barTabRoot.barPosition === "right" ? 3 : 0))
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface0
-                    hoverColor: ThemeBackend.surface1
-                    dropdownColor: ThemeBackend.surface0
-                    borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
-                    textColor: ThemeBackend.text
-                    activeTextColor: ThemeBackend.crust
-                    cornerRadius: ThemeBackend.borderRadius
-                    fontPixelSize: rootObj.s(11)
-                    onValueChanged: function(index, value) {
-                        barTabRoot.clearPendingGroup();
-                        if (index === 0) barTabRoot.barPosition = "top";
-                        else if (index === 1) barTabRoot.barPosition = "bottom";
-                        else if (index === 2) barTabRoot.barPosition = "left";
-                        else if (index === 3) barTabRoot.barPosition = "right";
-                        barTabRoot.updateBarSettings();
-                    }
-                }
-            }
-
-            SettingsGroup {
-                rootObj: barTabRoot.rootObj
-                icon: "󰏘"
-                title: I18n.t("guide.bar.style.title")
-                description: I18n.t("guide.bar.style.desc")
-                expanded: barTabRoot.barStyle === "solid" || barTabRoot.barStyle === "fill"
-
-                Switch {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    implicitWidth: rootObj.s(210)
-                    implicitHeight: rootObj.s(32)
-                    options: [I18n.t("guide.bar.style.modular"), I18n.t("guide.bar.style.solid"), I18n.t("guide.bar.style.fill")]
-                    currentIndex: barTabRoot.barStyle === "fill" ? 2 : (barTabRoot.barStyle === "solid" ? 1 : 0)
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface0
-                    textColor: ThemeBackend.subtext0
-                    activeTextColor: ThemeBackend.crust
-                    cornerRadius: ThemeBackend.borderRadius
-                    fontPixelSize: rootObj.s(11)
-                    onToggled: function(index) {
-                        barTabRoot.clearPendingGroup();
-                        if (index === 0) barTabRoot.barStyle = "modular";
-                        else if (index === 1) barTabRoot.barStyle = "solid";
-                        else if (index === 2) barTabRoot.barStyle = "fill";
-                        barTabRoot.updateBarSettings();
+                    Dropdown {
+                        id: barPosDropdown
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        implicitWidth: rootObj.s(180)
+                        implicitHeight: rootObj.s(32)
+                        options: [I18n.t("guide.bar.position.top"), I18n.t("guide.bar.position.bottom"), I18n.t("guide.bar.position.left"), I18n.t("guide.bar.position.right")]
+                        currentIndex: barTabRoot.barPosition === "bottom" ? 1 : (barTabRoot.barPosition === "left" ? 2 : (barTabRoot.barPosition === "right" ? 3 : 0))
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface0
+                        hoverColor: ThemeBackend.surface1
+                        dropdownColor: ThemeBackend.surface0
+                        borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
+                        textColor: ThemeBackend.text
+                        activeTextColor: ThemeBackend.crust
+                        cornerRadius: ThemeBackend.borderRadius
+                        fontPixelSize: rootObj.s(11)
+                        onValueChanged: function(index, value) {
+                            barTabRoot.clearPendingGroup();
+                            if (index === 0) barTabRoot.barPosition = "top";
+                            else if (index === 1) barTabRoot.barPosition = "bottom";
+                            else if (index === 2) barTabRoot.barPosition = "left";
+                            else if (index === 3) barTabRoot.barPosition = "right";
+                            barTabRoot.updateBarSettings();
+                        }
                     }
                 }
 
-                subSettings: [
-                    SettingsRow {
-                        rootObj: barTabRoot.rootObj
-                        icon: "󰍜"
-                        title: I18n.t("guide.bar.distinct_pills.title")
-                        description: I18n.t("guide.bar.distinct_pills.desc")
+                SettingsRow {
+                    id: widthInnerBox
+                    rootObj: barTabRoot.rootObj
+                    icon: "󰘖"
+                    title: {
+                        if (barTabRoot.barPosition === "left" || barTabRoot.barPosition === "right") {
+                            let h = I18n.t("guide.bar.height.title");
+                            if (h && h !== "guide.bar.height.title") return h;
+                            let w = I18n.t("guide.bar.width.title");
+                            if (w && w.indexOf("Width") !== -1) return w.replace("Width", "Height");
+                            if (w && w.indexOf("width") !== -1) return w.replace("width", "height");
+                            return w;
+                        }
+                        return I18n.t("guide.bar.width.title");
+                    }
+                    description: {
+                        if (barTabRoot.barPosition === "left" || barTabRoot.barPosition === "right") {
+                            let h = I18n.t("guide.bar.height.desc");
+                            if (h && h !== "guide.bar.height.desc") return h;
+                            let w = I18n.t("guide.bar.width.desc");
+                            if (w && w.indexOf("Width") !== -1) return w.replace("Width", "Height");
+                            if (w && w.indexOf("width") !== -1) return w.replace("width", "height");
+                            return w;
+                        }
+                        return I18n.t("guide.bar.width.desc");
+                    }
 
-                        Toggle {
-                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                            checked: barTabRoot.distinctPills
-                            accentColor: ThemeBackend.mauve
-                            baseColor: ThemeBackend.surface1
-                            handleColor: ThemeBackend.crust
-                            handleOffColor: ThemeBackend.text
-                            onToggled: function(c) {
-                                barTabRoot.clearPendingGroup();
-                                barTabRoot.distinctPills = c;
-                                barTabRoot.updateBarSettings();
+                    Draggable {
+                        id: barWidthSlider
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        Layout.rightMargin: rootObj.s(8)
+                        implicitWidth: rootObj.s(220)
+                        implicitHeight: rootObj.s(18)
+                        from: 5
+                        to: 100
+                        stepSize: 1
+                        defaultValue: 100
+                        showValueBubble: true
+                        valueFormatter: function(v) { return Math.round(v) + "%" }
+                        value: barTabRoot.currentBarWidth
+                        backgroundColor: ThemeBackend.surface0
+                        accentColor: ThemeBackend.mauve
+                        handleColor: ThemeBackend.text
+                        handleBorderColor: ThemeBackend.mantle
+                        onMoved: function(val) {
+                            barTabRoot.clearPendingGroup();
+                            let rounded = Math.round(val);
+                            if (barTabRoot.currentBarWidth !== rounded) {
+                                barTabRoot.currentBarWidth = rounded;
+                                barWidthDebounceTimer.restart();
                             }
                         }
-                    }
-                ]
-            }
-
-            SettingsRow {
-                id: widthInnerBox
-                rootObj: barTabRoot.rootObj
-                icon: "󰘖"
-                title: {
-                    if (barTabRoot.barPosition === "left" || barTabRoot.barPosition === "right") {
-                        let h = I18n.t("guide.bar.height.title");
-                        if (h && h !== "guide.bar.height.title") return h;
-                        let w = I18n.t("guide.bar.width.title");
-                        if (w && w.indexOf("Width") !== -1) return w.replace("Width", "Height");
-                        if (w && w.indexOf("width") !== -1) return w.replace("width", "height");
-                        return w;
-                    }
-                    return I18n.t("guide.bar.width.title");
-                }
-                description: {
-                    if (barTabRoot.barPosition === "left" || barTabRoot.barPosition === "right") {
-                        let h = I18n.t("guide.bar.height.desc");
-                        if (h && h !== "guide.bar.height.desc") return h;
-                        let w = I18n.t("guide.bar.width.desc");
-                        if (w && w.indexOf("Width") !== -1) return w.replace("Width", "Height");
-                        if (w && w.indexOf("width") !== -1) return w.replace("width", "height");
-                        return w;
-                    }
-                    return I18n.t("guide.bar.width.desc");
-                }
-
-                Draggable {
-                    id: barWidthSlider
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.rightMargin: rootObj.s(8)
-                    implicitWidth: rootObj.s(220)
-                    implicitHeight: rootObj.s(18)
-                    from: 5
-                    to: 100
-                    stepSize: 1
-                    defaultValue: 100
-                    showValueBubble: true
-                    valueFormatter: function(v) { return Math.round(v) + "%" }
-                    value: barTabRoot.currentBarWidth
-                    backgroundColor: ThemeBackend.surface0
-                    accentColor: ThemeBackend.mauve
-                    handleColor: ThemeBackend.text
-                    handleBorderColor: ThemeBackend.mantle
-                    onMoved: function(val) {
-                        barTabRoot.clearPendingGroup();
-                        let rounded = Math.round(val);
-                        if (barTabRoot.currentBarWidth !== rounded) {
-                            barTabRoot.currentBarWidth = rounded;
-                            barWidthDebounceTimer.restart();
+                        onDragFinished: {
+                            barWidthDebounceTimer.stop();
+                            barTabRoot.updateBarSettings();
                         }
                     }
-                    onDragFinished: {
-                        barWidthDebounceTimer.stop();
-                        barTabRoot.updateBarSettings();
-                    }
                 }
-            }
 
-            SettingsRow {
-                rootObj: barTabRoot.rootObj
-                icon: "󰘖"
-                title: I18n.t("guide.bar.thickness.title", "Bar thickness")
-                description: I18n.t("guide.bar.thickness.desc", "Change how thick the bar is, modules scale to fit")
+                SettingsRow {
+                    rootObj: barTabRoot.rootObj
+                    icon: "󰘖"
+                    title: I18n.t("guide.bar.thickness.title", "Bar thickness")
+                    description: I18n.t("guide.bar.thickness.desc", "Change how thick the bar is, modules scale to fit")
 
-                Draggable {
-                    id: barThicknessSlider
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.rightMargin: rootObj.s(8)
-                    implicitWidth: rootObj.s(220)
-                    implicitHeight: rootObj.s(18)
-                    from: 28
-                    to: 48
-                    stepSize: 1
-                    defaultValue: 40
-                    showValueBubble: true
-                    valueFormatter: function(v) { return Math.round(v / 40 * 100) + "%" }
-                    value: barTabRoot.currentBarThickness
-                    backgroundColor: ThemeBackend.surface0
-                    accentColor: ThemeBackend.mauve
-                    handleColor: ThemeBackend.text
-                    handleBorderColor: ThemeBackend.mantle
-                    onMoved: function(val) {
-                        barTabRoot.clearPendingGroup();
-                        let rounded = Math.round(val);
-                        if (barTabRoot.currentBarThickness !== rounded) {
-                            barTabRoot.currentBarThickness = rounded;
-                            barWidthDebounceTimer.restart();
+                    Draggable {
+                        id: barThicknessSlider
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        Layout.rightMargin: rootObj.s(8)
+                        implicitWidth: rootObj.s(220)
+                        implicitHeight: rootObj.s(18)
+                        from: 28
+                        to: 48
+                        stepSize: 1
+                        defaultValue: 40
+                        showValueBubble: true
+                        valueFormatter: function(v) { return Math.round(v / 40 * 100) + "%" }
+                        value: barTabRoot.currentBarThickness
+                        backgroundColor: ThemeBackend.surface0
+                        accentColor: ThemeBackend.mauve
+                        handleColor: ThemeBackend.text
+                        handleBorderColor: ThemeBackend.mantle
+                        onMoved: function(val) {
+                            barTabRoot.clearPendingGroup();
+                            let rounded = Math.round(val);
+                            if (barTabRoot.currentBarThickness !== rounded) {
+                                barTabRoot.currentBarThickness = rounded;
+                                barWidthDebounceTimer.restart();
+                            }
+                        }
+                        onDragFinished: {
+                            barWidthDebounceTimer.stop();
+                            barTabRoot.updateBarSettings();
                         }
                     }
-                    onDragFinished: {
-                        barWidthDebounceTimer.stop();
-                        barTabRoot.updateBarSettings();
-                    }
                 }
-            }
 
-            SettingsRow {
-                id: centerByEdgesBox
-                rootObj: barTabRoot.rootObj
-                icon: "󰉹"
-                title: I18n.t("guide.bar.center_by_edges.title")
-                description: (barTabRoot.barPosition === "left" || barTabRoot.barPosition === "right") ? I18n.t("guide.bar.center_by_edges.desc_vertical") : I18n.t("guide.bar.center_by_edges.desc")
+                SettingsRow {
+                    id: centerByEdgesBox
+                    rootObj: barTabRoot.rootObj
+                    icon: "󰉹"
+                    title: I18n.t("guide.bar.center_by_edges.title")
+                    description: (barTabRoot.barPosition === "left" || barTabRoot.barPosition === "right") ? I18n.t("guide.bar.center_by_edges.desc_vertical") : I18n.t("guide.bar.center_by_edges.desc")
 
-                Toggle {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    checked: barTabRoot.centerByEdges
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface1
-                    handleColor: ThemeBackend.crust
-                    handleOffColor: ThemeBackend.text
-                    onToggled: function(c) {
-                        barTabRoot.clearPendingGroup();
-                        barTabRoot.centerByEdges = c;
-                        barTabRoot.updateBarSettings();
-                    }
-                }
-            }
-
-            SettingsRow {
-                rootObj: barTabRoot.rootObj
-                icon: "󰃟"
-                title: I18n.t("guide.bar.opacity.title")
-                description: I18n.t("guide.bar.opacity.desc")
-
-                Draggable {
-                    id: barOpacitySlider
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.rightMargin: rootObj.s(8)
-                    implicitWidth: rootObj.s(220)
-                    implicitHeight: rootObj.s(18)
-                    from: 1
-                    to: 100
-                    stepSize: 1
-                    defaultValue: 100
-                    showValueBubble: true
-                    valueFormatter: function(v) { return Math.round(v) + "%" }
-                    value: barTabRoot.currentBarOpacity
-                    backgroundColor: ThemeBackend.surface0
-                    accentColor: ThemeBackend.mauve
-                    handleColor: ThemeBackend.text
-                    handleBorderColor: ThemeBackend.mantle
-                    onMoved: function(val) {
-                        barTabRoot.clearPendingGroup();
-                        let rounded = Math.round(val);
-                        if (barTabRoot.currentBarOpacity !== rounded) {
-                            barTabRoot.currentBarOpacity = rounded;
-                            barWidthDebounceTimer.restart();
+                    Toggle {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        checked: barTabRoot.centerByEdges
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        handleColor: ThemeBackend.crust
+                        handleOffColor: ThemeBackend.text
+                        onToggled: function(c) {
+                            barTabRoot.clearPendingGroup();
+                            barTabRoot.centerByEdges = c;
+                            barTabRoot.updateBarSettings();
                         }
                     }
-                    onDragFinished: {
-                        barWidthDebounceTimer.stop();
-                        barTabRoot.updateBarSettings();
+                }
+            }
+
+            SettingsBlob {
+                SettingsGroup {
+                    rootObj: barTabRoot.rootObj
+                    icon: "󰏘"
+                    title: I18n.t("guide.bar.style.title")
+                    description: I18n.t("guide.bar.style.desc")
+                    expanded: barTabRoot.barStyle === "solid" || barTabRoot.barStyle === "fill"
+
+                    Switch {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        implicitWidth: rootObj.s(210)
+                        implicitHeight: rootObj.s(32)
+                        options: [I18n.t("guide.bar.style.modular"), I18n.t("guide.bar.style.solid"), I18n.t("guide.bar.style.fill")]
+                        currentIndex: barTabRoot.barStyle === "fill" ? 2 : (barTabRoot.barStyle === "solid" ? 1 : 0)
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface0
+                        textColor: ThemeBackend.subtext0
+                        activeTextColor: ThemeBackend.crust
+                        cornerRadius: ThemeBackend.borderRadius
+                        fontPixelSize: rootObj.s(11)
+                        onToggled: function(index) {
+                            barTabRoot.clearPendingGroup();
+                            if (index === 0) barTabRoot.barStyle = "modular";
+                            else if (index === 1) barTabRoot.barStyle = "solid";
+                            else if (index === 2) barTabRoot.barStyle = "fill";
+                            barTabRoot.updateBarSettings();
+                        }
+                    }
+
+                    subSettings: [
+                        SettingsRow {
+                            rootObj: barTabRoot.rootObj
+                            icon: "󰍜"
+                            title: I18n.t("guide.bar.distinct_pills.title")
+                            description: I18n.t("guide.bar.distinct_pills.desc")
+
+                            Toggle {
+                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                checked: barTabRoot.distinctPills
+                                accentColor: ThemeBackend.mauve
+                                baseColor: ThemeBackend.surface1
+                                handleColor: ThemeBackend.crust
+                                handleOffColor: ThemeBackend.text
+                                onToggled: function(c) {
+                                    barTabRoot.clearPendingGroup();
+                                    barTabRoot.distinctPills = c;
+                                    barTabRoot.updateBarSettings();
+                                }
+                            }
+                        }
+                    ]
+                }
+
+                SettingsRow {
+                    rootObj: barTabRoot.rootObj
+                    icon: "󰃟"
+                    title: I18n.t("guide.bar.opacity.title")
+                    description: I18n.t("guide.bar.opacity.desc")
+
+                    Draggable {
+                        id: barOpacitySlider
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        Layout.rightMargin: rootObj.s(8)
+                        implicitWidth: rootObj.s(220)
+                        implicitHeight: rootObj.s(18)
+                        from: 1
+                        to: 100
+                        stepSize: 1
+                        defaultValue: 100
+                        showValueBubble: true
+                        valueFormatter: function(v) { return Math.round(v) + "%" }
+                        value: barTabRoot.currentBarOpacity
+                        backgroundColor: ThemeBackend.surface0
+                        accentColor: ThemeBackend.mauve
+                        handleColor: ThemeBackend.text
+                        handleBorderColor: ThemeBackend.mantle
+                        onMoved: function(val) {
+                            barTabRoot.clearPendingGroup();
+                            let rounded = Math.round(val);
+                            if (barTabRoot.currentBarOpacity !== rounded) {
+                                barTabRoot.currentBarOpacity = rounded;
+                                barWidthDebounceTimer.restart();
+                            }
+                        }
+                        onDragFinished: {
+                            barWidthDebounceTimer.stop();
+                            barTabRoot.updateBarSettings();
+                        }
                     }
                 }
             }

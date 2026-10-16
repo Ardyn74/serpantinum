@@ -756,61 +756,63 @@ Item {
             width: parent.width
             spacing: rootObj.s(6)
 
-            SettingsRow {
-                rootObj: idleTabRoot.rootObj
-                settingId: "idle_enabled"
-                searchKeywords: "idle enable system power sleep timeout"
-                icon: "󰒲"
-                title: I18n.t("guide.idle.enabled.title", "Enable Idle System")
-                description: I18n.t("guide.idle.enabled.desc", "Activate power management and lock timeouts")
+            SettingsBlob {
+                SettingsRow {
+                    rootObj: idleTabRoot.rootObj
+                    settingId: "idle_enabled"
+                    searchKeywords: "idle enable system power sleep timeout"
+                    icon: "󰒲"
+                    title: I18n.t("guide.idle.enabled.title", "Enable Idle System")
+                    description: I18n.t("guide.idle.enabled.desc", "Activate power management and lock timeouts")
 
-                Toggle {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    checked: idleTabRoot.idleEnabled
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface1
-                    handleColor: ThemeBackend.crust
-                    handleOffColor: ThemeBackend.text
-                    onToggled: function(c) { idleTabRoot.updateRootSetting("enabled", c); }
+                    Toggle {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        checked: idleTabRoot.idleEnabled
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        handleColor: ThemeBackend.crust
+                        handleOffColor: ThemeBackend.text
+                        onToggled: function(c) { idleTabRoot.updateRootSetting("enabled", c); }
+                    }
                 }
-            }
 
-            SettingsRow {
-                rootObj: idleTabRoot.rootObj
-                settingId: "idle_lock_on_sleep"
-                searchKeywords: "lock sleep suspend lid close hibernate"
-                icon: "󰌾"
-                title: I18n.t("guide.idle.lock_on_sleep.title", "Lock before sleep")
-                description: I18n.t("guide.idle.lock_on_sleep.desc", "Lock the session before the system suspends, such as when closing the lid")
+                SettingsRow {
+                    rootObj: idleTabRoot.rootObj
+                    settingId: "idle_lock_on_sleep"
+                    searchKeywords: "lock sleep suspend lid close hibernate"
+                    icon: "󰌾"
+                    title: I18n.t("guide.idle.lock_on_sleep.title", "Lock before sleep")
+                    description: I18n.t("guide.idle.lock_on_sleep.desc", "Lock the session before the system suspends, such as when closing the lid")
 
-                Toggle {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    checked: idleTabRoot.lockOnSleep
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface1
-                    handleColor: ThemeBackend.crust
-                    handleOffColor: ThemeBackend.text
-                    onToggled: function(c) { idleTabRoot.updateRootSetting("lockOnSleep", c); }
+                    Toggle {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        checked: idleTabRoot.lockOnSleep
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        handleColor: ThemeBackend.crust
+                        handleOffColor: ThemeBackend.text
+                        onToggled: function(c) { idleTabRoot.updateRootSetting("lockOnSleep", c); }
+                    }
                 }
-            }
 
-            SettingsRow {
-                rootObj: idleTabRoot.rootObj
-                settingId: "idle_manual_inhibit"
-                searchKeywords: "do not disturb keep awake inhibit idle sleep"
-                visible: idleTabRoot.idleEnabled
-                icon: "󰅶"
-                title: I18n.t("guide.idle.manual_inhibit.title", "Do Not Disturb (Keep Awake)")
-                description: I18n.t("guide.idle.manual_inhibit.desc", "Manually prevent the system from idling")
+                SettingsRow {
+                    rootObj: idleTabRoot.rootObj
+                    settingId: "idle_manual_inhibit"
+                    searchKeywords: "do not disturb keep awake inhibit idle sleep"
+                    visible: idleTabRoot.idleEnabled
+                    icon: "󰅶"
+                    title: I18n.t("guide.idle.manual_inhibit.title", "Do Not Disturb (Keep Awake)")
+                    description: I18n.t("guide.idle.manual_inhibit.desc", "Manually prevent the system from idling")
 
-                Toggle {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    checked: idleTabRoot.manualInhibit
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface1
-                    handleColor: ThemeBackend.crust
-                    handleOffColor: ThemeBackend.text
-                    onToggled: function(c) { idleTabRoot.updateRootSetting("manualInhibit", c); }
+                    Toggle {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        checked: idleTabRoot.manualInhibit
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        handleColor: ThemeBackend.crust
+                        handleOffColor: ThemeBackend.text
+                        onToggled: function(c) { idleTabRoot.updateRootSetting("manualInhibit", c); }
+                    }
                 }
             }
 

@@ -1293,114 +1293,116 @@ Item {
                 }
             }
 
-            SettingsRow {
-                rootObj: themeTabRoot.rootObj
-                settingId: "font"
-                icon: "󰛖"
-                title: I18n.t("guide.theme.font.title")
-                description: I18n.t("guide.theme.font.desc")
-                searchKeywords: "font typeface family typography text"
+            SettingsBlob {
+                SettingsRow {
+                    rootObj: themeTabRoot.rootObj
+                    settingId: "font"
+                    icon: "󰛖"
+                    title: I18n.t("guide.theme.font.title")
+                    description: I18n.t("guide.theme.font.desc")
+                    searchKeywords: "font typeface family typography text"
 
-                IconButton {
-                    Layout.preferredWidth: rootObj.s(32)
-                    Layout.preferredHeight: rootObj.s(32)
-                    Layout.alignment: Qt.AlignVCenter
-                    cornerRadius: rootObj.s(6)
-                    buttonIcon: "󰉋"
-                    iconOffsetX: -2
-                    iconFontSize: rootObj.s(14)
-                    accentColor: ThemeBackend.surface0
-                    textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
-                    onClicked: {
-                        let userFontsPath = Caching.stateDir ? (Caching.stateDir + "/fonts") : (Caching.home + "/.local/state/serpantinum/fonts");
-                        let escapeBash = function(str) { return String(str).replace(/(["\\$`])/g, '\\$1'); };
-                        Quickshell.execDetached(["bash", "-c", "mkdir -p \"" + escapeBash(userFontsPath) + "\" && xdg-open \"" + escapeBash(userFontsPath) + "\""]);
-                    }
-                }
-
-                IconButton {
-                    Layout.preferredWidth: rootObj.s(32)
-                    Layout.preferredHeight: rootObj.s(32)
-                    Layout.alignment: Qt.AlignVCenter
-                    cornerRadius: rootObj.s(6)
-                    buttonIcon: "󰐕"
-                    iconFontSize: rootObj.s(14)
-                    accentColor: ThemeBackend.surface0
-                    textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
-                    onClicked: fontPickerPopup.openPicker()
-                }
-
-                Dropdown {
-                    id: fontDropdown
-                    Layout.preferredWidth: rootObj.s(220)
-                    Layout.preferredHeight: rootObj.s(32)
-                    Layout.alignment: Qt.AlignVCenter
-                    options: themeTabRoot.availableFonts
-                    currentIndex: options.indexOf(themeTabRoot.currentFontFamily) >= 0 ? options.indexOf(themeTabRoot.currentFontFamily) : 0
-                    placeholderText: I18n.t("guide.theme.font.select")
-                    fontFamily: ThemeBackend.fontFamily
-                    useOptionAsFontFamily: true
-                    accentColor: ThemeBackend.mauve
-                    baseColor: ThemeBackend.surface0
-                    hoverColor: ThemeBackend.surface1
-                    dropdownColor: ThemeBackend.surface0
-                    borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
-                    textColor: ThemeBackend.text
-                    activeTextColor: ThemeBackend.crust
-                    cornerRadius: ThemeBackend.borderRadius
-                    fontPixelSize: rootObj.s(11)
-                    onValueChanged: function(index, value) {
-                        themeTabRoot.currentFontFamily = value;
-                        themeTabRoot.updateFontSetting();
-                    }
-                    onClicked: {
-                        themeTabRoot.loadAvailableFonts();
-                    }
-                }
-            }
-
-            SettingsRow {
-                rootObj: themeTabRoot.rootObj
-                settingId: "border_radius"
-                icon: "󰞁"
-                title: I18n.t("guide.theme.radius.title")
-                description: I18n.t("guide.theme.radius.desc")
-                searchKeywords: "border radius corner round curvature rounding px"
-
-                NumberSelector {
-                    id: radiusSelector
-                    implicitWidth: rootObj.s(150)
-                    implicitHeight: rootObj.s(32)
-                    from: 0
-                    to: 64
-                    stepSize: 1
-                    decimals: 0
-                    suffix: "px"
-                    value: themeTabRoot.currentBorderRadius
-                    baseColor: ThemeBackend.surface0
-                    accentColor: ThemeBackend.mauve
-                    buttonColor: ThemeBackend.surface1
-                    buttonTextColor: ThemeBackend.text
-                    textColor: ThemeBackend.text
-                    subTextColor: ThemeBackend.subtext0
-                    borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
-                    cornerRadius: ThemeBackend.borderRadius
-                    fontFamily: ThemeBackend.fontFamily
-                    fontPixelSize: rootObj.s(11)
-                    onValueChanged: function(val) {
-                        let num = (typeof val === "number" && !isNaN(val)) ? val : value;
-                        let rounded = Math.round(num);
-                        let snapped = themeTabRoot.getSnappedRadius(rounded);
-                        if (!isNaN(snapped) && snapped >= 0 && snapped <= 64 && themeTabRoot.currentBorderRadius !== snapped) {
-                            themeTabRoot.currentBorderRadius = snapped;
-                            borderRadiusDebounceTimer.restart();
+                    IconButton {
+                        Layout.preferredWidth: rootObj.s(32)
+                        Layout.preferredHeight: rootObj.s(32)
+                        Layout.alignment: Qt.AlignVCenter
+                        cornerRadius: rootObj.s(6)
+                        buttonIcon: "󰉋"
+                        iconOffsetX: -2
+                        iconFontSize: rootObj.s(14)
+                        accentColor: ThemeBackend.surface0
+                        textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
+                        onClicked: {
+                            let userFontsPath = Caching.stateDir ? (Caching.stateDir + "/fonts") : (Caching.home + "/.local/state/serpantinum/fonts");
+                            let escapeBash = function(str) { return String(str).replace(/(["\\$`])/g, '\\$1'); };
+                            Quickshell.execDetached(["bash", "-c", "mkdir -p \"" + escapeBash(userFontsPath) + "\" && xdg-open \"" + escapeBash(userFontsPath) + "\""]);
                         }
                     }
-                    onTriggered: {
-                        let rounded = Math.round(radiusSelector.value);
-                        let snapped = themeTabRoot.getSnappedRadius(rounded);
-                        themeTabRoot.currentBorderRadius = snapped;
-                        themeTabRoot.updateBorderRadiusSetting();
+
+                    IconButton {
+                        Layout.preferredWidth: rootObj.s(32)
+                        Layout.preferredHeight: rootObj.s(32)
+                        Layout.alignment: Qt.AlignVCenter
+                        cornerRadius: rootObj.s(6)
+                        buttonIcon: "󰐕"
+                        iconFontSize: rootObj.s(14)
+                        accentColor: ThemeBackend.surface0
+                        textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
+                        onClicked: fontPickerPopup.openPicker()
+                    }
+
+                    Dropdown {
+                        id: fontDropdown
+                        Layout.preferredWidth: rootObj.s(220)
+                        Layout.preferredHeight: rootObj.s(32)
+                        Layout.alignment: Qt.AlignVCenter
+                        options: themeTabRoot.availableFonts
+                        currentIndex: options.indexOf(themeTabRoot.currentFontFamily) >= 0 ? options.indexOf(themeTabRoot.currentFontFamily) : 0
+                        placeholderText: I18n.t("guide.theme.font.select")
+                        fontFamily: ThemeBackend.fontFamily
+                        useOptionAsFontFamily: true
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface0
+                        hoverColor: ThemeBackend.surface1
+                        dropdownColor: ThemeBackend.surface0
+                        borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
+                        textColor: ThemeBackend.text
+                        activeTextColor: ThemeBackend.crust
+                        cornerRadius: ThemeBackend.borderRadius
+                        fontPixelSize: rootObj.s(11)
+                        onValueChanged: function(index, value) {
+                            themeTabRoot.currentFontFamily = value;
+                            themeTabRoot.updateFontSetting();
+                        }
+                        onClicked: {
+                            themeTabRoot.loadAvailableFonts();
+                        }
+                    }
+                }
+
+                SettingsRow {
+                    rootObj: themeTabRoot.rootObj
+                    settingId: "border_radius"
+                    icon: "󰞁"
+                    title: I18n.t("guide.theme.radius.title")
+                    description: I18n.t("guide.theme.radius.desc")
+                    searchKeywords: "border radius corner round curvature rounding px"
+
+                    NumberSelector {
+                        id: radiusSelector
+                        implicitWidth: rootObj.s(150)
+                        implicitHeight: rootObj.s(32)
+                        from: 0
+                        to: 64
+                        stepSize: 1
+                        decimals: 0
+                        suffix: "px"
+                        value: themeTabRoot.currentBorderRadius
+                        baseColor: ThemeBackend.surface0
+                        accentColor: ThemeBackend.mauve
+                        buttonColor: ThemeBackend.surface1
+                        buttonTextColor: ThemeBackend.text
+                        textColor: ThemeBackend.text
+                        subTextColor: ThemeBackend.subtext0
+                        borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
+                        cornerRadius: ThemeBackend.borderRadius
+                        fontFamily: ThemeBackend.fontFamily
+                        fontPixelSize: rootObj.s(11)
+                        onValueChanged: function(val) {
+                            let num = (typeof val === "number" && !isNaN(val)) ? val : value;
+                            let rounded = Math.round(num);
+                            let snapped = themeTabRoot.getSnappedRadius(rounded);
+                            if (!isNaN(snapped) && snapped >= 0 && snapped <= 64 && themeTabRoot.currentBorderRadius !== snapped) {
+                                themeTabRoot.currentBorderRadius = snapped;
+                                borderRadiusDebounceTimer.restart();
+                            }
+                        }
+                        onTriggered: {
+                            let rounded = Math.round(radiusSelector.value);
+                            let snapped = themeTabRoot.getSnappedRadius(rounded);
+                            themeTabRoot.currentBorderRadius = snapped;
+                            themeTabRoot.updateBorderRadiusSetting();
+                        }
                     }
                 }
             }
