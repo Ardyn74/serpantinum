@@ -30,6 +30,7 @@ Item {
 
     property real flashOpacity: 0.0
     property real popScale: 1.0
+    readonly property bool glassActive: baseGlass.active
 
     property real maxNeededWidth: 0
     property real totalNeededWidth: 0
@@ -113,7 +114,7 @@ Item {
         id: bgShape
         anchors.fill: parent
         radius: root.cornerRadius
-        color: root.withBgOpacity(root.baseColor)
+        color: baseGlass.active ? "transparent" : root.withBgOpacity(root.baseColor)
         clip: true
         opacity: root.enabled ? 1.0 : 0.5
 
@@ -122,6 +123,14 @@ Item {
 
         scale: root.popScale
         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+
+        GlassFill {
+            id: baseGlass
+            anchors.fill: parent
+            radius: root.cornerRadius
+            tintColor: root.baseColor
+            tintAmount: 0.22 * root.bgOpacity
+        }
 
         Rectangle {
             id: activeTabHighlight
@@ -151,7 +160,7 @@ Item {
             height: bgShape.height
             x: actualLeft
             width: Math.max(0, actualRight - actualLeft)
-            z: 0
+            z: highlightGlass.active ? 2 : 0
 
             topLeftRadius: (!I18n.rtl ? root.currentIndex === 0 : root.currentIndex === root.options.length - 1) ? root.cornerRadius : root.smallRadius
             bottomLeftRadius: (!I18n.rtl ? root.currentIndex === 0 : root.currentIndex === root.options.length - 1) ? root.cornerRadius : root.smallRadius
@@ -163,9 +172,23 @@ Item {
             Behavior on topRightRadius { NumberAnimation { duration: 180 } }
             Behavior on bottomRightRadius { NumberAnimation { duration: 180 } }
 
-            color: root.accentColor
+            color: highlightGlass.active ? "transparent" : root.accentColor
 
             Behavior on color { ColorAnimation { duration: 180 } }
+
+            GlassFill {
+                id: highlightGlass
+                anchors.fill: parent
+                topLeftRadius: activeTabHighlight.topLeftRadius
+                topRightRadius: activeTabHighlight.topRightRadius
+                bottomLeftRadius: activeTabHighlight.bottomLeftRadius
+                bottomRightRadius: activeTabHighlight.bottomRightRadius
+                tintColor: root.accentColor
+                tintAmount: 0.4
+                shadow: 1
+                press: 0.35
+                pulse: Math.min(1, root.flashOpacity * 2.5)
+            }
         }
 
         Row {
@@ -173,7 +196,7 @@ Item {
             layoutDirection: I18n.layoutDirection
             anchors.fill: parent
             spacing: 0
-            z: 1
+            z: highlightGlass.active ? 3 : 1
 
             Repeater {
                 id: tabsRepeater
@@ -225,7 +248,7 @@ Item {
                         font.pixelSize: root.fontPixelSize
                         fontSizeMode: Text.Fit
                         minimumPixelSize: root.minFontPixelSize
-                        color: root.currentIndex === optionItem.index ? root.activeTextColor : root.textColor
+                        color: (root.currentIndex === optionItem.index && !highlightGlass.active) ? root.activeTextColor : root.textColor
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
 
@@ -261,6 +284,7 @@ Item {
             radius: root.cornerRadius
             color: "#ffffff"
             opacity: root.flashOpacity
+            visible: !baseGlass.active
             z: 2
             PropertyAnimation on opacity { id: btnFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
         }

@@ -283,10 +283,23 @@ Item {
         id: btnShape
         anchors.fill: parent
         radius: root.effectiveRadius
-        clip: true
-        color: Qt.alpha(root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor, root.bgOpacity * (root.isHoveredOrHighlighted ? root.hoverColor.a : root.baseColor.a))
+        clip: !glass.active
+        color: glass.active ? "transparent" : Qt.alpha(root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor, root.bgOpacity * (root.isHoveredOrHighlighted ? root.hoverColor.a : root.baseColor.a))
 
         Behavior on color { ColorAnimation { duration: 180 } }
+
+        GlassFill {
+            id: glass
+            anchors.fill: parent
+            shadow: 1
+            press: (btnMa.pressed && !root.isTriggered) ? 0.6 + 0.4 * root.fillLevel : (root.isHoveredOrHighlighted ? 0.25 : 0)
+            pulse: Math.min(1, root.flashOpacity * 2.5)
+            Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            radius: root.effectiveRadius
+            tintColor: root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor
+            tintAmount: (root.isHoveredOrHighlighted ? 0.4 : 0.28) * root.bgOpacity
+            Behavior on tintAmount { NumberAnimation { duration: 180 } }
+        }
 
         scale: (btnMa.pressed && !root.isTriggered ? 0.96 : (root.isHoveredOrHighlighted ? 1.02 : 1.0)) * root.popScale
         Behavior on scale { NumberAnimation { duration: 300; easing.type: Easing.OutQuint } }
@@ -314,6 +327,7 @@ Item {
             vertical: 0.0
             color1: Qt.darker(root.accentColor, 1.15)
             color2: root.accentColor
+            opacity: glass.active ? 0.6 : 1.0
             visible: root.fillLevel > 0.001
         }
 
@@ -322,6 +336,7 @@ Item {
             radius: root.effectiveRadius
             color: "#ffffff"
             opacity: root.flashOpacity
+            visible: !glass.active
             PropertyAnimation on opacity { id: btnFlashAnim; to: 0; duration: 400; easing.type: Easing.OutExpo }
         }
 

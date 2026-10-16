@@ -739,9 +739,19 @@ Item {
                             Rectangle {
                                 anchors.fill: parent
                                 radius: Math.min(window.s(26), ThemeBackend.borderRadius * 1.75)
-                                color: isHighlighted ? window.textAccent : (hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0)
+                                color: hourGlass.active ? "transparent" : (isHighlighted ? window.textAccent : (hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0))
                                 border.color: isHighlighted ? Qt.lighter(window.textAccent, 1.1) : (hrMa.containsMouse ? Qt.alpha(window.surface2, 0.9) : Qt.alpha(window.surface1, 0.6))
                                 border.width: 1
+
+                                GlassFill {
+                                    id: hourGlass
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    tintColor: isHighlighted ? window.textAccent : window.surface0
+                                    tintAmount: isHighlighted ? 0.5 : 0.3
+                                    press: hrMa.pressed ? 0.8 : (hrMa.containsMouse ? 0.25 : 0)
+                                    Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                }
 
                                 Behavior on color { ColorAnimation { duration: 180 } }
                                 Behavior on border.color { ColorAnimation { duration: 180 } }
@@ -756,7 +766,7 @@ Item {
                                         font.family: ThemeBackend.fontFamily
                                         font.weight: Font.Bold
                                         font.pixelSize: window.s(11.5)
-                                        color: isHighlighted ? window.base : (hrMa.containsMouse ? window.text : window.overlay1)
+                                        color: (isHighlighted && !hourGlass.active) ? window.base : ((isHighlighted || hrMa.containsMouse) ? window.text : window.overlay1)
                                         Behavior on color { ColorAnimation { duration: 180 } }
                                     }
 
@@ -765,7 +775,7 @@ Item {
                                         text: modelData ? (modelData.icon || (window.weatherData && window.weatherData.forecast[window.weatherView] ? window.weatherData.forecast[window.weatherView].icon : "")) : ""
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: window.s(16.5)
-                                        color: isHighlighted ? window.base : (modelData ? (modelData.hex || window.text) : window.text)
+                                        color: (isHighlighted && !hourGlass.active) ? window.base : (modelData ? (modelData.hex || window.text) : window.text)
                                     }
 
                                     Text {
@@ -774,7 +784,7 @@ Item {
                                         font.family: ThemeBackend.fontFamily
                                         font.weight: Font.Black
                                         font.pixelSize: window.s(12.5)
-                                        color: isHighlighted ? window.base : window.text
+                                        color: (isHighlighted && !hourGlass.active) ? window.base : window.text
                                     }
                                 }
                             }
@@ -791,11 +801,19 @@ Item {
                 anchors.leftMargin: window.s(40)
                 width: window.s(310)
                 height: window.s(350)
-                color: Qt.alpha(window.surface0, 0.2)
+                color: calendarGlass.active ? "transparent" : Qt.alpha(window.surface0, 0.2)
                 radius: ThemeBackend.borderRadius
                 border.color: Qt.alpha(window.surface1, 0.4)
                 border.width: 1
                 z: 10
+
+                GlassFill {
+                    id: calendarGlass
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: window.surface0
+                    tintAmount: 0.25
+                }
 
                 opacity: introCalendar
                 transform: Translate { x: -window.s(40) * (1.0 - introCalendar) }

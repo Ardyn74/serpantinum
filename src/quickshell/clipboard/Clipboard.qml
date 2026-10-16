@@ -779,6 +779,7 @@ PanelWindow {
                         Layout.preferredHeight: clipboardWindow.s(36)
 
                         baseColor: ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.glassActive ? 0.0 : 1.0
                         accentColor: ThemeBackend.mauve
                         textColor: ThemeBackend.text
                         subTextColor: ThemeBackend.subtext0
@@ -856,6 +857,7 @@ PanelWindow {
                         buttonIcon: "󰆴"
                         iconFontSize: clipboardWindow.s(14)
                         accentColor: ThemeBackend.surface0
+                        bgOpacity: ThemeBackend.glassActive ? 0.0 : 1.0
                         textColor: ThemeBackend.text
                         visible: true
 

@@ -225,7 +225,15 @@ Item {
                     Layout.preferredHeight: root.s(28)
                     Layout.preferredWidth: root.s(125)
                     radius: root.s(14)
-                    color: root.alpha(root.cSurface1, 0.5 * ThemeBackend.elementOpacity)
+                    color: barGlassA.active ? "transparent" : root.alpha(root.cSurface1, 0.5 * ThemeBackend.elementOpacity)
+
+                    GlassFill {
+                        id: barGlassA
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: root.cSurface1
+                        tintAmount: 0.3
+                    }
 
                     RowLayout {
                         anchors.fill: parent
@@ -258,7 +266,15 @@ Item {
                     Layout.preferredHeight: root.s(28)
                     Layout.preferredWidth: root.s(125)
                     radius: root.s(14)
-                    color: root.alpha(root.cSurface1, 0.5 * ThemeBackend.elementOpacity)
+                    color: barGlassB.active ? "transparent" : root.alpha(root.cSurface1, 0.5 * ThemeBackend.elementOpacity)
+
+                    GlassFill {
+                        id: barGlassB
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: root.cSurface1
+                        tintAmount: 0.3
+                    }
 
                     RowLayout {
                         anchors.fill: parent

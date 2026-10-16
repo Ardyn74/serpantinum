@@ -2221,7 +2221,6 @@ Scope {
                                     size: s(40)
                                     cornerRadius: ThemeBackend.borderRadius
                                     buttonIcon: "󰕰"
-                                    iconOffsetX: 0
                                     iconFontSize: s(20)
                                     accentColor: redactorMode.gridEnabled ? ThemeBackend.mauve : ThemeBackend.surface0
                                     textColor: redactorMode.gridEnabled ? ThemeBackend.crust : ThemeBackend.text
@@ -2245,7 +2244,6 @@ Scope {
                                     textColor: ThemeBackend.text
                                     Layout.alignment: Qt.AlignVCenter
                                     visible: redactorMode.activeWidgetsModel ? (redactorMode.activeWidgetsModel.count > 0) : false
-                                    iconOffsetX: -1
                                     onClicked: redactorMode.removeAllWidgets()
                                 }
 

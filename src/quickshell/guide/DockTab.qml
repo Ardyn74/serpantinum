@@ -228,12 +228,21 @@ Item {
                     anchors.right: parent.right
                     clip: true
                     radius: ThemeBackend.borderRadius
-                    color: {
+                    readonly property color legacyColor: {
                         let base = Qt.alpha(ThemeBackend.surface0, 0.4);
                         if (highlightFlash > 0.001) {
                             return Qt.tint(base, Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, highlightFlash * 0.12));
                         }
                         return base;
+                    }
+                    color: dockAppsGlass.active ? (highlightFlash > 0.001 ? Qt.alpha(ThemeBackend.mauve, highlightFlash * 0.12) : "transparent") : legacyColor
+
+                    GlassFill {
+                        id: dockAppsGlass
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: ThemeBackend.surface0
+                        tintAmount: 0.25
                     }
                     border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
                     border.width: 1
@@ -461,7 +470,15 @@ Item {
                                             implicitHeight: dockTabRoot.rootObj.s(32)
                                             Layout.alignment: Qt.AlignVCenter
                                             radius: Math.round(dockTabRoot.rootObj.s(32) * 0.28)
-                                            color: ThemeBackend.surface0
+                                            color: gf1.active ? "transparent" : ThemeBackend.surface0
+
+                                            GlassFill {
+                                                id: gf1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                tintColor: ThemeBackend.surface0
+                                                tintAmount: 0.25
+                                            }
                                             clip: true
 
                                             Image {
@@ -575,7 +592,6 @@ Item {
                         settingId: "dock_position"
                         rootObj: dockTabRoot.rootObj
                         icon: "󰍹"
-                        iconOffsetX: -2
                         title: I18n.t("guide.dock.position.title", "Dock position")
                         description: I18n.t("guide.dock.position.desc", "Select the screen edge to anchor the dock")
 

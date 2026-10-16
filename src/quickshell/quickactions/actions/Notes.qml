@@ -592,13 +592,24 @@ Item {
                             id: noteItemCard
                             anchors.fill: parent
                             radius: ThemeBackend.borderRadius
-                            color: {
+                            readonly property color legacyColor: {
                                 if (noteDelegateWrapper.isSelected) {
                                     return ThemeBackend.mauve;
                                 }
                                 return Qt.alpha(itemMouseArea.containsMouse ? Qt.lighter(ThemeBackend.surface1, 1.04) : ThemeBackend.surface1, ThemeBackend.elementOpacity);
                             }
+                            color: noteGlass.active ? "transparent" : legacyColor
                             clip: true
+
+                            GlassFill {
+                                id: noteGlass
+                                anchors.fill: parent
+                                radius: parent.radius
+                                tintColor: noteDelegateWrapper.isSelected ? ThemeBackend.mauve : ThemeBackend.surface1
+                                tintAmount: noteDelegateWrapper.isSelected ? 0.5 : 0.3
+                                press: itemMouseArea.pressed ? 0.8 : (itemMouseArea.containsMouse ? 0.2 : 0)
+                                Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                            }
 
                             Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
 
@@ -627,7 +638,7 @@ Item {
                                             anchors.centerIn: parent
                                             font.family: root.nerdFont
                                             font.pixelSize: root.s(14)
-                                            color: noteDelegateWrapper.isSelected ? ThemeBackend.crust : ThemeBackend.subtext0
+                                            color: (noteDelegateWrapper.isSelected && !noteGlass.active) ? ThemeBackend.crust : (noteDelegateWrapper.isSelected ? ThemeBackend.text : ThemeBackend.subtext0)
                                             text: "󰈙"
 
                                             Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
@@ -642,7 +653,7 @@ Item {
 
                                     Text {
                                         text: modelData.title || I18n.t("quickactions.notes.new_note_title")
-                                        color: noteDelegateWrapper.isSelected ? ThemeBackend.crust : ThemeBackend.text
+                                        color: (noteDelegateWrapper.isSelected && !noteGlass.active) ? ThemeBackend.crust : ThemeBackend.text
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: root.s(12)
                                         font.weight: noteDelegateWrapper.isSelected ? Font.Bold : Font.Medium
@@ -657,7 +668,7 @@ Item {
                                             let c = (modelData.content || "").replace(/\n/g, " ").trim();
                                             return c.length > 0 ? c : "...";
                                         }
-                                        color: noteDelegateWrapper.isSelected ? ThemeBackend.crust : ThemeBackend.subtext0
+                                        color: (noteDelegateWrapper.isSelected && !noteGlass.active) ? ThemeBackend.crust : (noteDelegateWrapper.isSelected ? ThemeBackend.text : ThemeBackend.subtext0)
                                         opacity: noteDelegateWrapper.isSelected ? 0.9 : 0.85
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: root.s(10)
@@ -675,7 +686,7 @@ Item {
 
                                     Text {
                                         text: root.formatRelativeTime(modelData.updatedAt)
-                                        color: noteDelegateWrapper.isSelected ? ThemeBackend.crust : ThemeBackend.subtext1
+                                        color: (noteDelegateWrapper.isSelected && !noteGlass.active) ? ThemeBackend.crust : (noteDelegateWrapper.isSelected ? ThemeBackend.text : ThemeBackend.subtext1)
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: root.s(10)
 
@@ -823,9 +834,17 @@ Item {
                     id: editorCard
                     anchors.fill: parent
                     anchors.margins: root.s(8)
-                    color: Qt.alpha(ThemeBackend.surface1, ThemeBackend.elementOpacity)
+                    color: editorGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface1, ThemeBackend.elementOpacity)
                     radius: ThemeBackend.borderRadius
                     clip: true
+
+                    GlassFill {
+                        id: editorGlass
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: ThemeBackend.surface1
+                        tintAmount: 0.3
+                    }
 
                     ColumnLayout {
                         anchors.fill: parent

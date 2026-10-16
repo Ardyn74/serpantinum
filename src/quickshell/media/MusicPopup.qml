@@ -1890,7 +1890,15 @@ Item {
                                                             width: root.s(12); height: eqSlider.availableHeight
                                                             radius: ThemeBackend.borderRadius
                                                             
-                                                            color: Qt.rgba((ThemeBackend.surface0 ? ThemeBackend.surface0.r : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.g : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.b : 0.3), 0.7 * ThemeBackend.elementOpacity)
+                                                            color: trackGlass.active ? "transparent" : Qt.rgba((ThemeBackend.surface0 ? ThemeBackend.surface0.r : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.g : 0.2), (ThemeBackend.surface0 ? ThemeBackend.surface0.b : 0.3), 0.7 * ThemeBackend.elementOpacity)
+
+                                                            GlassFill {
+                                                                id: trackGlass
+                                                                anchors.fill: parent
+                                                                radius: parent.radius
+                                                                tintColor: ThemeBackend.surface0
+                                                                tintAmount: 0.3
+                                                            }
 
                                                             layer.enabled: true
                                                             layer.effect: MultiEffect {
@@ -1988,7 +1996,18 @@ Item {
                                                             property color handleHoverColor: Qt.lighter(root.eqAccentColor, 1.15)
                                                             property color handleDragColor: Qt.lighter(root.eqAccentColor, 1.30)
 
-                                                            color: eqSlider.pressed ? handleDragColor : (eqSlider.hovered ? handleHoverColor : handleColor)
+                                                            color: eqHandleGlass.active ? "transparent" : (eqSlider.pressed ? handleDragColor : (eqSlider.hovered ? handleHoverColor : handleColor))
+
+                                                            GlassFill {
+                                                                id: eqHandleGlass
+                                                                anchors.fill: parent
+                                                                radius: parent.radius
+                                                                tintColor: parent.handleColor
+                                                                tintAmount: 0.4
+                                                                shadow: 1
+                                                                press: eqSlider.pressed ? 1 : (eqSlider.hovered ? 0.3 : 0)
+                                                                Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                                            }
                                                             Behavior on color { ColorAnimation { duration: 150 } }
 
                                                             property real targetScale: {
@@ -2169,7 +2188,15 @@ Item {
                                     opacity: root.audioIntroBalance
                                     transform: Translate { y: root.s(14) * (1 - root.audioIntroBalance) }
                                     radius: ThemeBackend.borderRadius
-                                    color: Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
+                                    color: balanceCardGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface0 || "#313244", ThemeBackend.elementOpacity)
+
+                                    GlassFill {
+                                        id: balanceCardGlass
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: 0.3
+                                    }
 
                                     Item {
                                         id: balanceControl
@@ -2227,10 +2254,18 @@ Item {
                                                 width: balanceSlider.availableWidth
                                                 height: balanceSlider.trackHeight
                                                 radius: height / 2
-                                                color: Qt.alpha(ThemeBackend.surface2 || "#585b70", ThemeBackend.elementOpacity)
+                                                color: balanceTrackGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface2 || "#585b70", ThemeBackend.elementOpacity)
                                                 border.width: 1
                                                 border.color: Qt.rgba(1, 1, 1, 0.06)
                                                 clip: true
+
+                                                GlassFill {
+                                                    id: balanceTrackGlass
+                                                    anchors.fill: parent
+                                                    radius: parent.radius
+                                                    tintColor: ThemeBackend.surface2
+                                                    tintAmount: 0.3
+                                                }
 
                                                 Item {
                                                     property real handleCenter: balanceSlider.handleSize / 2 + balanceSlider.visualPosition * (parent.width - balanceSlider.handleSize)
@@ -2264,9 +2299,20 @@ Item {
                                                 width: balanceSlider.handleSize
                                                 height: balanceSlider.handleSize
                                                 radius: height / 2
-                                                color: balanceSlider.pressed
+                                                color: balanceHandleGlass.active ? "transparent" : (balanceSlider.pressed
                                                     ? Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.30)
-                                                    : (balanceSlider.hovered ? Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.15) : (ThemeBackend.mauve || "#cba6f7"))
+                                                    : (balanceSlider.hovered ? Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.15) : (ThemeBackend.mauve || "#cba6f7")))
+
+                                                GlassFill {
+                                                    id: balanceHandleGlass
+                                                    anchors.fill: parent
+                                                    radius: parent.radius
+                                                    tintColor: ThemeBackend.mauve
+                                                    tintAmount: 0.45
+                                                    shadow: 1
+                                                    press: balanceSlider.pressed ? 1 : (balanceSlider.hovered ? 0.3 : 0)
+                                                    Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                                }
                                                 scale: balanceSlider.pressed ? 1.25 : (balanceSlider.hovered ? 1.12 : 1.0)
 
                                                 Behavior on color { ColorAnimation { duration: 150 } }

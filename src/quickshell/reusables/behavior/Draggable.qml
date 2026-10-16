@@ -137,9 +137,17 @@ Item {
         id: bgTrack
         anchors.fill: parent
         radius: root.cornerRadius
-        color: root.backgroundColor
+        color: trackGlass.active ? "transparent" : root.backgroundColor
         opacity: root.enabled ? 1.0 : 0.5
         clip: true
+
+        GlassFill {
+            id: trackGlass
+            anchors.fill: parent
+            radius: root.cornerRadius
+            tintColor: root.backgroundColor
+            tintAmount: 0.22
+        }
 
         Behavior on color { ColorAnimation { duration: 150 } }
         Behavior on opacity {
@@ -155,7 +163,7 @@ Item {
             y: root.vertical ? Math.max(0, Math.min(bgTrack.height, handle.y)) : 0
             width: root.vertical ? bgTrack.width : Math.max(0, Math.min(bgTrack.width, handle.x + handle.width))
             height: root.vertical ? Math.max(0, Math.min(bgTrack.height, bgTrack.height - handle.y)) : bgTrack.height
-            opacity: root.animPosition > 0.001 ? 1.0 : 0.0
+            opacity: root.animPosition > 0.001 ? (trackGlass.active ? 0.6 : 1.0) : 0.0
             radius: root.cornerRadius
 
             gradient: Gradient {
@@ -188,9 +196,21 @@ Item {
         radius: Math.min(width, height) / 2
         x: root.vertical ? (root.width - width) / 2 : root.animPosition * (root.width - width)
         y: root.vertical ? (1.0 - root.animPosition) * (root.height - height) : (root.height - height) / 2
-        color: root.isDragging ? root.handleDragColor : (root.isHoveredOrHighlighted ? root.handleHoverColor : root.handleColor)
+        color: handleGlass.active ? "transparent" : (root.isDragging ? root.handleDragColor : (root.isHoveredOrHighlighted ? root.handleHoverColor : root.handleColor))
         border.color: root.handleBorderColor
         border.width: 0
+
+        GlassFill {
+            id: handleGlass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: root.handleColor
+            tintAmount: 0.45
+            shadow: 1
+            press: root.isDragging ? 1 : (root.isHoveredOrHighlighted ? 0.3 : 0)
+            pulse: Math.min(1, handle.flashOpacity * 2.5)
+            Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        }
 
         property real popScale: 1.0
         property real flashOpacity: 0.0
@@ -236,6 +256,7 @@ Item {
             radius: parent.radius
             color: "#ffffff"
             opacity: handle.flashOpacity
+            visible: !handleGlass.active
             PropertyAnimation on opacity { id: handleFlashAnim; to: 0; duration: 300; easing.type: Easing.OutCubic }
         }
 
@@ -245,7 +266,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: root.valueFormatter(root.effectiveValue)
-            color: Qt.hsla(root.accentColor.hslHue, root.accentColor.hslSaturation, 0.12, 1.0)
+            color: handleGlass.active ? ThemeBackend.text : Qt.hsla(root.accentColor.hslHue, root.accentColor.hslSaturation, 0.12, 1.0)
             font.family: "JetBrains Mono"
             font.weight: Font.Bold
             font.pixelSize: Math.max(8, Math.round(root.handleSize * 0.42 * handle.fontScale))

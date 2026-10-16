@@ -436,9 +436,17 @@ Item {
                     Layout.preferredHeight: root.s(54)
                     Layout.maximumHeight: root.s(54)
                     radius: root.boxRadius
-                    color: ThemeBackend.faded(Qt.darker(ThemeBackend.surface0, 1.04))
+                    color: userGlass.active ? "transparent" : ThemeBackend.faded(Qt.darker(ThemeBackend.surface0, 1.04))
                     opacity: root.introTop
                     transform: Translate { x: (root.isLeftAnchored ? -root.rowSlideDistance : root.rowSlideDistance) * (1.0 - root.introTop) }
+
+                    GlassFill {
+                        id: userGlass
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: ThemeBackend.surface0
+                        tintAmount: 0.3
+                    }
 
                     RowLayout {
                         anchors.fill: parent
@@ -552,7 +560,7 @@ Item {
                     Layout.preferredHeight: root.isDesktop ? root.s(52) : root.s(72)
                     Layout.maximumHeight: Layout.preferredHeight
                     radius: root.isDesktop ? root.s(15) : root.boxRadius
-                    color: root.isDesktop ? "transparent" : ThemeBackend.faded(Qt.darker(ThemeBackend.surface0, 1.04))
+                    color: (root.isDesktop || batteryGlass.active) ? "transparent" : ThemeBackend.faded(Qt.darker(ThemeBackend.surface0, 1.04))
                     clip: true
                     opacity: root.introCore
                     transform: Translate { x: (root.isLeftAnchored ? -root.rowSlideDistance : root.rowSlideDistance) * (1.0 - root.introCore) }
@@ -560,6 +568,15 @@ Item {
                     property real fillLevel: root.animCapacity / 100
                     property real maxWaveAmp: root.isCharging ? root.s(10) : root.s(6.5)
                     property real waveAmp: (fillLevel < 0.99 && fillLevel > 0.01) ? maxWaveAmp * Math.sin(fillLevel * Math.PI) : 0
+
+                    GlassFill {
+                        id: batteryGlass
+                        anchors.fill: parent
+                        allowed: !root.isDesktop
+                        radius: parent.radius
+                        tintColor: ThemeBackend.surface0
+                        tintAmount: 0.3
+                    }
 
                     FluidWave {
                         id: waveCanvas
@@ -580,6 +597,7 @@ Item {
                         vertical: 0.0
                         color1: root.batColorFlat
                         color2: root.batColorFlat
+                        opacity: batteryGlass.active ? 0.6 : 1.0
                     }
 
                     BatteryContent {
@@ -604,8 +622,8 @@ Item {
                         BatteryContent {
                             width: batteryBox.width
                             height: batteryBox.height
-                            contentTextColor: ThemeBackend.crust
-                            iconColor: ThemeBackend.crust
+                            contentTextColor: batteryGlass.active ? ThemeBackend.text : ThemeBackend.crust
+                            iconColor: batteryGlass.active ? ThemeBackend.text : ThemeBackend.crust
                         }
                     }
 
@@ -620,7 +638,7 @@ Item {
 
                         Rectangle {
                             id: profileSwitchShadow
-                            visible: !root.isDesktop
+                            visible: !root.isDesktop && !profileSwitch.glassActive
                             anchors.fill: parent
                             anchors.topMargin: root.s(1.5)
                             anchors.bottomMargin: -root.s(1.5)

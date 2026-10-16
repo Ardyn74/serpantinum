@@ -16,7 +16,16 @@ Item {
         id: activeHighlight
         z: 3
         radius: widget ? widget.s(widget.isCompact ? 7 : 8) : 8
-        color: (widget && widget.isCompact) ? Qt.lighter(ThemeBackend.mauve, 1.05) : ThemeBackend.mauve
+        color: pillsGlass.active ? "transparent" : ((widget && widget.isCompact) ? Qt.lighter(ThemeBackend.mauve, 1.05) : ThemeBackend.mauve)
+
+        GlassFill {
+            id: pillsGlass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: ThemeBackend.mauve
+            tintAmount: 0.5
+            press: 0.3
+        }
 
         property int prevIdx: 0
         property int curIdx: widget ? widget.activeIndex : -1
@@ -119,8 +128,18 @@ Item {
                     id: wsVisualShape
                     anchors.fill: parent
                     radius: widget ? widget.s(widget.isCompact ? 8 : 10) : 10
-                    color: wsPill.isActive ? "transparent" : Qt.alpha(wsPill.isOccupied ? ThemeBackend.surface2 : ((widget && widget.isCompact) ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
+                    color: (wsPill.isActive || pillsShapeGlass.active) ? "transparent" : Qt.alpha(wsPill.isOccupied ? ThemeBackend.surface2 : ((widget && widget.isCompact) ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
                     border.width: 0
+
+                    GlassFill {
+                        id: pillsShapeGlass
+                        anchors.fill: parent
+                        radius: parent.radius
+                        allowed: !wsPill.isActive
+                        tintColor: wsPill.isOccupied ? ThemeBackend.surface2 : ThemeBackend.surface0
+                        tintAmount: 0.3
+                        press: wsPillMouse.pressed ? 0.8 : (wsPillMouse.containsMouse ? 0.25 : 0)
+                    }
 
                     Behavior on color { ColorAnimation { duration: 250 } }
 

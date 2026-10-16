@@ -336,8 +336,19 @@ FocusScope {
         radius: root.cornerRadius
         clip: true
         opacity: root.enabled ? 1.0 : 0.5
-        color: root.withBgOpacity(root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor)
+        color: glass.active ? "transparent" : root.withBgOpacity(root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor)
         Behavior on color { ColorAnimation { duration: 180 } }
+
+        GlassFill {
+            id: glass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: root.baseColor
+            press: root.hasFocus ? 0.55 : (root.isHoveredOrHighlighted ? 0.2 : 0)
+            Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            tintAmount: (root.hasFocus ? 0.38 : (root.isHoveredOrHighlighted ? 0.3 : 0.22)) * root.bgOpacity
+            Behavior on tintAmount { NumberAnimation { duration: 180 } }
+        }
 
         scale: (root.hasError ? 1.04 : (root.isBusy ? 0.98 : 1.0)) * root.focusPop
         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }

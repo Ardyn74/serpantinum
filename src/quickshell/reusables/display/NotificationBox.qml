@@ -131,10 +131,18 @@ Item {
         id: bgRect
         anchors.fill: parent
         radius: root.cornerRadius
-        color: root.baseColor
+        color: bgGlass.active ? "transparent" : root.baseColor
         border.color: root.borderColor
         border.width: root.borderWidth
         clip: true
+
+        GlassFill {
+            id: bgGlass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: ThemeBackend.surface0
+            tintAmount: 0.3
+        }
     }
 
     ColumnLayout {
@@ -521,11 +529,21 @@ Item {
                                     anchors.fill: parent
                                     radius: root.cardRadius
                                     property color baseColor: (typeof unreadCount !== "undefined" && unreadCount > 0) ? Qt.lighter(ThemeBackend.surface1, 1.05) : ThemeBackend.surface1
-                                    color: ThemeBackend.faded((groupHeaderMa.pressed && !groupHeaderMa.draggingH && !groupHeaderMa.draggingV) ? Qt.darker(baseColor, 1.1) : (groupHeaderMa.containsMouse && !groupHeaderMa.draggingH && !groupHeaderMa.draggingV ? Qt.lighter(baseColor, 1.05) : baseColor))
+                                    color: headerGlass.active ? "transparent" : ThemeBackend.faded((groupHeaderMa.pressed && !groupHeaderMa.draggingH && !groupHeaderMa.draggingV) ? Qt.darker(baseColor, 1.1) : (groupHeaderMa.containsMouse && !groupHeaderMa.draggingH && !groupHeaderMa.draggingV ? Qt.lighter(baseColor, 1.05) : baseColor))
                                     scale: (groupHeaderMa.pressed && !groupHeaderMa.draggingH && !groupHeaderMa.draggingV) ? 0.98 : 1.0
                                     Behavior on color { enabled: !groupHeaderMa.draggingH && !groupHeaderMa.draggingV; ColorAnimation { duration: 150 } }
                                     Behavior on scale { enabled: !groupHeaderMa.draggingH && !groupHeaderMa.draggingV; NumberAnimation { duration: 150; easing.type: Easing.OutQuint } }
                                     clip: true
+
+                                    GlassFill {
+                                        id: headerGlass
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: parent.baseColor
+                                        tintAmount: 0.3
+                                        press: groupHeaderMa.pressed ? 0.8 : (groupHeaderMa.containsMouse ? 0.2 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
 
                                     MouseArea {
                                         id: groupHeaderMa

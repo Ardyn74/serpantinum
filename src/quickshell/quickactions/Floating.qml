@@ -1321,10 +1321,18 @@ Variants {
 
                         component EmptyBlock : Rectangle {
                             radius: Math.min(floatingWidget.s(10), Math.min(width, height) / 2)
-                            color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.05)
+                            color: blockGlass.active ? "transparent" : Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.05)
                             border.width: 0
                             border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.08)
                             clip: true
+
+                            GlassFill {
+                                id: blockGlass
+                                anchors.fill: parent
+                                radius: parent.radius
+                                tintColor: ThemeBackend.surface0
+                                tintAmount: 0.25
+                            }
                         }
 
                         Item {
@@ -1618,7 +1626,17 @@ Variants {
                                 width: parent.width
                                 z: 0
                                 radius: width / 2
-                                color: ThemeBackend.mauve
+                                color: highlightGlass.active ? "transparent" : ThemeBackend.mauve
+
+                                GlassFill {
+                                    id: highlightGlass
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    tintColor: ThemeBackend.mauve
+                                    tintAmount: 0.5
+                                    shadow: 1
+                                    press: 0.3
+                                }
 
                                 property int prevIdx: 0
                                 property int curIdx: floatingWidget.activeIndex
@@ -1703,7 +1721,7 @@ Variants {
                                             font.family: ThemeBackend.fontFamily
                                             font.pixelSize: floatingWidget.s(10)
                                             font.weight: Font.Bold
-                                            color: ThemeBackend.crust
+                                            color: highlightGlass.active ? ThemeBackend.text : ThemeBackend.crust
                                             rotation: (floatingWidget.activeEdge === "right" || floatingWidget.activeEdge === "bottom") ? 90 : -90
                                         }
                                     }

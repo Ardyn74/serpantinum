@@ -378,7 +378,6 @@ Item {
                 id: posSettingsRow
                 rootObj: notificationsTabRoot.rootObj
                 icon: "󰍹"
-                iconOffsetX: -2
                 title: I18n.t("guide.notifications.position.title", "Screen position")
                 titleBold: true
                 description: I18n.t("guide.notifications.position.desc", "Select a preset position or drag on screen")
@@ -406,7 +405,15 @@ Item {
                     implicitHeight: rootObj.s(32)
                     implicitWidth: notificationsTabRoot.isCustomPos ? (notifCustomPosText.implicitWidth + rootObj.s(20)) : 0
                     radius: ThemeBackend.borderRadius
-                    color: ThemeBackend.surface0
+                    color: gf1.active ? "transparent" : ThemeBackend.surface0
+
+                    GlassFill {
+                        id: gf1
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: ThemeBackend.surface0
+                        tintAmount: 0.25
+                    }
                     border.width: 1
                     border.color: Qt.alpha(ThemeBackend.surface2, 0.6)
                     clip: true
@@ -503,7 +510,15 @@ Item {
                             height: implicitHeight
                             implicitHeight: selectorInnerCol.implicitHeight + rootObj.s(24)
                             radius: ThemeBackend.borderRadius
-                            color: Qt.alpha(ThemeBackend.surface1, 0.35)
+                            color: gf2.active ? "transparent" : Qt.alpha(ThemeBackend.surface1, 0.35)
+
+                            GlassFill {
+                                id: gf2
+                                anchors.fill: parent
+                                radius: parent.radius
+                                tintColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                                tintAmount: 0.25
+                            }
                             border.width: 0
 
                             ColumnLayout {
@@ -772,7 +787,6 @@ Item {
                         Layout.alignment: Qt.AlignVCenter
                         cornerRadius: rootObj.s(6)
                         buttonIcon: "󰉋"
-                        iconOffsetX: -2
                         iconFontSize: rootObj.s(14)
                         accentColor: ThemeBackend.surface0
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2

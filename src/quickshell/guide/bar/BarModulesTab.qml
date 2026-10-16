@@ -863,9 +863,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: workspacesCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf1.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf1
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -985,13 +993,23 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardMouse.pressed
+                                    color: cardGlass1.active ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
 
-                                    border.width: 1
+                                    GlassFill {
+                                        id: cardGlass1
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -1049,7 +1067,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 160 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -1159,7 +1184,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -1188,9 +1213,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: timeDateCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf2.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf2
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -1306,7 +1339,7 @@ Item {
                                             ? (timeCardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
                                             : (timeCardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
 
-                                    border.width: 1
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (timeCardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -1364,7 +1397,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -1458,7 +1498,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -1487,9 +1527,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: visCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf3.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf3
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -1521,9 +1569,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -1535,9 +1590,17 @@ Item {
                                 width: (visFacePreviewLoader.item ? visFacePreviewLoader.item.implicitWidth : 0) * visFacePreviewLoader.scale
                                 height: (visFacePreviewLoader.item ? visFacePreviewLoader.item.implicitHeight : rootObj.s(32)) * visFacePreviewLoader.scale
                                 radius: ThemeBackend.borderRadius
-                                color: Qt.alpha(ThemeBackend.surface0, 0.5)
+                                color: gf4.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.5)
+
+                                GlassFill {
+                                    id: gf4
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.5)
+                                    tintAmount: 0.25
+                                }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
-                                border.width: 1
+                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                 visible: width > 0 && height > 0
                             }
 
@@ -1686,9 +1749,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: sysmonCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf5.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf5
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -1720,9 +1791,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 150 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -1734,9 +1812,17 @@ Item {
                                 width: (sysmonFacePreviewLoader.item ? sysmonFacePreviewLoader.item.implicitWidth : 0) * sysmonFacePreviewLoader.scale
                                 height: (sysmonFacePreviewLoader.item ? sysmonFacePreviewLoader.item.implicitHeight : rootObj.s(32)) * sysmonFacePreviewLoader.scale
                                 radius: ThemeBackend.borderRadius
-                                color: Qt.alpha(ThemeBackend.surface0, 0.5)
+                                color: gf6.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.5)
+
+                                GlassFill {
+                                    id: gf6
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.5)
+                                    tintAmount: 0.25
+                                }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
-                                border.width: 1
+                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                 visible: width > 0 && height > 0
                             }
 
@@ -1886,9 +1972,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: visible ? (batteryCardLayout.implicitHeight + rootObj.s(24)) : 0
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf7.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf7
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -1920,9 +2014,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2032,13 +2133,23 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardMouse.pressed
+                                    color: cardGlass2.active ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
 
-                                    border.width: 1
+                                    GlassFill {
+                                        id: cardGlass2
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -2096,7 +2207,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -2145,7 +2263,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -2180,9 +2298,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: wifiCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf8.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf8
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -2214,9 +2340,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2323,13 +2456,23 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardMouse.pressed
+                                    color: cardGlass3.active ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
 
-                                    border.width: 1
+                                    GlassFill {
+                                        id: cardGlass3
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -2387,7 +2530,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -2436,7 +2586,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -2471,9 +2621,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: btCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf9.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf9
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -2505,9 +2663,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2614,13 +2779,23 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardMouse.pressed
+                                    color: cardGlass4.active ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
 
-                                    border.width: 1
+                                    GlassFill {
+                                        id: cardGlass4
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -2678,7 +2853,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -2727,7 +2909,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -2762,9 +2944,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: volCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf10.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf10
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -2796,9 +2986,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2905,13 +3102,23 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardMouse.pressed
+                                    color: cardGlass5.active ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
 
-                                    border.width: 1
+                                    GlassFill {
+                                        id: cardGlass5
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -2969,7 +3176,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -3018,7 +3232,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -3053,9 +3267,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: kbCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf11.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf11
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -3087,9 +3309,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -3175,13 +3404,23 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardMouse.pressed
+                                    color: cardGlass6.active ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
-                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
 
-                                    border.width: 1
+                                    GlassFill {
+                                        id: cardGlass6
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: isSelected
                                         ? Qt.alpha(ThemeBackend.surface2, 0.75)
                                         : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
@@ -3239,7 +3478,14 @@ Item {
                                             Layout.fillWidth: true
                                             implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
                                             radius: ThemeBackend.borderRadius
-                                            color: Qt.darker(ThemeBackend.mantle, 1.1)
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
                                             clip: true
 
                                             Item {
@@ -3287,7 +3533,7 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: 1
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
@@ -3322,9 +3568,17 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: mediaCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf12.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf12
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                border.width: 1
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 ColumnLayout {
@@ -3356,9 +3610,16 @@ Item {
                         Layout.fillWidth: true
                         implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 160 : 72)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.darker(ThemeBackend.mantle, 1.1)
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {

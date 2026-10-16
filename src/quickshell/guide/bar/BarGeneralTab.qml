@@ -775,11 +775,19 @@ Item {
             Layout.preferredWidth: 1
             Layout.fillHeight: lName !== "available"
             implicitHeight: Math.max(rootObj.s(lName === "available" ? 68 : 90), titleText.implicitHeight + (flowList.childrenRect.height > 0 ? flowList.childrenRect.height : flowList.implicitHeight) + rootObj.s(20))
-            color: ThemeBackend.base
+            color: dragGlass.active ? "transparent" : ThemeBackend.base
             radius: barTabRoot.cardRadius
-            border.width: 1
+            border.width: ThemeBackend.liquidGlass ? 0 : 1
             border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
             clip: true
+
+            GlassFill {
+                id: dragGlass
+                anchors.fill: parent
+                radius: parent.radius
+                tintColor: ThemeBackend.base
+                tintAmount: 0.25
+            }
 
             property var listModel
             property string lName
@@ -1353,7 +1361,15 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: barConfigCol.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf1.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf1
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.width: 0
 
                 ColumnLayout {

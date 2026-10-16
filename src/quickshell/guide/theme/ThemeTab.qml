@@ -27,6 +27,7 @@ Item {
         "borderRadius": ThemeBackend.borderRadius,
         "elementOpacity": 100,
         "blurBackground": false,
+        "blurStyle": "blur",
         "activePreset": "Matugen",
         "matugen": true,
         "colors": {}
@@ -36,6 +37,7 @@ Item {
     property string currentFontFamily: themeSettings.fontFamily !== undefined ? themeSettings.fontFamily : ThemeBackend.fontFamily
     property int currentBorderRadius: themeSettings.borderRadius !== undefined ? themeSettings.borderRadius : ThemeBackend.borderRadius
     property int currentElementOpacity: themeSettings.elementOpacity !== undefined ? Number(themeSettings.elementOpacity) : 100
+    property string currentBlurStyle: themeSettings.blurStyle === "liquid" ? "liquid" : "blur"
     property bool currentBlurBackground: themeSettings.blurBackground !== undefined ? Boolean(themeSettings.blurBackground) : false
     property string currentPreset: themeSettings.activePreset !== undefined ? themeSettings.activePreset : "Matugen"
     property bool useMatugen: themeSettings.matugen !== undefined ? themeSettings.matugen : true
@@ -520,6 +522,7 @@ Item {
             themeTabRoot.currentBorderRadius = ts.borderRadius !== undefined ? ts.borderRadius : ThemeBackend.borderRadius;
             themeTabRoot.currentElementOpacity = ts.elementOpacity !== undefined ? Number(ts.elementOpacity) : 100;
             themeTabRoot.currentBlurBackground = ts.blurBackground !== undefined ? Boolean(ts.blurBackground) : false;
+            themeTabRoot.currentBlurStyle = ts.blurStyle === "liquid" ? "liquid" : "blur";
             themeTabRoot.currentPreset = ts.activePreset !== undefined ? ts.activePreset : "Matugen";
             themeTabRoot.useMatugen = ts.matugen !== undefined ? ts.matugen : true;
             themeTabRoot.themeSettings = ts;
@@ -560,6 +563,13 @@ Item {
         themeTabRoot.currentBlurBackground = val;
         let current = Config.getSetting("theme", themeTabRoot.defaultThemeSettings);
         current.blurBackground = val;
+        Config.setSetting("theme", current);
+    }
+
+    function updateBlurStyleSetting(val) {
+        themeTabRoot.currentBlurStyle = val;
+        let current = Config.getSetting("theme", themeTabRoot.defaultThemeSettings);
+        current.blurStyle = val;
         Config.setSetting("theme", current);
     }
 
@@ -1124,7 +1134,15 @@ Item {
                         id: wpCardBg
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
-                        color: ThemeBackend.surface0
+                        color: gf1.active ? "transparent" : ThemeBackend.surface0
+
+                        GlassFill {
+                            id: gf1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: ThemeBackend.surface0
+                            tintAmount: 0.25
+                        }
                     }
 
                     Image {
@@ -1274,7 +1292,6 @@ Item {
                     Layout.alignment: Qt.AlignVCenter
                     cornerRadius: rootObj.s(6)
                     buttonIcon: "󰉋"
-                    iconOffsetX: -2
                     iconFontSize: rootObj.s(14)
                     accentColor: ThemeBackend.surface0
                     textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
@@ -1336,7 +1353,6 @@ Item {
                         Layout.alignment: Qt.AlignVCenter
                         cornerRadius: rootObj.s(6)
                         buttonIcon: "󰉋"
-                        iconOffsetX: -2
                         iconFontSize: rootObj.s(14)
                         accentColor: ThemeBackend.surface0
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
@@ -1437,6 +1453,7 @@ Item {
                 SettingsRow {
                     rootObj: themeTabRoot.rootObj
                     settingId: "element_opacity"
+                    visible: !(themeTabRoot.currentBlurBackground && themeTabRoot.currentBlurStyle === "liquid")
                     icon: "󰃟"
                     title: I18n.t("guide.theme.element_opacity.title", "Element opacity")
                     description: I18n.t("guide.theme.element_opacity.desc", "Opacity of the bar, dock, widgets and every other shell element")
@@ -1479,7 +1496,28 @@ Item {
                     icon: "󰂵"
                     title: I18n.t("guide.theme.blur_background.title", "Add a blurred wallpaper background")
                     description: I18n.t("guide.theme.blur_background.desc", "Blur the wallpaper behind every element that uses transparency")
-                    searchKeywords: "blur blurred wallpaper background frosted glass transparency opacity"
+                    searchKeywords: "blur blurred wallpaper background frosted glass liquid glass apple transparency opacity"
+
+                    Switch {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        implicitWidth: rootObj.s(200)
+                        implicitHeight: rootObj.s(32)
+                        cornerRadius: ThemeBackend.borderRadius
+                        fontPixelSize: rootObj.s(11)
+                        enabled: themeTabRoot.currentBlurBackground
+                        options: [
+                            I18n.t("guide.theme.blur_background.style.blur", "Blur"),
+                            I18n.t("guide.theme.blur_background.style.liquid", "Liquid glass")
+                        ]
+                        currentIndex: themeTabRoot.currentBlurStyle === "liquid" ? 1 : 0
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        textColor: ThemeBackend.text
+                        activeTextColor: ThemeBackend.crust
+                        onValueChanged: function(index, value) {
+                            themeTabRoot.updateBlurStyleSetting(index === 1 ? "liquid" : "blur");
+                        }
+                    }
 
                     Toggle {
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
@@ -1500,7 +1538,15 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: themesSectionCol.implicitHeight + rootObj.s(12)
                 radius: ThemeBackend.borderRadius
-                color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: gf2.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gf2
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
                 border.width: 0
                 clip: true
 

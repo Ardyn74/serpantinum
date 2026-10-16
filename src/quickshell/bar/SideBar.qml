@@ -226,6 +226,16 @@ Item {
         return checkFlat(flatTopArr) || checkFlat(flatCenterArr) || checkFlat(flatBottomArr);
     }
 
+    function backdropFor(id) {
+        if (isSolid) return solidBlur;
+        if (!isModuleGrouped(id)) return null;
+        for (let i = 0; i < groupBgRepeater.count; i++) {
+            const g = groupBgRepeater.itemAt(i);
+            if (g && g.groupIds && g.groupIds.indexOf(id) !== -1) return g.blurSurface;
+        }
+        return null;
+    }
+
     function isModuleGrouped(id) {
         let norm = BarModuleRegistry.normalizeId(id);
         let allArrs = [topArr, centerArr, bottomArr];
@@ -516,6 +526,7 @@ Item {
         opacity: visible ? 1.0 : 0.0
 
         WallpaperBlur {
+            id: solidBlur
             z: -1
             anchors.fill: parent
             topLeftRadius: parent.topLeftRadius
@@ -681,11 +692,31 @@ Item {
             visible: metrics.v && (barWindow ? !barWindow.positionChanging : true) && height > 0 && (!contentWrapper.isSolid || contentWrapper.distinctPills)
             opacity: visible ? 1.0 : 0.0
 
-            color: (contentWrapper.isSolid && contentWrapper.distinctPills)
+            color: groupGlass.active ? "transparent" : ((contentWrapper.isSolid && contentWrapper.distinctPills)
                 ? Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.15), (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : 1.0)
-                : Qt.alpha(ThemeBackend.base, (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : 1.0)
+                : Qt.alpha(ThemeBackend.base, (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : 1.0))
             radius: ThemeBackend.borderRadius
             border.width: 0
+            property Item blurSurface: groupBlur
+
+            WallpaperBlur {
+                id: groupBlur
+                z: -1
+                anchors.fill: parent
+                radius: parent.radius
+                surfaceEnabled: !!contentWrapper && !contentWrapper.isSolid
+                standalone: true
+            }
+
+            GlassFill {
+                id: groupGlass
+                anchors.fill: parent
+                z: -1
+                radius: parent.radius
+                allowed: !!contentWrapper && contentWrapper.isSolid && contentWrapper.distinctPills
+                tintColor: ThemeBackend.surface0
+                tintAmount: 0.3
+            }
 
             Behavior on y {
                 enabled: contentWrapper.layoutAnimationsEnabled
@@ -722,6 +753,7 @@ Item {
             distinctPills: contentWrapper.distinctPills
             moduleActive: contentWrapper.isModuleActive(modelData)
             isGrouped: contentWrapper.isModuleGrouped(modelData)
+            glassBackdropItem: { void groupBgRepeater.count; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
             targetY: contentWrapper.getModuleY(modelData, contentWrapper.layoutState)
             targetX: contentWrapper.getModuleX(barMod)
             suppressAnimation: contentWrapper.suppressAnimation

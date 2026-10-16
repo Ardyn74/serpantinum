@@ -3,6 +3,8 @@ import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
 import "../../"
+import "../"
+import "glassNesting.js" as Nesting
 
 Item {
     id: root
@@ -15,12 +17,30 @@ Item {
     property real blurStrength: 1.0
     property real tint: 0.0
 
-    readonly property var hostWindow: QsWindow.window
-    readonly property var hostScreen: hostWindow ? hostWindow.screen : null
-    readonly property string screenName: hostScreen && hostScreen.name ? hostScreen.name : ""
-    readonly property bool active: ThemeBackend.blurBackground && ThemeBackend.elementOpacity < 0.999 && width > 0 && height > 0 && hostScreen !== null && hostWindow.visible
+    readonly property bool liquid: ThemeBackend.liquidGlass
+    readonly property bool isGlassBackdrop: true
+    property alias texture: glassTexture
+    property int consumers: 0
+    property int nestLevel: 0
+    readonly property real nest: Math.min(1, nestLevel * 0.5)
 
-    readonly property var engine: Wallpaper.engines[screenName] || null
+    property bool standalone: false
+    property bool surfaceEnabled: true
+
+    Component.onCompleted: nestLevel = standalone ? 0 : Nesting.nestLevel(root, null, true)
+    readonly property bool transitioning: engine ? (engine.transitionProgress > 0.0 && engine.transitionProgress < 1.0) : false
+    property int frame: 0
+    property int tick: 0
+
+    property var screenOverride: null
+    property bool useSnapshot: false
+
+    readonly property var hostWindow: QsWindow.window
+    readonly property var hostScreen: screenOverride ? screenOverride : (hostWindow ? hostWindow.screen : null)
+    readonly property string screenName: hostScreen && hostScreen.name ? hostScreen.name : ""
+    readonly property bool active: surfaceEnabled && ThemeBackend.blurBackground && ThemeBackend.elementOpacity < 0.999 && width > 0 && height > 0 && hostScreen !== null && (hostWindow ? hostWindow.visible : true)
+
+    readonly property var engine: useSnapshot ? null : (Wallpaper.engines[screenName] || null)
 
     property real imageX: 0
     property real imageY: 0
@@ -49,25 +69,45 @@ Item {
     readonly property string oldSource: engine ? layerSource(incomingSlot === 0 ? 1 : 0) : ""
     readonly property real screenWidth: hostScreen ? hostScreen.width : 1
     readonly property real screenHeight: hostScreen ? hostScreen.height : 1
-    readonly property size textureSize: Qt.size(Math.max(1, Math.round(screenWidth / 4)), Math.max(1, Math.round(screenHeight / 4)))
+    readonly property size textureSize: Qt.size(Math.max(1, Math.round(screenWidth / (liquid ? 2 : 4))), Math.max(1, Math.round(screenHeight / (liquid ? 2 : 4))))
 
     visible: active
     clip: false
 
+    function refreshTexture() {
+        if (root.liquid && root.consumers > 0) glassTexture.scheduleUpdate();
+    }
+
+    onImageXChanged: refreshTexture()
+    onImageYChanged: refreshTexture()
+    onImageScaleChanged: refreshTexture()
+    onImageRotationChanged: refreshTexture()
+    onWidthChanged: refreshTexture()
+    onHeightChanged: refreshTexture()
+    onNewSourceChanged: refreshTexture()
+    onOldSourceChanged: refreshTexture()
+    onRevisionChanged: refreshTexture()
+    onConsumersChanged: refreshTexture()
+    onLiquidChanged: refreshTexture()
+    onTintChanged: refreshTexture()
+    onBlurStrengthChanged: refreshTexture()
+
     function refreshGeometry() {
         const w = root.hostWindow;
         const scr = root.hostScreen;
-        if (!w || !scr) return;
-        const a = w.anchors;
-        const m = w.margins;
-        let wx;
-        let wy;
-        if (a.left) wx = m.left;
-        else if (a.right) wx = scr.width - w.width - m.right;
-        else wx = (scr.width - w.width) / 2;
-        if (a.top) wy = m.top;
-        else if (a.bottom) wy = scr.height - w.height - m.bottom;
-        else wy = (scr.height - w.height) / 2;
+        if (!scr) return;
+        let wx = 0;
+        let wy = 0;
+        if (w && w.anchors && !root.screenOverride) {
+            const a = w.anchors;
+            const m = w.margins;
+            if (a.left) wx = m.left;
+            else if (a.right) wx = scr.width - w.width - m.right;
+            else wx = (scr.width - w.width) / 2;
+            if (a.top) wy = m.top;
+            else if (a.bottom) wy = scr.height - w.height - m.bottom;
+            else wy = (scr.height - w.height) / 2;
+        }
         const p0 = root.mapFromItem(null, -wx, -wy);
         const px = root.mapFromItem(null, 1 - wx, -wy);
         const dx = px.x - p0.x;
@@ -82,7 +122,10 @@ Item {
 
     FrameAnimation {
         running: root.active
-        onTriggered: root.refreshGeometry()
+        onTriggered: {
+            root.refreshGeometry();
+            if (root.consumers > 0 && (++root.tick % 2) === 0) root.frame++;
+        }
     }
 
     onActiveChanged: {
@@ -112,6 +155,7 @@ Item {
             cache: true
             smooth: true
             sourceSize: root.textureSize
+            onStatusChanged: root.refreshTexture()
         }
     }
 
@@ -132,6 +176,7 @@ Item {
             cache: true
             smooth: true
             sourceSize: root.textureSize
+            onStatusChanged: root.refreshTexture()
         }
     }
 
@@ -156,6 +201,8 @@ Item {
         anchors.fill: parent
         visible: false
         layer.enabled: true
+        layer.mipmap: root.liquid
+        layer.smooth: true
 
         ShaderEffect {
             id: blend
@@ -185,14 +232,73 @@ Item {
         }
     }
 
-    MultiEffect {
+    Item {
+        id: rendered
         anchors.fill: parent
-        source: content
-        autoPaddingEnabled: false
-        blurEnabled: true
-        blurMax: 64
-        blur: Math.min(1.0, root.blurStrength)
-        maskEnabled: true
-        maskSource: mask
+
+        MultiEffect {
+            anchors.fill: parent
+            visible: !root.liquid
+            source: content
+            autoPaddingEnabled: false
+            blurEnabled: true
+            blurMax: 64
+            blur: Math.min(1.0, root.blurStrength)
+            maskEnabled: true
+            maskSource: mask
+        }
+
+        LiquidGlass {
+            id: glassEffect
+            anchors.fill: parent
+            visible: root.liquid
+            src: content
+            topLeftRadius: root.topLeftRadius
+            topRightRadius: root.topRightRadius
+            bottomLeftRadius: root.bottomLeftRadius
+            bottomRightRadius: root.bottomRightRadius
+            tintColor: ThemeBackend.base
+            tintAmount: Math.max(root.tint, 0.2) * (1 - 0.5 * root.nest)
+            frost: Math.max(0.5, root.blurStrength * 2.5) * (1 - 0.5 * root.nest)
+            rim: 0.45 * (1 - 0.35 * root.nest)
+            nest: root.nest
+            clear: root.nestLevel >= 1 ? 1 : 0
+            cursorPos: Qt.point(root.cursorX, root.cursorY)
+            hover: root.hoverAmount
+        }
+    }
+
+    ShaderEffectSource {
+        id: glassTexture
+        anchors.fill: parent
+        sourceItem: rendered
+        live: root.liquid && root.consumers > 0 && root.transitioning
+        mipmap: true
+        visible: false
+        smooth: true
+        format: ShaderEffectSource.RGBA8
+    }
+
+    HoverHandler {
+        id: pointer
+        enabled: root.liquid
+    }
+
+    property real hoverAmount: pointer.hovered ? 1.0 : 0.0
+    Behavior on hoverAmount { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+
+    property real cursorX: width / 2
+    property real cursorY: height / 2
+    Behavior on cursorX { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
+    Behavior on cursorY { NumberAnimation { duration: 120; easing.type: Easing.OutCubic } }
+
+    Connections {
+        target: pointer
+        function onPointChanged() {
+            if (pointer.hovered) {
+                root.cursorX = pointer.point.position.x;
+                root.cursorY = pointer.point.position.y;
+            }
+        }
     }
 }

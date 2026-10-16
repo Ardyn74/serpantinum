@@ -315,11 +315,22 @@ Item {
         id: mainBtn
         anchors.fill: parent
         radius: root.cornerRadius
-        color: (root.isOpen || root.isHoveredOrHighlighted) ? root.hoverColor : root.baseColor
+        color: glass.active ? "transparent" : ((root.isOpen || root.isHoveredOrHighlighted) ? root.hoverColor : root.baseColor)
         opacity: root.enabled ? 1.0 : 0.5
 
         Behavior on color { ColorAnimation { duration: 180 } }
         Behavior on opacity { NumberAnimation { duration: 180 } }
+
+        GlassFill {
+            id: glass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: (root.isOpen || root.isHoveredOrHighlighted) ? root.hoverColor : root.baseColor
+            tintAmount: (root.isOpen || root.isHoveredOrHighlighted) ? 0.36 : 0.26
+            press: btnMa.pressed ? 1 : (root.isOpen ? 0.5 : (root.isHoveredOrHighlighted ? 0.2 : 0))
+            Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            Behavior on tintAmount { NumberAnimation { duration: 180 } }
+        }
 
         scale: (!root.enabled ? 1.0 : (btnMa.pressed ? 0.96 : 1.0)) * root.popScale
         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }

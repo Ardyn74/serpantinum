@@ -299,12 +299,23 @@ Item {
         anchors.fill: parent
         radius: root.cornerRadius
         clip: true
-        color: root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor
+        color: glass.active ? "transparent" : (root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor)
         opacity: root.enabled ? 1.0 : 0.5
 
         Behavior on color { ColorAnimation { duration: 180 } }
         Behavior on border.color { ColorAnimation { duration: 180 } }
         Behavior on opacity { NumberAnimation { duration: 180 } }
+
+        GlassFill {
+            id: glass
+            anchors.fill: parent
+            radius: parent.radius
+            tintColor: root.baseColor
+            press: root.isEditing ? 0.55 : (root.isHoveredOrHighlighted ? 0.2 : 0)
+            Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            tintAmount: (root.isEditing ? 0.38 : (root.isHoveredOrHighlighted ? 0.3 : 0.22))
+            Behavior on tintAmount { NumberAnimation { duration: 180 } }
+        }
 
         scale: (root.isEditing ? 1.02 : 1.0) * root.focusPop
         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }

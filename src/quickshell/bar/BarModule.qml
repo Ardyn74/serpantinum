@@ -34,6 +34,7 @@ Rectangle {
         return val;
     }
 
+    property Item glassBackdropItem: null
     readonly property alias faceItem: faceLoader.item
 
     readonly property var helpButton: (faceLoader.item && faceLoader.item.helpButton) ? faceLoader.item.helpButton : null
@@ -92,8 +93,26 @@ Rectangle {
 
     radius: ThemeBackend.borderRadius
     border.width: 0
-    color: isGrouped ? "transparent" : (isSolid ? (distinctPills ? Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.15), root.barOpacity) : "transparent") : Qt.alpha(ThemeBackend.base, root.barOpacity))
+    color: isGrouped || pillGlass.active ? "transparent" : (isSolid ? (distinctPills ? Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.15), root.barOpacity) : "transparent") : Qt.alpha(ThemeBackend.base, root.barOpacity))
     clip: true
+
+    WallpaperBlur {
+        z: -1
+        anchors.fill: parent
+        radius: root.radius
+        surfaceEnabled: !root.isGrouped && !root.isSolid
+        standalone: true
+    }
+
+    GlassFill {
+        id: pillGlass
+        anchors.fill: parent
+        z: -1
+        radius: root.radius
+        allowed: !root.isGrouped && root.isSolid && root.distinctPills
+        tintColor: ThemeBackend.surface0
+        tintAmount: 0.3
+    }
 
     readonly property bool isFaceVisible: faceLoader.item ? (faceLoader.item.isFaceVisible !== undefined ? faceLoader.item.isFaceVisible : true) : true
     readonly property bool effectiveVisible: moduleActive && isFaceVisible && (isVertical ? targetHeight : targetWidth) > 0

@@ -459,7 +459,6 @@ Item {
                     cornerRadius: ThemeBackend.borderRadius
                     buttonIcon: "󰒓"
                     iconFontSize: rootObj.s(16)
-                    iconOffsetX: -1
                     accentColor: ThemeBackend.surface0
                     textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0
                     onClicked: tabRoot.isSettingsView = !tabRoot.isSettingsView
@@ -500,7 +499,6 @@ Item {
                         cornerRadius: ThemeBackend.borderRadius
                         buttonIcon: "󰃭"
                         iconFontSize: rootObj.s(16)
-                        iconOffsetX: -1
                         accentColor: ThemeBackend.surface0
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0
                         opacity: (tabRoot.selectedAppClass === "" && !tabRoot.isWeekView && !tabRoot.isSettingsView) ? 1.0 : 0.0
@@ -611,7 +609,15 @@ Item {
                         Layout.fillHeight: true
                         Layout.preferredWidth: rootObj.s(190)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        color: gf1.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                        GlassFill {
+                            id: gf1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                            tintAmount: 0.25
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
                         border.width: 1
 
@@ -675,7 +681,15 @@ Item {
                         Layout.fillHeight: true
                         Layout.preferredWidth: rootObj.s(260)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, 0.5)
+                        color: gf2.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.5)
+
+                        GlassFill {
+                            id: gf2
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: Qt.alpha(ThemeBackend.surface0, 0.5)
+                            tintAmount: 0.25
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
                         border.width: 1
 
@@ -694,7 +708,15 @@ Item {
                         Layout.fillHeight: true
                         Layout.preferredWidth: rootObj.s(190)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        color: gf3.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                        GlassFill {
+                            id: gf3
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                            tintAmount: 0.25
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
                         border.width: 1
 
@@ -770,7 +792,15 @@ Item {
                         Layout.fillHeight: true
                         Layout.preferredWidth: rootObj.s(440)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        color: gf4.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                        GlassFill {
+                            id: gf4
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                            tintAmount: 0.25
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
                         border.width: 1
 
@@ -850,7 +880,15 @@ Item {
                         Layout.fillHeight: true
                         Layout.preferredWidth: rootObj.s(260)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        color: gf5.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                        GlassFill {
+                            id: gf5
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                            tintAmount: 0.25
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
                         border.width: 1
 
@@ -999,7 +1037,15 @@ Item {
                                     Layout.preferredHeight: rootObj.s(32)
                                     Layout.alignment: Qt.AlignVCenter
                                     radius: Math.round(rootObj.s(32) * 0.28)
-                                    color: ThemeBackend.surface0
+                                    color: gf6.active ? "transparent" : ThemeBackend.surface0
+
+                                    GlassFill {
+                                        id: gf6
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: 0.25
+                                    }
                                     clip: true
 
                                     Image {
@@ -1086,7 +1132,15 @@ Item {
                         id: appChartCard
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        color: gf7.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                        GlassFill {
+                            id: gf7
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                            tintAmount: 0.25
+                        }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
                         border.width: 1
 
@@ -1191,7 +1245,15 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: rootObj.s(230)
                     radius: ThemeBackend.borderRadius
-                    color: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    color: gf8.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                    GlassFill {
+                        id: gf8
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                        tintAmount: 0.25
+                    }
                     border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
                     border.width: 1
 
@@ -1306,7 +1368,15 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 radius: ThemeBackend.borderRadius
-                                color: Qt.alpha(ThemeBackend.surface1, 0.35)
+                                color: gf9.active ? "transparent" : Qt.alpha(ThemeBackend.surface1, 0.35)
+
+                                GlassFill {
+                                    id: gf9
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    tintColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                                    tintAmount: 0.25
+                                }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.35)
                                 border.width: 1
 
@@ -1350,7 +1420,15 @@ Item {
                                 Layout.fillWidth: true
                                 Layout.fillHeight: true
                                 radius: ThemeBackend.borderRadius
-                                color: Qt.alpha(ThemeBackend.surface1, 0.35)
+                                color: gf10.active ? "transparent" : Qt.alpha(ThemeBackend.surface1, 0.35)
+
+                                GlassFill {
+                                    id: gf10
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    tintColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                                    tintAmount: 0.25
+                                }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.35)
                                 border.width: 1
 
@@ -1459,7 +1537,15 @@ Item {
                                     Layout.preferredHeight: rootObj.s(32)
                                     Layout.alignment: Qt.AlignVCenter
                                     radius: Math.round(rootObj.s(32) * 0.28)
-                                    color: ThemeBackend.surface0
+                                    color: gf11.active ? "transparent" : ThemeBackend.surface0
+
+                                    GlassFill {
+                                        id: gf11
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: 0.25
+                                    }
                                     clip: true
 
                                     Image {

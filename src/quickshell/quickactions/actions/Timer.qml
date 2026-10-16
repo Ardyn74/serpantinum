@@ -390,18 +390,36 @@ Item {
             width: root.s(270)
             height: root.s(36)
             radius: ThemeBackend.borderRadius
-            color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
+            color: tabGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
             border.width: 1
             border.color: ThemeBackend.surface1
             z: 10
+
+            GlassFill {
+                id: tabGlass
+                anchors.fill: parent
+                radius: parent.radius
+                tintColor: ThemeBackend.surface0
+                tintAmount: 0.3
+            }
 
             Rectangle {
                 id: tabActiveHighlight
                 y: root.s(2)
                 height: root.s(32)
                 radius: ThemeBackend.borderRadius
-                color: ThemeBackend.mauve
+                color: tabHighlightGlass.active ? "transparent" : ThemeBackend.mauve
                 z: 0
+
+                GlassFill {
+                    id: tabHighlightGlass
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: ThemeBackend.mauve
+                    tintAmount: 0.5
+                    shadow: 1
+                    press: 0.3
+                }
 
                 property int prevIdx: 0
                 property int curIdx: stateCache.activeMode
@@ -447,7 +465,7 @@ Item {
                             font.family: ThemeBackend.fontFamily
                             font.bold: true
                             font.pixelSize: root.s(12)
-                            color: stateCache.activeMode === index ? ThemeBackend.mantle : ThemeBackend.text
+                            color: (stateCache.activeMode === index && !tabHighlightGlass.active) ? ThemeBackend.mantle : ThemeBackend.text
                             Behavior on color { ColorAnimation { duration: 250 } }
                         }
 
@@ -613,9 +631,17 @@ Item {
                                     width: lapList.width
                                     height: root.s(32)
                                     radius: ThemeBackend.borderRadius
-                                    color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
+                                    color: lapGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                                     border.width: 1
                                     border.color: ThemeBackend.surface1
+
+                                    GlassFill {
+                                        id: lapGlass
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: 0.3
+                                    }
 
                                     property int trueIdx: root.swLapData.length - 1 - index
                                     property var lapItem: root.swLapData[trueIdx]
@@ -757,10 +783,18 @@ Item {
                         width: root.s(270)
                         height: root.s(160)
                         radius: ThemeBackend.borderRadius
-                        color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
+                        color: pomoGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                         border.width: 1
                         border.color: ThemeBackend.surface1
                         visible: pomodoroView.showSettings
+
+                        GlassFill {
+                            id: pomoGlass
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: ThemeBackend.surface0
+                            tintAmount: 0.3
+                        }
 
                         Column {
                             anchors.centerIn: parent

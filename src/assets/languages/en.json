@@ -584,7 +584,11 @@
       },
       "blur_background": {
         "title": "Add a blurred wallpaper background",
-        "desc": "Blur the wallpaper behind every element that uses transparency"
+        "desc": "Blur the wallpaper behind every element that uses transparency",
+        "style": {
+          "blur": "Blur",
+          "liquid": "Liquid glass"
+        }
       },
       "colors": {
         "title": "Color themes",

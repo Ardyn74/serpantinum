@@ -1424,7 +1424,7 @@ Scope {
                                 width: Math.min(parent.width - screenRoot.s(48), screenRoot.s(440) + (screenRoot.wingsReveal * screenRoot.s(780)))
                                 height: screenRoot.s(580)
                                 radius: ThemeBackend.borderRadius * 1.5
-                                color: ThemeBackend.surface0
+                                color: ThemeBackend.faded(ThemeBackend.surface0)
                                 border.width: 1.5
                                 border.color: ThemeBackend.surface1
                                 clip: true
@@ -1441,6 +1441,14 @@ Scope {
                                 }
 
                                 Behavior on anchors.verticalCenterOffset { NumberAnimation { duration: 320; easing.type: Easing.OutCubic } }
+
+                                WallpaperBlur {
+                                    z: -1
+                                    anchors.fill: parent
+                                    radius: mainDashboardShell.radius
+                                    screenOverride: surface.screen
+                                    useSnapshot: true
+                                }
 
                                 readonly property real leftWingWidth: screenRoot.wingsReveal * screenRoot.s(390)
                                 readonly property real centerWidth: screenRoot.s(440)
@@ -1746,9 +1754,17 @@ Scope {
                                 visible: height > 0 || opacity > 0
                                 opacity: screenRoot.powerMenuOpen ? 1.0 : 0.0
 
-                                color: Qt.rgba(ThemeBackend.surface0.r, ThemeBackend.surface0.g, ThemeBackend.surface0.b, 0.45)
+                                color: Qt.rgba(ThemeBackend.surface0.r, ThemeBackend.surface0.g, ThemeBackend.surface0.b, 0.45 * ThemeBackend.elementOpacity)
                                 border.color: Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.4)
                                 border.width: 1
+
+                                WallpaperBlur {
+                                    z: -1
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    screenOverride: surface.screen
+                                    useSnapshot: true
+                                }
 
                                 Behavior on height {
                                     NumberAnimation {
@@ -1839,9 +1855,17 @@ Scope {
                                 Rectangle {
                                     anchors.fill: parent
                                     radius: screenRoot.s(16)
-                                    color: Qt.lighter(ThemeBackend.surface0, 1.28)
+                                    color: ThemeBackend.faded(Qt.lighter(ThemeBackend.surface0, 1.28))
                                     border.width: 1
                                     border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.06)
+
+                                    WallpaperBlur {
+                                        z: -1
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        screenOverride: surface.screen
+                                        useSnapshot: true
+                                    }
                                 }
 
                                 LoaderIcon {
@@ -2194,9 +2218,17 @@ Scope {
                                     id: mediaBoxBg
                                     anchors.fill: parent
                                     radius: screenRoot.s(16)
-                                    color: Qt.lighter(ThemeBackend.surface0, 1.28)
+                                    color: ThemeBackend.faded(Qt.lighter(ThemeBackend.surface0, 1.28))
                                     border.width: 1
                                     border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.06)
+
+                                    WallpaperBlur {
+                                        z: -1
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        screenOverride: surface.screen
+                                        useSnapshot: true
+                                    }
 
                                     Rectangle {
                                         id: mediaBgMask

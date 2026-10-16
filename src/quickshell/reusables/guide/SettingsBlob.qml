@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import "../../"
+import "../"
 
 Rectangle {
     id: root
@@ -14,10 +15,18 @@ Rectangle {
     default property alias content: blobCol.data
 
     radius: root.cornerRadius
-    color: root.baseColor
+    color: blobGlass.active ? "transparent" : root.baseColor
     clip: true
 
     implicitHeight: blobCol.implicitHeight
+
+    GlassFill {
+        id: blobGlass
+        anchors.fill: parent
+        radius: root.cornerRadius
+        tintColor: ThemeBackend.surface0
+        tintAmount: 0.26
+    }
 
     ColumnLayout {
         id: blobCol

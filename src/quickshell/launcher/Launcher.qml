@@ -1334,6 +1334,7 @@ PanelWindow {
                     height: launcherWindow.s(36)
 
                     baseColor: ThemeBackend.surface0
+                    bgOpacity: ThemeBackend.glassActive ? 0.0 : 1.0
                     accentColor: ThemeBackend.mauve
                     textColor: ThemeBackend.text
                     subTextColor: ThemeBackend.subtext0
@@ -1467,6 +1468,7 @@ PanelWindow {
                     cornerRadius: ThemeBackend.borderRadius
                     fontPixelSize: launcherWindow.s(11)
                     baseColor: ThemeBackend.surface0
+                    bgOpacity: ThemeBackend.glassActive ? 0.0 : 1.0
                     accentColor: ThemeBackend.mauve
                     textColor: ThemeBackend.text
                     activeTextColor: ThemeBackend.crust

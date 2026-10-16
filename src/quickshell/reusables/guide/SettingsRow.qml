@@ -385,8 +385,6 @@ Rectangle {
     property bool showIcon: icon !== ""
     property int iconSize: 32
     property int iconFontSize: 16
-    property int iconOffsetX: 0
-    property int iconOffsetY: 0
     property real iconCornerRadius: ThemeBackend.borderRadius
     property color iconAccentColor: ThemeBackend.surface0
     property color iconTextColor: "#ffffff"
@@ -421,7 +419,7 @@ Rectangle {
     property alias bottomContent: bottomCol.data
 
     radius: root.cornerRadius
-    color: {
+    readonly property color stateColor: {
         let base = (root.clickable && cardMa.containsMouse) ? root.hoverColor : root.baseColor;
         if (root.dimmed) base = Qt.alpha(base, base.a * 0.5);
         if (root.highlightFlash > 0.001) {
@@ -437,6 +435,7 @@ Rectangle {
         }
         return base;
     }
+    color: rowGlass.active ? (root.highlightFlash > 0.001 ? Qt.alpha(ThemeBackend.mauve, root.highlightFlash * 0.12) : "transparent") : stateColor
     border.color: root.borderColor
     border.width: root.borderWidth
     clip: true
@@ -448,6 +447,18 @@ Rectangle {
     Behavior on implicitHeight {
         enabled: root.animateHeight
         NumberAnimation { duration: root.animationDuration; easing.type: Easing.OutCubic }
+    }
+
+    GlassFill {
+        id: rowGlass
+        anchors.fill: parent
+        allowed: !root.inBlob
+        radius: root.cornerRadius
+        tintColor: ThemeBackend.surface0
+        tintAmount: (root.clickable && cardMa.containsMouse ? 0.34 : 0.26) * (root.dimmed ? 0.5 : 1.0)
+        press: root.clickable && cardMa.containsMouse ? 0.2 : 0
+        Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+        Behavior on tintAmount { NumberAnimation { duration: 180 } }
     }
 
     MouseArea {
@@ -496,8 +507,6 @@ Rectangle {
                 cornerRadius: root.iconCornerRadius
                 buttonIcon: root.icon
                 iconFontSize: root.s(root.iconFontSize)
-                iconOffsetX: root.s(root.iconOffsetX)
-                iconOffsetY: root.s(root.iconOffsetY)
                 accentColor: root.dimmed ? ThemeBackend.surface1 : root.iconAccentColor
                 textColor: root.dimmed ? ThemeBackend.subtext0 : root.iconTextColor
                 onClicked: root.iconClicked()

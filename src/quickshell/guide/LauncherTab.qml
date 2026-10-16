@@ -117,7 +117,6 @@ Item {
                 SettingsRow {
                     rootObj: launcherTabRoot.rootObj
                     icon: "󰍹"
-                    iconOffsetX: -2
                     title: I18n.t("guide.launcher.position.title", "Screen Position")
                     description: I18n.t("guide.launcher.position.desc", "Select which screen edge the launcher attaches to")
 
