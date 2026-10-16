@@ -25,6 +25,7 @@ Item {
 
     readonly property bool isGlassFill: true
     property bool allowed: true
+    property bool forceClear: false
     property int nestLevel: 0
     readonly property real nest: Math.min(1, nestLevel * 0.5)
     property Item backdrop: null
@@ -137,7 +138,7 @@ Item {
         glassPad: root.pad
         shadowAmt: root.shadow * (1 - 0.6 * root.nest)
         nest: root.nest
-        clear: root.nestLevel >= 1 ? 1 : 0
+        clear: (root.forceClear || root.nestLevel >= 1) ? 1 : 0
         energy: Math.min(1, root.press + root.pulse)
         visible: root.active
         src: root.backdrop ? root.backdrop.texture : null

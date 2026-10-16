@@ -739,9 +739,21 @@ Item {
                             Rectangle {
                                 anchors.fill: parent
                                 radius: Math.min(window.s(26), ThemeBackend.borderRadius * 1.75)
-                                color: isHighlighted ? window.textAccent : (hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0)
+                                color: isHighlighted ? Qt.alpha(window.textAccent, hourGlass.active ? 0.8 : 1.0) : Qt.alpha(hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0, hourGlass.active ? 0.5 : 1.0)
                                 border.color: isHighlighted ? Qt.lighter(window.textAccent, 1.1) : (hrMa.containsMouse ? Qt.alpha(window.surface2, 0.9) : Qt.alpha(window.surface1, 0.6))
-                                border.width: 1
+                                border.width: ThemeBackend.liquidGlass ? 0 : 1
+
+                                GlassFill {
+                                    id: hourGlass
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    forceClear: true
+                                    tintColor: isHighlighted ? window.textAccent : window.surface0
+                                    tintAmount: isHighlighted ? 0.4 : 0.2
+                                    tintStrength: 1.0
+                                    press: hrMa.pressed ? 0.8 : (hrMa.containsMouse ? 0.25 : 0)
+                                    Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                }
 
                                 Behavior on color { ColorAnimation { duration: 180 } }
                                 Behavior on border.color { ColorAnimation { duration: 180 } }
