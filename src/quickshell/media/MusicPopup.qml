@@ -2174,8 +2174,8 @@ Item {
                             ColumnLayout {
                                 anchors.top: parent.top
                                 anchors.topMargin: root.s(9)
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                width: Math.min(parent.width - root.s(24), root.s(536))
+                                anchors.left: parent.left
+                                anchors.right: parent.right
                                 spacing: root.s(8)
 
                                 Rectangle {
