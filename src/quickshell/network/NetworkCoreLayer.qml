@@ -100,6 +100,7 @@ Item {
                     NumberAnimation { to: 1.0; duration: 600; easing.type: Easing.OutQuint }
                 }
 
+                color: "transparent"
                 gradient: coreGlass.active ? null : legacyGradient
 
                 readonly property Gradient legacyGradient: Gradient {
