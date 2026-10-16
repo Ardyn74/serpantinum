@@ -327,8 +327,19 @@ Item {
             vertical: 0.0
             color1: Qt.darker(root.accentColor, 1.15)
             color2: root.accentColor
-            opacity: glass.active ? 0.6 : 1.0
-            visible: root.fillLevel > 0.001
+            visible: !glass.active && root.fillLevel > 0.001
+        }
+
+        LiquidFill {
+            id: liquidFill
+            anchors.fill: parent
+            radius: root.effectiveRadius
+            fillLevel: root.fillLevel
+            waveAmp: waveCanvas.waveAmp
+            phase: waveCanvas.wavePhase
+            color1: Qt.lighter(root.accentColor, 1.1)
+            color2: root.accentColor
+            visible: glass.active && root.fillLevel > 0.001
         }
 
         Rectangle {

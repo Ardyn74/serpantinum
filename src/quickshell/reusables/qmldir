@@ -14,6 +14,7 @@ NotificationBox 1.0 display/NotificationBox.qml
 SystemUsageCard 1.0 display/SystemUsageCard.qml
 SystemUsageCircle 1.0 display/SystemUsageCircle.qml
 FluidWave 1.0 display/FluidWave.qml
+LiquidFill 1.0 display/LiquidFill.qml
 MarqueeText 1.0 display/MarqueeText.qml
 WallpaperBlur 1.0 display/WallpaperBlur.qml
 LiquidGlass 1.0 display/LiquidGlass.qml
