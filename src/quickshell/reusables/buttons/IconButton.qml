@@ -19,6 +19,7 @@ Item {
     property color accentColor: ThemeBackend.surface0
     property color textColor: "#11111b"
     property real bgOpacity: 1.0
+    property real glassShadow: 1
 
     property bool action_highlight: false
     property string clickSound: "reusables/iconbutton/click.wav"
@@ -62,7 +63,7 @@ Item {
             GlassFill {
                 id: glass
                 anchors.fill: parent
-                shadow: 1
+                shadow: root.glassShadow
                 press: btnMa.pressed ? 1 : (root.isHoveredOrHighlighted ? 0.25 : 0)
                 pulse: Math.min(1, root.flashOpacity * 2.5)
                 Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }

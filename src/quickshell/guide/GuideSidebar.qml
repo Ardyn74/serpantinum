@@ -176,6 +176,7 @@ Rectangle {
                     cornerRadius: ThemeBackend.borderRadius
                     buttonIcon: "󰍉"
                     iconFontSize: popup.s(16)
+                    glassShadow: 0
                     accentColor: Qt.alpha(ThemeBackend.surface0, 0.7)
                     textColor: ThemeBackend.text
                     visible: opacity > 0.001
