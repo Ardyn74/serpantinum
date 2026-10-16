@@ -600,9 +600,18 @@ Item {
                     property real currentTemp: monSettings.temperature !== undefined ? monSettings.temperature : 50
                     property real currentScale: modelData.scale !== undefined ? modelData.scale : 1.0
 
-                    color: monitorPowered ? Qt.alpha(ThemeBackend.surface0, 0.4) : Qt.darker(Qt.alpha(ThemeBackend.surface0, 0.4), 1.1)
+                    readonly property color cardTint: monitorPowered ? Qt.alpha(ThemeBackend.surface0, 0.4) : Qt.darker(Qt.alpha(ThemeBackend.surface0, 0.4), 1.1)
+                    color: monDelegateGlass.active ? "transparent" : cardTint
                     border.color: monitorPowered ? Qt.alpha(ThemeBackend.surface1, 0.4) : Qt.darker(Qt.alpha(ThemeBackend.surface1, 0.4), 1.1)
-                    border.width: 1
+                    border.width: ThemeBackend.liquidGlass ? 0 : 1
+
+                    GlassFill {
+                        id: monDelegateGlass
+                        anchors.fill: parent
+                        radius: parent.radius
+                        tintColor: monDelegate.cardTint
+                        tintAmount: 0.25
+                    }
 
                     property real targetHeight: boxLayout.implicitHeight + rootObj.s(24)
                     property bool appeared: false
