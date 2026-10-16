@@ -1611,8 +1611,9 @@ PanelWindow {
                                 id: hlGlass
                                 anchors.fill: parent
                                 radius: parent.radius
+                                forceClear: true
                                 tintColor: ThemeBackend.text
-                                tintAmount: 0.18
+                                tintAmount: 0.1
                                 tintStrength: 1.0
                                 press: 0.6
                             }
@@ -1716,8 +1717,9 @@ PanelWindow {
                                                 id: iconBoxGlass
                                                 anchors.fill: parent
                                                 radius: parent.radius
+                                                forceClear: delegateRoot.isSelected
                                                 tintColor: delegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.surface2
-                                                tintAmount: delegateRoot.isSelected ? 0.16 : 0.3
+                                                tintAmount: delegateRoot.isSelected ? 0.1 : 0.3
                                             }
 
                                             Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
@@ -1963,9 +1965,10 @@ PanelWindow {
                                         id: emojiGlass
                                         anchors.fill: parent
                                         radius: parent.radius
+                                        forceClear: emojiDelegateRoot.isSelected
                                         tintColor: emojiDelegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.surface0
                                         tintStrength: emojiDelegateRoot.isSelected ? 1.0 : 0.5
-                                        tintAmount: emojiDelegateRoot.isSelected ? 0.18 : 0.25
+                                        tintAmount: emojiDelegateRoot.isSelected ? 0.1 : 0.25
                                         press: emojiMa.pressed ? 0.8 : (emojiDelegateRoot.isSelected ? 0.6 : (emojiMa.containsMouse ? 0.25 : 0))
                                     }
                                     border.color: emojiDelegateRoot.isSelected ? "transparent" : Qt.alpha(ThemeBackend.surface2, 0.3)
