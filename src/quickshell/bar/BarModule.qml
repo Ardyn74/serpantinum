@@ -120,7 +120,14 @@ Rectangle {
     readonly property bool effectiveVisible: moduleActive && isFaceVisible && (isVertical ? targetHeight : targetWidth) > 0
 
     opacity: effectiveVisible ? 1.0 : 0.0
-    visible: opacity > 0 && (isVertical ? targetHeight : targetWidth) > 0
+    visible: false
+    function updateVisible() {
+        visible = opacity > 0 && (isVertical ? targetHeight : targetWidth) > 0;
+    }
+    onOpacityChanged: updateVisible()
+    onTargetWidthChanged: updateVisible()
+    onTargetHeightChanged: updateVisible()
+    onIsVerticalChanged: updateVisible()
     enabled: moduleActive
 
     Behavior on opacity {
@@ -138,7 +145,10 @@ Rectangle {
     }
 
     onFaceSourceChanged: loadFace()
-    Component.onCompleted: loadFace()
+    Component.onCompleted: {
+        loadFace();
+        updateVisible();
+    }
 
     Loader {
         id: faceLoader
