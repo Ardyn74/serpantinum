@@ -566,6 +566,10 @@
           "title": "歌曲标题",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "栏厚度",
+        "desc": "更改栏的厚度，模块会随之调整"
       }
     },
     "theme": {

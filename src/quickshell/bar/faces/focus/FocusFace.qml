@@ -24,9 +24,9 @@ Item {
     readonly property bool isFocused: CurrentFocus.isFocused
     readonly property bool isFaceVisible: isFocused
 
-    property real startPadding: (isSolid && !distinctPills) ? 0 : (barWindow ? barWindow.s(6) : 6)
-    property real endPadding: (isSolid && !distinctPills) ? 0 : (barWindow ? barWindow.s(12) : 12)
-    property real maxLength: barWindow ? barWindow.s(300) : 300
+    property real startPadding: (isSolid && !distinctPills) ? 0 : (barWindow ? barWindow.cs(6) : 6)
+    property real endPadding: (isSolid && !distinctPills) ? 0 : (barWindow ? barWindow.cs(12) : 12)
+    property real maxLength: barWindow ? barWindow.cs(300) : 300
     property real maxTextLength: Math.max(0, maxLength - (startPadding + (isVertical ? focusIconButton.height : focusIconButton.width) + innerLayout.spacing + endPadding))
     property real targetLength: (moduleActive && isFocused) ? Math.min(maxLength, startPadding + (isVertical ? focusIconButton.height : focusIconButton.width) + innerLayout.spacing + (isVertical ? titleClipRect.height : titleTextMain.width) + endPadding) : 0
 
@@ -44,15 +44,15 @@ Item {
         anchors.top: root.isVertical ? parent.top : undefined
         anchors.topMargin: root.isVertical ? root.startPadding : 0
         anchors.horizontalCenter: root.isVertical ? parent.horizontalCenter : undefined
-        spacing: (root.isVertical && isSolid && !distinctPills) ? 0 : (barWindow ? barWindow.s(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6))
+        spacing: (root.isVertical && isSolid && !distinctPills) ? 0 : (barWindow ? barWindow.cs(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6))
 
         IconButton {
             id: focusIconButton
-            width: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-            height: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-            cornerRadius: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+            width: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+            height: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+            cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
             buttonIcon: "✦"
-            iconFontSize: barWindow ? barWindow.s(root.isCompact ? 14 : 15) : (root.isCompact ? 14 : 15)
+            iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 14 : 15) : (root.isCompact ? 14 : 15)
             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ((root.isVertical && isSolid && !distinctPills) ? "transparent" : ThemeBackend.surface0)
             bgOpacity: root.barOpacity
             textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
@@ -85,7 +85,7 @@ Item {
                     id: titleTextMain
                     text: root.displayText
                     font.family: root.isVertical ? Qt.application.font.family : ThemeBackend.fontFamily
-                    font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)
+                    font.pixelSize: barWindow ? barWindow.cs(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)
                     font.weight: root.isVertical ? Font.Normal : Font.DemiBold
                     color: (root.isVertical || root.isCompact) ? ThemeBackend.text : ThemeBackend.subtext1
                     anchors.left: parent.left

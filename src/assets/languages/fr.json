@@ -566,6 +566,10 @@
           "title": "Titre du morceau",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Épaisseur de la barre",
+        "desc": "Modifier l'épaisseur de la barre, les modules s'adaptent"
       }
     },
     "theme": {

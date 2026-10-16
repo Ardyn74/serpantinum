@@ -567,6 +567,10 @@
           "title": "Songtitel",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Leistendicke",
+        "desc": "Dicke der Leiste ändern, die Module passen sich an"
       }
     },
     "theme": {

@@ -1252,6 +1252,10 @@
           "title": "曲のタイトル",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "バーの太さ",
+        "desc": "バーの太さを変更します。モジュールも合わせて調整されます"
       }
     },
     "theme": {

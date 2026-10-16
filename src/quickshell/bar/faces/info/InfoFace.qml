@@ -123,8 +123,8 @@ Item {
         }
     }
 
-    property real lengthPadding: barWindow ? barWindow.s(isCompact ? 10 : 12) : (isCompact ? 10 : 12)
-    property real innerSpacing: isVertical ? (barWindow ? barWindow.s(isCompact ? 8 : 10) : (isCompact ? 8 : 10)) : (barWindow ? barWindow.s(isCompact ? 10 : 12) : (isCompact ? 10 : 12))
+    property real lengthPadding: barWindow ? barWindow.cs(isCompact ? 10 : 12) : (isCompact ? 10 : 12)
+    property real innerSpacing: isVertical ? (barWindow ? barWindow.cs(isCompact ? 8 : 10) : (isCompact ? 8 : 10)) : (barWindow ? barWindow.cs(isCompact ? 10 : 12) : (isCompact ? 10 : 12))
 
     property real recLength: isRecording ? (isVertical ? recLayout.implicitHeight : recLayout.implicitWidth) : 0
     property real timerLength: isTimerActive ? (isVertical ? timerLayout.implicitHeight : timerLayout.implicitWidth) : 0
@@ -158,7 +158,7 @@ Item {
                 vertical: root.isVertical
                 horizontalItemAlignment: Grid.AlignHCenter
                 verticalItemAlignment: Grid.AlignVCenter
-                spacing: root.isVertical ? (barWindow ? barWindow.s(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)) : (barWindow ? barWindow.s(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6))
+                spacing: root.isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)) : (barWindow ? barWindow.cs(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6))
                 visible: root.isRecording
                 opacity: root.isRecording ? 1.0 : 0.0
                 Behavior on opacity {
@@ -168,8 +168,8 @@ Item {
 
                 Rectangle {
                     id: recDot
-                    width: barWindow ? barWindow.s(root.isCompact ? 8 : 10) : (root.isCompact ? 8 : 10)
-                    height: barWindow ? barWindow.s(root.isCompact ? 8 : 10) : (root.isCompact ? 8 : 10)
+                    width: barWindow ? barWindow.cs(root.isCompact ? 8 : 10) : (root.isCompact ? 8 : 10)
+                    height: barWindow ? barWindow.cs(root.isCompact ? 8 : 10) : (root.isCompact ? 8 : 10)
                     radius: width * 0.5
                     color: root.isCompact ? Qt.lighter(ThemeBackend.red, 1.08) : ThemeBackend.red
 
@@ -185,7 +185,7 @@ Item {
                     id: recText
                     text: root.recTimeFormatted
                     font.family: ThemeBackend.fontFamily
-                    font.pixelSize: root.isVertical ? (barWindow ? barWindow.s(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)) : (barWindow ? barWindow.s(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14))
+                    font.pixelSize: root.isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)) : (barWindow ? barWindow.cs(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14))
                     font.weight: Font.Bold
                     color: root.isCompact ? Qt.lighter(ThemeBackend.red, 1.08) : ThemeBackend.red
                 }
@@ -208,12 +208,12 @@ Item {
                         verticalItemAlignment: Grid.AlignVCenter
                         required property var modelData
                         readonly property color entryColor: modelData.colorType === "green" ? root.greenColor : ThemeBackend.mauve
-                        spacing: root.isVertical ? (barWindow ? barWindow.s(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)) : (barWindow ? barWindow.s(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6))
+                        spacing: root.isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)) : (barWindow ? barWindow.cs(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6))
 
                         Text {
                             text: timerItem.modelData.icon
                             font.family: "Font Awesome 6 Free Solid"
-                            font.pixelSize: root.isVertical ? (barWindow ? barWindow.s(root.isCompact ? 10 : 11) : (root.isCompact ? 10 : 11)) : (barWindow ? barWindow.s(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12))
+                            font.pixelSize: root.isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 10 : 11) : (root.isCompact ? 10 : 11)) : (barWindow ? barWindow.cs(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12))
                             color: root.isCompact ? Qt.lighter(timerItem.entryColor, 1.08) : timerItem.entryColor
                             Behavior on color { ColorAnimation { duration: 250 } }
                         }
@@ -221,7 +221,7 @@ Item {
                         Text {
                             text: timerItem.modelData.time
                             font.family: ThemeBackend.fontFamily
-                            font.pixelSize: root.isVertical ? (barWindow ? barWindow.s(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)) : (barWindow ? barWindow.s(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14))
+                            font.pixelSize: root.isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)) : (barWindow ? barWindow.cs(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14))
                             font.weight: Font.Bold
                             color: root.isCompact ? Qt.lighter(timerItem.entryColor, 1.08) : timerItem.entryColor
                             Behavior on color { ColorAnimation { duration: 250 } }

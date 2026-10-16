@@ -566,6 +566,10 @@
           "title": "곡 제목",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "바 두께",
+        "desc": "바의 두께를 변경합니다. 모듈이 그에 맞게 조정됩니다"
       }
     },
     "theme": {

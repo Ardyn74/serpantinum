@@ -28,9 +28,9 @@ Item {
 
     property bool showLayout: false
 
-    readonly property real iconSize: barWindow ? barWindow.s(isCompact ? 15 : 16) : (isCompact ? 15 : 16)
-    readonly property real itemSpacing: barWindow ? barWindow.s(isCompact ? 8 : 10) : (isCompact ? 8 : 10)
-    readonly property real iconPadding: barWindow ? barWindow.s(isCompact ? 10 : 12) : (isCompact ? 10 : 12)
+    readonly property real iconSize: barWindow ? barWindow.cs(isCompact ? 15 : 16) : (isCompact ? 15 : 16)
+    readonly property real itemSpacing: barWindow ? barWindow.cs(isCompact ? 8 : 10) : (isCompact ? 8 : 10)
+    readonly property real iconPadding: barWindow ? barWindow.cs(isCompact ? 10 : 12) : (isCompact ? 10 : 12)
     readonly property real totalPadding: iconPadding * 2
     readonly property int itemCount: ((!module || module.moduleActive) && trayRepeater.count > 0) ? trayRepeater.count : 0
 
@@ -83,8 +83,8 @@ Item {
     }
 
     transform: Translate {
-        x: (root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.s(60) : 60)
-        y: (!root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.s(60) : 60)
+        x: (root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.cs(60) : 60)
+        y: (!root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.cs(60) : 60)
         Behavior on x {
             enabled: barWindow && barWindow.startupCascadeFinished && !barWindow.positionChanging && (!module || !module.suppressAnimation)
             NumberAnimation { duration: 800; easing.type: Easing.OutQuint }
@@ -183,7 +183,7 @@ Item {
                 MouseArea {
                     id: trayMouse
                     anchors.fill: parent
-                    anchors.margins: -(barWindow ? barWindow.s(4) : 4)
+                    anchors.margins: -(barWindow ? barWindow.cs(4) : 4)
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton

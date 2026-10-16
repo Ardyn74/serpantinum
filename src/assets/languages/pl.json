@@ -1252,6 +1252,10 @@
           "title": "Tytuł utworu",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Grubość paska",
+        "desc": "Zmień grubość paska, moduły dostosują się do niej"
       }
     },
     "theme": {

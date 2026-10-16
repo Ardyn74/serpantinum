@@ -110,14 +110,14 @@ Item {
 
     property int sampleCount: Math.max(16, Math.min(128, root.barCount * 2))
 
-    readonly property real barThickness: isVertical ? (barWindow ? barWindow.s(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)) : (barWindow ? barWindow.s(root.isCompact ? 4 : 5) : (root.isCompact ? 4 : 5))
-    readonly property real barSp: barWindow ? barWindow.s(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)
+    readonly property real barThickness: isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)) : (barWindow ? barWindow.cs(root.isCompact ? 4 : 5) : (root.isCompact ? 4 : 5))
+    readonly property real barSp: barWindow ? barWindow.cs(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)
     readonly property real contentLength: root.barCount * barThickness + Math.max(0, root.barCount - 1) * barSp
-    readonly property real padding: isVertical ? (barWindow ? barWindow.s(root.isCompact ? 18 : 22) : (root.isCompact ? 18 : 22)) : (barWindow ? barWindow.s(root.isCompact ? 20 : 24) : (root.isCompact ? 20 : 24))
+    readonly property real padding: isVertical ? (barWindow ? barWindow.cs(root.isCompact ? 18 : 22) : (root.isCompact ? 18 : 22)) : (barWindow ? barWindow.cs(root.isCompact ? 20 : 24) : (root.isCompact ? 20 : 24))
 
     property real targetLength: ((activeTarget ? activeTarget.moduleActive : true) && contentLength > 0) ? (contentLength + padding) : 0
 
-    readonly property real crossSize: (barWindow && typeof barWindow.s === "function") ? barWindow.s(root.isCompact ? 24 : 32) : (root.isCompact ? 24 : 32)
+    readonly property real crossSize: (barWindow && typeof barWindow.s === "function") ? barWindow.cs(root.isCompact ? 24 : 32) : (root.isCompact ? 24 : 32)
     implicitWidth: isVertical ? crossSize : targetLength
     implicitHeight: isVertical ? targetLength : crossSize
 
@@ -132,8 +132,8 @@ Item {
     }
 
     Visualizer {
-        width: root.isVertical ? Math.max(14, root.width - (root.barWindow ? root.barWindow.s(8) : 8)) : root.contentLength
-        height: root.isVertical ? root.contentLength : Math.max(14, root.height - (root.barWindow ? root.barWindow.s(8) : 8))
+        width: root.isVertical ? Math.max(14, root.width - (root.barWindow ? root.barWindow.cs(8) : 8)) : root.contentLength
+        height: root.isVertical ? root.contentLength : Math.max(14, root.height - (root.barWindow ? root.barWindow.cs(8) : 8))
         anchors.centerIn: parent
         vertical: root.isVertical
         active: root.isSubscribed
@@ -156,7 +156,7 @@ Item {
 
         maxLength: root.visContinuous ? (root.isVertical ? width : height) - 2 : (root.isVertical ? width : height)
         spacing: root.barSp
-        minLength: root.barWindow ? root.barWindow.s(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)
+        minLength: root.barWindow ? root.barWindow.cs(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)
         opacityBase: 0.45
         opacityRange: 0.55
         opacity: root.visContinuous ? 0.55 + Math.min(0.45, energy * 0.75) : 1.0

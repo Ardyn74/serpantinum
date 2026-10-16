@@ -566,6 +566,10 @@
           "title": "歌曲標題",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "列厚度",
+        "desc": "變更列的厚度，模組會隨之調整"
       }
     },
     "theme": {

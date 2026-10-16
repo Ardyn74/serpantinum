@@ -228,7 +228,22 @@ Variants {
                 return Math.round(Scaler.s(val));
             }
 
-            property int barHeight: s(40)
+            readonly property real baseThickness: 40
+            readonly property real minThickness: 28
+            readonly property real maxThickness: 48
+            property real thicknessSetting: {
+                let dummy = configRevision;
+                let v = (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.height !== undefined) ? Number(Config.rawSettings.bar.height) : baseThickness;
+                if (isNaN(v)) v = baseThickness;
+                return Math.max(minThickness, Math.min(maxThickness, v));
+            }
+            property real contentRatio: thicknessSetting / baseThickness
+
+            function cs(val) {
+                return Math.round(Scaler.s(val) * contentRatio);
+            }
+
+            property int barHeight: s(thicknessSetting)
             property real cornerRadius: s(12)
 
             property real baseOffsetY: {

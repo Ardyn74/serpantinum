@@ -566,6 +566,10 @@
           "title": "Şarkı adı",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Çubuk kalınlığı",
+        "desc": "Çubuğun kalınlığını değiştirin, modüller buna uyum sağlar"
       }
     },
     "theme": {

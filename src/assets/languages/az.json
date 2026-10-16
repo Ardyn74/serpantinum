@@ -564,6 +564,10 @@
           "title": "Mahnının adı",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Panel qalınlığı",
+        "desc": "Panelin qalınlığını dəyişin, modullar uyğunlaşacaq"
       }
     },
     "theme": {

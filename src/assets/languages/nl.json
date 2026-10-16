@@ -566,6 +566,10 @@
           "title": "Titel van het nummer",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Balkdikte",
+        "desc": "Wijzig de dikte van de balk, modules passen zich aan"
       }
     },
     "theme": {

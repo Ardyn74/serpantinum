@@ -159,7 +159,7 @@ Item {
     }
 
     function s(val) {
-        if (barWindow && typeof barWindow.s === "function") return barWindow.s(val);
+        if (barWindow && typeof barWindow.s === "function") return barWindow.cs(val);
         if (typeof Scaler !== "undefined" && typeof Scaler.s === "function") return Math.round(Scaler.s(val));
         return val;
     }

@@ -233,7 +233,7 @@ Item {
     }
 
     readonly property var previewWidget: ({
-        "s": function(v) { return rootObj ? rootObj.s(v) : v; },
+        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; },
         "workspaceCount": 5,
         "activeIndex": 1,
         "isCompact": false,
@@ -258,7 +258,7 @@ Item {
         property string monthStr: (typeof DateTime !== "undefined" && DateTime.monthShort) ? DateTime.monthShort : "Sep"
         property string fullDateStr: (typeof DateTime !== "undefined" && DateTime.fullDate) ? DateTime.fullDate : "Fri, Sep 18"
         property string dateStr: (typeof DateTime !== "undefined" && DateTime.fullDate) ? DateTime.fullDate : "Fri, Sep 18"
-        property var barWindow: ({ "startupCascadeFinished": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -271,7 +271,7 @@ Item {
         property string visAlignment: barModulesRoot.visAlignment
         property bool visContinuous: barModulesRoot.visContinuous
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -283,7 +283,7 @@ Item {
         property string sysmonStyle: barModulesRoot.sysmonStyle
         property var sysmonStats: barModulesRoot.sysmonStats
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -296,7 +296,7 @@ Item {
         property bool batShowPercent: barModulesRoot.batShowPercent
         property bool batShowIcon: barModulesRoot.batShowIcon
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -309,7 +309,7 @@ Item {
         property bool wifiShowIcon: barModulesRoot.wifiShowIcon
         property bool wifiShowName: barModulesRoot.wifiShowName
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -322,7 +322,7 @@ Item {
         property bool btShowIcon: barModulesRoot.btShowIcon
         property bool btShowName: barModulesRoot.btShowName
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -335,7 +335,7 @@ Item {
         property bool volShowIcon: barModulesRoot.volShowIcon
         property bool volShowPercent: barModulesRoot.volShowPercent
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -347,7 +347,7 @@ Item {
         property string kbStyle: barModulesRoot.kbStyle
         property bool kbShowIcon: barModulesRoot.kbShowIcon
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -361,7 +361,7 @@ Item {
         property bool mediaShowIcon: barModulesRoot.mediaShowIcon
         property bool mediaShowControls: barModulesRoot.mediaShowControls
         property bool isPreview: true
-        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
         property bool moduleActive: barModulesRoot.visible
     }
 
@@ -2126,7 +2126,7 @@ Item {
                                                         "isStartupReady": true,
                                                         "isDataReady": true,
                                                         "barOpacity": barModulesRoot.barOpacity,
-                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }
+                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; }
                                                     })
                                                     property bool moduleActive: barModulesRoot.visible
                                                 }
@@ -2417,7 +2417,7 @@ Item {
                                                         "isStartupReady": true,
                                                         "isDataReady": true,
                                                         "barOpacity": barModulesRoot.barOpacity,
-                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }
+                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; }
                                                     })
                                                     property bool moduleActive: barModulesRoot.visible
                                                 }
@@ -2708,7 +2708,7 @@ Item {
                                                         "isStartupReady": true,
                                                         "isDataReady": true,
                                                         "barOpacity": barModulesRoot.barOpacity,
-                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }
+                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; }
                                                     })
                                                     property bool moduleActive: barModulesRoot.visible
                                                 }
@@ -2999,7 +2999,7 @@ Item {
                                                         "isStartupReady": true,
                                                         "isDataReady": true,
                                                         "barOpacity": barModulesRoot.barOpacity,
-                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }
+                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; }
                                                     })
                                                     property bool moduleActive: barModulesRoot.visible
                                                 }
@@ -3268,7 +3268,7 @@ Item {
                                                         "isStartupReady": true,
                                                         "isDataReady": true,
                                                         "barOpacity": barModulesRoot.barOpacity,
-                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }
+                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; }
                                                     })
                                                     property bool moduleActive: barModulesRoot.visible
                                                 }

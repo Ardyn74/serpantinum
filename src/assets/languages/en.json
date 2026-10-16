@@ -566,6 +566,10 @@
           "title": "Song title",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Bar thickness",
+        "desc": "Change how thick the bar is, modules scale to fit"
       }
     },
     "theme": {

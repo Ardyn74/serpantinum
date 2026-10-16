@@ -28,6 +28,7 @@ Rectangle {
     readonly property real barOpacity: (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined ? (Config.rawSettings.bar.opacity / 100.0) : 1.0)
 
     function s(val) {
+        if (barWindow && typeof barWindow.cs === "function") return barWindow.cs(val);
         if (barWindow && typeof barWindow.s === "function") return barWindow.s(val);
         if (typeof Scaler !== "undefined" && typeof Scaler.s === "function") return Math.round(Scaler.s(val));
         return val;

@@ -475,7 +475,12 @@ PanelWindow {
     Item {
         id: topBarHole
 
-        property int barThickness: 48
+        property real thicknessRatio: {
+            let h = (clipboardWindow.rawBarSettings && clipboardWindow.rawBarSettings.height !== undefined) ? Number(clipboardWindow.rawBarSettings.height) : 40;
+            if (isNaN(h)) h = 40;
+            return Math.max(28, Math.min(48, h)) / 40;
+        }
+        property int barThickness: Math.round(48 * thicknessRatio)
         property string bp: clipboardWindow.barPosition
         property bool activeBar: !clipboardWindow.isBarEffectivelyHidden
 

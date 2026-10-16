@@ -567,6 +567,10 @@
           "title": "Título de la canción",
           "author": "Song author"
         }
+      },
+      "thickness": {
+        "title": "Grosor de la barra",
+        "desc": "Cambia el grosor de la barra, los módulos se ajustan"
       }
     },
     "theme": {

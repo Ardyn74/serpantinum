@@ -35,6 +35,7 @@ Item {
     property var defaultBarSettings: {
         "position": "top",
         "width": 100,
+        "height": 40,
         "opacity": 100,
         "style": "modular",
         "distinctPills": false,
@@ -53,6 +54,7 @@ Item {
     property var barSettings: Config.getSetting("bar", defaultBarSettings)
     property string barPosition: barSettings.position !== undefined ? barSettings.position : "top"
     property real currentBarWidth: barSettings.width !== undefined ? barSettings.width : 100
+    property real currentBarThickness: barSettings.height !== undefined ? barSettings.height : 40
     property real currentBarOpacity: barSettings.opacity !== undefined ? barSettings.opacity : 100
     property string barStyle: {
         let s = barSettings.style;
@@ -710,6 +712,7 @@ Item {
         let ts = Config.getSetting("bar", barTabRoot.defaultBarSettings);
         barTabRoot.barPosition = ts.position !== undefined ? ts.position : "top";
         barTabRoot.currentBarWidth = ts.width !== undefined ? ts.width : 100;
+        barTabRoot.currentBarThickness = ts.height !== undefined ? ts.height : 40;
         barTabRoot.currentBarOpacity = ts.opacity !== undefined ? ts.opacity : 100;
         if (typeof ts.style === "string") {
             barTabRoot.barStyle = ts.style;
@@ -754,6 +757,7 @@ Item {
         let current = Config.getSetting("bar", barTabRoot.defaultBarSettings);
         current.position = barTabRoot.barPosition;
         current.width = barTabRoot.currentBarWidth;
+        current.height = barTabRoot.currentBarThickness;
         current.opacity = barTabRoot.currentBarOpacity;
         current.style = barTabRoot.barStyle;
         current.distinctPills = barTabRoot.distinctPills;
@@ -1213,6 +1217,44 @@ Item {
                         let rounded = Math.round(val);
                         if (barTabRoot.currentBarWidth !== rounded) {
                             barTabRoot.currentBarWidth = rounded;
+                            barWidthDebounceTimer.restart();
+                        }
+                    }
+                    onDragFinished: {
+                        barWidthDebounceTimer.stop();
+                        barTabRoot.updateBarSettings();
+                    }
+                }
+            }
+
+            SettingsRow {
+                rootObj: barTabRoot.rootObj
+                icon: "󰘖"
+                title: I18n.t("guide.bar.thickness.title", "Bar thickness")
+                description: I18n.t("guide.bar.thickness.desc", "Change how thick the bar is, modules scale to fit")
+
+                Draggable {
+                    id: barThicknessSlider
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    Layout.rightMargin: rootObj.s(8)
+                    implicitWidth: rootObj.s(220)
+                    implicitHeight: rootObj.s(18)
+                    from: 28
+                    to: 48
+                    stepSize: 1
+                    defaultValue: 40
+                    showValueBubble: true
+                    valueFormatter: function(v) { return Math.round(v / 40 * 100) + "%" }
+                    value: barTabRoot.currentBarThickness
+                    backgroundColor: ThemeBackend.surface0
+                    accentColor: ThemeBackend.mauve
+                    handleColor: ThemeBackend.text
+                    handleBorderColor: ThemeBackend.mantle
+                    onMoved: function(val) {
+                        barTabRoot.clearPendingGroup();
+                        let rounded = Math.round(val);
+                        if (barTabRoot.currentBarThickness !== rounded) {
+                            barTabRoot.currentBarThickness = rounded;
                             barWidthDebounceTimer.restart();
                         }
                     }

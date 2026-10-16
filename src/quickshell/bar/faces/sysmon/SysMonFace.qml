@@ -65,7 +65,7 @@ Item {
     }
 
     property bool showLayout: (!barWindow || (root.activeTarget && root.activeTarget.isPreview)) ? true : false
-    property int circleSize: barWindow ? barWindow.s(isCompact ? 22 : 28) : (isCompact ? 22 : 28)
+    property int circleSize: barWindow ? barWindow.cs(isCompact ? 22 : 28) : (isCompact ? 22 : 28)
 
     property bool isSysVisible: (!activeTarget || activeTarget.moduleActive) && showLayout
     property color basePrimary: (ThemeBackend.primary !== undefined && ThemeBackend.primary !== "") ? ThemeBackend.primary : ThemeBackend.mauve
@@ -92,7 +92,7 @@ Item {
     onIsSysVisibleChanged: updateSubscription()
 
     readonly property real layoutLength: isVertical ? sysLayout.implicitHeight : sysLayout.implicitWidth
-    property real targetLength: ((!activeTarget || activeTarget.moduleActive) && layoutLength > 0) ? (layoutLength + (barWindow ? barWindow.s(isCompact ? 8 : 10) : (isCompact ? 8 : 10))) : 0
+    property real targetLength: ((!activeTarget || activeTarget.moduleActive) && layoutLength > 0) ? (layoutLength + (barWindow ? barWindow.cs(isCompact ? 8 : 10) : (isCompact ? 8 : 10))) : 0
     property bool isFaceVisible: showLayout && targetLength > 0
 
     function syncImplicitSize() {
@@ -119,8 +119,8 @@ Item {
     }
 
     transform: Translate {
-        x: (root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.s(60) : 60)
-        y: (!root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.s(60) : 60)
+        x: (root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.cs(60) : 60)
+        y: (!root.isVertical || root.showLayout) ? 0 : (barWindow ? barWindow.cs(60) : 60)
         Behavior on x { NumberAnimation { duration: 800; easing.type: Easing.OutQuint } }
         Behavior on y { NumberAnimation { duration: 800; easing.type: Easing.OutQuint } }
     }
@@ -156,8 +156,8 @@ Item {
 
         opacity: initAnimTrigger ? 1.0 : 0.0
         transform: Translate {
-            x: (!root.isVertical || initAnimTrigger) ? 0 : (barWindow ? barWindow.s(15) : 15)
-            y: (root.isVertical || initAnimTrigger) ? 0 : (barWindow ? barWindow.s(15) : 15)
+            x: (!root.isVertical || initAnimTrigger) ? 0 : (barWindow ? barWindow.cs(15) : 15)
+            y: (root.isVertical || initAnimTrigger) ? 0 : (barWindow ? barWindow.cs(15) : 15)
             Behavior on x { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
             Behavior on y { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
         }
@@ -169,10 +169,10 @@ Item {
 
             property vector2d itemSize: Qt.vector2d(width, height)
             property real fillRatio: circleRoot.fillRatio
-            property real strokeWidth: barWindow ? barWindow.s(2.2) : 2.2
+            property real strokeWidth: barWindow ? barWindow.cs(2.2) : 2.2
             property real useSineWave: circleRoot.useSineWave ? 1.0 : 0.0
             property color accentColor: circleRoot.accentColor
-            property vector4d params: Qt.vector4d(barWindow ? barWindow.s(0.9) : 0.9, 0.0, 0.0, 0.0)
+            property vector4d params: Qt.vector4d(barWindow ? barWindow.cs(0.9) : 0.9, 0.0, 0.0, 0.0)
 
             fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/gauges/circular_wave_gauge.frag.qsb"
         }
@@ -181,8 +181,8 @@ Item {
             anchors.centerIn: parent
             text: circleRoot.showText ? circleRoot.textVal : circleRoot.icon
             font.pixelSize: Math.round(circleRoot.showText
-                ? (barWindow ? barWindow.s(root.isCompact ? 7.5 : 9) : (root.isCompact ? 7.5 : 9))
-                : (barWindow ? barWindow.s(root.isCompact ? 9 : 11) : (root.isCompact ? 9 : 11)))
+                ? (barWindow ? barWindow.cs(root.isCompact ? 7.5 : 9) : (root.isCompact ? 7.5 : 9))
+                : (barWindow ? barWindow.cs(root.isCompact ? 9 : 11) : (root.isCompact ? 9 : 11)))
             font.bold: circleRoot.showText
             font.family: circleRoot.showText
                 ? ((ThemeBackend.fontFamily !== undefined && ThemeBackend.fontFamily !== "") ? ThemeBackend.fontFamily : "sans-serif")
@@ -197,7 +197,7 @@ Item {
         id: sysLayout
         vertical: root.isVertical
         anchors.centerIn: parent
-        spacing: barWindow ? barWindow.s(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6)
+        spacing: barWindow ? barWindow.cs(root.isCompact ? 5 : 6) : (root.isCompact ? 5 : 6)
         property int circleSize: root.circleSize
 
         Repeater {

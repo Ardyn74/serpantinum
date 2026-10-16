@@ -108,12 +108,12 @@ Item {
         return "file://" + rawArtUrl;
     }
 
-    function sc(v) { return barWindow ? barWindow.s(v) : v; }
+    function sc(v) { return barWindow ? barWindow.cs(v) : v; }
 
-    property real colWidth: barWindow ? barWindow.s(configuredWidth - (isCompact ? 4 : 0)) : (configuredWidth - (isCompact ? 4 : 0))
-    property real innerSpacing: barWindow ? barWindow.s(isCompact ? 6 : 8) : (isCompact ? 6 : 8)
-    property real btnSpacing: barWindow ? barWindow.s(isCompact ? 3 : 4) : (isCompact ? 3 : 4)
-    property real sidePadding: barWindow ? barWindow.s(isCompact ? 6 : 8) : (isCompact ? 6 : 8)
+    property real colWidth: barWindow ? barWindow.cs(configuredWidth - (isCompact ? 4 : 0)) : (configuredWidth - (isCompact ? 4 : 0))
+    property real innerSpacing: barWindow ? barWindow.cs(isCompact ? 6 : 8) : (isCompact ? 6 : 8)
+    property real btnSpacing: barWindow ? barWindow.cs(isCompact ? 3 : 4) : (isCompact ? 3 : 4)
+    property real sidePadding: barWindow ? barWindow.cs(isCompact ? 6 : 8) : (isCompact ? 6 : 8)
 
     property real baseHeight: {
         let h = sc(isCompact ? 8 : 9);
@@ -128,20 +128,20 @@ Item {
         if (isVertical) return baseHeight;
         let iconW = 0;
         if (showIcon) {
-            let thumbW = barWindow ? barWindow.s(isCompact ? 26 : 28) : (isCompact ? 26 : 28);
-            let gapInfo = barWindow ? barWindow.s(isCompact ? 8 : 10) : (isCompact ? 8 : 10);
+            let thumbW = barWindow ? barWindow.cs(isCompact ? 26 : 28) : (isCompact ? 26 : 28);
+            let gapInfo = barWindow ? barWindow.cs(isCompact ? 8 : 10) : (isCompact ? 8 : 10);
             iconW = thumbW + gapInfo;
         }
         let btnW = 0;
         if (showControls) {
-            btnW = (barWindow ? barWindow.s(isCompact ? 28 : 30) : (isCompact ? 28 : 30)) * 3 + btnSpacing * 2 + innerSpacing;
+            btnW = (barWindow ? barWindow.cs(isCompact ? 28 : 30) : (isCompact ? 28 : 30)) * 3 + btnSpacing * 2 + innerSpacing;
         }
         let margins = sidePadding * 2;
         return iconW + colWidth + btnW + margins;
     }
 
-    implicitWidth: isVertical ? (isPreview ? (barWindow ? barWindow.s(56) : 56) : (activeTarget ? activeTarget.width : 0)) : targetLength
-    implicitHeight: isVertical ? targetLength : (barWindow ? barWindow.s(isCompact ? 40 : 44) : (isCompact ? 40 : 44))
+    implicitWidth: isVertical ? (isPreview ? (barWindow ? barWindow.cs(56) : 56) : (activeTarget ? activeTarget.width : 0)) : targetLength
+    implicitHeight: isVertical ? targetLength : (barWindow ? barWindow.cs(isCompact ? 40 : 44) : (isCompact ? 40 : 44))
 
     function formatTime(sec) {
         sec = Math.floor(sec || 0);
@@ -184,7 +184,7 @@ Item {
                         Row {
                             id: infoLayout
                             anchors.verticalCenter: parent.verticalCenter
-                            spacing: barWindow ? barWindow.s(root.isCompact ? 8 : 10) : (root.isCompact ? 8 : 10)
+                            spacing: barWindow ? barWindow.cs(root.isCompact ? 8 : 10) : (root.isCompact ? 8 : 10)
                             transformOrigin: Item.Left
 
                             scale: mediaInfoMouse.containsMouse ? 1.01 : 1.0
@@ -193,9 +193,9 @@ Item {
                             Rectangle {
                                 id: mediaThumbBox
                                 visible: root.showIcon
-                                width: barWindow ? barWindow.s(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
-                                height: barWindow ? barWindow.s(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
-                                radius: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+                                width: barWindow ? barWindow.cs(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
+                                height: barWindow ? barWindow.cs(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
+                                radius: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                                 color: root.isCompact ? Qt.lighter(ThemeBackend.surface1, 1.1) : ThemeBackend.surface1
                                 border.width: 1
                                 border.color: root.isPlaying ? ThemeBackend.mauve : (root.isCompact ? ThemeBackend.surface2 : ThemeBackend.surface1)
@@ -206,7 +206,7 @@ Item {
                                     anchors.centerIn: parent
                                     text: "󰎈"
                                     font.family: ThemeBackend.fontFamily
-                                    font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14)
+                                    font.pixelSize: barWindow ? barWindow.cs(root.isCompact ? 13 : 14) : (root.isCompact ? 13 : 14)
                                     color: root.isCompact ? ThemeBackend.text : ThemeBackend.subtext0
                                     visible: !root.hasArt
                                 }
@@ -260,8 +260,8 @@ Item {
                                     color: ThemeBackend.text
                                     font.family: ThemeBackend.fontFamily
                                     font.weight: Font.Black
-                                    font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)
-                                    marqueeSpacing: barWindow ? barWindow.s(40) : 40
+                                    font.pixelSize: barWindow ? barWindow.cs(root.isCompact ? 11 : 12) : (root.isCompact ? 11 : 12)
+                                    marqueeSpacing: barWindow ? barWindow.cs(40) : 40
                                     speed: 30
                                     active: Boolean(root.visible && (!barWindow || barWindow.visible) && (!module || module.moduleActive) && root.isPlaying)
                                 }
@@ -272,7 +272,7 @@ Item {
                                         : (root.isPreview ? "01:24 / 03:42" : (isMediaActive && player ? (root.formatTime(MprisController.livePosition) + " / " + root.formatTime(player.length)) : ""))
                                     font.family: ThemeBackend.fontFamily
                                     font.weight: Font.Black
-                                    font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+                                    font.pixelSize: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                                     color: root.isCompact ? ThemeBackend.overlay2 : ThemeBackend.subtext0
                                     width: parent.width
                                     elide: Text.ElideRight
@@ -290,11 +290,11 @@ Item {
 
                         IconButton {
                             id: prevMediaButton
-                            height: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-                            width: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-                            cornerRadius: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+                            height: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+                            width: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+                            cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                             buttonIcon: "󰒮"
-                            iconFontSize: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
+                            iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
                             bgOpacity: root.barOpacity
                             textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
@@ -304,11 +304,11 @@ Item {
 
                         IconButton {
                             id: playMediaButton
-                            height: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-                            width: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-                            cornerRadius: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+                            height: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+                            width: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+                            cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                             buttonIcon: root.isPlaying ? "󰏤" : "󰐊"
-                            iconFontSize: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+                            iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
                             bgOpacity: root.barOpacity
                             textColor: isHoveredOrHighlighted ? ThemeBackend.green : (root.isCompact ? Qt.lighter(ThemeBackend.text, 1.1) : ThemeBackend.text)
@@ -318,11 +318,11 @@ Item {
 
                         IconButton {
                             id: nextMediaButton
-                            height: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-                            width: barWindow ? barWindow.s(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
-                            cornerRadius: barWindow ? barWindow.s(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
+                            height: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+                            width: barWindow ? barWindow.cs(root.isCompact ? 28 : 30) : (root.isCompact ? 28 : 30)
+                            cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                             buttonIcon: "󰒭"
-                            iconFontSize: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
+                            iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
                             bgOpacity: root.barOpacity
                             textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
@@ -366,15 +366,15 @@ Item {
             Column {
                 id: baseCol
                 anchors.centerIn: parent
-                spacing: barWindow ? barWindow.s(root.isCompact ? 4 : 5) : (root.isCompact ? 4 : 5)
+                spacing: barWindow ? barWindow.cs(root.isCompact ? 4 : 5) : (root.isCompact ? 4 : 5)
 
                 Rectangle {
                     id: thumbBox
                     visible: root.showIcon
                     anchors.horizontalCenter: parent.horizontalCenter
-                    width: barWindow ? barWindow.s(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
-                    height: barWindow ? barWindow.s(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
-                    radius: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
+                    width: barWindow ? barWindow.cs(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
+                    height: barWindow ? barWindow.cs(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
+                    radius: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                     color: root.isCompact ? Qt.lighter(ThemeBackend.surface1, 1.1) : ThemeBackend.surface1
                     border.width: 1
                     border.color: (isMediaActive && isPlaying) ? ThemeBackend.mauve : (root.isCompact ? ThemeBackend.surface2 : ThemeBackend.surface1)
@@ -384,7 +384,7 @@ Item {
                         anchors.centerIn: parent
                         text: "󰎈"
                         font.family: ThemeBackend.fontFamily
-                        font.pixelSize: barWindow ? barWindow.s(root.isCompact ? 12 : 13) : (root.isCompact ? 12 : 13)
+                        font.pixelSize: barWindow ? barWindow.cs(root.isCompact ? 12 : 13) : (root.isCompact ? 12 : 13)
                         color: root.isCompact ? ThemeBackend.text : ThemeBackend.subtext0
                         visible: !isMediaActive || root.activeArtUrl === ""
                     }
@@ -440,14 +440,14 @@ Item {
                 Column {
                     visible: root.showControls
                     anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: barWindow ? barWindow.s(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)
+                    spacing: barWindow ? barWindow.cs(root.isCompact ? 3 : 4) : (root.isCompact ? 3 : 4)
 
                     IconButton {
-                        width: barWindow ? barWindow.s(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
-                        height: barWindow ? barWindow.s(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
-                        cornerRadius: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
+                        width: barWindow ? barWindow.cs(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
+                        height: barWindow ? barWindow.cs(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
+                        cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                         buttonIcon: "󰒮"
-                        iconFontSize: barWindow ? barWindow.s(root.isCompact ? 6 : 7) : (root.isCompact ? 6 : 7)
+                        iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 6 : 7) : (root.isCompact ? 6 : 7)
                         accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
                         bgOpacity: root.barOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
@@ -456,11 +456,11 @@ Item {
                     }
 
                     IconButton {
-                        width: barWindow ? barWindow.s(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
-                        height: barWindow ? barWindow.s(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
-                        cornerRadius: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
+                        width: barWindow ? barWindow.cs(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
+                        height: barWindow ? barWindow.cs(root.isCompact ? 26 : 28) : (root.isCompact ? 26 : 28)
+                        cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                         buttonIcon: (isMediaActive && isPlaying) ? "󰏤" : "󰐊"
-                        iconFontSize: barWindow ? barWindow.s(root.isCompact ? 8 : 9) : (root.isCompact ? 8 : 9)
+                        iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 8 : 9) : (root.isCompact ? 8 : 9)
                         accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
                         bgOpacity: root.barOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.green : (root.isCompact ? Qt.lighter(ThemeBackend.text, 1.1) : ThemeBackend.text)
@@ -469,11 +469,11 @@ Item {
                     }
 
                     IconButton {
-                        width: barWindow ? barWindow.s(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
-                        height: barWindow ? barWindow.s(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
-                        cornerRadius: barWindow ? barWindow.s(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
+                        width: barWindow ? barWindow.cs(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
+                        height: barWindow ? barWindow.cs(root.isCompact ? 24 : 26) : (root.isCompact ? 24 : 26)
+                        cornerRadius: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                         buttonIcon: "󰒭"
-                        iconFontSize: barWindow ? barWindow.s(root.isCompact ? 6 : 7) : (root.isCompact ? 6 : 7)
+                        iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 6 : 7) : (root.isCompact ? 6 : 7)
                         accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
                         bgOpacity: root.barOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
