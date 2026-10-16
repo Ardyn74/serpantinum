@@ -82,12 +82,13 @@ Notification {
                 source: rawBgImg
                 maskSource: bgMask
                 maskEnabled: true
-                opacity: 0.22
+                opacity: ThemeBackend.liquidGlass ? 0.3 : 0.22
             }
 
             Rectangle {
                 anchors.fill: parent
                 radius: ThemeBackend.borderRadius
+                visible: !ThemeBackend.liquidGlass
                 gradient: Gradient {
                     orientation: Gradient.Vertical
                     GradientStop { position: 0.0; color: Qt.alpha(ThemeBackend.surface0, 0.45) }
@@ -115,7 +116,7 @@ Notification {
             font.family: ThemeBackend.fontFamily
             font.weight: Font.Bold
             font.pixelSize: s(11)
-            color: ThemeBackend.subtext0
+            color: faceRoot.bodyText
             elide: Text.ElideRight
         }
     ]

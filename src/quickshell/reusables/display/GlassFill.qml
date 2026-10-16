@@ -26,14 +26,20 @@ Item {
     readonly property bool isGlassFill: true
     property bool allowed: true
     property bool forceClear: false
+    property bool followBackdropHover: true
     property int nestLevel: 0
     readonly property real nest: Math.min(1, nestLevel * 0.5)
     property Item backdrop: null
     property Item registeredBackdrop: null
+    property Item backdropOverride: null
 
     readonly property bool active: allowed && tintColor.a > 0.02 && root.visible && ThemeBackend.liquidGlass && backdrop !== null && backdrop.active && width > 0 && height > 0
 
     function findBackdrop() {
+        if (root.backdropOverride) {
+            root.explicitOwner = null;
+            return root.backdropOverride;
+        }
         let e = root.parent;
         let d = 0;
         while (e && d < 48) {
@@ -78,6 +84,10 @@ Item {
 
     function resolve() {
         root.backdrop = root.findBackdrop();
+        root.updateNest();
+    }
+
+    function updateNest() {
         root.nestLevel = Nesting.nestLevel(root, root.backdrop ? root.backdrop.parent : null, false);
     }
 
@@ -115,7 +125,17 @@ Item {
         }
     }
 
-    onActiveChanged: register()
+    onBackdropOverrideChanged: resolve()
+    onVisibleChanged: {
+        if (visible && ThemeBackend.liquidGlass) {
+            resolveAttempts = 0;
+            resolve();
+        }
+    }
+    onActiveChanged: {
+        if (active) updateNest();
+        register();
+    }
     onBackdropChanged: register()
     onParentChanged: resolve()
     Component.onCompleted: resolve()
@@ -126,10 +146,20 @@ Item {
         function onLiquidGlassChanged() { root.resolve(); }
     }
 
-    property point origin: {
-        if (!root.backdrop) return Qt.point(0, 0);
+    property rect sampleRect: {
+        if (!root.backdrop) return Qt.rect(0, 0, 1, 1);
         void root.backdrop.frame;
-        return root.backdrop.mapFromItem(root, 0, 0);
+        const a = root.backdrop.mapFromItem(root, -root.pad, -root.pad);
+        const b = root.backdrop.mapFromItem(root, root.width + root.pad, root.height + root.pad);
+        const bw = Math.max(1, root.backdrop.width);
+        const bh = Math.max(1, root.backdrop.height);
+        return Qt.rect(a.x / bw, a.y / bh, (b.x - a.x) / bw, (b.y - a.y) / bh);
+    }
+
+    property point localCursor: {
+        if (!root.backdrop) return Qt.point(0, 0);
+        const c = root.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
+        return Qt.point(c.x + root.pad, c.y + root.pad);
     }
 
     LiquidGlass {
@@ -154,8 +184,8 @@ Item {
         saturation: 1 + (root.saturation - 1) * (1 - root.nest)
         bezel: Math.max(3, Math.min(14, Math.min(root.width, root.height) * 0.28))
         thickness: root.thickness >= 0 ? root.thickness : bezel * 0.8
-        sourceRect: root.backdrop ? Qt.rect((root.origin.x - root.pad) / Math.max(1, root.backdrop.width), (root.origin.y - root.pad) / Math.max(1, root.backdrop.height), (root.width + 2 * root.pad) / Math.max(1, root.backdrop.width), (root.height + 2 * root.pad) / Math.max(1, root.backdrop.height)) : Qt.rect(0, 0, 1, 1)
-        cursorPos: root.backdrop ? Qt.point(root.backdrop.cursorX - root.origin.x + root.pad, root.backdrop.cursorY - root.origin.y + root.pad) : Qt.point(0, 0)
-        hover: root.backdrop ? root.backdrop.hoverAmount : 0
+        sourceRect: root.sampleRect
+        cursorPos: root.localCursor
+        hover: (root.backdrop && root.followBackdropHover) ? root.backdrop.hoverAmount : 0
     }
 }

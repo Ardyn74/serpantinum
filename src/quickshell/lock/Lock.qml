@@ -1425,7 +1425,7 @@ Scope {
                                 height: screenRoot.s(580)
                                 radius: ThemeBackend.borderRadius * 1.5
                                 color: ThemeBackend.faded(ThemeBackend.surface0)
-                                border.width: 1.5
+                                border.width: ThemeBackend.liquidGlass ? 0 : 1.5
                                 border.color: ThemeBackend.surface1
                                 clip: true
 
@@ -1856,7 +1856,7 @@ Scope {
                                     anchors.fill: parent
                                     radius: screenRoot.s(16)
                                     color: ThemeBackend.faded(Qt.lighter(ThemeBackend.surface0, 1.28))
-                                    border.width: 1
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.06)
 
                                     WallpaperBlur {
@@ -1865,6 +1865,7 @@ Scope {
                                         radius: parent.radius
                                         screenOverride: surface.screen
                                         useSnapshot: true
+                                        standalone: true
                                     }
                                 }
 
@@ -2219,7 +2220,7 @@ Scope {
                                     anchors.fill: parent
                                     radius: screenRoot.s(16)
                                     color: ThemeBackend.faded(Qt.lighter(ThemeBackend.surface0, 1.28))
-                                    border.width: 1
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
                                     border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.06)
 
                                     WallpaperBlur {
@@ -2228,6 +2229,7 @@ Scope {
                                         radius: parent.radius
                                         screenOverride: surface.screen
                                         useSnapshot: true
+                                        standalone: true
                                     }
 
                                     Rectangle {

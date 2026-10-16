@@ -382,103 +382,30 @@ Item {
             }
         }
 
-        Rectangle {
+        Switch {
             id: tabBar
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: root.s(12)
             width: root.s(270)
             height: root.s(36)
-            radius: ThemeBackend.borderRadius
-            color: tabGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
-            border.width: 1
-            border.color: ThemeBackend.surface1
             z: 10
-
-            GlassFill {
-                id: tabGlass
-                anchors.fill: parent
-                radius: parent.radius
-                tintColor: ThemeBackend.surface0
-                tintAmount: 0.3
-            }
-
-            Rectangle {
-                id: tabActiveHighlight
-                y: root.s(2)
-                height: root.s(32)
-                radius: ThemeBackend.borderRadius
-                color: tabHighlightGlass.active ? "transparent" : ThemeBackend.mauve
-                z: 0
-
-                GlassFill {
-                    id: tabHighlightGlass
-                    anchors.fill: parent
-                    radius: parent.radius
-                    tintColor: ThemeBackend.mauve
-                    tintAmount: 0.5
-                    shadow: 1
-                    press: 0.3
-                }
-
-                property int prevIdx: 0
-                property int curIdx: stateCache.activeMode
-
-                onCurIdxChanged: {
-                    if (curIdx > prevIdx) { rightAnim.duration = 200; leftAnim.duration = 350; }
-                    else if (curIdx < prevIdx) { leftAnim.duration = 200; rightAnim.duration = 350; }
-                    prevIdx = curIdx;
-                }
-
-                property real stepSize: (parent.width - root.s(4)) / 3
-                property real targetLeft: root.s(2) + (curIdx * stepSize)
-                property real targetRight: targetLeft + stepSize
-
-                property real actualLeft: targetLeft
-                property real actualRight: targetRight
-
-                Behavior on actualLeft { NumberAnimation { id: leftAnim; duration: 250; easing.type: Easing.OutExpo } }
-                Behavior on actualRight { NumberAnimation { id: rightAnim; duration: 250; easing.type: Easing.OutExpo } }
-
-                x: actualLeft
-                width: actualRight - actualLeft
-            }
-
-            Row {
-                anchors.fill: parent
-                anchors.margins: root.s(2)
-                z: 1
-
-                Repeater {
-                    model: [
-                        I18n.t("quickactions.timer.tabs.timer"),
-                        I18n.t("quickactions.timer.tabs.stopwatch"),
-                        I18n.t("quickactions.timer.tabs.pomodoro")
-                    ]
-                    Item {
-                        width: (tabBar.width - root.s(4)) / 3
-                        height: parent.height
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: modelData
-                            font.family: ThemeBackend.fontFamily
-                            font.bold: true
-                            font.pixelSize: root.s(12)
-                            color: (stateCache.activeMode === index && !tabHighlightGlass.active) ? ThemeBackend.mantle : ThemeBackend.text
-                            Behavior on color { ColorAnimation { duration: 250 } }
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                stateCache.activeMode = index;
-                                root.saveFullState();
-                            }
-                        }
-                    }
-                }
+            options: [
+                I18n.t("quickactions.timer.tabs.timer"),
+                I18n.t("quickactions.timer.tabs.stopwatch"),
+                I18n.t("quickactions.timer.tabs.pomodoro")
+            ]
+            Binding { target: tabBar; property: "currentIndex"; value: stateCache.activeMode }
+            accentColor: ThemeBackend.mauve
+            baseColor: ThemeBackend.surface0
+            textColor: ThemeBackend.text
+            activeTextColor: ThemeBackend.mantle
+            cornerRadius: ThemeBackend.borderRadius
+            fontPixelSize: Math.round(root.s(12))
+            bgOpacity: ThemeBackend.elementOpacity
+            onToggled: index => {
+                stateCache.activeMode = index;
+                root.saveFullState();
             }
         }
 
