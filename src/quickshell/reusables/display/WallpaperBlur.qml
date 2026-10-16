@@ -258,7 +258,7 @@ Item {
             bottomLeftRadius: root.bottomLeftRadius
             bottomRightRadius: root.bottomRightRadius
             tintColor: ThemeBackend.base
-            tintAmount: Math.max(root.tint, 0.2) * (1 - 0.5 * root.nest)
+            tintAmount: Math.max(root.tint, 0.08) * (1 - 0.5 * root.nest)
             frost: Math.max(0.5, root.blurStrength * 2.5) * (1 - 0.5 * root.nest)
             rim: 0.45 * (1 - 0.35 * root.nest)
             nest: root.nest

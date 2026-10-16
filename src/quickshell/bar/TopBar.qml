@@ -780,7 +780,7 @@ Item {
             distinctPills: contentWrapper.distinctPills
             moduleActive: contentWrapper.isModuleActive(modelData)
             isGrouped: contentWrapper.isModuleGrouped(modelData)
-            glassBackdropItem: { void groupBgRepeater.count; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
+            providedBackdrop: { void groupBgRepeater.count; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
             targetX: contentWrapper.getModuleX(modelData, contentWrapper.layoutState)
             suppressAnimation: contentWrapper.suppressAnimation
             layoutAnimationsEnabled: contentWrapper.layoutAnimationsEnabled

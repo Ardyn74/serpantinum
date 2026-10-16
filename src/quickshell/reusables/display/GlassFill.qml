@@ -17,7 +17,7 @@ Item {
     property real rim: 0.45
     property real saturation: 1.2
     property real thickness: -1
-    property real tintStrength: 0.65
+    property real tintStrength: 0.5
     property real shadow: 0
     property real press: 0
     property real pulse: 0
@@ -36,17 +36,21 @@ Item {
         let e = root.parent;
         let d = 0;
         while (e && d < 48) {
-            if (e.glassBackdropItem) return e.glassBackdropItem;
+            if (e.glassBackdropItem !== undefined) {
+                root.explicitOwner = e;
+                return e.glassBackdropItem;
+            }
             e = e.parent;
             d++;
         }
+        root.explicitOwner = null;
         let a = root.parent;
         let depth = 0;
         while (a && depth < 32) {
             const kids = a.children;
             if (kids) {
                 for (let i = 0; i < kids.length; i++) {
-                    if (kids[i] && kids[i].isGlassBackdrop === true) return kids[i];
+                    if (kids[i] && kids[i].isGlassBackdrop === true && kids[i].surfaceEnabled !== false) return kids[i];
                 }
             }
             a = a.parent;
@@ -61,7 +65,7 @@ Item {
                     const sub = kids[i] ? kids[i].children : null;
                     if (!sub) continue;
                     for (let j = 0; j < sub.length; j++) {
-                        if (sub[j] && sub[j].isGlassBackdrop === true) return sub[j];
+                        if (sub[j] && sub[j].isGlassBackdrop === true && sub[j].surfaceEnabled !== false) return sub[j];
                     }
                 }
             }
@@ -92,11 +96,18 @@ Item {
     }
 
     property int resolveAttempts: 0
+    property Item explicitOwner: null
+
+    Connections {
+        target: root.explicitOwner
+        ignoreUnknownSignals: true
+        function onGlassBackdropItemChanged() { root.resolve(); }
+    }
 
     Timer {
         interval: 450
         repeat: true
-        running: root.backdrop === null && root.allowed && ThemeBackend.liquidGlass && root.visible && root.resolveAttempts < 8
+        running: (root.backdrop === null || !root.backdrop.active) && root.allowed && ThemeBackend.liquidGlass && root.visible && root.resolveAttempts < 24
         onTriggered: {
             root.resolveAttempts++;
             root.resolve();

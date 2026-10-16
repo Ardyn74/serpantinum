@@ -1238,7 +1238,7 @@ Variants {
                     }
 
                     ShaderEffect {
-                        visible: floatingWidget.outerCornerRadius > 0.5
+                        visible: floatingWidget.outerCornerRadius > 0.5 && !ThemeBackend.liquidGlass
                         x: 0
                         y: -floatingWidget.outerCornerRadius
                         width: floatingWidget.outerCornerRadius
@@ -1250,7 +1250,7 @@ Variants {
                     }
 
                     ShaderEffect {
-                        visible: floatingWidget.outerCornerRadius > 0.5
+                        visible: floatingWidget.outerCornerRadius > 0.5 && !ThemeBackend.liquidGlass
                         x: 0
                         y: parent.height
                         width: floatingWidget.outerCornerRadius

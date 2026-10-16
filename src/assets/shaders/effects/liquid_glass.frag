@@ -139,7 +139,7 @@ void main() {
 
     float ty = clamp((p.y + glassSize.y * 0.5) / glassSize.y, 0.0, 1.0);
     col *= 1.0 - (1.0 - nest) * 0.12 * exp(-t / 6.0) * clamp(g.y, 0.0, 1.0);
-    col *= 1.0 - (1.0 - nest) * 0.10 * exp(-t / (bz * 0.45));
+    col *= 1.0 - (1.0 - nest) * 0.05 * exp(-t / (bz * 0.45));
 
     vec2 cursorDir = cd > 0.001 ? toCursor / cd : normalize(lightDir);
     vec2 L = normalize(mix(normalize(lightDir), cursorDir, hover * 0.4));
@@ -151,7 +151,7 @@ void main() {
     float mx = (t - bz * 0.5) / (bz * 0.2 + 1.0);
     float men = exp(-mx * mx) * 0.07 * (0.35 + spec) * rim;
     float dark = 1.0 - clamp(dot(tintColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 2.0, 0.0, 1.0);
-    float lift = mix(mix(0.035, 0.015, dark), mix(0.02, 0.01, dark), clear) * (1.0 - 0.85 * nest);
+    float lift = mix(mix(0.07, 0.04, dark), mix(0.03, 0.02, dark), clear) * (1.0 - 0.85 * nest);
     float sheen = (1.0 - ty) * mix(0.03, 0.02, clear) * (1.0 - 0.8 * nest);
     vec3 light = vec3(edgeHi + men + sheen + near * 0.015 * rim + energy * 0.03);
     light += vec3(lift) * mix(1.0, smoothstep(0.0, 1.0, length(dG) * 0.5), clear);

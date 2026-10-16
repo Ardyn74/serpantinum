@@ -753,7 +753,7 @@ Item {
             distinctPills: contentWrapper.distinctPills
             moduleActive: contentWrapper.isModuleActive(modelData)
             isGrouped: contentWrapper.isModuleGrouped(modelData)
-            glassBackdropItem: { void groupBgRepeater.count; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
+            providedBackdrop: { void groupBgRepeater.count; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
             targetY: contentWrapper.getModuleY(modelData, contentWrapper.layoutState)
             targetX: contentWrapper.getModuleX(barMod)
             suppressAnimation: contentWrapper.suppressAnimation

@@ -348,7 +348,7 @@ PanelWindow {
             }
 
             ShaderEffect {
-                visible: trayMenuWindow.isSolid && menuContainer.dynamicCornerRadius > 0.5
+                visible: trayMenuWindow.isSolid && menuContainer.dynamicCornerRadius > 0.5 && !ThemeBackend.liquidGlass
                 x: {
                     if (trayMenuWindow.isSideBar) {
                         return trayMenuWindow.alignRight ? (parent.width - menuContainer.dynamicCornerRadius) : 0;
@@ -375,7 +375,7 @@ PanelWindow {
             }
 
             ShaderEffect {
-                visible: trayMenuWindow.isSolid && menuContainer.dynamicCornerRadius > 0.5
+                visible: trayMenuWindow.isSolid && menuContainer.dynamicCornerRadius > 0.5 && !ThemeBackend.liquidGlass
                 x: {
                     if (trayMenuWindow.isSideBar) {
                         return trayMenuWindow.alignRight ? (parent.width - menuContainer.dynamicCornerRadius) : 0;
@@ -406,6 +406,11 @@ PanelWindow {
                 anchors.fill: parent
                 color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                 radius: trayMenuWindow.cornerRadius
+                readonly property bool flatCorners: ThemeBackend.liquidGlass && trayMenuWindow.isSolid
+                topLeftRadius: (flatCorners && (trayMenuWindow.isSideBar ? !trayMenuWindow.alignRight : !trayMenuWindow.alignBottom)) ? 0 : -1
+                topRightRadius: (flatCorners && (trayMenuWindow.isSideBar ? trayMenuWindow.alignRight : !trayMenuWindow.alignBottom)) ? 0 : -1
+                bottomLeftRadius: (flatCorners && (trayMenuWindow.isSideBar ? !trayMenuWindow.alignRight : trayMenuWindow.alignBottom)) ? 0 : -1
+                bottomRightRadius: (flatCorners && (trayMenuWindow.isSideBar ? trayMenuWindow.alignRight : trayMenuWindow.alignBottom)) ? 0 : -1
                 border.width: 0
                 border.color: "transparent"
                 clip: true
@@ -420,7 +425,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && !trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && !trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
                     x: 0
                     y: 0
                     width: menuContainer.dynamicCornerRadius
@@ -429,7 +434,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && !trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && !trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
                     x: parent.width - menuContainer.dynamicCornerRadius
                     y: 0
                     width: menuContainer.dynamicCornerRadius
@@ -438,7 +443,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
                     x: 0
                     y: parent.height - menuContainer.dynamicCornerRadius
                     width: menuContainer.dynamicCornerRadius
@@ -447,7 +452,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && !trayMenuWindow.isSideBar && trayMenuWindow.alignBottom && menuContainer.dynamicCornerRadius > 0.5
                     x: parent.width - menuContainer.dynamicCornerRadius
                     y: parent.height - menuContainer.dynamicCornerRadius
                     width: menuContainer.dynamicCornerRadius
@@ -456,7 +461,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && trayMenuWindow.isSideBar && !trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && trayMenuWindow.isSideBar && !trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
                     x: 0
                     y: 0
                     width: menuContainer.dynamicCornerRadius
@@ -465,7 +470,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && trayMenuWindow.isSideBar && !trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && trayMenuWindow.isSideBar && !trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
                     x: 0
                     y: parent.height - menuContainer.dynamicCornerRadius
                     width: menuContainer.dynamicCornerRadius
@@ -474,7 +479,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && trayMenuWindow.isSideBar && trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && trayMenuWindow.isSideBar && trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
                     x: parent.width - menuContainer.dynamicCornerRadius
                     y: 0
                     width: menuContainer.dynamicCornerRadius
@@ -483,7 +488,7 @@ PanelWindow {
                 }
 
                 Rectangle {
-                    visible: trayMenuWindow.isSolid && trayMenuWindow.isSideBar && trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
+                    visible: !ThemeBackend.liquidGlass && trayMenuWindow.isSolid && trayMenuWindow.isSideBar && trayMenuWindow.alignRight && menuContainer.dynamicCornerRadius > 0.5
                     x: parent.width - menuContainer.dynamicCornerRadius
                     y: parent.height - menuContainer.dynamicCornerRadius
                     width: menuContainer.dynamicCornerRadius
@@ -702,7 +707,7 @@ PanelWindow {
                 transformOrigin: expandRight ? Item.Left : Item.Right
 
                 ShaderEffect {
-                    visible: submenuPopout.subCornerRadius > 0.5
+                    visible: submenuPopout.subCornerRadius > 0.5 && !ThemeBackend.liquidGlass
                     x: submenuPopout.expandRight ? 0 : (parent.width - submenuPopout.subCornerRadius)
                     y: -submenuPopout.subCornerRadius
                     width: submenuPopout.subCornerRadius
@@ -714,7 +719,7 @@ PanelWindow {
                 }
 
                 ShaderEffect {
-                    visible: submenuPopout.subCornerRadius > 0.5
+                    visible: submenuPopout.subCornerRadius > 0.5 && !ThemeBackend.liquidGlass
                     x: submenuPopout.expandRight ? 0 : (parent.width - submenuPopout.subCornerRadius)
                     y: parent.height
                     width: submenuPopout.subCornerRadius
@@ -730,9 +735,22 @@ PanelWindow {
                     anchors.fill: parent
                     color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                     radius: trayMenuWindow.cornerRadius
+                    topLeftRadius: (ThemeBackend.liquidGlass && submenuPopout.expandRight) ? 0 : -1
+                    bottomLeftRadius: (ThemeBackend.liquidGlass && submenuPopout.expandRight) ? 0 : -1
+                    topRightRadius: (ThemeBackend.liquidGlass && !submenuPopout.expandRight) ? 0 : -1
+                    bottomRightRadius: (ThemeBackend.liquidGlass && !submenuPopout.expandRight) ? 0 : -1
                     border.width: 0
                     border.color: "transparent"
                     clip: true
+
+                    WallpaperBlur {
+                        z: -1
+                        anchors.fill: parent
+                        topLeftRadius: parent.topLeftRadius
+                        topRightRadius: parent.topRightRadius
+                        bottomLeftRadius: parent.bottomLeftRadius
+                        bottomRightRadius: parent.bottomRightRadius
+                    }
 
                     Rectangle {
                         visible: submenuPopout.expandRight && submenuPopout.subCornerRadius > 0.5
