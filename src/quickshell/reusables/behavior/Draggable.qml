@@ -157,20 +157,37 @@ Item {
             }
         }
 
-        Rectangle {
+        Item {
             id: fillTrack
             x: 0
             y: root.vertical ? Math.max(0, Math.min(bgTrack.height, handle.y)) : 0
             width: root.vertical ? bgTrack.width : Math.max(0, Math.min(bgTrack.width, handle.x + handle.width))
             height: root.vertical ? Math.max(0, Math.min(bgTrack.height, bgTrack.height - handle.y)) : bgTrack.height
-            opacity: root.animPosition > 0.001 ? (trackGlass.active ? 0.6 : 1.0) : 0.0
-            radius: root.cornerRadius
+            opacity: root.animPosition > 0.001 ? 1.0 : 0.0
 
-            gradient: Gradient {
-                orientation: root.vertical ? Gradient.Vertical : Gradient.Horizontal
-                GradientStop { position: 0.0; color: root.vertical ? root.gradColor3 : root.gradColor1; Behavior on color { ColorAnimation { duration: 150 } } }
-                GradientStop { position: 0.5; color: root.gradColor2; Behavior on color { ColorAnimation { duration: 150 } } }
-                GradientStop { position: 1.0; color: root.vertical ? root.gradColor1 : root.gradColor3; Behavior on color { ColorAnimation { duration: 150 } } }
+            Rectangle {
+                anchors.fill: parent
+                radius: root.cornerRadius
+                visible: !fillGlass.active
+
+                gradient: Gradient {
+                    orientation: root.vertical ? Gradient.Vertical : Gradient.Horizontal
+                    GradientStop { position: 0.0; color: root.vertical ? root.gradColor3 : root.gradColor1; Behavior on color { ColorAnimation { duration: 150 } } }
+                    GradientStop { position: 0.5; color: root.gradColor2; Behavior on color { ColorAnimation { duration: 150 } } }
+                    GradientStop { position: 1.0; color: root.vertical ? root.gradColor1 : root.gradColor3; Behavior on color { ColorAnimation { duration: 150 } } }
+                }
+            }
+
+            GlassFill {
+                id: fillGlass
+                anchors.fill: parent
+                radius: root.cornerRadius
+                forceClear: true
+                tintColor: root.accentColor
+                tintAmount: 0.6
+                tintStrength: 1.0
+                press: root.isDragging ? 0.5 : (root.isHoveredOrHighlighted ? 0.2 : 0)
+                Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
             }
 
             Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
