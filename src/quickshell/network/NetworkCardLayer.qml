@@ -282,6 +282,13 @@ Item {
                 }
             }
 
+            Rectangle {
+                anchors.fill: parent
+                radius: ThemeBackend.borderRadius
+                color: Qt.alpha("#000000", 0.28)
+                visible: ThemeBackend.liquidGlass
+            }
+
             FillButton {
                 id: fillBtn
                 visible: isMyActionable

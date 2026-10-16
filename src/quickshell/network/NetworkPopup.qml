@@ -1646,7 +1646,7 @@ Item {
                 property vector4d beam6: activeBeams.length > 6 ? activeBeams[6] : Qt.vector4d(-1, -1, -1, -1)
                 property vector4d beam7: activeBeams.length > 7 ? activeBeams[7] : Qt.vector4d(-1, -1, -1, -1)
 
-                fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/vfx/node_beams.frag.qsb"
+                fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/vfx/node_beams_clipped.frag.qsb"
             }
 
             NetworkCoreLayer {
