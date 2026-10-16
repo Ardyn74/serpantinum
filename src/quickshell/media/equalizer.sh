@@ -102,8 +102,6 @@ try:
     mono = bool(data.get('mono', False))
     swap = bool(data.get('swap', False))
     balance = max(-1.0, min(1.0, float(data.get('balance', 0.0))))
-    # Balance describes the physical output channels. Mono temporarily ignores
-    # it, while swapping sources requires reversing the pre-swap EQ balance.
     plugin_balance = 0.0 if mono else (-balance if swap else balance) * 100.0
     dynamics = str(data.get('dynamics', 'off'))
     if dynamics not in ('off', 'balanced', 'night'):
@@ -148,10 +146,6 @@ try:
     }
 
     if mono or swap:
-        # EasyEffects loads Calf's LV2 StereoTools for mono and channel swapping:
-        # http://calf.sourceforge.net/plugins/StereoTools
-        # Keep calf in the installation dependencies; lsp-plugins-lv2 does not
-        # provide this plugin (it provides the compressor and limiter below).
         output['plugins_order'].append('stereo_tools')
         output['stereo_tools'] = {
             'balance-in': 0.0,
@@ -180,8 +174,6 @@ try:
 
     if dynamics != 'off':
         night = dynamics == 'night'
-        # Keep Off as the loudness reference. Dynamic-range modes only reduce
-        # peaks; they must not normalize or add makeup gain when enabled.
         output['plugins_order'].extend(['compressor', 'limiter'])
         output['compressor'] = {
             'attack': 6.0 if night else 14.0,
