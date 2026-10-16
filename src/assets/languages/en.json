@@ -974,6 +974,26 @@
       "apply": "Apply",
       "saved": "Saved"
     },
+    "audio": {
+      "title": "Audio",
+      "balance": "Channel balance",
+      "reset": "Reset",
+      "centered": "Centered",
+      "left_slightly_favored": "Slightly left favored",
+      "right_slightly_favored": "Slightly right favored",
+      "left_only": "Left only",
+      "right_only": "Right only",
+      "left_favored": "Left favored",
+      "right_favored": "Right favored",
+      "test": "Test",
+      "stop_test": "Stop",
+      "mono": "Mono audio",
+      "swap": "Swap L/R",
+      "dynamic_range": "Dynamic range",
+      "off": "Off",
+      "balanced": "Balanced",
+      "night": "Night"
+    },
     "presets": {
       "flat": "Flat",
       "bass": "Bass",

@@ -965,6 +965,26 @@
       "apply": "Tətbiq et",
       "saved": "Saxlanılıb"
     },
+    "audio": {
+      "title": "Səs",
+      "balance": "Kanal balansı",
+      "reset": "Sıfırla",
+      "centered": "Mərkəzdə",
+      "left_slightly_favored": "Sol kanal az üstün",
+      "right_slightly_favored": "Sağ kanal az üstün",
+      "left_only": "Yalnız sol",
+      "right_only": "Yalnız sağ",
+      "left_favored": "Sol kanal üstün",
+      "right_favored": "Sağ kanal üstün",
+      "test": "Sınaq",
+      "stop_test": "Dayandır",
+      "mono": "Mono səs",
+      "swap": "Sol/sağ dəyişdir",
+      "dynamic_range": "Dinamik diapazon",
+      "off": "Söndürülüb",
+      "balanced": "Balanslı",
+      "night": "Gecə"
+    },
     "presets": {
       "flat": "Düz",
       "bass": "Bəm",
