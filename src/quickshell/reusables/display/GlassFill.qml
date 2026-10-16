@@ -138,6 +138,7 @@ Item {
         glassPad: root.pad
         shadowAmt: root.shadow * (1 - 0.6 * root.nest)
         nest: root.nest
+        morph: 1
         clear: (root.forceClear || root.nestLevel >= 1) ? 1 : 0
         energy: Math.min(1, root.press + root.pulse)
         visible: root.active

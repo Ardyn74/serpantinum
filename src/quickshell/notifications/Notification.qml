@@ -22,6 +22,8 @@ Rectangle {
     }
 
     property bool showIcon: true
+    readonly property color mutedText: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext1
+    readonly property color bodyText: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext0
     property int urgency: model && typeof model.urgency !== "undefined" ? model.urgency : 1
 
     readonly property bool isDragging: cardHover.draggingH || cardHover.draggingV
@@ -353,6 +355,7 @@ Rectangle {
         anchors.bottomMargin: -(s(1.5) + Math.max(0, typeRoot.dragY * 0.4))
         radius: visualItem.radius
         color: Qt.rgba(0, 0, 0, 0.12 + Math.min(0.06, Math.max(0, typeRoot.dragY / s(3.5)) * 0.06))
+        visible: !ThemeBackend.liquidGlass
         scale: visualItem.scale
         opacity: visualItem.opacity
         transform: Translate {
@@ -409,6 +412,14 @@ Rectangle {
         color: ThemeBackend.faded((cardHover.pressed && !cardHover.draggingH && !cardHover.draggingV) ? Qt.darker(baseColor, 1.1) : (cardHover.containsMouse && !cardHover.draggingH && !cardHover.draggingV ? Qt.lighter(baseColor, 1.05) : baseColor))
 
         scale: (cardHover.pressed && !cardHover.draggingH && !cardHover.draggingV) ? 0.98 : 1.0
+
+        WallpaperBlur {
+            z: -1
+            anchors.fill: parent
+            radius: visualItem.radius
+            standalone: true
+            surfaceEnabled: ThemeBackend.liquidGlass
+        }
 
         Behavior on implicitHeight {
             enabled: !cardHover.draggingV
@@ -545,14 +556,24 @@ Rectangle {
                         anchors.bottomMargin: -s(1.5)
                         radius: parent.boxRadius
                         color: Qt.rgba(0, 0, 0, 0.12)
+                        visible: !ThemeBackend.liquidGlass
                     }
 
                     Rectangle {
                         anchors.fill: parent
                         radius: parent.boxRadius
-                        color: ThemeBackend.faded(typeRoot.urgency === 2 ? Qt.tint(ThemeBackend.surface2, Qt.rgba(urgencyGlow.deepRed.r, urgencyGlow.deepRed.g, urgencyGlow.deepRed.b, 0.12)) : ThemeBackend.surface2)
+                        color: iconBoxGlass.active ? "transparent" : ThemeBackend.faded(typeRoot.urgency === 2 ? Qt.tint(ThemeBackend.surface2, Qt.rgba(urgencyGlow.deepRed.r, urgencyGlow.deepRed.g, urgencyGlow.deepRed.b, 0.12)) : ThemeBackend.surface2)
 
                         Behavior on color { ColorAnimation { duration: 200 } }
+
+                        GlassFill {
+                            id: iconBoxGlass
+                            anchors.fill: parent
+                            radius: parent.radius
+                            tintColor: typeRoot.urgency === 2 ? ThemeBackend.red : ThemeBackend.surface2
+                            tintAmount: typeRoot.urgency === 2 ? 0.3 : 0.35
+                            tintStrength: 1.0
+                        }
                     }
 
                     Rectangle {
@@ -617,7 +638,7 @@ Rectangle {
                             text: "•"
                             font.family: ThemeBackend.fontFamily
                             font.pixelSize: s(10)
-                            color: ThemeBackend.subtext1
+                            color: typeRoot.mutedText
                             opacity: (!typeRoot.timeOnNextRowCollapsed) ? Math.max(0.0, 1.0 - typeRoot.expandProgress * 3.0) : 0.0
                             visible: opacity > 0.0
                         }
@@ -628,7 +649,7 @@ Rectangle {
                             text: typeRoot.timeText
                             font.family: ThemeBackend.fontFamily
                             font.pixelSize: s(11)
-                            color: ThemeBackend.subtext1
+                            color: typeRoot.mutedText
 
                             readonly property real startX: I18n.rtl ? (topHeaderRow.width - collapsedSummary.width - s(12) - dotLabel.implicitWidth - implicitWidth) : (collapsedSummary.width + s(12) + dotLabel.implicitWidth)
                             readonly property real endX: I18n.rtl ? typeRoot.expandBtnSpace : Math.max(0, topHeaderRow.width - typeRoot.expandBtnSpace - implicitWidth)
@@ -677,7 +698,7 @@ Rectangle {
                                     text: "•"
                                     font.family: ThemeBackend.fontFamily
                                     font.pixelSize: s(10)
-                                    color: ThemeBackend.subtext1
+                                    color: typeRoot.mutedText
                                     anchors.verticalCenter: parent.verticalCenter
                                     visible: typeRoot.summaryLastWord !== ""
                                 }
@@ -686,7 +707,7 @@ Rectangle {
                                     text: typeRoot.timeText
                                     font.family: ThemeBackend.fontFamily
                                     font.pixelSize: s(11)
-                                    color: ThemeBackend.subtext1
+                                    color: typeRoot.mutedText
                                     anchors.verticalCenter: parent.verticalCenter
                                     visible: typeRoot.timeText !== ""
                                 }
@@ -701,7 +722,7 @@ Rectangle {
                             size: s(28)
                             cornerRadius: s(7)
                             accentColor: ThemeBackend.surface2
-                            iconColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.subtext1
+                            iconColor: isHoveredOrHighlighted ? ThemeBackend.text : typeRoot.mutedText
                             autoToggle: false
                             flipped: typeRoot.expandProgress > 0.5
                             onClicked: typeRoot.expanded = !typeRoot.expanded
@@ -754,7 +775,7 @@ Rectangle {
                             font.family: ThemeBackend.fontFamily
                             font.weight: Font.Normal
                             font.pixelSize: typeRoot.isPopup ? s(12) : s(11)
-                            color: ThemeBackend.subtext0
+                            color: typeRoot.bodyText
                             elide: Text.ElideRight
                             maximumLineCount: 1
                             opacity: Math.max(0.0, 1.0 - typeRoot.expandProgress * 2.5)
@@ -771,7 +792,7 @@ Rectangle {
                             font.family: ThemeBackend.fontFamily
                             font.weight: Font.Normal
                             font.pixelSize: typeRoot.isPopup ? s(12) : s(11)
-                            color: ThemeBackend.subtext0
+                            color: typeRoot.bodyText
                             wrapMode: Text.Wrap
                             textFormat: Text.StyledText
                             opacity: Math.max(0.0, (typeRoot.expandProgress - 0.2) / 0.8)
@@ -830,7 +851,7 @@ Rectangle {
                                     buttonIcon: typeRoot.getActionIcon(modelData.id, modelData.text)
                                     iconFontSize: s(11)
                                     accentColor: isPrimary ? typeRoot.accentColor : ThemeBackend.surface2
-                                    textColor: isPrimary ? ThemeBackend.crust : ThemeBackend.subtext1
+                                    textColor: isPrimary ? ThemeBackend.crust : typeRoot.mutedText
                                     onTriggered: {
                                         var n = delegateWrapper ? delegateWrapper.realNotif : null;
                                         if (n && n.actions) {

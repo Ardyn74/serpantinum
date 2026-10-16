@@ -955,7 +955,8 @@ Item {
                                 buttonText: delegateRoot.moduleLabel
                                 buttonIcon: delegateRoot.moduleIcon
                                 accentColor: delegateRoot.isGrouped ? barTabRoot.getGroupColor(model.groupId) : ThemeBackend.surface0
-                                textColor: delegateRoot.isGrouped ? barTabRoot.getContrastTextColor(barTabRoot.getGroupColor(model.groupId)) : ThemeBackend.text
+                                textColor: (delegateRoot.isGrouped && !ThemeBackend.liquidGlass) ? barTabRoot.getContrastTextColor(barTabRoot.getGroupColor(model.groupId)) : ThemeBackend.text
+                                glassTintScale: delegateRoot.isGrouped ? 2.6 : 1.0
                                 cornerRadius: ThemeBackend.borderRadius
                                 horizontalPadding: rootObj.s(12)
                                 iconFontSize: rootObj.s(15)

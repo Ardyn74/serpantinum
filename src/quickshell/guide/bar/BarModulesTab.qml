@@ -1114,6 +1114,8 @@ Item {
                                                                 ? (isActive ? rootObj.s(22) : rootObj.s(8))
                                                                 : rootObj.s(18)
                                                             height: modelData.id === "pills" ? rootObj.s(8) : rootObj.s(18)
+                                                            Layout.preferredWidth: width
+                                                            Layout.preferredHeight: height
                                                             radius: modelData.id === "pills" ? height / 2 : rootObj.s(4)
                                                             color: isActive ? ThemeBackend.mauve : Qt.alpha(ThemeBackend.surface2, 0.7)
 
@@ -1154,6 +1156,8 @@ Item {
                                                             height: modelData.id === "pills"
                                                                 ? (isActive ? rootObj.s(36) : rootObj.s(18))
                                                                 : rootObj.s(18)
+                                                            Layout.preferredWidth: width
+                                                            Layout.preferredHeight: height
                                                             radius: modelData.id === "pills" ? width / 2 : rootObj.s(4)
                                                             color: isActive ? ThemeBackend.mauve : Qt.alpha(ThemeBackend.surface2, 0.7)
 

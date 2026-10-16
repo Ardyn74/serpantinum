@@ -1228,7 +1228,9 @@ PanelWindow {
                                 opacity: Math.max(0.0, 1.0 - (Math.abs(clipDelegateWrapper.dragX) / (clipDelegateCard.width * 0.75)))
 
                                 radius: Math.min(ThemeBackend.borderRadius, clipboardWindow.s(12))
+                                readonly property bool glassRow: !isImage && ThemeBackend.liquidGlass
                                 color: {
+                                    if (glassRow) return "transparent";
                                     if (clipDelegateWrapper.isSelected) {
                                         return isImage ? ThemeBackend.surface0 : ThemeBackend.mauve;
                                     }
@@ -1237,6 +1239,18 @@ PanelWindow {
                                 clip: true
 
                                 Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+                                GlassFill {
+                                    id: rowGlass
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    allowed: !clipDelegateCard.isImage
+                                    forceClear: clipDelegateWrapper.isSelected
+                                    tintColor: clipDelegateWrapper.isSelected ? ThemeBackend.text : ThemeBackend.surface1
+                                    tintAmount: clipDelegateWrapper.isSelected ? 0.1 : 0.3
+                                    tintStrength: 1.0
+                                    press: clipCardMa.pressed ? 0.8 : (clipDelegateWrapper.isSelected ? 0.6 : (clipCardMa.containsMouse ? 0.25 : 0))
+                                }
 
                                 Image {
                                     id: clipCardCropImg
@@ -1398,13 +1412,23 @@ PanelWindow {
                                     width: clipboardWindow.s(30)
                                     height: clipboardWindow.s(30)
                                     radius: clipboardWindow.s(8)
-                                    color: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected) ? Qt.rgba(0, 0, 0, 0.15) : ThemeBackend.surface2
+                                    color: clipDelegateCard.glassRow ? "transparent" : ((!clipDelegateCard.isImage && clipDelegateWrapper.isSelected) ? Qt.rgba(0, 0, 0, 0.15) : ThemeBackend.surface2)
                                     clip: true
                                     z: 3
                                     visible: (clipDelegateCard.isImage || clipDelegateWrapper.itemExpandProgress < 0.99) && opacity > 0.001
                                     opacity: clipDelegateCard.isImage ? 1.0 : Math.max(0.0, 1.0 - clipDelegateWrapper.itemExpandProgress * 2.0)
 
                                     Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+                                    GlassFill {
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        allowed: clipDelegateCard.glassRow
+                                        forceClear: clipDelegateWrapper.isSelected
+                                        tintColor: clipDelegateWrapper.isSelected ? ThemeBackend.text : ThemeBackend.surface2
+                                        tintAmount: clipDelegateWrapper.isSelected ? 0.1 : 0.3
+                                        tintStrength: 1.0
+                                    }
 
                                     Image {
                                         id: clipThumbImg
@@ -1424,7 +1448,7 @@ PanelWindow {
                                         anchors.centerIn: parent
                                         font.family: "Iosevka Nerd Font"
                                         font.pixelSize: clipboardWindow.s(14)
-                                        color: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected) ? ThemeBackend.crust : ThemeBackend.subtext0
+                                        color: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected && !ThemeBackend.liquidGlass) ? ThemeBackend.crust : (ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext0)
                                         text: model.type === "image" ? "󰋩" : "󰈙"
                                         visible: model.type !== "image" || (!model.content || clipThumbImg.status !== Image.Ready)
 
@@ -1439,8 +1463,8 @@ PanelWindow {
                                     y: clipboardWindow.s(12.8)
                                     size: clipboardWindow.s(26.4)
                                     cornerRadius: clipboardWindow.s(6.6)
-                                    accentColor: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected) ? Qt.rgba(0, 0, 0, 0.15) : ThemeBackend.surface2
-                                    iconColor: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected) ? (isHoveredOrHighlighted ? ThemeBackend.base : ThemeBackend.crust) : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.subtext1)
+                                    accentColor: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected && !ThemeBackend.liquidGlass) ? Qt.rgba(0, 0, 0, 0.15) : ThemeBackend.surface2
+                                    iconColor: (!clipDelegateCard.isImage && clipDelegateWrapper.isSelected && !ThemeBackend.liquidGlass) ? (isHoveredOrHighlighted ? ThemeBackend.base : ThemeBackend.crust) : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.subtext1)
                                     autoToggle: false
                                     visible: clipDelegateCard.canExpand
                                     flipped: clipDelegateWrapper.itemExpandProgress > 0.5
@@ -1469,7 +1493,7 @@ PanelWindow {
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: clipboardWindow.s(12)
                                         font.weight: clipDelegateWrapper.isSelected ? Font.Bold : Font.Normal
-                                        color: clipDelegateWrapper.isSelected ? ThemeBackend.crust : ThemeBackend.text
+                                        color: (clipDelegateWrapper.isSelected && !ThemeBackend.liquidGlass) ? ThemeBackend.crust : ThemeBackend.text
                                         horizontalAlignment: I18n.textAlignment
                                         elide: Text.ElideRight
                                         maximumLineCount: 2
@@ -1506,7 +1530,7 @@ PanelWindow {
                                         ScrollBar.vertical: ScrollBar {
                                             width: clipboardWindow.s(3)
                                             policy: ScrollBar.AsNeeded
-                                            contentItem: Rectangle { radius: clipboardWindow.s(1.5); color: clipDelegateWrapper.isSelected ? Qt.rgba(0, 0, 0, 0.25) : ThemeBackend.surface2 }
+                                            contentItem: Rectangle { radius: clipboardWindow.s(1.5); color: (clipDelegateWrapper.isSelected && !ThemeBackend.liquidGlass) ? Qt.rgba(0, 0, 0, 0.25) : ThemeBackend.surface2 }
                                         }
 
                                         MouseArea {
@@ -1531,7 +1555,7 @@ PanelWindow {
                                             font.family: ThemeBackend.fontFamily
                                             font.pixelSize: clipboardWindow.s(12)
                                             font.weight: Font.Normal
-                                            color: clipDelegateWrapper.isSelected ? ThemeBackend.crust : ThemeBackend.text
+                                            color: (clipDelegateWrapper.isSelected && !ThemeBackend.liquidGlass) ? ThemeBackend.crust : ThemeBackend.text
                                             wrapMode: Text.Wrap
                                             textFormat: Text.PlainText
                                         }

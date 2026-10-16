@@ -739,7 +739,7 @@ Item {
                             Rectangle {
                                 anchors.fill: parent
                                 radius: Math.min(window.s(26), ThemeBackend.borderRadius * 1.75)
-                                color: isHighlighted ? Qt.alpha(window.textAccent, hourGlass.active ? 0.8 : 1.0) : Qt.alpha(hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0, hourGlass.active ? 0.5 : 1.0)
+                                color: hourGlass.active ? "transparent" : (isHighlighted ? window.textAccent : Qt.alpha(hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0, 1.0))
                                 border.color: isHighlighted ? Qt.lighter(window.textAccent, 1.1) : (hrMa.containsMouse ? Qt.alpha(window.surface2, 0.9) : Qt.alpha(window.surface1, 0.6))
                                 border.width: ThemeBackend.liquidGlass ? 0 : 1
 
@@ -768,7 +768,7 @@ Item {
                                         font.family: ThemeBackend.fontFamily
                                         font.weight: Font.Bold
                                         font.pixelSize: window.s(11.5)
-                                        color: isHighlighted ? window.base : (hrMa.containsMouse ? window.text : window.overlay1)
+                                        color: (isHighlighted && !hourGlass.active) ? window.base : (hrMa.containsMouse || isHighlighted ? window.text : window.overlay1)
                                         Behavior on color { ColorAnimation { duration: 180 } }
                                     }
 
@@ -777,7 +777,7 @@ Item {
                                         text: modelData ? (modelData.icon || (window.weatherData && window.weatherData.forecast[window.weatherView] ? window.weatherData.forecast[window.weatherView].icon : "")) : ""
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: window.s(16.5)
-                                        color: isHighlighted ? window.base : (modelData ? (modelData.hex || window.text) : window.text)
+                                        color: (isHighlighted && !hourGlass.active) ? window.base : (modelData ? (modelData.hex || window.text) : window.text)
                                     }
 
                                     Text {
@@ -786,7 +786,7 @@ Item {
                                         font.family: ThemeBackend.fontFamily
                                         font.weight: Font.Black
                                         font.pixelSize: window.s(12.5)
-                                        color: isHighlighted ? window.base : window.text
+                                        color: (isHighlighted && !hourGlass.active) ? window.base : window.text
                                     }
                                 }
                             }

@@ -385,8 +385,8 @@ FocusScope {
                 text: root.placeholderText
                 font.family: root.fontFamily
                 font.pixelSize: root.fontPixelSize
-                color: root.subTextColor
-                opacity: (innerInput.text.length === 0 && charModel.count === 0) ? 0.45 : 0.0
+                color: glass.active ? "#ffffff" : root.subTextColor
+                opacity: (innerInput.text.length === 0 && charModel.count === 0) ? (glass.active ? 1.0 : 0.45) : 0.0
                 x: root.computeRowX(implicitWidth, fieldArea.width)
                 anchors.verticalCenter: parent.verticalCenter
                 Behavior on opacity { NumberAnimation { duration: 180 } }
@@ -599,8 +599,8 @@ FocusScope {
                     text: root.placeholderText
                     font.family: root.fontFamily
                     font.pixelSize: root.fontPixelSize
-                    color: root.subTextColor
-                    opacity: (innerTextEdit.text.length === 0) ? 0.45 : 0.0
+                    color: glass.active ? "#ffffff" : root.subTextColor
+                    opacity: (innerTextEdit.text.length === 0) ? (glass.active ? 1.0 : 0.45) : 0.0
                     Behavior on opacity { NumberAnimation { duration: 180 } }
                 }
 

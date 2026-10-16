@@ -348,6 +348,7 @@ PanelWindow {
             WallpaperBlur {
                 z: -1
                 anchors.fill: parent
+                rim: 0
                 topLeftRadius: parent.topLeftRadius
                 topRightRadius: parent.topRightRadius
                 bottomLeftRadius: parent.bottomLeftRadius

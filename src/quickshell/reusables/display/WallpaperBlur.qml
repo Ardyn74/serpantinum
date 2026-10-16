@@ -16,6 +16,7 @@ Item {
     property real bottomRightRadius: radius
     property real blurStrength: 1.0
     property real tint: 0.0
+    property real rim: 0.45
 
     readonly property bool liquid: ThemeBackend.liquidGlass
     readonly property bool isGlassBackdrop: true
@@ -258,9 +259,9 @@ Item {
             bottomLeftRadius: root.bottomLeftRadius
             bottomRightRadius: root.bottomRightRadius
             tintColor: ThemeBackend.base
-            tintAmount: Math.max(root.tint, 0.08) * (1 - 0.5 * root.nest)
-            frost: Math.max(0.5, root.blurStrength * 2.5) * (1 - 0.5 * root.nest)
-            rim: 0.45 * (1 - 0.35 * root.nest)
+            tintAmount: Math.max(root.tint, 0.12) * (1 - 0.5 * root.nest)
+            frost: Math.max(0.5, root.blurStrength * 2.5) * 1.08 * (1 - 0.5 * root.nest)
+            rim: root.rim * (1 - 0.35 * root.nest)
             nest: root.nest
             clear: root.nestLevel >= 1 ? 1 : 0
             cursorPos: Qt.point(root.cursorX, root.cursorY)

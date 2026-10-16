@@ -164,7 +164,7 @@ Item {
                 font.family: ThemeBackend.fontFamily
                 font.weight: Font.Bold
                 font.pixelSize: root.s(12)
-                color: ThemeBackend.subtext0
+                color: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext0
             }
 
             Item { Layout.fillWidth: true }
@@ -258,7 +258,7 @@ Item {
                     font.family: ThemeBackend.fontFamily
                     font.weight: Font.Medium
                     font.pixelSize: root.s(12)
-                    color: ThemeBackend.overlay0
+                    color: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.overlay0
                 }
             }
 
@@ -275,7 +275,7 @@ Item {
                     active: notifList.moving || notifList.movingVertically
                     width: root.s(4)
                     policy: ScrollBar.AsNeeded
-                    contentItem: Rectangle { implicitWidth: root.s(4); radius: root.s(2); color: ThemeBackend.surface2 }
+                    contentItem: Rectangle { implicitWidth: root.s(4); radius: root.s(2); color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.text, 0.45) : ThemeBackend.surface2 }
                 }
 
                 add: Transition {
@@ -487,7 +487,7 @@ Item {
 
                                 Rectangle {
                                     id: groupUnderShadow
-                                    visible: !groupWrapper.isExpanded && groupWrapper.memberCount > 1
+                                    visible: !ThemeBackend.liquidGlass && !groupWrapper.isExpanded && groupWrapper.memberCount > 1
                                     anchors.fill: groupHeaderCard
                                     anchors.topMargin: root.s(1.5)
                                     anchors.bottomMargin: -root.s(1.5)
@@ -508,9 +508,18 @@ Item {
                                     anchors.topMargin: root.s(4)
                                     height: groupHeaderCard.height
                                     radius: root.cardRadius
-                                    color: Qt.darker(ThemeBackend.surface1, 1.08)
+                                    color: stackGlass.active ? "transparent" : Qt.darker(ThemeBackend.surface1, 1.08)
                                     z: -1
                                     opacity: Math.max(0.0, 1.0 - groupWrapper.groupExpandProgress * 2.0)
+
+                                    GlassFill {
+                                        id: stackGlass
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface1
+                                        tintAmount: 0.3
+                                        press: 0.1
+                                    }
                                 }
 
                                 Rectangle {
@@ -660,7 +669,16 @@ Item {
                                             Rectangle {
                                                 anchors.fill: parent
                                                 radius: root.s(10)
-                                                color: ThemeBackend.surface2
+                                                color: groupIconGlass.active ? "transparent" : ThemeBackend.surface2
+
+                                                GlassFill {
+                                                    id: groupIconGlass
+                                                    anchors.fill: parent
+                                                    radius: parent.radius
+                                                    tintColor: ThemeBackend.surface2
+                                                    tintAmount: 0.35
+                                                    tintStrength: 1.0
+                                                }
                                             }
 
                                             Rectangle {
@@ -730,7 +748,7 @@ Item {
                                                     text: "󰋽"
                                                     font.family: ThemeBackend.fontFamily
                                                     font.pixelSize: root.s(22)
-                                                    color: ThemeBackend.subtext0
+                                                    color: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext0
                                                 }
                                             }
                                         }
@@ -758,7 +776,7 @@ Item {
                                                     text: "·"
                                                     font.family: ThemeBackend.fontFamily
                                                     font.pixelSize: root.s(11)
-                                                    color: ThemeBackend.subtext1
+                                                    color: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext1
                                                     visible: opacity > 0.001
                                                     opacity: Math.max(0.0, 1.0 - groupWrapper.groupExpandProgress * 2.0)
                                                 }
@@ -780,7 +798,7 @@ Item {
                                                     text: timeText
                                                     font.family: ThemeBackend.fontFamily
                                                     font.pixelSize: root.s(11)
-                                                    color: ThemeBackend.subtext1
+                                                    color: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext1
                                                     visible: opacity > 0.001
                                                     opacity: Math.max(0.0, 1.0 - groupWrapper.groupExpandProgress * 2.0)
                                                 }
@@ -798,7 +816,7 @@ Item {
                                                 }
                                                 font.family: ThemeBackend.fontFamily
                                                 font.pixelSize: root.s(11)
-                                                color: ThemeBackend.subtext0
+                                                color: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.subtext0
                                                 elide: Text.ElideRight
                                                 maximumLineCount: 1
                                                 visible: opacity > 0.001 && text !== ""
@@ -819,7 +837,16 @@ Item {
                                                 Rectangle {
                                                     anchors.fill: parent
                                                     radius: root.s(8)
-                                                    color: ThemeBackend.surface2
+                                                    color: countGlass.active ? "transparent" : ThemeBackend.surface2
+
+                                                    GlassFill {
+                                                        id: countGlass
+                                                        anchors.fill: parent
+                                                        radius: parent.radius
+                                                        tintColor: ThemeBackend.surface2
+                                                        tintAmount: 0.35
+                                                        tintStrength: 1.0
+                                                    }
                                                 }
 
                                                 Text {
@@ -852,7 +879,7 @@ Item {
                                                 size: root.s(30)
                                                 cornerRadius: root.s(8)
                                                 accentColor: ThemeBackend.surface2
-                                                iconColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.subtext1
+                                                iconColor: (isHoveredOrHighlighted || ThemeBackend.liquidGlass) ? ThemeBackend.text : ThemeBackend.subtext1
                                                 autoToggle: false
                                                 flipped: groupWrapper.groupExpandProgress > 0.5
                                                 onClicked: {
@@ -896,7 +923,7 @@ Item {
                                             anchors.bottomMargin: root.s(8)
                                             width: Math.max(1, root.s(2))
                                             radius: root.s(1)
-                                            color: Qt.rgba(ThemeBackend.surface2.r, ThemeBackend.surface2.g, ThemeBackend.surface2.b, 0.7)
+                                            color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.text, 0.35) : Qt.rgba(ThemeBackend.surface2.r, ThemeBackend.surface2.g, ThemeBackend.surface2.b, 0.7)
                                         }
                                     }
 

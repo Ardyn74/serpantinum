@@ -339,7 +339,12 @@ Item {
             phase: waveCanvas.wavePhase
             color1: Qt.lighter(root.accentColor, 1.1)
             color2: root.accentColor
+            bodyAlpha: 0.4
             visible: glass.active && root.fillLevel > 0.001
+            property real lift: (root.fillLevel > 0.001 && root.fillLevel < 0.999) ? 1.0 : 0.0
+            Behavior on lift { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+            transformOrigin: Item.Center
+            scale: 1.0 + 0.07 * lift
         }
 
         Rectangle {

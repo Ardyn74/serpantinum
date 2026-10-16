@@ -623,6 +623,7 @@ Item {
             anchors.fill: parent
             radius: parent.radius
             color: "#ffffff"
+            visible: !glass.active
             opacity: root.flashOpacity
             PropertyAnimation on opacity { id: btnFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
         }
@@ -686,9 +687,21 @@ Item {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
         background: Rectangle {
+            id: popupBg
             radius: Math.min(root.cornerRadius, 16)
-            color: root.dropdownColor
-            layer.enabled: true
+            color: popupGlass.active ? "transparent" : root.dropdownColor
+            layer.enabled: !ThemeBackend.liquidGlass
+            property var glassBackdropItem: glass ? glass.backdrop : null
+
+            GlassFill {
+                id: popupGlass
+                anchors.fill: parent
+                radius: parent.radius
+                tintColor: root.dropdownColor
+                tintAmount: 0.45
+                tintStrength: 1.0
+                shadow: 1
+            }
         }
 
         onAboutToShow: {
@@ -747,7 +760,7 @@ Item {
 
                 contentItem: Rectangle {
                     radius: 2
-                    color: (vScrollBar.pressed || vScrollBar.hovered) ? root.accentColor : root.borderColor
+                    color: ThemeBackend.liquidGlass ? Qt.alpha(root.textColor, (vScrollBar.pressed || vScrollBar.hovered) ? 0.6 : 0.3) : ((vScrollBar.pressed || vScrollBar.hovered) ? root.accentColor : root.borderColor)
                     Behavior on color { ColorAnimation { duration: 150 } }
                 }
 
@@ -764,6 +777,7 @@ Item {
 
                 property int realIndex: root.options.indexOf(modelData)
                 property bool shown: root.isEditing
+                property var glassBackdropItem: glass ? glass.backdrop : null
 
                 Timer {
                     id: showTimer
@@ -810,7 +824,7 @@ Item {
                 }
                 Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
 
-                color: root.currentIndex === realIndex ? root.accentColor : (itemMa.pressed ? Qt.darker(root.hoverColor, 1.1) : (itemMa.containsMouse ? root.hoverColor : "transparent"))
+                color: (ThemeBackend.liquidGlass && delegateGlass.backdrop) ? "transparent" : (root.currentIndex === realIndex ? root.accentColor : (itemMa.pressed ? Qt.darker(root.hoverColor, 1.1) : (itemMa.containsMouse ? root.hoverColor : "transparent")))
                 Behavior on color { ColorAnimation { duration: 150 } }
 
                 scale: itemMa.pressed ? 0.96 : (itemMa.containsMouse ? 1.02 : 1.0)
@@ -818,11 +832,25 @@ Item {
 
                 property real flashOpacity: 0.0
 
+                GlassFill {
+                    id: delegateGlass
+                    anchors.fill: parent
+                    radius: parent.radius
+                    allowed: !!root && (root.currentIndex === delegateRect.realIndex || itemMa.containsMouse)
+                    forceClear: true
+                    tintColor: !root ? "transparent" : (root.currentIndex === delegateRect.realIndex ? root.accentColor : root.textColor)
+                    tintAmount: (root && root.currentIndex === delegateRect.realIndex) ? 0.5 : 0.14
+                    tintStrength: 1.0
+                    press: itemMa.pressed ? 0.8 : (itemMa.containsMouse ? 0.25 : 0)
+                    Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                }
+
                 Rectangle {
                     id: itemFlashAnimRect
                     anchors.fill: parent
                     radius: parent.radius
                     color: "#ffffff"
+                    visible: !(ThemeBackend.liquidGlass && delegateGlass.backdrop)
                     opacity: delegateRect.flashOpacity
                     PropertyAnimation on opacity { id: itemFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
                 }
@@ -835,7 +863,7 @@ Item {
                     text: modelData
                     font.family: root.useOptionAsFontFamily ? modelData : root.fontFamily
                     font.pixelSize: root.fontPixelSize
-                    color: root.currentIndex === realIndex ? root.activeTextColor : root.textColor
+                    color: !root ? "transparent" : ((root.currentIndex === realIndex && !(ThemeBackend.liquidGlass && delegateGlass.backdrop)) ? root.activeTextColor : root.textColor)
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                     Behavior on color { ColorAnimation { duration: 150 } }

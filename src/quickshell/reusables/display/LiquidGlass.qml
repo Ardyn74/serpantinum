@@ -26,6 +26,7 @@ ShaderEffect {
     property real shadowAmt: 0
     property real energy: 0
     property real nest: 0
+    property real morph: 0
 
     property vector2d itemSize: Qt.vector2d(width, height)
     property vector4d radii: Qt.vector4d(topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius)

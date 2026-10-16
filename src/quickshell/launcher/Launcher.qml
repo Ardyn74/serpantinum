@@ -1660,8 +1660,8 @@ PanelWindow {
                                 Rectangle {
                                     anchors.fill: parent
                                     radius: ThemeBackend.borderRadius
-                                    color: rowHoverGlass.active ? "transparent" : ThemeBackend.surface0
-                                    opacity: ma.containsMouse && !delegateRoot.isSelected ? (rowHoverGlass.active ? 1.0 : 0.45) : 0
+                                    color: (ThemeBackend.liquidGlass || rowHoverGlass.active) ? "transparent" : ThemeBackend.surface0
+                                    opacity: ma.containsMouse && !delegateRoot.isSelected ? (ThemeBackend.liquidGlass ? 1.0 : 0.45) : 0
 
                                     GlassFill {
                                         id: rowHoverGlass

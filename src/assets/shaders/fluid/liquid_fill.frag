@@ -68,8 +68,9 @@ void main() {
 
     float hair = exp(-depth / 1.1);
     float wide = exp(-depth / 6.5);
-    float lens = exp(-pow((depth - 7.0) / 4.5, 2.0));
-    float meniscus = hair * (0.35 + 0.65 * sSpec) * 0.85 + wide * 0.16 * sSpec + lens * 0.10;
+    float lens = exp(-pow((depth - 8.0) / 5.5, 2.0));
+    float trough = exp(-pow((depth - 17.0) / 8.0, 2.0));
+    float meniscus = hair * (0.35 + 0.65 * sSpec) * 0.95 + wide * 0.22 * sSpec + lens * 0.16;
 
     float tb = max(-dBox, 0.0);
     vec2 e = vec2(0.75, 0.0);
@@ -87,11 +88,13 @@ void main() {
     float tx = clamp(p.x / max(itemSize.x, 1.0), 0.0, 1.0);
     vec3 base = mix(color1.rgb, color2.rgb, tx);
     float bodyA = (bodyAlpha > 0.0 ? bodyAlpha : 0.5) * mix(1.1, 0.8, ty);
-    float inner = 0.12 * smoothstep(0.0, 14.0, depth) * (1.0 - ty);
+    float inner = 0.09 * smoothstep(0.0, 22.0, depth) * (1.0 - ty);
+    float pool = smoothstep(14.0, 60.0, depth);
+    float caustic = 0.035 * (0.5 + 0.5 * sin(p.x * 0.11 + phase * 1.3 + p.y * 0.05)) * pool * (1.0 - 0.5 * ty);
 
-    float light = meniscus + boxRim + sheen + inner;
-    vec3 rgb = base * bodyA + vec3(light);
-    float a = clamp(bodyA + light * 0.85, 0.0, 1.0);
+    float light = meniscus + boxRim + sheen + inner + caustic;
+    vec3 rgb = base * bodyA * (1.0 - 0.18 * trough) + vec3(light);
+    float a = clamp(bodyA * (1.0 - 0.25 * pool) + light * 0.85, 0.0, 1.0);
 
     float k = boxAlpha * fluidAlpha * qt_Opacity;
     fragColor = vec4(rgb * k, a * k);

@@ -404,8 +404,8 @@ PanelWindow {
             anchors.fill: parent
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             radius: osdWindow.cornerRadius
-            border.width: osdWindow.isAttached ? 0 : 1
-            border.color: osdWindow.isAttached ? "transparent" : ThemeBackend.surface0
+            border.width: 0
+            border.color: "transparent"
             clip: true
 
             WallpaperBlur {

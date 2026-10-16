@@ -20,6 +20,7 @@ Item {
     property color textColor: "#11111b"
     property real bgOpacity: 1.0
     property real glassShadow: 1
+    readonly property color displayTextColor: (glass.active && (0.2126 * textColor.r + 0.7152 * textColor.g + 0.0722 * textColor.b) < 0.5) ? ThemeBackend.text : textColor
 
     property bool action_highlight: false
     property string clickSound: "reusables/iconbutton/click.wav"
@@ -79,7 +80,7 @@ Item {
             text: root.buttonIcon
             font.family: root.iconFont
             font.pixelSize: root.iconFontSize
-            color: root.textColor
+            color: root.displayTextColor
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             opacity: root.enabled ? 1.0 : 0.5

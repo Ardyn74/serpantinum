@@ -25,6 +25,7 @@ layout(std140, binding = 0) uniform buf {
     float shadowAmt;
     float energy;
     float nest;
+    float morph;
 };
 
 layout(binding = 1) uniform sampler2D src;
@@ -111,13 +112,13 @@ void main() {
     float slope = min((om * om * om) / pow(max(1.0 - om4, 1e-3), 0.75), 7.0);
     vec2 toCursor = cursor - itemSize * 0.5 - p;
     float cd = length(toCursor);
-    float reach = max(40.0, min(itemSize.x, itemSize.y) * 0.6);
+    float reach = max(40.0, min(itemSize.x, itemSize.y) * 0.6) * (1.0 + 0.4 * morph);
     float near = hover * exp(-cd * cd / (2.0 * reach * reach));
     float sigma = reach * 0.5;
-    float bulgeH = hover * exp(-cd * cd / (2.0 * sigma * sigma)) * 0.35 * thickness * (1.0 - 0.5 * nest);
+    float bulgeH = hover * exp(-cd * cd / (2.0 * sigma * sigma)) * 0.35 * (1.0 + 1.4 * morph) * thickness * (1.0 - 0.5 * nest);
     vec2 bulge = bulgeH * toCursor / (sigma * sigma);
     vec3 normal = normalize(vec3(g * slope - bulge, 1.0));
-    float th = thickness * 1.35 * (1.0 + 0.12 * near + 0.5 * energy);
+    float th = thickness * 1.35 * (1.0 + (0.12 + 0.3 * morph) * near + 0.5 * energy);
 
     vec2 dG = displacement(normal, ior, th);
     vec2 dR = dG * (1.0 + dispersion * 0.6);
@@ -129,6 +130,8 @@ void main() {
     float zr = clamp(length(zq), 0.0, 1.0);
     float zoomAmt = 0.10 * clamp(energy, 0.0, 1.0);
     vec2 ps = vec2(p.x, p.y * (1.0 - 0.08 * 1.5)) * (1.0 - zoomAmt * (1.0 - zr * zr));
+    vec2 follow = clamp((cursor - itemSize * 0.5) / max(itemSize * 0.5, vec2(1.0)), vec2(-1.0), vec2(1.0));
+    ps -= follow * 6.0 * near * morph * (1.0 - zr * zr * 0.5);
     float lod = blurLod(rad);
     vec3 col = blurredAt(ps + dG, rad, lod);
     if (dot(dG, dG) > 0.25) {
@@ -140,8 +143,8 @@ void main() {
     col = mix(vec3(l), col, saturation);
 
     float ty = clamp((p.y + glassSize.y * 0.5) / glassSize.y, 0.0, 1.0);
-    col *= 1.0 - (1.0 - nest) * 0.12 * exp(-t / 6.0) * clamp(g.y, 0.0, 1.0);
-    col *= 1.0 - (1.0 - nest) * 0.05 * exp(-t / (bz * 0.45));
+    col *= 1.0 - (1.0 - nest) * 0.06 * exp(-t / 6.0) * clamp(g.y, 0.0, 1.0);
+    col *= 1.0 - (1.0 - nest) * 0.025 * exp(-t / (bz * 0.45));
 
     vec2 cursorDir = cd > 0.001 ? toCursor / cd : normalize(lightDir);
     vec2 L = normalize(mix(normalize(lightDir), cursorDir, hover * 0.4));
@@ -162,7 +165,7 @@ void main() {
     vec3 light = vec3(edgeHi + men + sheen + near * 0.015 * rim + energy * 0.03);
     light += vec3(lift) * mix(1.0, smoothstep(0.0, 1.0, length(dG) * 0.5), clear);
 
-    float tA = tAmt;
+    float tA = clamp(tAmt * (0.7 + 0.6 * l), 0.0, 1.0);
     float lensA = smoothstep(0.0, 1.0, length(dG) * 0.5);
     vec3 opaqueRgb = mix(col, tcol, tA);
     vec3 clearRgb = col * lensA * (1.0 - tA) + tcol * tA;
