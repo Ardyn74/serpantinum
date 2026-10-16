@@ -461,6 +461,15 @@ Item {
             border.width: 1
             clip: true
 
+            WallpaperBlur {
+                z: -1
+                anchors.fill: parent
+                topLeftRadius: parent.topLeftRadius
+                topRightRadius: parent.topRightRadius
+                bottomLeftRadius: parent.bottomLeftRadius
+                bottomRightRadius: parent.bottomRightRadius
+            }
+
             Rectangle {
                 width: parent.width * 0.5; height: width; radius: width / 2
                 x: parent.width * 0.75 - width / 2

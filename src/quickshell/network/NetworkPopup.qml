@@ -1477,6 +1477,15 @@ Item {
             border.color: ThemeBackend.surface0
             border.width: 1
             clip: true
+
+            WallpaperBlur {
+                z: -1
+                anchors.fill: parent
+                topLeftRadius: parent.topLeftRadius
+                topRightRadius: parent.topRightRadius
+                bottomLeftRadius: parent.bottomLeftRadius
+                bottomRightRadius: parent.bottomRightRadius
+            }
             layer.enabled: window.visible && window.introState > 0.001 && window.introState < 0.999
             layer.smooth: true
             layer.effect: MultiEffect {

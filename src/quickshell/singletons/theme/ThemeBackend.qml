@@ -19,6 +19,7 @@ Item {
     }
 
     property real elementOpacity: 1.0
+    property bool blurBackground: false
 
     property color base: "#1e1e2e"
     property color mantle: "#181825"
@@ -240,6 +241,7 @@ Item {
         const themeConfig = Config.getSetting("theme", {});
         const pct = themeConfig.elementOpacity !== undefined ? Number(themeConfig.elementOpacity) : 100;
         root.elementOpacity = isNaN(pct) ? 1.0 : Math.max(0.2, Math.min(1.0, pct / 100.0));
+        root.blurBackground = themeConfig.blurBackground !== undefined ? Boolean(themeConfig.blurBackground) : false;
     }
 
     function updateColors() {

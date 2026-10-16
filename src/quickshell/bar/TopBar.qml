@@ -558,6 +558,15 @@ Item {
         visible: (isSolid || isFill) && (barWindow ? !barWindow.positionChanging : true)
         opacity: visible ? 1.0 : 0.0
 
+        WallpaperBlur {
+            z: -1
+            anchors.fill: parent
+            topLeftRadius: parent.topLeftRadius
+            topRightRadius: parent.topRightRadius
+            bottomLeftRadius: parent.bottomLeftRadius
+            bottomRightRadius: parent.bottomRightRadius
+        }
+
         Behavior on x {
             enabled: contentWrapper.layoutAnimationsEnabled
             NumberAnimation { duration: 300; easing.type: Easing.OutCubic }

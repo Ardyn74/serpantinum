@@ -1510,6 +1510,16 @@ Variants {
                     }
 
                     Item {
+                        anchors.fill: parent
+                        visible: dockWindow.dockBackground
+
+                        WallpaperBlur {
+                            anchors.fill: parent
+                            radius: dockContainer.dynamicCornerRadius
+                        }
+                    }
+
+                    Item {
                         id: dockBgWrapper
                         anchors.fill: parent
                         opacity: dockWindow.dockOpacity

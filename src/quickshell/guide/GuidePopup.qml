@@ -1050,6 +1050,15 @@ Item {
             radius: ThemeBackend.clampedBorderRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
 
+            WallpaperBlur {
+                z: -1
+                anchors.fill: parent
+                topLeftRadius: parent.topLeftRadius
+                topRightRadius: parent.topRightRadius
+                bottomLeftRadius: parent.bottomLeftRadius
+                bottomRightRadius: parent.bottomRightRadius
+            }
+
             property real time: 0
             NumberAnimation on time {
                 from: 0

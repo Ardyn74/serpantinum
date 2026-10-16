@@ -15,6 +15,7 @@ SystemUsageCard 1.0 display/SystemUsageCard.qml
 SystemUsageCircle 1.0 display/SystemUsageCircle.qml
 FluidWave 1.0 display/FluidWave.qml
 MarqueeText 1.0 display/MarqueeText.qml
+WallpaperBlur 1.0 display/WallpaperBlur.qml
 
 LyricsView 1.0 media/LyricsView.qml
 WavySeekBar 1.0 media/WavySeekBar.qml

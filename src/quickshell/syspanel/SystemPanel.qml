@@ -411,6 +411,15 @@ Item {
         border.width: 0
         clip: true
         opacity: root.introContent
+
+        WallpaperBlur {
+            z: -1
+            anchors.fill: parent
+            topLeftRadius: parent.topLeftRadius
+            topRightRadius: parent.topRightRadius
+            bottomLeftRadius: parent.bottomLeftRadius
+            bottomRightRadius: parent.bottomRightRadius
+        }
         transform: Translate { x: (root.isLeftAnchored ? -root.slideDistance : root.slideDistance) * (1.0 - root.introContent) }
 
         Item {

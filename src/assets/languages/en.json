@@ -582,6 +582,10 @@
         "title": "Element opacity",
         "desc": "Opacity of the bar, dock, widgets and every other shell element"
       },
+      "blur_background": {
+        "title": "Add a blurred wallpaper background",
+        "desc": "Blur the wallpaper behind every element that uses transparency"
+      },
       "colors": {
         "title": "Color themes",
         "desc": "Select a predefined color palette preset or create your own custom theme.",

@@ -26,6 +26,7 @@ Item {
         "fontFamily": ThemeBackend.fontFamily,
         "borderRadius": ThemeBackend.borderRadius,
         "elementOpacity": 100,
+        "blurBackground": false,
         "activePreset": "Matugen",
         "matugen": true,
         "colors": {}
@@ -35,6 +36,7 @@ Item {
     property string currentFontFamily: themeSettings.fontFamily !== undefined ? themeSettings.fontFamily : ThemeBackend.fontFamily
     property int currentBorderRadius: themeSettings.borderRadius !== undefined ? themeSettings.borderRadius : ThemeBackend.borderRadius
     property int currentElementOpacity: themeSettings.elementOpacity !== undefined ? Number(themeSettings.elementOpacity) : 100
+    property bool currentBlurBackground: themeSettings.blurBackground !== undefined ? Boolean(themeSettings.blurBackground) : false
     property string currentPreset: themeSettings.activePreset !== undefined ? themeSettings.activePreset : "Matugen"
     property bool useMatugen: themeSettings.matugen !== undefined ? themeSettings.matugen : true
 
@@ -517,6 +519,7 @@ Item {
             themeTabRoot.currentFontFamily = ts.fontFamily !== undefined ? ts.fontFamily : ThemeBackend.fontFamily;
             themeTabRoot.currentBorderRadius = ts.borderRadius !== undefined ? ts.borderRadius : ThemeBackend.borderRadius;
             themeTabRoot.currentElementOpacity = ts.elementOpacity !== undefined ? Number(ts.elementOpacity) : 100;
+            themeTabRoot.currentBlurBackground = ts.blurBackground !== undefined ? Boolean(ts.blurBackground) : false;
             themeTabRoot.currentPreset = ts.activePreset !== undefined ? ts.activePreset : "Matugen";
             themeTabRoot.useMatugen = ts.matugen !== undefined ? ts.matugen : true;
             themeTabRoot.themeSettings = ts;
@@ -550,6 +553,13 @@ Item {
     function updateElementOpacitySetting() {
         let current = Config.getSetting("theme", themeTabRoot.defaultThemeSettings);
         current.elementOpacity = themeTabRoot.currentElementOpacity;
+        Config.setSetting("theme", current);
+    }
+
+    function updateBlurBackgroundSetting(val) {
+        themeTabRoot.currentBlurBackground = val;
+        let current = Config.getSetting("theme", themeTabRoot.defaultThemeSettings);
+        current.blurBackground = val;
         Config.setSetting("theme", current);
     }
 
@@ -1459,6 +1469,27 @@ Item {
                         onDragFinished: {
                             elementOpacityDebounceTimer.stop();
                             themeTabRoot.updateElementOpacitySetting();
+                        }
+                    }
+                }
+
+                SettingsRow {
+                    rootObj: themeTabRoot.rootObj
+                    settingId: "blur_background"
+                    icon: "󰂵"
+                    title: I18n.t("guide.theme.blur_background.title", "Add a blurred wallpaper background")
+                    description: I18n.t("guide.theme.blur_background.desc", "Blur the wallpaper behind every element that uses transparency")
+                    searchKeywords: "blur blurred wallpaper background frosted glass transparency opacity"
+
+                    Toggle {
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        checked: themeTabRoot.currentBlurBackground
+                        accentColor: ThemeBackend.mauve
+                        baseColor: ThemeBackend.surface1
+                        handleColor: ThemeBackend.crust
+                        handleOffColor: ThemeBackend.text
+                        onToggled: function(val) {
+                            themeTabRoot.updateBlurBackgroundSetting(val);
                         }
                     }
                 }
