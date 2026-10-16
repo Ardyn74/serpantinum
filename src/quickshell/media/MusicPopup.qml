@@ -9,6 +9,7 @@ import Quickshell.Io
 import Quickshell.Services.Mpris
 import "../"
 import "../reusables"
+import "../reusables/guide"
 import "../reusables/media"
 
 Item {
@@ -66,6 +67,7 @@ Item {
         maskRectOuter.drawProgress = 0;
         introAnim.restart();
         chargeAnim.restart();
+        if (bottomSectionSwitch.currentIndex === 1) playAudioIntro();
     }
 
     property bool lyricsSubscribed: false
@@ -186,7 +188,7 @@ Item {
     property real presetSlideProgress: 0.0
 
     readonly property real eqActionBtnWidth: Math.max(root.s(68), eqMeasureText.implicitWidth + root.s(26))
-    readonly property real audioActionBtnWidth: Math.max(root.s(72), Math.min(root.s(96), resetMeasureText.implicitWidth + root.s(34)))
+    readonly property real audioActionBtnWidth: Math.max(root.s(84), resetMeasureText.implicitWidth + root.s(46))
     readonly property real audioTestBtnWidth: Math.max(root.s(64), Math.min(root.s(82), testMeasureText.implicitWidth + root.s(34)))
     readonly property real lyricsActionBtnWidth: Math.max(root.s(116), lyricsMeasureText.implicitWidth + root.s(44))
     readonly property real actionBtnCurrentWidth: actionBtnMorph <= 1.0
@@ -552,6 +554,33 @@ Item {
     property real introEqHeader: 0
     property real introEqSliders: 0
     property real introPresets: 0
+    property real audioIntroBalance: 0
+    property real audioIntroFlags: 0
+    property real audioIntroDynamics: 0
+
+    ParallelAnimation {
+        id: audioIntroAnim
+        running: false
+
+        NumberAnimation { target: root; property: "audioIntroBalance"; from: 0; to: 1.0; duration: 560; easing.type: Easing.OutQuart }
+
+        SequentialAnimation {
+            PauseAnimation { duration: 70 }
+            NumberAnimation { target: root; property: "audioIntroFlags"; from: 0; to: 1.0; duration: 560; easing.type: Easing.OutQuart }
+        }
+
+        SequentialAnimation {
+            PauseAnimation { duration: 140 }
+            NumberAnimation { target: root; property: "audioIntroDynamics"; from: 0; to: 1.0; duration: 560; easing.type: Easing.OutQuart }
+        }
+    }
+
+    function playAudioIntro() {
+        audioIntroBalance = 0;
+        audioIntroFlags = 0;
+        audioIntroDynamics = 0;
+        audioIntroAnim.restart();
+    }
 
     ParallelAnimation {
         id: introAnim
@@ -1615,6 +1644,7 @@ Item {
                                     toEqAnim.stop();
                                     toLyricsAnim.stop();
                                     toAudioAnim.restart();
+                                    root.playAudioIntro();
                                     root.restoreLastSavedEqualizer();
                                 } else {
                                     toLyricsAnim.stop();
@@ -1629,28 +1659,6 @@ Item {
                         }
 
                         Item { Layout.fillWidth: true }
-
-                        Item {
-                            id: audioHeaderContainer
-                            Layout.preferredHeight: root.s(26)
-                            Layout.preferredWidth: Math.min(root.s(112), audioHeaderText.implicitWidth + root.s(8)) * root.audioHeaderProgress
-                            implicitWidth: Layout.preferredWidth
-                            opacity: root.audioHeaderProgress
-                            clip: true
-
-                            Text {
-                                id: audioHeaderText
-                                anchors.verticalCenter: parent.verticalCenter
-                                x: root.s(12) * (1.0 - root.audioHeaderProgress)
-                                text: typeof I18n !== "undefined" ? I18n.t("music.audio.balance", "Channel balance") : "Channel balance"
-                                color: ThemeBackend.subtext0 || "#a6adc8"
-                                font.family: ThemeBackend.fontFamily
-                                font.pixelSize: root.s(13)
-                                font.bold: true
-                                width: parent.width - root.s(4)
-                                elide: Text.ElideRight
-                            }
-                        }
 
                         ClickButton {
                             id: audioTestBtn
@@ -2173,6 +2181,8 @@ Item {
                                 Rectangle {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: root.s(82)
+                                    opacity: root.audioIntroBalance
+                                    transform: Translate { y: root.s(14) * (1 - root.audioIntroBalance) }
                                     radius: ThemeBackend.borderRadius
                                     color: ThemeBackend.surface0 || "#313244"
 
@@ -2195,7 +2205,7 @@ Item {
                                                 x: index * (balanceControl.width - width) / 8
                                                 anchors.verticalCenter: parent.verticalCenter
                                                 width: root.s(index === 4 ? 3 : 2)
-                                                height: root.s(index === 4 ? 25 : (index % 2 === 0 ? 17 : 10))
+                                                height: root.s(index === 4 ? 33 : (index % 2 === 0 ? 25 : 18))
                                                 radius: width / 2
                                                 color: ThemeBackend.subtext1 || "#bac2de"
                                                 opacity: index === 4 ? 0.7 : 0.32
@@ -2211,6 +2221,8 @@ Item {
                                             value: Number(root.eqData.balance || 0)
                                             hoverEnabled: true
                                             enabled: root.eqData.mono !== true
+                                            readonly property real trackHeight: root.s(14)
+                                            readonly property real handleSize: root.s(22)
 
                                         Connections {
                                             target: root
@@ -2224,39 +2236,57 @@ Item {
 
                                             onPressedChanged: if (!pressed) root.setBalance(value)
 
-                                            background: Item {
+                                            background: Rectangle {
                                                 x: balanceSlider.leftPadding
                                                 y: balanceSlider.topPadding + balanceSlider.availableHeight / 2 - height / 2
                                                 width: balanceSlider.availableWidth
-                                                height: root.s(6)
+                                                height: balanceSlider.trackHeight
+                                                radius: height / 2
+                                                color: ThemeBackend.surface2 || "#585b70"
+                                                border.width: 1
+                                                border.color: Qt.rgba(1, 1, 1, 0.06)
+                                                clip: true
 
-                                                Rectangle {
-                                                    anchors.fill: parent
-                                                    radius: height / 2
-                                                    color: ThemeBackend.surface2 || "#585b70"
-                                                }
-
-                                                Rectangle {
-                                                    property real handleX: balanceSlider.visualPosition * parent.width
-                                                    x: Math.min(parent.width / 2, handleX)
-                                                    width: Math.max(root.s(2), Math.abs(handleX - parent.width / 2))
+                                                Item {
+                                                    property real handleCenter: balanceSlider.handleSize / 2 + balanceSlider.visualPosition * (parent.width - balanceSlider.handleSize)
+                                                    x: Math.min(parent.width / 2, handleCenter)
+                                                    width: Math.abs(handleCenter - parent.width / 2)
                                                     height: parent.height
-                                                    radius: height / 2
-                                                    color: ThemeBackend.text || "#cdd6f4"
+                                                    clip: true
+                                                    opacity: width > 0.5 ? 1.0 : 0.0
+                                                    Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+
+                                                    Rectangle {
+                                                        x: balanceSlider.value < 0 ? 0 : -height / 2
+                                                        width: parent.width + height / 2
+                                                        height: parent.height
+                                                        radius: height / 2
+
+                                                        gradient: Gradient {
+                                                            orientation: Gradient.Horizontal
+                                                            GradientStop { position: 0.0; color: balanceSlider.value < 0 ? Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.10) : (ThemeBackend.mauve || "#cba6f7") }
+                                                            GradientStop { position: 0.5; color: Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.05) }
+                                                            GradientStop { position: 1.0; color: balanceSlider.value < 0 ? (ThemeBackend.mauve || "#cba6f7") : Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.10) }
+                                                        }
+                                                    }
                                                 }
                                             }
 
                                             handle: Rectangle {
+                                                id: balanceHandle
                                                 x: balanceSlider.leftPadding + balanceSlider.visualPosition * (balanceSlider.availableWidth - width)
                                                 y: balanceSlider.topPadding + balanceSlider.availableHeight / 2 - height / 2
-                                                width: root.s(18)
-                                                height: width
-                                                radius: width / 2
-                                                color: ThemeBackend.mauve || "#cba6f7"
-                                                border.width: root.s(2)
-                                                border.color: ThemeBackend.base || "#1e1e2e"
-                                                scale: balanceSlider.pressed ? 1.12 : 1.0
-                                                Behavior on scale { NumberAnimation { duration: 120 } }
+                                                width: balanceSlider.handleSize
+                                                height: balanceSlider.handleSize
+                                                radius: height / 2
+                                                color: balanceSlider.pressed
+                                                    ? Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.30)
+                                                    : (balanceSlider.hovered ? Qt.lighter(ThemeBackend.mauve || "#cba6f7", 1.15) : (ThemeBackend.mauve || "#cba6f7"))
+                                                scale: balanceSlider.pressed ? 1.25 : (balanceSlider.hovered ? 1.12 : 1.0)
+
+                                                Behavior on color { ColorAnimation { duration: 150 } }
+                                                Behavior on width { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                                                Behavior on scale { NumberAnimation { duration: 150; easing.type: Easing.OutBack } }
                                             }
                                         }
                                     }
@@ -2313,63 +2343,45 @@ Item {
 
                                 RowLayout {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: root.s(50)
                                     spacing: root.s(8)
+                                    opacity: root.audioIntroFlags
+                                    transform: Translate { y: root.s(14) * (1 - root.audioIntroFlags) }
 
                                     Repeater {
                                         model: [
-                                            { key: "mono", icon: "󰘭", label: typeof I18n !== "undefined" ? I18n.t("music.audio.mono", "Mono audio") : "Mono audio" },
-                                            { key: "swap", icon: "󰓡", label: typeof I18n !== "undefined" ? I18n.t("music.audio.swap", "Swap L/R") : "Swap L/R" }
+                                            { key: "mono", label: typeof I18n !== "undefined" ? I18n.t("music.audio.mono", "Mono audio") : "Mono audio" },
+                                            { key: "swap", label: typeof I18n !== "undefined" ? I18n.t("music.audio.swap", "Swap L/R") : "Swap L/R" }
                                         ]
 
-                                        delegate: Rectangle {
+                                        delegate: SettingsRow {
                                             required property var modelData
                                             Layout.fillWidth: true
-                                            Layout.fillHeight: true
-                                            radius: ThemeBackend.borderRadius
-                                            color: ThemeBackend.surface0 || "#313244"
+                                            Layout.preferredWidth: 1
+                                            rootObj: root
+                                            baseColor: ThemeBackend.surface0 || "#313244"
+                                            title: modelData.label
+                                            titlePixelSize: 12
+                                            titleBold: true
+                                            verticalPadding: root.s(9)
+                                            searchable: false
 
-                                            RowLayout {
-                                                anchors.fill: parent
-                                                anchors.leftMargin: root.s(12)
-                                                anchors.rightMargin: root.s(10)
-                                                spacing: root.s(7)
+                                            Toggle {
+                                                id: audioFlagToggle
+                                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                                Layout.preferredWidth: root.s(44)
+                                                Layout.preferredHeight: root.s(24)
+                                                horizontalPadding: 0
+                                                checked: root.eqData[modelData.key] === true
+                                                accentColor: ThemeBackend.mauve || "#cba6f7"
+                                                baseColor: ThemeBackend.surface2 || "#585b70"
+                                                handleColor: ThemeBackend.base || "#1e1e2e"
+                                                handleOffColor: ThemeBackend.text || "#cdd6f4"
+                                                onToggled: checked => root.setAudioFlag(modelData.key, checked)
 
-                                                Text {
-                                                    text: modelData.icon
-                                                    color: ThemeBackend.mauve || "#cba6f7"
-                                                    font.family: "Iosevka Nerd Font"
-                                                    font.pixelSize: root.s(15)
-                                                }
-
-                                                Text {
-                                                    Layout.fillWidth: true
-                                                    text: modelData.label
-                                                    color: ThemeBackend.text || "#cdd6f4"
-                                                    font.family: ThemeBackend.fontFamily
-                                                    font.pixelSize: root.s(11.5)
-                                                    font.bold: true
-                                                    horizontalAlignment: Text.AlignHCenter
-                                                    elide: Text.ElideRight
-                                                }
-
-                                                Toggle {
-                                                    id: audioFlagToggle
-                                                    Layout.preferredWidth: root.s(44)
-                                                    Layout.preferredHeight: root.s(24)
-                                                    horizontalPadding: 0
-                                                    checked: root.eqData[modelData.key] === true
-                                                    accentColor: ThemeBackend.mauve || "#cba6f7"
-                                                    baseColor: ThemeBackend.surface2 || "#585b70"
-                                                    handleColor: ThemeBackend.base || "#1e1e2e"
-                                                    handleOffColor: ThemeBackend.text || "#cdd6f4"
-                                                    onToggled: checked => root.setAudioFlag(modelData.key, checked)
-
-                                                    Connections {
-                                                        target: root
-                                                        function onEqDataChanged() {
-                                                            audioFlagToggle.checked = root.eqData[modelData.key] === true;
-                                                        }
+                                                Connections {
+                                                    target: root
+                                                    function onEqDataChanged() {
+                                                        audioFlagToggle.checked = root.eqData[modelData.key] === true;
                                                     }
                                                 }
                                             }
@@ -2377,54 +2389,44 @@ Item {
                                     }
                                 }
 
-                                Rectangle {
+                                SettingsRow {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: root.s(78)
-                                    radius: ThemeBackend.borderRadius
-                                    color: ThemeBackend.surface0 || "#313244"
+                                    rootObj: root
+                                    opacity: root.audioIntroDynamics
+                                    transform: Translate { y: root.s(14) * (1 - root.audioIntroDynamics) }
+                                    baseColor: ThemeBackend.surface0 || "#313244"
+                                    title: typeof I18n !== "undefined" ? I18n.t("music.audio.dynamic_range", "Dynamic range") : "Dynamic range"
+                                    titlePixelSize: 12
+                                    titleBold: true
+                                    verticalPadding: root.s(9)
+                                    searchable: false
 
-                                    ColumnLayout {
-                                        anchors.fill: parent
-                                        anchors.margins: root.s(10)
-                                        spacing: root.s(7)
+                                    Switch {
+                                        id: dynamicsSwitch
+                                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                        Layout.preferredWidth: root.s(210)
+                                        Layout.preferredHeight: root.s(28)
+                                        options: [
+                                            typeof I18n !== "undefined" ? I18n.t("music.audio.off", "Off") : "Off",
+                                            typeof I18n !== "undefined" ? I18n.t("music.audio.balanced", "Balanced") : "Balanced",
+                                            typeof I18n !== "undefined" ? I18n.t("music.audio.night", "Night") : "Night"
+                                        ]
+                                        currentIndex: String(root.eqData.dynamics || "off") === "night" ? 2
+                                            : (String(root.eqData.dynamics || "off") === "balanced" ? 1 : 0)
+                                        accentColor: ThemeBackend.mauve || "#cba6f7"
+                                        baseColor: ThemeBackend.surface2 || "#585b70"
+                                        textColor: ThemeBackend.subtext0 || "#a6adc8"
+                                        activeTextColor: ThemeBackend.base || "#1e1e2e"
+                                        cornerRadius: ThemeBackend.borderRadius
+                                        fontPixelSize: root.s(10.5)
+                                        minFontPixelSize: root.s(7)
+                                        onToggled: index => root.setDynamics(index === 2 ? "night" : (index === 1 ? "balanced" : "off"))
 
-                                        Text {
-                                            Layout.fillWidth: true
-                                            text: typeof I18n !== "undefined" ? I18n.t("music.audio.dynamic_range", "Dynamic range") : "Dynamic range"
-                                            color: ThemeBackend.text || "#cdd6f4"
-                                            font.family: ThemeBackend.fontFamily
-                                            font.pixelSize: root.s(11.5)
-                                            font.bold: true
-                                            horizontalAlignment: Text.AlignHCenter
-                                            elide: Text.ElideRight
-                                        }
-
-                                        Switch {
-                                            id: dynamicsSwitch
-                                            Layout.fillWidth: true
-                                            Layout.preferredHeight: root.s(28)
-                                            options: [
-                                                typeof I18n !== "undefined" ? I18n.t("music.audio.off", "Off") : "Off",
-                                                typeof I18n !== "undefined" ? I18n.t("music.audio.balanced", "Balanced") : "Balanced",
-                                                typeof I18n !== "undefined" ? I18n.t("music.audio.night", "Night") : "Night"
-                                            ]
-                                            currentIndex: String(root.eqData.dynamics || "off") === "night" ? 2
-                                                : (String(root.eqData.dynamics || "off") === "balanced" ? 1 : 0)
-                                            accentColor: ThemeBackend.mauve || "#cba6f7"
-                                            baseColor: ThemeBackend.surface2 || "#585b70"
-                                            textColor: ThemeBackend.subtext0 || "#a6adc8"
-                                            activeTextColor: ThemeBackend.base || "#1e1e2e"
-                                            cornerRadius: ThemeBackend.borderRadius
-                                            fontPixelSize: root.s(10.5)
-                                            minFontPixelSize: root.s(7)
-                                            onToggled: index => root.setDynamics(index === 2 ? "night" : (index === 1 ? "balanced" : "off"))
-
-                                            Connections {
-                                                target: root
-                                                function onEqDataChanged() {
-                                                    var value = String(root.eqData.dynamics || "off");
-                                                    dynamicsSwitch.currentIndex = value === "night" ? 2 : (value === "balanced" ? 1 : 0);
-                                                }
+                                        Connections {
+                                            target: root
+                                            function onEqDataChanged() {
+                                                var value = String(root.eqData.dynamics || "off");
+                                                dynamicsSwitch.currentIndex = value === "night" ? 2 : (value === "balanced" ? 1 : 0);
                                             }
                                         }
                                     }
