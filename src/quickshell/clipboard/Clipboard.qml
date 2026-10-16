@@ -635,7 +635,7 @@ PanelWindow {
                 if (clipboardWindow.attachEdge === "right") return 3.0;
                 return 1.0;
             }
-            property color color: ThemeBackend.base
+            property color color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
         }
 
@@ -660,14 +660,14 @@ PanelWindow {
                 if (clipboardWindow.attachEdge === "right") return 1.0;
                 return 0.0;
             }
-            property color color: ThemeBackend.base
+            property color color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
         }
         Rectangle {
             id: bgCard
             anchors.fill: parent
             radius: clipboardWindow.cornerRadius
-            color: ThemeBackend.base
+            color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             border.width: 0
             border.color: "transparent"
             clip: true
@@ -678,7 +678,7 @@ PanelWindow {
                 y: 0
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -687,7 +687,7 @@ PanelWindow {
                 y: 0
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -696,7 +696,7 @@ PanelWindow {
                 y: parent.height - container.dynamicCornerRadius
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -705,7 +705,7 @@ PanelWindow {
                 y: parent.height - container.dynamicCornerRadius
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -714,7 +714,7 @@ PanelWindow {
                 y: 0
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -723,7 +723,7 @@ PanelWindow {
                 y: parent.height - container.dynamicCornerRadius
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -732,7 +732,7 @@ PanelWindow {
                 y: 0
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Rectangle {
@@ -741,7 +741,7 @@ PanelWindow {
                 y: parent.height - container.dynamicCornerRadius
                 width: container.dynamicCornerRadius
                 height: container.dynamicCornerRadius
-                color: ThemeBackend.base
+                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             }
 
             Item {

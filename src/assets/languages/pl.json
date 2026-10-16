@@ -1056,10 +1056,6 @@
           "desc": "Wybierz styl wizualny wskaźników obszarów roboczych"
         }
       },
-      "opacity": {
-        "title": "Przezroczystość paska",
-        "desc": "Ustaw przezroczystość paska w procentach"
-      },
       "style": {
         "title": "Styl paska",
         "desc": "Wybierz między wyglądem modułowym, jednolitym lub wypełnionym",
@@ -1508,10 +1504,6 @@
         "search": "Szukaj aplikacji...",
         "done": "Gotowe",
         "empty": "Brak pasujących aplikacji"
-      },
-      "opacity": {
-        "title": "Nieprzezroczystość doku",
-        "desc": "Dostosuj poziom przezroczystości tła doku"
       },
       "override_bounds": {
         "title": "Ignoruj korektę rozmiaru poza granicami ekranu",

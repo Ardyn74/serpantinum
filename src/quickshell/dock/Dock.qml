@@ -82,7 +82,7 @@ Variants {
                     "onTop": true,
                     "elementSize": 44,
                     "floating": false,
-                    "opacity": 100,
+                    "background": true,
                     "exclusive": false,
                     "autohide": false,
                     "smartAutohide": true,
@@ -591,12 +591,8 @@ Variants {
 
                 property bool rawDockFloating: rawDockSettings.floating !== undefined ? rawDockSettings.floating : false
                 property bool dockFloating: rawDockFloating || (sameSideAsBar && !isBarSolid)
-                property real dockOpacitySetting: {
-                    if (rawDockSettings.opacity !== undefined) return Number(rawDockSettings.opacity);
-                    if (rawDockSettings.transparency !== undefined) return Math.max(0, 100 - Number(rawDockSettings.transparency));
-                    return 100;
-                }
-                readonly property real dockOpacity: Math.max(0.0, Math.min(1.0, dockOpacitySetting / 100.0))
+                readonly property bool dockBackground: rawDockSettings.background !== undefined ? Boolean(rawDockSettings.background) : true
+                readonly property real dockOpacity: dockBackground ? ThemeBackend.elementOpacity : 0.0
                 property real floatingMargin: dockFloating ? s(8) : 0
                 Behavior on floatingMargin {
                     enabled: dockWindow.initialized && !dockWindow.positionChanging

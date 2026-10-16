@@ -349,10 +349,6 @@
           "desc": "Scegli lo stile visivo per gli indicatori degli spazi di lavoro"
         }
       },
-      "opacity": {
-        "title": "Opacità barra",
-        "desc": "Imposta la percentuale di opacità della barra"
-      },
       "style": {
         "title": "Stile barra",
         "desc": "Scegli tra modulare, solida o una barra piena",
@@ -801,10 +797,6 @@
         "search": "Cerca applicazioni...",
         "done": "Fatto",
         "empty": "Nessuna applicazione trovata"
-      },
-      "opacity": {
-        "title": "Opacità dock",
-        "desc": "Regola il livello di opacità dello sfondo della dock"
       },
       "override_bounds": {
         "title": "Ignora correzione dimensioni fuori schermo",

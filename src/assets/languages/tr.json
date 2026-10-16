@@ -350,10 +350,6 @@
           "desc": "Çalışma alanı göstergeleri için görsel stili seçin"
         }
       },
-      "opacity": {
-        "title": "Çubuk opaklığı",
-        "desc": "Çubuk opaklığını yüzde olarak ayarlayın"
-      },
       "style": {
         "title": "Çubuk stili",
         "desc": "Modüler, düz veya dolgulu çubuk görünümü arasında seçim yapın",
@@ -802,10 +798,6 @@
         "search": "Uygulamalarda ara...",
         "done": "Tamam",
         "empty": "Eşleşen uygulama yok"
-      },
-      "opacity": {
-        "title": "Dock opaklığı",
-        "desc": "Dock arka planı opaklık seviyesini ayarlayın"
       },
       "override_bounds": {
         "title": "Ekran sınırları dışı boyut düzeltmesini geçersiz kıl",

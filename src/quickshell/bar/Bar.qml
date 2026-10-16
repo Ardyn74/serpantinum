@@ -112,10 +112,7 @@ Variants {
                 let dummy = configRevision;
                 return (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.autohideTimeout !== undefined) ? Config.rawSettings.bar.autohideTimeout : 1000;
             }
-            property real barOpacity: {
-                let dummy = configRevision;
-                return (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined) ? (Config.rawSettings.bar.opacity / 100.0) : 1.0;
-            }
+            property real barOpacity: ThemeBackend.elementOpacity
 
             HoverHandler {
                 id: barHover

@@ -923,6 +923,7 @@ Item {
                 id: gradContainer
                 anchors.fill: parent
                 visible: false
+                opacity: ThemeBackend.elementOpacity
                 clip: true
 
                 Rectangle {
@@ -957,7 +958,7 @@ Item {
             id: innerBg
             anchors.fill: parent
             anchors.margins: root.s(3)
-            color: ThemeBackend.base
+            color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             radius: ThemeBackend.borderRadius
 
             Rectangle {

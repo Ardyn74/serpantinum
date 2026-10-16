@@ -228,7 +228,7 @@ PanelWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: dockAppMenuWindow.s(32) + dockAppMenuWindow.s(8)
-                    color: ThemeBackend.base
+                    color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
@@ -297,7 +297,7 @@ PanelWindow {
                     visible: dockAppMenuWindow.hasWindows
                     Layout.fillWidth: true
                     Layout.preferredHeight: windowsCol.implicitHeight + dockAppMenuWindow.s(8)
-                    color: ThemeBackend.base
+                    color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 
@@ -382,7 +382,7 @@ PanelWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: actionsCol.implicitHeight + dockAppMenuWindow.s(8)
-                    color: ThemeBackend.base
+                    color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                     radius: dockAppMenuWindow.cornerRadius
                     clip: true
 

@@ -25,7 +25,7 @@ Item {
     readonly property var barWindow: activeTarget ? activeTarget.barWindow : null
     readonly property bool isPreview: activeTarget ? Boolean(activeTarget.isPreview) : false
     readonly property bool isRightBar: module ? module.isRightBar : (barWindow ? (barWindow.barPosition === "right") : false)
-    readonly property real barOpacity: (activeTarget && activeTarget.barOpacity !== undefined) ? activeTarget.barOpacity : (barWindow && barWindow.barOpacity !== undefined ? barWindow.barOpacity : (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined ? (Config.rawSettings.bar.opacity / 100.0) : 1.0))
+    readonly property real barOpacity: ThemeBackend.elementOpacity
 
     property int configRevision: 0
 

@@ -350,10 +350,6 @@
           "desc": "Chọn kiểu hiển thị cho các chỉ báo không gian làm việc"
         }
       },
-      "opacity": {
-        "title": "Độ mờ thanh tác vụ",
-        "desc": "Đặt độ mờ của thanh tác vụ theo phần trăm"
-      },
       "style": {
         "title": "Kiểu thanh tác vụ",
         "desc": "Chọn giữa kiểu mô-đun, đặc hoặc đầy đủ",
@@ -802,10 +798,6 @@
         "search": "Tìm kiếm ứng dụng...",
         "done": "Xong",
         "empty": "Không tìm thấy ứng dụng phù hợp"
-      },
-      "opacity": {
-        "title": "Độ đục của dock",
-        "desc": "Điều chỉnh mức độ đục của nền dock"
       },
       "override_bounds": {
         "title": "Ghi đè điều chỉnh kích thước ngoài giới hạn màn hình",

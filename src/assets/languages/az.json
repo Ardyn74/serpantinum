@@ -348,10 +348,6 @@
           "desc": "İş sahələri indikatorlarının vizual stilini seçin"
         }
       },
-      "opacity": {
-        "title": "Zolağın qeyri-şəffaflığı",
-        "desc": "Zolağın qeyri-şəffaflığını faizlə təyin edin"
-      },
       "style": {
         "title": "Zolağın üslubu",
         "desc": "Hissələrə bölünmüş, bütöv və ya doldurulmuş zolaq görünüşünü seçin",
@@ -800,10 +796,6 @@
         "search": "Tətbiq axtar...",
         "done": "Hazırdır",
         "empty": "Uyğun tətbiq yoxdur"
-      },
-      "opacity": {
-        "title": "Tətbiq rəfinin qeyri-şəffaflığı",
-        "desc": "Tətbiq rəfinin arxa fonunun qeyri-şəffaflıq səviyyəsini tənzimlə"
       },
       "override_bounds": {
         "title": "Ekran hüdudlarından kənara çıxanda ölçünün düzəldilməsini ləğv et",

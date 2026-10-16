@@ -350,10 +350,6 @@
           "desc": "Kies de visuele stijl voor werkbladindicatoren"
         }
       },
-      "opacity": {
-        "title": "Dekking van balk",
-        "desc": "Stel de dekking van de balk in als percentage"
-      },
       "style": {
         "title": "Balkstijl",
         "desc": "Kies tussen een modulair, effen of gevuld uiterlijk van de balk",
@@ -802,10 +798,6 @@
         "search": "Apps zoeken...",
         "done": "Klaar",
         "empty": "Geen overeenkomende applicaties"
-      },
-      "opacity": {
-        "title": "Dekking van dock",
-        "desc": "Achtergronddekking van het dock aanpassen"
       },
       "override_bounds": {
         "title": "Groottecorrectie buiten schermgrenzen overschrijven",

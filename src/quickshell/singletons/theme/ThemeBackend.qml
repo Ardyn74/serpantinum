@@ -18,6 +18,8 @@ Item {
         );
     }
 
+    property real elementOpacity: 1.0
+
     property color base: "#1e1e2e"
     property color mantle: "#181825"
     property color crust: "#11111b"
@@ -206,6 +208,9 @@ Item {
         function onSettingsLoaded() {
             root.updateColors();
         }
+        function onRawSettingsChanged() {
+            root.syncElementOpacity();
+        }
     }
 
     Connections {
@@ -227,6 +232,16 @@ Item {
         return false;
     }
 
+    function faded(c) {
+        return Qt.alpha(c, root.elementOpacity);
+    }
+
+    function syncElementOpacity() {
+        const themeConfig = Config.getSetting("theme", {});
+        const pct = themeConfig.elementOpacity !== undefined ? Number(themeConfig.elementOpacity) : 100;
+        root.elementOpacity = isNaN(pct) ? 1.0 : Math.max(0.2, Math.min(1.0, pct / 100.0));
+    }
+
     function updateColors() {
         let themeConfig = Config.getSetting("theme", {});
 
@@ -236,6 +251,7 @@ Item {
         if (themeConfig.borderRadius !== undefined) {
             root.borderRadius = themeConfig.borderRadius;
         }
+        root.syncElementOpacity();
 
         let customColors = themeConfig.colors || themeConfig.palette || (themeConfig.base !== undefined ? themeConfig : null);
 

@@ -15,7 +15,7 @@ Item {
     readonly property bool isCompact: module ? module.isCompact : false
     readonly property var barWindow: module ? module.barWindow : null
     readonly property bool showLayout: barWindow ? Boolean(barWindow.isStartupReady) : true
-    readonly property real barOpacity: (module && module.barOpacity !== undefined) ? module.barOpacity : (barWindow && barWindow.barOpacity !== undefined ? barWindow.barOpacity : (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined ? (Config.rawSettings.bar.opacity / 100.0) : 1.0))
+    readonly property real barOpacity: ThemeBackend.elementOpacity
 
     property alias helpButton: helpButton
 

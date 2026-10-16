@@ -226,11 +226,7 @@ Item {
         return true;
     }
 
-    property real barOpacity: {
-        let bs = Config.getSetting("bar", {});
-        if (bs && bs.opacity !== undefined) return bs.opacity / 100.0;
-        return 1.0;
-    }
+    property real barOpacity: ThemeBackend.elementOpacity
 
     readonly property var previewWidget: ({
         "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; },
@@ -561,11 +557,6 @@ Item {
         }
         if (!barModulesRoot.volShowIcon && !barModulesRoot.volShowPercent) {
             barModulesRoot.volShowIcon = true;
-        }
-        if (bs && bs.opacity !== undefined) {
-            barModulesRoot.barOpacity = bs.opacity / 100.0;
-        } else {
-            barModulesRoot.barOpacity = 1.0;
         }
     }
 

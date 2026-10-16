@@ -36,7 +36,6 @@ Item {
         "position": "top",
         "width": 100,
         "height": 40,
-        "opacity": 100,
         "style": "modular",
         "distinctPills": false,
         "centerByEdges": true,
@@ -55,7 +54,6 @@ Item {
     property string barPosition: barSettings.position !== undefined ? barSettings.position : "top"
     property real currentBarWidth: barSettings.width !== undefined ? barSettings.width : 100
     property real currentBarThickness: barSettings.height !== undefined ? barSettings.height : 40
-    property real currentBarOpacity: barSettings.opacity !== undefined ? barSettings.opacity : 100
     property string barStyle: {
         let s = barSettings.style;
         if (typeof s === "string") return s;
@@ -713,7 +711,6 @@ Item {
         barTabRoot.barPosition = ts.position !== undefined ? ts.position : "top";
         barTabRoot.currentBarWidth = ts.width !== undefined ? ts.width : 100;
         barTabRoot.currentBarThickness = ts.height !== undefined ? ts.height : 40;
-        barTabRoot.currentBarOpacity = ts.opacity !== undefined ? ts.opacity : 100;
         if (typeof ts.style === "string") {
             barTabRoot.barStyle = ts.style;
         } else if (ts.style && typeof ts.style === "object") {
@@ -758,7 +755,6 @@ Item {
         current.position = barTabRoot.barPosition;
         current.width = barTabRoot.currentBarWidth;
         current.height = barTabRoot.currentBarThickness;
-        current.opacity = barTabRoot.currentBarOpacity;
         current.style = barTabRoot.barStyle;
         current.distinctPills = barTabRoot.distinctPills;
         current.centerByEdges = barTabRoot.centerByEdges;
@@ -1288,44 +1284,6 @@ Item {
                             }
                         }
                     ]
-                }
-
-                SettingsRow {
-                    rootObj: barTabRoot.rootObj
-                    icon: "󰃟"
-                    title: I18n.t("guide.bar.opacity.title")
-                    description: I18n.t("guide.bar.opacity.desc")
-
-                    Draggable {
-                        id: barOpacitySlider
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        Layout.rightMargin: rootObj.s(8)
-                        implicitWidth: rootObj.s(220)
-                        implicitHeight: rootObj.s(18)
-                        from: 1
-                        to: 100
-                        stepSize: 1
-                        defaultValue: 100
-                        showValueBubble: true
-                        valueFormatter: function(v) { return Math.round(v) + "%" }
-                        value: barTabRoot.currentBarOpacity
-                        backgroundColor: ThemeBackend.surface0
-                        accentColor: ThemeBackend.mauve
-                        handleColor: ThemeBackend.text
-                        handleBorderColor: ThemeBackend.mantle
-                        onMoved: function(val) {
-                            barTabRoot.clearPendingGroup();
-                            let rounded = Math.round(val);
-                            if (barTabRoot.currentBarOpacity !== rounded) {
-                                barTabRoot.currentBarOpacity = rounded;
-                                barWidthDebounceTimer.restart();
-                            }
-                        }
-                        onDragFinished: {
-                            barWidthDebounceTimer.stop();
-                            barTabRoot.updateBarSettings();
-                        }
-                    }
                 }
             }
 

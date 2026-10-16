@@ -350,10 +350,6 @@
           "desc": "Pilih gaya visual untuk indikator ruang kerja"
         }
       },
-      "opacity": {
-        "title": "Opasitas bilah",
-        "desc": "Atur opasitas bilah sebagai persentase"
-      },
       "style": {
         "title": "Gaya bilah",
         "desc": "Pilih antara tampilan bilah modular, padat, atau terisi",
@@ -802,10 +798,6 @@
         "search": "Cari aplikasi...",
         "done": "Selesai",
         "empty": "Tidak ada aplikasi yang cocok"
-      },
-      "opacity": {
-        "title": "Opasitas dok",
-        "desc": "Sesuaikan tingkat opasitas latar belakang dok"
       },
       "override_bounds": {
         "title": "Abaikan koreksi ukuran di luar batas layar",

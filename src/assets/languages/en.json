@@ -350,10 +350,6 @@
           "desc": "Choose the visual style for workspace indicators"
         }
       },
-      "opacity": {
-        "title": "Bar opacity",
-        "desc": "Set the opacity of the bar as a percentage"
-      },
       "style": {
         "title": "Bar style",
         "desc": "Choose between modular, solid or a filled bar look",
@@ -582,6 +578,10 @@
         "title": "Border radius",
         "desc": "Corner radius for UI elements"
       },
+      "element_opacity": {
+        "title": "Element opacity",
+        "desc": "Opacity of the bar, dock, widgets and every other shell element"
+      },
       "colors": {
         "title": "Color themes",
         "desc": "Select a predefined color palette preset or create your own custom theme.",
@@ -785,6 +785,10 @@
         "title": "Floating dock",
         "desc": "Detach dock from screen edge with rounded corners"
       },
+      "background": {
+        "title": "Draw a background behind apps",
+        "desc": "Show the dock panel behind app icons"
+      },
       "transparency": {
         "title": "Dock transparency",
         "desc": "Adjust dock background opacity level"
@@ -802,10 +806,6 @@
         "search": "Search apps...",
         "done": "Done",
         "empty": "No matching applications"
-      },
-      "opacity": {
-        "title": "Dock opacity",
-        "desc": "Adjust dock background opacity level"
       },
       "override_bounds": {
         "title": "Override out-of-screen-bounds size correction",

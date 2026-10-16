@@ -18,7 +18,7 @@ Item {
     readonly property bool moduleActive: module ? module.moduleActive : true
     readonly property bool isSolid: module ? module.isSolid : false
     readonly property bool distinctPills: module ? module.distinctPills : false
-    readonly property real barOpacity: (module && module.barOpacity !== undefined) ? module.barOpacity : (barWindow && barWindow.barOpacity !== undefined ? barWindow.barOpacity : (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.opacity !== undefined ? (Config.rawSettings.bar.opacity / 100.0) : 1.0))
+    readonly property real barOpacity: ThemeBackend.elementOpacity
 
     readonly property string displayText: CurrentFocus.displayText
     readonly property bool isFocused: CurrentFocus.isFocused

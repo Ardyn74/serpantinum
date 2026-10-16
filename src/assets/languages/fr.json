@@ -350,10 +350,6 @@
           "desc": "Choisir le style visuel des indicateurs d'espaces de travail"
         }
       },
-      "opacity": {
-        "title": "Opacité de la barre",
-        "desc": "Définir l'opacité de la barre en pourcentage"
-      },
       "style": {
         "title": "Style de la barre",
         "desc": "Choisir entre un style modulaire, solide ou rempli",
@@ -802,10 +798,6 @@
         "search": "Rechercher des applications...",
         "done": "Terminé",
         "empty": "Aucune application correspondante"
-      },
-      "opacity": {
-        "title": "Opacité du dock",
-        "desc": "Ajuster le niveau d'opacité de l'arrière-plan du dock"
       },
       "override_bounds": {
         "title": "Outrepasser la correction de dépassement d'écran",

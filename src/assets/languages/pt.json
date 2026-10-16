@@ -350,10 +350,6 @@
           "desc": "Escolha o estilo visual para os indicadores de áreas de trabalho"
         }
       },
-      "opacity": {
-        "title": "Opacidade da barra",
-        "desc": "Define a opacidade da barra em porcentagem"
-      },
       "style": {
         "title": "Estilo da barra",
         "desc": "Escolha entre visual modular, sólido ou preenchido",
@@ -802,10 +798,6 @@
         "search": "Pesquisar apps...",
         "done": "Concluir",
         "empty": "Nenhum aplicativo correspondente"
-      },
-      "opacity": {
-        "title": "Opacidade da dock",
-        "desc": "Ajusta a opacidade do fundo da dock"
       },
       "override_bounds": {
         "title": "Ignorar correção de tamanho fora da tela",

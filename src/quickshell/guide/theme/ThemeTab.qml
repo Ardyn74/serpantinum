@@ -25,6 +25,7 @@ Item {
     property var defaultThemeSettings: {
         "fontFamily": ThemeBackend.fontFamily,
         "borderRadius": ThemeBackend.borderRadius,
+        "elementOpacity": 100,
         "activePreset": "Matugen",
         "matugen": true,
         "colors": {}
@@ -33,6 +34,7 @@ Item {
     property var themeSettings: Config.getSetting("theme", defaultThemeSettings)
     property string currentFontFamily: themeSettings.fontFamily !== undefined ? themeSettings.fontFamily : ThemeBackend.fontFamily
     property int currentBorderRadius: themeSettings.borderRadius !== undefined ? themeSettings.borderRadius : ThemeBackend.borderRadius
+    property int currentElementOpacity: themeSettings.elementOpacity !== undefined ? Number(themeSettings.elementOpacity) : 100
     property string currentPreset: themeSettings.activePreset !== undefined ? themeSettings.activePreset : "Matugen"
     property bool useMatugen: themeSettings.matugen !== undefined ? themeSettings.matugen : true
 
@@ -173,6 +175,15 @@ Item {
         repeat: false
         onTriggered: {
             themeTabRoot.updateBorderRadiusSetting();
+        }
+    }
+
+    Timer {
+        id: elementOpacityDebounceTimer
+        interval: 100
+        repeat: false
+        onTriggered: {
+            themeTabRoot.updateElementOpacitySetting();
         }
     }
 
@@ -505,6 +516,7 @@ Item {
             let ts = Config.getSetting("theme", themeTabRoot.defaultThemeSettings);
             themeTabRoot.currentFontFamily = ts.fontFamily !== undefined ? ts.fontFamily : ThemeBackend.fontFamily;
             themeTabRoot.currentBorderRadius = ts.borderRadius !== undefined ? ts.borderRadius : ThemeBackend.borderRadius;
+            themeTabRoot.currentElementOpacity = ts.elementOpacity !== undefined ? Number(ts.elementOpacity) : 100;
             themeTabRoot.currentPreset = ts.activePreset !== undefined ? ts.activePreset : "Matugen";
             themeTabRoot.useMatugen = ts.matugen !== undefined ? ts.matugen : true;
             themeTabRoot.themeSettings = ts;
@@ -533,6 +545,12 @@ Item {
         if (typeof ThemeBackend !== "undefined") {
             ThemeBackend.reloadColors();
         }
+    }
+
+    function updateElementOpacitySetting() {
+        let current = Config.getSetting("theme", themeTabRoot.defaultThemeSettings);
+        current.elementOpacity = themeTabRoot.currentElementOpacity;
+        Config.setSetting("theme", current);
     }
 
     function applyPreset(modelData) {
@@ -1405,6 +1423,46 @@ Item {
                         }
                     }
                 }
+
+                SettingsRow {
+                    rootObj: themeTabRoot.rootObj
+                    settingId: "element_opacity"
+                    icon: "󰃟"
+                    title: I18n.t("guide.theme.element_opacity.title", "Element opacity")
+                    description: I18n.t("guide.theme.element_opacity.desc", "Opacity of the bar, dock, widgets and every other shell element")
+                    searchKeywords: "element opacity transparency transparent translucent alpha bar dock widgets"
+
+                    Draggable {
+                        id: elementOpacitySlider
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        Layout.rightMargin: rootObj.s(8)
+                        implicitWidth: rootObj.s(220)
+                        implicitHeight: rootObj.s(18)
+                        from: 20
+                        to: 100
+                        stepSize: 1
+                        defaultValue: 100
+                        showValueBubble: true
+                        valueFormatter: function(v) { return Math.round(v) + "%" }
+                        value: themeTabRoot.currentElementOpacity
+                        backgroundColor: ThemeBackend.surface0
+                        accentColor: ThemeBackend.mauve
+                        handleColor: ThemeBackend.text
+                        handleBorderColor: ThemeBackend.mantle
+                        onMoved: function(val) {
+                            let rounded = Math.round(val);
+                            if (themeTabRoot.currentElementOpacity !== rounded) {
+                                themeTabRoot.currentElementOpacity = rounded;
+                                elementOpacityDebounceTimer.restart();
+                            }
+                        }
+                        onDragFinished: {
+                            elementOpacityDebounceTimer.stop();
+                            themeTabRoot.updateElementOpacitySetting();
+                        }
+                    }
+                }
+
             }
 
             Rectangle {
