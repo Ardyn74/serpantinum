@@ -196,7 +196,8 @@ Flickable {
                                     anchors.fill: parent
                                     radius: parent.radius
                                     tintColor: directItemRow.isSelected ? ThemeBackend.mauve : ThemeBackend.surface0
-                                    tintAmount: directItemRow.isSelected ? 0.5 : 0.25
+                                    tintAmount: directItemRow.isSelected ? 0.85 : 0.25
+                                    tintStrength: directItemRow.isSelected ? 1.0 : 0.5
                                     press: directItemMa.pressed ? 0.8 : (directItemMa.containsMouse ? 0.2 : 0)
                                 }
 
@@ -405,7 +406,8 @@ Flickable {
                                                     anchors.fill: parent
                                                     radius: parent.radius
                                                     tintColor: subItemRow.isSelected ? ThemeBackend.mauve : ThemeBackend.surface0
-                                                    tintAmount: subItemRow.isSelected ? 0.5 : 0.25
+                                                    tintAmount: subItemRow.isSelected ? 0.85 : 0.25
+                                                    tintStrength: subItemRow.isSelected ? 1.0 : 0.5
                                                     press: subItemMa.pressed ? 0.8 : (subItemMa.containsMouse ? 0.2 : 0)
                                                 }
 
