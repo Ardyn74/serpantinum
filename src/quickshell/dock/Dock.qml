@@ -1267,10 +1267,18 @@ Variants {
 
                 Item {
                     id: dockMaskArea
-                    x: dockContainer.x - (dockContainer.isAttached && !dockWindow.isVertical ? dockWindow.outerCornerRadius : 0) + dockTransform.x - dockWindow.hoverExpansion
-                    y: dockContainer.y - (dockContainer.isAttached && dockWindow.isVertical ? dockWindow.outerCornerRadius : 0) + dockTransform.y - dockWindow.hoverExpansion
-                    width: dockContainer.width + (dockContainer.isAttached && !dockWindow.isVertical ? dockWindow.outerCornerRadius * 2 : 0) + dockWindow.hoverExpansion * 2
-                    height: dockContainer.height + (dockContainer.isAttached && dockWindow.isVertical ? dockWindow.outerCornerRadius * 2 : 0) + dockWindow.hoverExpansion * 2
+                    readonly property real rawX: dockContainer.x - (dockContainer.isAttached && !dockWindow.isVertical ? dockWindow.outerCornerRadius : 0) + dockTransform.x - dockWindow.hoverExpansion
+                    readonly property real rawY: dockContainer.y - (dockContainer.isAttached && dockWindow.isVertical ? dockWindow.outerCornerRadius : 0) + dockTransform.y - dockWindow.hoverExpansion
+                    readonly property real rawW: dockContainer.width + (dockContainer.isAttached && !dockWindow.isVertical ? dockWindow.outerCornerRadius * 2 : 0) + dockWindow.hoverExpansion * 2
+                    readonly property real rawH: dockContainer.height + (dockContainer.isAttached && dockWindow.isVertical ? dockWindow.outerCornerRadius * 2 : 0) + dockWindow.hoverExpansion * 2
+                    readonly property real minX: (dockWindow.sameSideAsBar && dockWindow.dockPosition === "left") ? dockWindow.barOffset : 0
+                    readonly property real maxX: dockWindow.effectiveWindowWidth - ((dockWindow.sameSideAsBar && dockWindow.dockPosition === "right") ? dockWindow.barOffset : 0)
+                    readonly property real minY: (dockWindow.sameSideAsBar && dockWindow.dockPosition === "top") ? dockWindow.barOffset : 0
+                    readonly property real maxY: dockWindow.effectiveWindowHeight - ((dockWindow.sameSideAsBar && dockWindow.dockPosition === "bottom") ? dockWindow.barOffset : 0)
+                    x: Math.max(rawX, minX)
+                    y: Math.max(rawY, minY)
+                    width: Math.max(0, Math.min(rawX + rawW, maxX) - x)
+                    height: Math.max(0, Math.min(rawY + rawH, maxY) - y)
                 }
 
                 Item {
