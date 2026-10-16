@@ -109,12 +109,14 @@ void main() {
     float om = 1.0 - u;
     float om4 = om * om * om * om;
     float slope = min((om * om * om) / pow(max(1.0 - om4, 1e-3), 0.75), 7.0);
-    vec3 normal = normalize(vec3(g * slope, 1.0));
-
     vec2 toCursor = cursor - itemSize * 0.5 - p;
     float cd = length(toCursor);
     float reach = max(40.0, min(itemSize.x, itemSize.y) * 0.6);
     float near = hover * exp(-cd * cd / (2.0 * reach * reach));
+    float sigma = reach * 0.5;
+    float bulgeH = hover * exp(-cd * cd / (2.0 * sigma * sigma)) * 0.35 * thickness * (1.0 - 0.5 * nest);
+    vec2 bulge = bulgeH * toCursor / (sigma * sigma);
+    vec3 normal = normalize(vec3(g * slope - bulge, 1.0));
     float th = thickness * 1.35 * (1.0 + 0.12 * near + 0.5 * energy);
 
     vec2 dG = displacement(normal, ior, th);
