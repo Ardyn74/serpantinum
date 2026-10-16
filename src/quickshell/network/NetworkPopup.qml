@@ -1628,6 +1628,15 @@ Item {
                 }
 
                 property real beamCount: Math.min(8.0, activeBeams.length)
+                property real coreRadius: {
+                    var _tick = window.globalOrbitAngle;
+                    var r = 0;
+                    for (var i = 0; i < coreLayer.repeater.count; i++) {
+                        var cItem = coreLayer.repeater.itemAt(i);
+                        if (cItem && cItem.activeTransition > 0.01) r = Math.max(r, cItem.width * cItem.scale / 2);
+                    }
+                    return r;
+                }
                 property vector4d beam0: activeBeams.length > 0 ? activeBeams[0] : Qt.vector4d(-1, -1, -1, -1)
                 property vector4d beam1: activeBeams.length > 1 ? activeBeams[1] : Qt.vector4d(-1, -1, -1, -1)
                 property vector4d beam2: activeBeams.length > 2 ? activeBeams[2] : Qt.vector4d(-1, -1, -1, -1)
@@ -1638,16 +1647,6 @@ Item {
                 property vector4d beam7: activeBeams.length > 7 ? activeBeams[7] : Qt.vector4d(-1, -1, -1, -1)
 
                 fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/vfx/node_beams.frag.qsb"
-
-                layer.enabled: visible
-                layer.smooth: true
-                layer.effect: MultiEffect {
-                    maskEnabled: true
-                    maskInverted: true
-                    maskSource: coreLayer.cutoutMask
-                    maskThresholdMin: 0.5
-                    maskSpreadAtMin: 1.0
-                }
             }
 
             NetworkCoreLayer {

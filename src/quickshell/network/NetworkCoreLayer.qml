@@ -17,14 +17,6 @@ Item {
     anchors.fill: parent
     anchors.bottomMargin: window.s(65)
     z: 1
-    property alias cutoutMask: cutoutMaskItem
-
-    Item {
-        id: cutoutMaskItem
-        anchors.fill: parent
-        visible: false
-        layer.enabled: true
-    }
 
     Repeater {
         id: coreRepeater
@@ -34,18 +26,6 @@ Item {
             id: coreContainer
 
             property var myDevice: window.currentCores[index]
-
-            Rectangle {
-                parent: orbitContainer.cutoutMask
-                readonly property real diameter: coreContainer.width * coreContainer.scale
-                visible: coreContainer.visible && coreContainer.activeTransition > 0.01
-                width: diameter
-                height: diameter
-                radius: diameter / 2
-                x: coreContainer.x + coreContainer.width / 2 - diameter / 2
-                y: coreContainer.y + coreContainer.height / 2 - diameter / 2
-                color: "white"
-            }
 
             property bool isPrimary: index === 0
             property bool hasDevice: myDevice !== null

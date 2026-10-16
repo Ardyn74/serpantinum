@@ -11,6 +11,7 @@ layout(std140, binding = 0) uniform buf {
     float strikeProg;
     float scale;
     float beamCount;
+    float coreRadius;
     vec4 activeColor;
     vec4 beam0;
     vec4 beam1;
@@ -45,6 +46,18 @@ void main() {
     float sc = scale > 0.0 ? scale : 1.0;
     float reachFactor = min(1.0, strikeProg * 1.15);
     int totalBeams = int(clamp(beamCount, 0.0, 8.0));
+
+    float cutAlpha = 1.0;
+    for (int c = 0; c < 8; ++c) {
+        if (c >= totalBeams) break;
+        vec4 cb = getBeam(c);
+        if (cb.x < 0.0) continue;
+        cutAlpha *= smoothstep(coreRadius - 0.75, coreRadius + 0.75, length(p - cb.xy));
+    }
+    if (cutAlpha <= 0.0) {
+        fragColor = vec4(0.0);
+        return;
+    }
 
     vec4 accum = vec4(0.0);
 
@@ -129,5 +142,5 @@ void main() {
         accum = beam + accum * (1.0 - beam.a);
     }
 
-    fragColor = accum * qt_Opacity;
+    fragColor = accum * (qt_Opacity * cutAlpha);
 }
