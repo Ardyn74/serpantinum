@@ -1229,10 +1229,10 @@ PanelWindow {
             anchors.fill: parent
             radius: container.dynamicCornerRadius
             readonly property bool flatCorners: ThemeBackend.liquidGlass && !launcherWindow.isCentered
-            topLeftRadius: (flatCorners && (launcherWindow.attachEdge === "top" || launcherWindow.attachEdge === "left")) ? 0 : -1
-            topRightRadius: (flatCorners && (launcherWindow.attachEdge === "top" || launcherWindow.attachEdge === "right")) ? 0 : -1
-            bottomLeftRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "left")) ? 0 : -1
-            bottomRightRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "right")) ? 0 : -1
+            topLeftRadius: (flatCorners && (launcherWindow.attachEdge === "top" || launcherWindow.attachEdge === "left")) ? 0 : container.dynamicCornerRadius
+            topRightRadius: (flatCorners && (launcherWindow.attachEdge === "top" || launcherWindow.attachEdge === "right")) ? 0 : container.dynamicCornerRadius
+            bottomLeftRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "left")) ? 0 : container.dynamicCornerRadius
+            bottomRightRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "right")) ? 0 : container.dynamicCornerRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             border.width: 0
             border.color: launcherWindow.isCentered ? Qt.alpha(ThemeBackend.surface2, 0.6) : "transparent"
@@ -1241,10 +1241,10 @@ PanelWindow {
             WallpaperBlur {
                 z: -1
                 anchors.fill: parent
-                topLeftRadius: parent.topLeftRadius >= 0 ? parent.topLeftRadius : parent.radius
-                topRightRadius: parent.topRightRadius >= 0 ? parent.topRightRadius : parent.radius
-                bottomLeftRadius: parent.bottomLeftRadius >= 0 ? parent.bottomLeftRadius : parent.radius
-                bottomRightRadius: parent.bottomRightRadius >= 0 ? parent.bottomRightRadius : parent.radius
+                topLeftRadius: parent.topLeftRadius
+                topRightRadius: parent.topRightRadius
+                bottomLeftRadius: parent.bottomLeftRadius
+                bottomRightRadius: parent.bottomRightRadius
             }
 
             Rectangle {

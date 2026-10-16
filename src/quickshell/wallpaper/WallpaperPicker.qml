@@ -1834,6 +1834,7 @@ Item {
                         }
 
                         IconButton {
+                            glassShadow: 0
                             id: videoActionButton
                             visible: delegateRoot.isVideo
                             anchors.centerIn: parent ? parent : undefined
@@ -1886,10 +1887,9 @@ Item {
                 property real paddingLeft: window.showSpinner ? window.s(36) : window.s(12)
                 property real targetWidth: window.showNotification ? Math.min(notifTextDrawer.implicitWidth + paddingLeft + window.s(16), window.s(300)) : 0
                 width: targetWidth; visible: width > 0.1; radius: ThemeBackend.borderRadius; clip: true; anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity); border.color: ThemeBackend.surface1; border.width: 1
+                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity); border.width: 0
                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
                 Behavior on color { ColorAnimation { duration: 200 } }
-                Behavior on border.color { ColorAnimation { duration: 200 } }
 
                 Item {
                     visible: window.showSpinner
@@ -1926,6 +1926,7 @@ Item {
                 Behavior on border.color { ColorAnimation { duration: 200 } }
 
                 CanvasIconButton {
+                    glassShadow: 0
                     id: monitorToggleBtn
                     size: window.s(34)
                     cornerRadius: window.s(10)
@@ -1989,6 +1990,7 @@ Item {
                     height: window.s(34); anchors.verticalCenter: parent ? parent.verticalCenter : undefined
 
                     CanvasIconButton {
+                        glassShadow: 0
                         visible: modelData.name === "All"
                         anchors.fill: parent
                         size: window.s(34)
@@ -2010,6 +2012,7 @@ Item {
                     }
 
                     CanvasIconButton {
+                        glassShadow: 0
                         visible: modelData.name === "History"
                         anchors.fill: parent
                         size: window.s(34)
@@ -2037,6 +2040,7 @@ Item {
                     }
 
                     CanvasIconButton {
+                        glassShadow: 0
                         visible: modelData.name === "Video"
                         anchors.fill: parent
                         size: window.s(34)
@@ -2064,11 +2068,9 @@ Item {
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
                         color: Qt.alpha(window.currentFilter === modelData.name ? ThemeBackend.surface2 : (filterMouse.containsMouse ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
-                        border.color: window.currentFilter === modelData.name ? ThemeBackend.text : ThemeBackend.surface1
-                        border.width: window.currentFilter === modelData.name ? window.s(1.5) : 1
+                        border.width: 0
                         scale: window.currentFilter === modelData.name ? 1.05 : (filterMouse.containsMouse ? 1.03 : 1.0)
                         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
-                        Behavior on border.color { ColorAnimation { duration: 200 } }
                         Behavior on color { ColorAnimation { duration: 200 } }
 
                         Text {
@@ -2097,11 +2099,9 @@ Item {
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
                         color: modelData.hex
-                        border.color: window.currentFilter === modelData.name ? ThemeBackend.text : ThemeBackend.surface1
-                        border.width: window.currentFilter === modelData.name ? window.s(1.5) : 1
+                        border.width: 0
                         scale: window.currentFilter === modelData.name ? 1.05 : (colorMouse.containsMouse ? 1.03 : 1.0)
                         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
-                        Behavior on border.color { ColorAnimation { duration: 200 } }
 
                         MouseArea {
                             id: colorMouse
@@ -2126,6 +2126,7 @@ Item {
                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
                 CanvasIconButton {
+                    glassShadow: 0
                     id: searchControlBtn
                     anchors.centerIn: parent
                     size: window.s(34)
@@ -2170,6 +2171,7 @@ Item {
                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
                 CanvasIconButton {
+                    glassShadow: 0
                     id: searchToggleBtn
                     size: window.s(34)
                     cornerRadius: window.s(10)
@@ -2237,6 +2239,7 @@ Item {
                 }
 
                 CanvasIconButton {
+                    glassShadow: 0
                     id: submitBtn
                     anchors.left: searchInput.right
                     anchors.leftMargin: window.s(6)

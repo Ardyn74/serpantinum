@@ -847,6 +847,7 @@ Item {
 
         Item {
             anchors.fill: parent
+            visible: !ThemeBackend.liquidGlass
 
             Shape {
                 id: maskRectOuter
@@ -949,7 +950,7 @@ Item {
         Rectangle {
             id: innerBg
             anchors.fill: parent
-            anchors.margins: root.s(3)
+            anchors.margins: ThemeBackend.liquidGlass ? 0 : root.s(3)
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             radius: ThemeBackend.borderRadius
 

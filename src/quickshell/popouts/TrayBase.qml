@@ -407,10 +407,10 @@ PanelWindow {
                 color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                 radius: trayMenuWindow.cornerRadius
                 readonly property bool flatCorners: ThemeBackend.liquidGlass && trayMenuWindow.isSolid
-                topLeftRadius: (flatCorners && (trayMenuWindow.isSideBar ? !trayMenuWindow.alignRight : !trayMenuWindow.alignBottom)) ? 0 : -1
-                topRightRadius: (flatCorners && (trayMenuWindow.isSideBar ? trayMenuWindow.alignRight : !trayMenuWindow.alignBottom)) ? 0 : -1
-                bottomLeftRadius: (flatCorners && (trayMenuWindow.isSideBar ? !trayMenuWindow.alignRight : trayMenuWindow.alignBottom)) ? 0 : -1
-                bottomRightRadius: (flatCorners && (trayMenuWindow.isSideBar ? trayMenuWindow.alignRight : trayMenuWindow.alignBottom)) ? 0 : -1
+                topLeftRadius: (flatCorners && (trayMenuWindow.isSideBar ? !trayMenuWindow.alignRight : !trayMenuWindow.alignBottom)) ? 0 : trayMenuWindow.cornerRadius
+                topRightRadius: (flatCorners && (trayMenuWindow.isSideBar ? trayMenuWindow.alignRight : !trayMenuWindow.alignBottom)) ? 0 : trayMenuWindow.cornerRadius
+                bottomLeftRadius: (flatCorners && (trayMenuWindow.isSideBar ? !trayMenuWindow.alignRight : trayMenuWindow.alignBottom)) ? 0 : trayMenuWindow.cornerRadius
+                bottomRightRadius: (flatCorners && (trayMenuWindow.isSideBar ? trayMenuWindow.alignRight : trayMenuWindow.alignBottom)) ? 0 : trayMenuWindow.cornerRadius
                 border.width: 0
                 border.color: "transparent"
                 clip: true
@@ -735,10 +735,10 @@ PanelWindow {
                     anchors.fill: parent
                     color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
                     radius: trayMenuWindow.cornerRadius
-                    topLeftRadius: (ThemeBackend.liquidGlass && submenuPopout.expandRight) ? 0 : -1
-                    bottomLeftRadius: (ThemeBackend.liquidGlass && submenuPopout.expandRight) ? 0 : -1
-                    topRightRadius: (ThemeBackend.liquidGlass && !submenuPopout.expandRight) ? 0 : -1
-                    bottomRightRadius: (ThemeBackend.liquidGlass && !submenuPopout.expandRight) ? 0 : -1
+                    topLeftRadius: (ThemeBackend.liquidGlass && submenuPopout.expandRight) ? 0 : trayMenuWindow.cornerRadius
+                    bottomLeftRadius: (ThemeBackend.liquidGlass && submenuPopout.expandRight) ? 0 : trayMenuWindow.cornerRadius
+                    topRightRadius: (ThemeBackend.liquidGlass && !submenuPopout.expandRight) ? 0 : trayMenuWindow.cornerRadius
+                    bottomRightRadius: (ThemeBackend.liquidGlass && !submenuPopout.expandRight) ? 0 : trayMenuWindow.cornerRadius
                     border.width: 0
                     border.color: "transparent"
                     clip: true
