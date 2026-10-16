@@ -1638,6 +1638,47 @@ Item {
                 property vector4d beam7: activeBeams.length > 7 ? activeBeams[7] : Qt.vector4d(-1, -1, -1, -1)
 
                 fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/vfx/node_beams.frag.qsb"
+
+                layer.enabled: visible
+                layer.smooth: true
+                layer.effect: MultiEffect {
+                    maskEnabled: true
+                    maskInverted: true
+                    maskSource: coreCutoutMask
+                    maskThresholdMin: 0.5
+                    maskSpreadAtMin: 1.0
+                }
+            }
+
+            Item {
+                id: coreCutoutMask
+                anchors.fill: parent
+                anchors.bottomMargin: window.s(65)
+                visible: false
+                layer.enabled: nodeLinesCanvas.visible
+
+                property int coreRev: 0
+
+                Connections {
+                    target: coreLayer.repeater
+                    function onItemAdded() { coreCutoutMask.coreRev++; }
+                }
+
+                Repeater {
+                    model: 5
+                    delegate: Rectangle {
+                        required property int index
+                        readonly property Item core: (coreCutoutMask.coreRev, coreLayer.repeater.itemAt(index))
+                        readonly property real diameter: core ? core.width * core.scale : 0
+                        visible: core !== null && core.visible && core.activeTransition > 0.01
+                        width: diameter
+                        height: diameter
+                        radius: diameter / 2
+                        x: core ? core.x + core.width / 2 - diameter / 2 : 0
+                        y: core ? core.y + core.height / 2 - diameter / 2 : 0
+                        color: "white"
+                    }
+                }
             }
 
             NetworkCoreLayer {
