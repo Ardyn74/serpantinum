@@ -579,7 +579,7 @@ Item {
                         id: noteDelegateWrapper
                         width: notesListView.width
 
-                        readonly property bool isSelected: root.isSelected(modelData.id)
+                        readonly property bool isSelected: root && modelData ? root.isSelected(modelData.id) : false
                         readonly property bool isTargetNote: root.editingNoteId === modelData.id
                         property real relativeUpdateTracker: root.currentTimeTicker
 
