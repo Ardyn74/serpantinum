@@ -1522,9 +1522,9 @@ PanelWindow {
                         GlassFill {
                             anchors.fill: parent
                             radius: morphHighlight.radius
-                            forceClear: true
+                            forceOpaque: true
                             tintColor: ThemeBackend.text
-                            tintAmount: 0.1
+                            tintAmount: 0
                             tintStrength: 1.0
                             press: 0.6
                         }
@@ -1974,10 +1974,10 @@ PanelWindow {
                                         id: emojiGlass
                                         anchors.fill: parent
                                         radius: parent.radius
-                                        forceClear: emojiDelegateRoot.isSelected
+                                        forceOpaque: emojiDelegateRoot.isSelected
                                         tintColor: emojiDelegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.surface0
                                         tintStrength: emojiDelegateRoot.isSelected ? 1.0 : 0.5
-                                        tintAmount: emojiDelegateRoot.isSelected ? 0.1 : 0.25
+                                        tintAmount: emojiDelegateRoot.isSelected ? 0 : 0.25
                                         press: emojiMa.pressed ? 0.8 : (emojiDelegateRoot.isSelected ? 0.6 : (emojiMa.containsMouse ? 0.25 : 0))
                                     }
                                     border.color: emojiDelegateRoot.isSelected ? "transparent" : Qt.alpha(ThemeBackend.surface2, 0.3)

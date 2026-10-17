@@ -26,6 +26,7 @@ Item {
     readonly property bool isGlassFill: true
     property bool allowed: true
     property bool forceClear: false
+    property bool forceOpaque: false
     property bool followBackdropHover: true
     property int nestLevel: 0
     readonly property real nest: Math.min(1, nestLevel * 0.5)
@@ -227,7 +228,7 @@ Item {
         shadowAmt: root.shadow * (1 - 0.6 * root.nest)
         nest: root.nest
         morph: 1
-        clear: (root.forceClear || root.nestLevel >= 1) ? 1 : 0
+        clear: root.forceOpaque ? 0 : ((root.forceClear || root.nestLevel >= 1) ? 1 : 0)
         energy: Math.min(1, root.press + root.pulse)
         motion: root.motion
         visible: root.active
