@@ -42,7 +42,7 @@ Item {
             Loader {
                 id: singleTabLoader
                 anchors.fill: parent
-                asynchronous: false
+                asynchronous: true
                 active: !tabContentWrapper.hasSubtabs
                 visible: !tabContentWrapper.hasSubtabs && tabContentWrapper.visible
                 property int tabIndex: tabContentWrapper.parentTabIndex
@@ -79,8 +79,8 @@ Item {
                     function onCurrentTabChanged() {
                         if (popup.currentTab === tabContentWrapper.parentTabIndex && !tabContentWrapper.hasSubtabs) singleTabLoader.ensureLoaded();
                     }
-                    function onRequestLoadAll() {
-                        singleTabLoader.ensureLoaded();
+                    function onRequestLoad(order) {
+                        if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, -1)) singleTabLoader.ensureLoaded();
                     }
                 }
 
@@ -103,7 +103,7 @@ Item {
                 delegate: Loader {
                     id: subTabLoader
                     anchors.fill: parent
-                    asynchronous: false
+                    asynchronous: true
                     property int subIndex: index
                     property int tabIndex: tabContentWrapper.parentTabIndex
                     property int subTabIndex: subIndex
@@ -162,8 +162,8 @@ Item {
                         function onCurrentSubTabChanged() {
                             if (popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
                         }
-                        function onRequestLoadAll() {
-                            subTabLoader.ensureLoaded();
+                        function onRequestLoad(order) {
+                            if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, subIndex)) subTabLoader.ensureLoaded();
                         }
                     }
 

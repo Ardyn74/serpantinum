@@ -16,7 +16,8 @@ Rectangle {
     x: I18n.rtl ? (parent.width - width) : 0
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    width: popup.searchActive ? popup.s(340) : popup.s(260)
+    readonly property real targetWidth: popup.searchActive ? popup.s(340) : popup.s(260)
+    width: targetWidth
     
     topLeftRadius: !I18n.rtl ? ThemeBackend.clampedBorderRadius : 0
     bottomLeftRadius: !I18n.rtl ? ThemeBackend.clampedBorderRadius : 0
