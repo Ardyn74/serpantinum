@@ -566,6 +566,26 @@
       "thickness": {
         "title": "Çubuk kalınlığı",
         "desc": "Çubuğun kalınlığını değiştirin, modüller buna uyum sağlar"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "Ayarlar simgesini göster",
+          "desc": "Ayarları açan düğmeyi gösterir"
+        },
+        "show_launcher": {
+          "title": "Başlatıcı simgesini göster",
+          "desc": "Başlatıcıyı açan arama düğmesini gösterir"
+        },
+        "style": {
+          "title": "Stil",
+          "desc": "Menü modülünün görünümünü seçin",
+          "name": {
+            "button": "Düğme",
+            "icon": "Simge"
+          },
+          "button": "Arka planlı etkileşimli simge düğmeleri",
+          "icon": "Arka plansız sade simgeler"
+        }
       }
     },
     "theme": {

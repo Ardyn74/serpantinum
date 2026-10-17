@@ -567,6 +567,26 @@
       "thickness": {
         "title": "Grosor de la barra",
         "desc": "Cambia el grosor de la barra, los módulos se ajustan"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "Mostrar icono de ajustes",
+          "desc": "Muestra el botón que abre los ajustes"
+        },
+        "show_launcher": {
+          "title": "Mostrar icono del lanzador",
+          "desc": "Muestra el botón de búsqueda que abre el lanzador"
+        },
+        "style": {
+          "title": "Estilo",
+          "desc": "Elige la apariencia visual del módulo de menú",
+          "name": {
+            "button": "Botón",
+            "icon": "Icono"
+          },
+          "button": "Botones de icono interactivos con fondo",
+          "icon": "Iconos limpios sin fondo"
+        }
       }
     },
     "theme": {

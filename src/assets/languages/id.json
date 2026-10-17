@@ -566,6 +566,26 @@
       "thickness": {
         "title": "Ketebalan bar",
         "desc": "Ubah ketebalan bar, modul menyesuaikan"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "Tampilkan ikon pengaturan",
+          "desc": "Menampilkan tombol yang membuka pengaturan"
+        },
+        "show_launcher": {
+          "title": "Tampilkan ikon peluncur",
+          "desc": "Menampilkan tombol pencarian yang membuka peluncur"
+        },
+        "style": {
+          "title": "Gaya",
+          "desc": "Pilih tampilan visual modul menu",
+          "name": {
+            "button": "Tombol",
+            "icon": "Ikon"
+          },
+          "button": "Tombol ikon interaktif dengan latar belakang",
+          "icon": "Ikon bersih tanpa latar belakang"
+        }
       }
     },
     "theme": {

@@ -566,6 +566,26 @@
       "thickness": {
         "title": "栏厚度",
         "desc": "更改栏的厚度，模块会随之调整"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "显示设置图标",
+          "desc": "显示打开设置的按钮"
+        },
+        "show_launcher": {
+          "title": "显示启动器图标",
+          "desc": "显示打开启动器的搜索按钮"
+        },
+        "style": {
+          "title": "样式",
+          "desc": "选择菜单模块的外观",
+          "name": {
+            "button": "按钮",
+            "icon": "图标"
+          },
+          "button": "带背景的交互式图标按钮",
+          "icon": "无背景的简洁图标"
+        }
       }
     },
     "theme": {

@@ -566,6 +566,26 @@
       "thickness": {
         "title": "列厚度",
         "desc": "變更列的厚度，模組會隨之調整"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "顯示設定圖示",
+          "desc": "顯示開啟設定的按鈕"
+        },
+        "show_launcher": {
+          "title": "顯示啟動器圖示",
+          "desc": "顯示開啟啟動器的搜尋按鈕"
+        },
+        "style": {
+          "title": "樣式",
+          "desc": "選擇選單模組的外觀",
+          "name": {
+            "button": "按鈕",
+            "icon": "圖示"
+          },
+          "button": "帶背景的互動式圖示按鈕",
+          "icon": "無背景的簡潔圖示"
+        }
       }
     },
     "theme": {

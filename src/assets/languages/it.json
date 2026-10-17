@@ -565,6 +565,26 @@
       "thickness": {
         "title": "Spessore della barra",
         "desc": "Cambia lo spessore della barra, i moduli si adattano"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "Mostra icona impostazioni",
+          "desc": "Mostra il pulsante che apre le impostazioni"
+        },
+        "show_launcher": {
+          "title": "Mostra icona del launcher",
+          "desc": "Mostra il pulsante di ricerca che apre il launcher"
+        },
+        "style": {
+          "title": "Stile",
+          "desc": "Scegli l'aspetto visivo del modulo menu",
+          "name": {
+            "button": "Pulsante",
+            "icon": "Icona"
+          },
+          "button": "Pulsanti con icona interattivi e sfondo",
+          "icon": "Icone pulite senza sfondo"
+        }
       }
     },
     "theme": {

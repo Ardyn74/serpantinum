@@ -564,6 +564,26 @@
       "thickness": {
         "title": "Panel qalınlığı",
         "desc": "Panelin qalınlığını dəyişin, modullar uyğunlaşacaq"
+      },
+      "menu": {
+        "show_settings": {
+          "title": "Ayarlar ikonunu göstər",
+          "desc": "Ayarları açan düyməni göstər"
+        },
+        "show_launcher": {
+          "title": "Başlatıcı ikonunu göstər",
+          "desc": "Başlatıcını açan axtarış düyməsini göstər"
+        },
+        "style": {
+          "title": "Stil",
+          "desc": "Menyu modulunun vizual görünüşünü seçin",
+          "name": {
+            "button": "Düymə",
+            "icon": "İkon"
+          },
+          "button": "Fonlu interaktiv ikon düymələri",
+          "icon": "Fonsuz təmiz ikonlar"
+        }
       }
     },
     "theme": {
