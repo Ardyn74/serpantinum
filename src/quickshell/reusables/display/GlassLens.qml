@@ -6,6 +6,7 @@ Item {
     id: root
 
     property bool shown: true
+    property bool instant: false
     property real targetX: 0
     property real targetY: 0
     property real targetWidth: 0
@@ -67,17 +68,27 @@ Item {
         rightAnim.stop();
         topAnim.stop();
         bottomAnim.stop();
-        actualLeft = targetX;
-        actualRight = targetX + targetWidth;
-        actualTop = targetY;
-        actualBottom = targetY + targetHeight;
+        if (targetX > actualLeft) {
+            actualRight = targetX + targetWidth;
+            actualLeft = targetX;
+        } else {
+            actualLeft = targetX;
+            actualRight = targetX + targetWidth;
+        }
+        if (targetY > actualTop) {
+            actualBottom = targetY + targetHeight;
+            actualTop = targetY;
+        } else {
+            actualTop = targetY;
+            actualBottom = targetY + targetHeight;
+        }
         lastCenterX = targetX + targetWidth / 2;
         lastCenterY = targetY + targetHeight / 2;
     }
 
     function sync() {
         if (!hasTarget) return;
-        if (!placed || !glass.active || settling) {
+        if (!placed || !glass.active || settling || instant) {
             snap();
             placed = true;
             return;
@@ -103,6 +114,7 @@ Item {
     onTargetWidthChanged: scheduleSync()
     onTargetHeightChanged: scheduleSync()
     onHasTargetChanged: scheduleSync()
+    onInstantChanged: if (instant) scheduleSync()
     Component.onCompleted: scheduleSync()
 
     Connections {

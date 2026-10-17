@@ -1478,6 +1478,11 @@ PanelWindow {
                         }
                     }
 
+                    HoverHandler {
+                        id: listHover
+                        enabled: appList.visible
+                    }
+
                     ListView {
                         id: appList
                         anchors.fill: parent
@@ -1509,7 +1514,39 @@ PanelWindow {
                             contentY = 0;
                         }
 
+                        property bool scrolling: false
+
+                        Timer {
+                            id: scrollSettleTimer
+                            interval: 200
+                            onTriggered: appList.scrolling = false
+                        }
+
+                        function refreshHover() {
+                            if (!listHover.hovered || !visible) {
+                                hoverItem = null;
+                                return;
+                            }
+                            const px = contentX + listHover.point.position.x;
+                            const py = contentY + listHover.point.position.y;
+                            const item = itemAt(px, py) || itemAt(px, py - spacing);
+                            hoverItem = (item && !item.isSelected) ? item : null;
+                        }
+
+                        onCountChanged: refreshHover()
+
+                        readonly property point cursorPos: listHover.point.position
+                        onCursorPosChanged: refreshHover()
+
+                        Connections {
+                            target: listHover
+                            function onHoveredChanged() { appList.refreshHover(); }
+                        }
+
                         onContentYChanged: {
+                            scrolling = true;
+                            scrollSettleTimer.restart();
+                            refreshHover();
                             if (contentY < 0 && !moving && !flicking) {
                                 contentY = 0;
                             }
@@ -1552,13 +1589,16 @@ PanelWindow {
                             if (currentIndex >= 0) {
                                 ensureVisible(currentIndex, launcherWindow.isKeyboardNav);
                             }
+                            refreshHover();
                         }
 
                         property Item hoverItem: null
 
                         GlassLens {
                             id: rowHoverLens
+                            parent: appList.contentItem
                             z: -1
+                            instant: appList.scrolling
                             targetX: appList.hoverItem ? appList.hoverItem.x : 0
                             targetY: appList.hoverItem ? appList.hoverItem.y : 0
                             targetWidth: appList.hoverItem ? appList.hoverItem.width : 0
@@ -1620,12 +1660,6 @@ PanelWindow {
 
                             property bool isSelected: index === appList.currentIndex
                             readonly property bool pressed: ma.pressed
-                            readonly property bool lensWanted: ma.containsMouse && !isSelected
-
-                            onLensWantedChanged: {
-                                if (lensWanted) appList.hoverItem = delegateRoot;
-                                else if (appList.hoverItem === delegateRoot) appList.hoverItem = null;
-                            }
                             Component.onDestruction: {
                                 if (appList.hoverItem === delegateRoot) appList.hoverItem = null;
                             }
