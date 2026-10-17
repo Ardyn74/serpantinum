@@ -26,6 +26,7 @@ layout(std140, binding = 0) uniform buf {
     float energy;
     float nest;
     float morph;
+    float motion;
 };
 
 layout(binding = 1) uniform sampler2D src;
@@ -83,6 +84,10 @@ vec3 blurredAt(vec2 p, float rad, float lod) {
     return acc / wsum;
 }
 
+vec3 spectrum(float x) {
+    return 0.5 + 0.5 * cos(6.2831853 * (x + vec3(0.0, 0.33, 0.67)));
+}
+
 vec2 displacement(vec3 normal, float index, float travel) {
     vec3 r = refract(vec3(0.0, 0.0, -1.0), normal, 1.0 / index);
     return r.xy / max(-r.z, 0.2) * travel;
@@ -116,20 +121,25 @@ void main() {
     float reach = max(40.0, min(itemSize.x, itemSize.y) * 0.6) * (1.0 + 0.4 * morph);
     float near = hover * exp(-cd * cd / (2.0 * reach * reach));
     float sigma = reach * 0.5;
-    float bulgeH = hover * exp(-cd * cd / (2.0 * sigma * sigma)) * 0.35 * (1.0 + 1.4 * morph) * thickness * (1.0 - 0.5 * nest);
+    float bulgeH = hover * exp(-cd * cd / (2.0 * sigma * sigma)) * 0.35 * (1.0 + 1.4 * morph + 1.2 * motion) * thickness * (1.0 - 0.5 * nest);
     vec2 bulge = bulgeH * toCursor / (sigma * sigma);
     vec3 normal = normalize(vec3(g * slope - bulge, 1.0));
-    float th = thickness * 1.35 * (1.0 + (0.12 + 0.3 * morph) * near + 0.5 * energy);
+    float th = thickness * 1.35 * (1.0 + (0.12 + 0.3 * morph) * near + 0.74 * energy + 0.64 * motion);
 
-    vec2 dG = displacement(normal, ior, th);
-    vec2 dR = dG * (1.0 + dispersion * 0.6);
-    vec2 dB = dG * (1.0 - dispersion * 0.6);
+    float edgeFall = om * om;
+    float wobble = sin(dot(p, vec2(0.11, 0.09)) + t * 0.35) * 0.5 + 0.5;
+    float warpK = 1.0 + 0.644 * motion + 0.368 * energy;
+    vec2 warp = (-g * edgeFall * bz * (0.294 + 0.11 * wobble) + vec2(-g.y, g.x) * edgeFall * bz * 0.092 * (wobble - 0.5)) * warpK;
+    vec2 dG = displacement(normal, ior, th) + warp;
+    float spread = dispersion * (0.6 + 2.02 * edgeFall) * (1.0 + 1.47 * motion + 0.55 * energy);
+    vec2 dR = dG * (1.0 + spread);
+    vec2 dB = dG * (1.0 - spread);
 
     float rad = frost * mix(0.45, 1.0, smoothstep(0.0, bz, t));
     vec2 glassSize = itemSize - 2.0 * glassPad;
     vec2 zq = p / max(glassSize * 0.5, vec2(1.0));
     float zr = clamp(length(zq), 0.0, 1.0);
-    float zoomAmt = 0.10 * clamp(energy, 0.0, 1.0);
+    float zoomAmt = 0.129 * clamp(energy, 0.0, 1.0) + 0.064 * motion;
     vec2 ps = vec2(p.x, p.y * (1.0 - 0.08 * 1.5)) * (1.0 - zoomAmt * (1.0 - zr * zr));
     vec2 follow = clamp((cursor - itemSize * 0.5) / max(itemSize * 0.5, vec2(1.0)), vec2(-1.0), vec2(1.0));
     ps -= follow * 6.0 * near * morph * (1.0 - zr * zr * 0.5);
@@ -156,6 +166,13 @@ void main() {
     float edgeHi = (hair * (0.18 + 0.78 * spec) + wide * 0.10 * (0.30 + spec)) * rim * (1.0 + 0.5 * near + 0.9 * energy);
     float mx = (t - bz * 0.5) / (bz * 0.2 + 1.0);
     float men = exp(-mx * mx) * 0.07 * (0.35 + spec) * rim;
+    vec3 fringe = vec3(0.0);
+    if (t < bz * 2.5) {
+        float fb = (t - bz * 0.42) / (bz * 0.22 + 1.0);
+        float fringeBand = exp(-fb * fb);
+        float fringePhase = dot(g, vec2(0.7, 0.45)) * 0.9 + t / (bz * 1.6) + 0.15 * dot(p, vec2(0.004, 0.003));
+        fringe = (spectrum(fringePhase) - 0.5) * fringeBand * (0.074 + 0.147 * spec) * rim * (1.0 + 1.1 * motion);
+    }
     float chroma = max(tintColor.r, max(tintColor.g, tintColor.b)) - min(tintColor.r, min(tintColor.g, tintColor.b));
     float neutralK = 1.0 - smoothstep(0.10, 0.18, chroma);
     vec3 tcol = mix(tintColor.rgb, vec3(0.5), neutralK);
@@ -164,6 +181,7 @@ void main() {
     float lift = mix(mix(0.07, 0.04, dark), mix(0.03, 0.02, dark), clear) * (1.0 - 0.85 * nest);
     float sheen = (1.0 - ty) * mix(0.03, 0.02, clear) * (1.0 - 0.8 * nest);
     vec3 light = vec3(edgeHi + men + sheen + near * 0.015 * rim + energy * 0.03);
+    light += fringe;
     light += vec3(lift) * mix(1.0, smoothstep(0.0, 1.0, length(dG) * 0.5), clear);
 
     float tA = clamp(tAmt * (0.7 + 0.6 * l), 0.0, 1.0);

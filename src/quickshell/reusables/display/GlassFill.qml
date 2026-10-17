@@ -133,6 +133,8 @@ Item {
         }
     }
     onActiveChanged: {
+        cursorPrimed = false;
+        rectPrimed = false;
         if (active) updateNest();
         register();
     }
@@ -147,7 +149,7 @@ Item {
     }
 
     property rect sampleRect: {
-        if (!root.backdrop) return Qt.rect(0, 0, 1, 1);
+        if (!root.active) return Qt.rect(0, 0, 1, 1);
         void root.backdrop.frame;
         const a = root.backdrop.mapFromItem(root, -root.pad, -root.pad);
         const b = root.backdrop.mapFromItem(root, root.width + root.pad, root.height + root.pad);
@@ -157,9 +159,65 @@ Item {
     }
 
     property point localCursor: {
-        if (!root.backdrop) return Qt.point(0, 0);
+        if (!root.active) return Qt.point(0, 0);
         const c = root.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
         return Qt.point(c.x + root.pad, c.y + root.pad);
+    }
+
+    property real motion: 0
+    property point lastCursor: Qt.point(0, 0)
+    property point lastCenter: Qt.point(0, 0)
+    property size lastSize: Qt.size(0, 0)
+    property bool cursorPrimed: false
+    property bool rectPrimed: false
+
+    function bump(distance) {
+        if (!root.active || distance < 0.05) return;
+        root.motion = Math.min(1, root.motion + distance / 36);
+        if (!motionDecay.running) motionDecay.start();
+    }
+
+    onLocalCursorChanged: {
+        if (!root.active) return;
+        const dx = localCursor.x - lastCursor.x;
+        const dy = localCursor.y - lastCursor.y;
+        lastCursor = localCursor;
+        if (!cursorPrimed) {
+            cursorPrimed = true;
+            return;
+        }
+        if (root.followBackdropHover && root.backdrop.hoverAmount > 0.05) bump(Math.min(60, Math.sqrt(dx * dx + dy * dy)));
+    }
+
+    onSampleRectChanged: {
+        if (!root.active) return;
+        const bw = root.backdrop.width;
+        const bh = root.backdrop.height;
+        const cx = (sampleRect.x + sampleRect.width * 0.5) * bw;
+        const cy = (sampleRect.y + sampleRect.height * 0.5) * bh;
+        const sw = sampleRect.width * bw;
+        const sh = sampleRect.height * bh;
+        const d = Math.abs(cx - lastCenter.x) + Math.abs(cy - lastCenter.y) + Math.abs(sw - lastSize.width) * 0.5 + Math.abs(sh - lastSize.height) * 0.5;
+        lastCenter = Qt.point(cx, cy);
+        lastSize = Qt.size(sw, sh);
+        if (!rectPrimed) {
+            rectPrimed = true;
+            return;
+        }
+        bump(Math.min(60, d));
+    }
+
+    Timer {
+        id: motionDecay
+        interval: 16
+        repeat: true
+        onTriggered: {
+            root.motion *= 0.91;
+            if (root.motion < 0.004) {
+                root.motion = 0;
+                stop();
+            }
+        }
     }
 
     LiquidGlass {
@@ -171,6 +229,7 @@ Item {
         morph: 1
         clear: (root.forceClear || root.nestLevel >= 1) ? 1 : 0
         energy: Math.min(1, root.press + root.pulse)
+        motion: root.motion
         visible: root.active
         src: root.backdrop ? root.backdrop.texture : null
         topLeftRadius: root.topLeftRadius
