@@ -1589,7 +1589,7 @@ PanelWindow {
                         Rectangle {
                             id: morphHighlight
                             parent: appList.contentItem
-                            z: 0
+                            z: -1
                             visible: opacity > 0.001
                             opacity: (appList.count > 0 && appList.currentIndex >= 0)
                                      ? launcherWindow.getItemOpacity(appList.currentIndex)
