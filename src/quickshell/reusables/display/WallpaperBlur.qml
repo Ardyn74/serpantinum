@@ -265,7 +265,7 @@ Item {
             visible: false
             source: root.liquid ? null : content
             autoPaddingEnabled: false
-            blurEnabled: true
+            blurEnabled: !root.liquid
             blurMax: 64
             blur: Math.min(1.0, root.blurStrength)
         }
@@ -282,7 +282,7 @@ Item {
         MultiEffect {
             anchors.fill: parent
             visible: !root.liquid && root.maskItem !== mask
-            source: blurCrop
+            source: visible ? blurCrop : null
             maskEnabled: true
             maskSource: root.maskItem
         }
