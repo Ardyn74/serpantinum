@@ -440,10 +440,18 @@ Item {
                                         Rectangle {
                                             anchors.fill: parent
                                             radius: rootObj.s(11)
-                                            color: ThemeBackend.base
-                                            border.width: 1
+                                            color: (ThemeBackend.liquidGlass && osdPreviewBlur.active) ? "transparent" : ThemeBackend.base
+                                            border.width: ThemeBackend.liquidGlass ? 0 : 1
                                             border.color: ThemeBackend.surface0
                                             clip: true
+
+                                            WallpaperBlur {
+                                                id: osdPreviewBlur
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                visible: ThemeBackend.liquidGlass
+                                            }
 
                                             RowLayout {
                                                 visible: !osdTabRoot.isVertical
@@ -452,55 +460,30 @@ Item {
                                                 anchors.rightMargin: rootObj.s(12)
                                                 spacing: rootObj.s(9)
 
-                                                Rectangle {
-                                                    Layout.preferredWidth: parent.height - rootObj.s(10)
-                                                    Layout.preferredHeight: parent.height - rootObj.s(10)
+                                                IconButton {
                                                     Layout.alignment: Qt.AlignVCenter
-                                                    radius: rootObj.s(7)
-                                                    color: ThemeBackend.surface1
-
-                                                    Text {
-                                                        anchors.centerIn: parent
-                                                        text: "󰕾"
-                                                        font.family: "Iosevka Nerd Font"
-                                                        font.pixelSize: rootObj.s(18)
-                                                        color: Qt.lighter(ThemeBackend.sapphire, 1.5)
-                                                    }
+                                                    size: parent.height - rootObj.s(10)
+                                                    cornerRadius: rootObj.s(8)
+                                                    buttonIcon: "󰕾"
+                                                    iconFontSize: rootObj.s(18)
+                                                    accentColor: ThemeBackend.surface1
+                                                    textColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
                                                 }
 
-                                                Item {
+                                                Draggable {
                                                     Layout.fillWidth: true
-                                                    Layout.fillHeight: true
-
-                                                    Rectangle {
-                                                        id: trackBar
-                                                        anchors.left: parent.left
-                                                        anchors.right: parent.right
-                                                        anchors.verticalCenter: parent.verticalCenter
-                                                        height: rootObj.s(9)
-                                                        radius: height / 2
-                                                        color: ThemeBackend.surface1
-
-                                                        Rectangle {
-                                                            anchors.left: parent.left
-                                                            anchors.top: parent.top
-                                                            anchors.bottom: parent.bottom
-                                                            width: parent.width * 0.65
-                                                            radius: parent.radius
-                                                            color: Qt.lighter(ThemeBackend.sapphire, 1.5)
-                                                        }
-
-                                                        Rectangle {
-                                                            x: (parent.width * 0.65) - (width / 2)
-                                                            anchors.verticalCenter: parent.verticalCenter
-                                                            width: rootObj.s(16)
-                                                            height: rootObj.s(16)
-                                                            radius: width / 2
-                                                            color: Qt.lighter(ThemeBackend.sapphire, 1.3)
-                                                            border.width: 1
-                                                            border.color: Qt.rgba(0, 0, 0, 0.25)
-                                                        }
-                                                    }
+                                                    Layout.preferredHeight: rootObj.s(18)
+                                                    Layout.alignment: Qt.AlignVCenter
+                                                    showValueBubble: false
+                                                    value: 65
+                                                    backgroundColor: ThemeBackend.surface1
+                                                    accentColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
+                                                    gradColor1: accentColor
+                                                    gradColor2: Qt.lighter(accentColor, 1.05)
+                                                    gradColor3: Qt.lighter(accentColor, 1.10)
+                                                    cornerRadius: rootObj.s(5)
+                                                    handleSize: rootObj.s(22)
+                                                    handleColor: Qt.lighter(accentColor, 1.15)
                                                 }
                                             }
 
@@ -511,54 +494,31 @@ Item {
                                                 anchors.bottomMargin: rootObj.s(12)
                                                 spacing: rootObj.s(9)
 
-                                                Rectangle {
-                                                    Layout.preferredWidth: parent.width - rootObj.s(10)
-                                                    Layout.preferredHeight: parent.width - rootObj.s(10)
+                                                IconButton {
                                                     Layout.alignment: Qt.AlignHCenter
-                                                    radius: rootObj.s(7)
-                                                    color: ThemeBackend.surface1
-
-                                                    Text {
-                                                        anchors.centerIn: parent
-                                                        text: "󰕾"
-                                                        font.family: "Iosevka Nerd Font"
-                                                        font.pixelSize: rootObj.s(18)
-                                                        color: Qt.lighter(ThemeBackend.sapphire, 1.5)
-                                                    }
+                                                    size: parent.width - rootObj.s(10)
+                                                    cornerRadius: rootObj.s(8)
+                                                    buttonIcon: "󰕾"
+                                                    iconFontSize: rootObj.s(18)
+                                                    accentColor: ThemeBackend.surface1
+                                                    textColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
                                                 }
 
-                                                Item {
-                                                    Layout.fillWidth: true
+                                                Draggable {
                                                     Layout.fillHeight: true
-
-                                                    Rectangle {
-                                                        anchors.top: parent.top
-                                                        anchors.bottom: parent.bottom
-                                                        anchors.horizontalCenter: parent.horizontalCenter
-                                                        width: rootObj.s(9)
-                                                        radius: width / 2
-                                                        color: ThemeBackend.surface1
-
-                                                        Rectangle {
-                                                            anchors.left: parent.left
-                                                            anchors.right: parent.right
-                                                            anchors.bottom: parent.bottom
-                                                            height: parent.height * 0.65
-                                                            radius: parent.radius
-                                                            color: Qt.lighter(ThemeBackend.sapphire, 1.5)
-                                                        }
-
-                                                        Rectangle {
-                                                            y: parent.height - (parent.height * 0.65) - (height / 2)
-                                                            anchors.horizontalCenter: parent.horizontalCenter
-                                                            width: rootObj.s(16)
-                                                            height: rootObj.s(16)
-                                                            radius: width / 2
-                                                            color: Qt.lighter(ThemeBackend.sapphire, 1.3)
-                                                            border.width: 1
-                                                            border.color: Qt.rgba(0, 0, 0, 0.25)
-                                                        }
-                                                    }
+                                                    Layout.preferredWidth: rootObj.s(16)
+                                                    Layout.alignment: Qt.AlignHCenter
+                                                    vertical: true
+                                                    showValueBubble: false
+                                                    value: 65
+                                                    backgroundColor: ThemeBackend.surface1
+                                                    accentColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
+                                                    gradColor1: accentColor
+                                                    gradColor2: Qt.lighter(accentColor, 1.05)
+                                                    gradColor3: Qt.lighter(accentColor, 1.10)
+                                                    cornerRadius: rootObj.s(5)
+                                                    handleSize: rootObj.s(22)
+                                                    handleColor: Qt.lighter(accentColor, 1.15)
                                                 }
                                             }
                                         }
