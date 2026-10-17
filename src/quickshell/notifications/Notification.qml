@@ -419,6 +419,8 @@ Rectangle {
             radius: visualItem.radius
             standalone: true
             surfaceEnabled: ThemeBackend.liquidGlass
+            screenOverride: (typeRoot.root && typeRoot.root.glassScreen) ? typeRoot.root.glassScreen : null
+            useSnapshot: !!(typeRoot.root && typeRoot.root.glassScreen)
         }
 
         Behavior on implicitHeight {

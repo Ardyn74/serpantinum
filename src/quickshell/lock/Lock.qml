@@ -508,6 +508,7 @@ Scope {
                         return Scaler.s(val);
                     }
 
+                    readonly property var glassScreen: surface.screen
                     property string safeScreenName: (surface.screen && surface.screen.name) ? surface.screen.name : (surface.output && surface.output.name ? surface.output.name : "")
                     property string wallpaperSource: {
                         let cacheDir = Caching.getCacheDir("wallpaper");
@@ -1715,6 +1716,16 @@ Scope {
                                 visible: opacity > 0.01
                                 Behavior on opacity { NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
 
+                                WallpaperBlur {
+                                    z: -1
+                                    anchors.fill: powerControlToggle
+                                    radius: ThemeBackend.borderRadius
+                                    screenOverride: surface.screen
+                                    useSnapshot: true
+                                    standalone: true
+                                    surfaceEnabled: ThemeBackend.liquidGlass
+                                }
+
                                 IconButton {
                                     id: powerControlToggle
                                     anchors.right: parent.right
@@ -2114,7 +2125,15 @@ Scope {
                                             Layout.preferredHeight: screenRoot.s(26)
                                             Layout.preferredWidth: screenRoot.s(108)
                                             radius: screenRoot.s(13)
-                                            color: Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5)
+                                            color: lockNetGlassA.active ? "transparent" : Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5)
+
+                                            GlassFill {
+                                                id: lockNetGlassA
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                tintColor: ThemeBackend.surface1
+                                                tintAmount: 0.3
+                                            }
 
                                             RowLayout {
                                                 anchors.fill: parent
@@ -2146,7 +2165,15 @@ Scope {
                                             Layout.preferredHeight: screenRoot.s(26)
                                             Layout.preferredWidth: screenRoot.s(108)
                                             radius: screenRoot.s(13)
-                                            color: Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5)
+                                            color: lockNetGlassB.active ? "transparent" : Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5)
+
+                                            GlassFill {
+                                                id: lockNetGlassB
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                tintColor: ThemeBackend.surface1
+                                                tintAmount: 0.3
+                                            }
 
                                             RowLayout {
                                                 anchors.fill: parent
