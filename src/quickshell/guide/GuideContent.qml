@@ -42,7 +42,7 @@ Item {
             Loader {
                 id: singleTabLoader
                 anchors.fill: parent
-                asynchronous: true
+                asynchronous: false
                 active: !tabContentWrapper.hasSubtabs
                 visible: !tabContentWrapper.hasSubtabs && tabContentWrapper.visible
                 property int tabIndex: tabContentWrapper.parentTabIndex
@@ -103,7 +103,7 @@ Item {
                 delegate: Loader {
                     id: subTabLoader
                     anchors.fill: parent
-                    asynchronous: true
+                    asynchronous: false
                     property int subIndex: index
                     property int tabIndex: tabContentWrapper.parentTabIndex
                     property int subTabIndex: subIndex
