@@ -32,6 +32,7 @@ Item {
     property real popScale: 1.0
     readonly property bool glassActive: baseGlass.active
 
+    property int itemsRevision: 0
     property real maxNeededWidth: 0
     property real totalNeededWidth: 0
     property var allocatedWidths: []
@@ -143,7 +144,7 @@ Item {
                 prevIdx = curIdx;
             }
 
-            readonly property Item currentItem: (tabsRepeater && root.options && root.currentIndex >= 0 && root.currentIndex < tabsRepeater.count)
+            readonly property Item currentItem: (root.itemsRevision >= 0 && tabsRepeater && root.options && root.currentIndex >= 0 && root.currentIndex < tabsRepeater.count)
                 ? tabsRepeater.itemAt(root.currentIndex)
                 : null
 
@@ -208,6 +209,8 @@ Item {
                 id: tabsRepeater
                 model: root.options
                 onCountChanged: root.recalculateLayout()
+                onItemAdded: root.itemsRevision++
+                onItemRemoved: root.itemsRevision++
 
                 Item {
                     id: optionItem
