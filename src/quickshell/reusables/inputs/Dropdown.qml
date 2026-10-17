@@ -53,6 +53,7 @@ Item {
     property bool isOpen: false
     property int visibleCount: 0
 
+    readonly property Item glassBackdrop: glass.backdrop
     property bool isHoveredOrHighlighted: (btnMa.containsMouse || root.action_highlight) && root.enabled
     readonly property real charSlotStep: globalCharMetrics.width + root.charSpacing
     property real scrollOffset: 0
@@ -691,13 +692,13 @@ Item {
             radius: Math.min(root.cornerRadius, 16)
             color: popupGlass.active ? "transparent" : root.dropdownColor
             layer.enabled: !ThemeBackend.liquidGlass
-            property var glassBackdropItem: glass ? glass.backdrop : null
+            property var glassBackdropItem: root.glassBackdrop
 
             GlassFill {
                 id: popupGlass
                 anchors.fill: parent
                 radius: parent.radius
-                backdropOverride: glass ? glass.backdrop : null
+                backdropOverride: root.glassBackdrop
                 followBackdropHover: false
                 tintColor: root.dropdownColor
                 tintAmount: 0.45
@@ -739,6 +740,10 @@ Item {
         contentItem: ListView {
             id: listView
             readonly property bool hasOverflow: contentHeight > height + 1
+            readonly property Item glassBackdrop: root.glassBackdrop
+            readonly property int selectedIndex: root.currentIndex
+            readonly property color accentColor: root.accentColor
+            readonly property color textColor: root.textColor
             implicitHeight: Math.min(contentHeight, 250)
             boundsBehavior: Flickable.StopAtBounds
             clip: true
@@ -778,8 +783,10 @@ Item {
                 radius: Math.max(2, Math.min(root.cornerRadius - 4, 16))
 
                 property int realIndex: root.options.indexOf(modelData)
+                readonly property var view: ListView.view
+                readonly property bool isSelected: !!view && view.selectedIndex === realIndex
                 property bool shown: root.isEditing
-                property var glassBackdropItem: glass ? glass.backdrop : null
+                property var glassBackdropItem: view ? view.glassBackdrop : null
 
                 Timer {
                     id: showTimer
@@ -838,12 +845,12 @@ Item {
                     id: delegateGlass
                     anchors.fill: parent
                     radius: parent.radius
-                    allowed: !!root && (root.currentIndex === delegateRect.realIndex || itemMa.containsMouse)
+                    allowed: itemMa.containsMouse || delegateRect.isSelected
                     forceClear: true
-                    backdropOverride: glass ? glass.backdrop : null
+                    backdropOverride: delegateRect.glassBackdropItem
                     followBackdropHover: false
-                    tintColor: !root ? "transparent" : (root.currentIndex === delegateRect.realIndex ? root.accentColor : root.textColor)
-                    tintAmount: (root && root.currentIndex === delegateRect.realIndex) ? 0.5 : 0.14
+                    tintColor: !delegateRect.view ? "transparent" : (delegateRect.isSelected ? delegateRect.view.accentColor : delegateRect.view.textColor)
+                    tintAmount: delegateRect.isSelected ? 0.5 : 0.14
                     tintStrength: 1.0
                     press: itemMa.pressed ? 0.8 : (itemMa.containsMouse ? 0.25 : 0)
                     Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
@@ -867,7 +874,7 @@ Item {
                     text: modelData
                     font.family: root.useOptionAsFontFamily ? modelData : root.fontFamily
                     font.pixelSize: root.fontPixelSize
-                    color: !root ? "transparent" : ((root.currentIndex === realIndex && !delegateGlass.active && !ThemeBackend.liquidGlass) ? root.activeTextColor : root.textColor)
+                    color: (delegateRect.isSelected && !delegateGlass.active && !ThemeBackend.liquidGlass) ? root.activeTextColor : root.textColor
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                     Behavior on color { ColorAnimation { duration: 150 } }
