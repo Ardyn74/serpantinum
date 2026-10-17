@@ -7,14 +7,17 @@ WallpaperBlur {
 
     required property Rectangle card
     readonly property real margin: Math.ceil(filletRadius) + 64
-    readonly property real leftMargin: filletDir.x < 0 ? -filletInset : margin
-    readonly property real rightMargin: filletDir.x > 0 ? -filletInset : margin
-    readonly property real topMargin: filletDir.y < 0 ? -filletInset : margin
-    readonly property real bottomMargin: filletDir.y > 0 ? -filletInset : margin
+    readonly property real leftMargin: margin
+    readonly property real rightMargin: margin
+    readonly property real topMargin: margin
+    readonly property real bottomMargin: margin
+
+    property bool armed: filletRadius > 0.5
+    onFilletRadiusChanged: if (filletRadius > 0.5) armed = true
 
     standalone: true
     earsOnly: true
-    surfaceEnabled: filletRadius > 0.5
+    surfaceEnabled: armed
     maskItem: earMask
 
     x: card.x - leftMargin
