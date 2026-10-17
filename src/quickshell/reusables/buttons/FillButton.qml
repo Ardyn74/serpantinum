@@ -284,7 +284,7 @@ Item {
         anchors.fill: parent
         radius: root.effectiveRadius
         clip: !glass.active
-        color: glass.active ? "transparent" : Qt.alpha(root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor, root.bgOpacity * (root.isHoveredOrHighlighted ? root.hoverColor.a : root.baseColor.a))
+        color: glass.active ? "transparent" : Qt.alpha(root.isHoveredOrHighlighted ? root.hoverColor : root.baseColor, Math.min(1, root.bgOpacity * (root.isHoveredOrHighlighted ? root.hoverColor.a : root.baseColor.a)))
 
         Behavior on color { ColorAnimation { duration: 180 } }
 
