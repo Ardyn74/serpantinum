@@ -529,6 +529,7 @@ Item {
             id: solidBlur
             z: -1
             anchors.fill: parent
+            rim: (ThemeBackend.liquidGlass && contentWrapper.isFill) ? 0 : 0.45
             topLeftRadius: parent.topLeftRadius
             topRightRadius: parent.topRightRadius
             bottomLeftRadius: parent.bottomLeftRadius
@@ -659,6 +660,7 @@ Item {
             required property int modelData
             card: outerCornerCard
             filletDir: Qt.vector2d(0, modelData)
+            rim: 0
             filletRadius: (ThemeBackend.liquidGlass && contentWrapper.outerCornersReady) ? contentWrapper.cornerRadius : 0
             visible: filletRadius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
             opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
@@ -673,6 +675,7 @@ Item {
 
     GlassFillets {
         card: solidBackground
+        rim: 0
         filletDir: contentWrapper.barAtRight ? Qt.vector2d(1, 0) : Qt.vector2d(-1, 0)
         filletRadius: ThemeBackend.liquidGlass && contentWrapper.isFill
             ? Math.min(contentWrapper.cornerRadius, Math.max(0, solidBackground.y), Math.max(0, contentWrapper.height - solidBackground.y - solidBackground.height)) * contentWrapper.fillAttachProgress
