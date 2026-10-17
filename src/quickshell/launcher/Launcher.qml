@@ -1125,7 +1125,7 @@ PanelWindow {
             }
         }
 
-        property real dynamicCornerRadius: Math.max(0, Math.min(launcherWindow.outerCornerRadius, (launcherWindow.isSideAttached ? width : height) * 0.5))
+        property real dynamicCornerRadius: Math.round(Math.max(0, Math.min(launcherWindow.outerCornerRadius, (launcherWindow.isSideAttached ? width : height) * 0.5)))
 
         x: {
             if (launcherWindow.attachEdge === "left") {
@@ -1150,8 +1150,8 @@ PanelWindow {
         }
 
         width: launcherWindow.isSideAttached
-               ? (launcherWindow.baseLauncherWidth * animProgress)
-               : launcherWindow.baseLauncherWidth
+               ? Math.round(launcherWindow.baseLauncherWidth * animProgress)
+               : Math.round(launcherWindow.baseLauncherWidth)
 
         height: {
             if (launcherWindow.isCentered) {

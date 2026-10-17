@@ -593,7 +593,7 @@ PanelWindow {
             }
         }
 
-        property real dynamicCornerRadius: Math.max(0, Math.min(clipboardWindow.outerCornerRadius, (clipboardWindow.isSideAttached ? width : height)))
+        property real dynamicCornerRadius: Math.round(Math.max(0, Math.min(clipboardWindow.outerCornerRadius, (clipboardWindow.isSideAttached ? width : height))))
 
         x: {
             if (clipboardWindow.attachEdge === "left") return 0;
