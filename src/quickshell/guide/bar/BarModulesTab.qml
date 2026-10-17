@@ -873,6 +873,18 @@ Item {
         }
     }
 
+    function inView(item) {
+        if (!item || !visible) return false;
+        void modulesFlick.contentY;
+        void modulesFlick.contentHeight;
+        void modulesFlick.height;
+        void item.y;
+        void item.height;
+        const top = item.mapToItem(modulesFlick.contentItem, 0, 0).y;
+        const margin = modulesFlick.height * 0.5;
+        return top + item.height > modulesFlick.contentY - margin && top < modulesFlick.contentY + modulesFlick.height + margin;
+    }
+
     onVisibleChanged: {
         if (visible) {
             syncSettings();
@@ -894,6 +906,7 @@ Item {
     }
 
     Flickable {
+        id: modulesFlick
         anchors.fill: parent
         anchors.topMargin: rootObj.s(4)
         anchors.leftMargin: rootObj.s(8)
@@ -925,11 +938,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: menuCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gfMenu.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gfMenu
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -974,6 +988,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -990,6 +1012,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((menuPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (menuPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/left/LeftFace.qml")
 
                                 onLoaded: {
@@ -1083,7 +1110,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass3.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -1092,6 +1119,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass3
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -1165,6 +1193,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -1198,6 +1234,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((menuCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (menuCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: Qt.resolvedUrl("../../bar/faces/left/LeftFace.qml")
 
                                                     onLoaded: {
@@ -1250,11 +1291,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: workspacesCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf1.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf1
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -1380,7 +1422,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass1.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -1389,6 +1431,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass1
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -1462,6 +1505,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -1476,6 +1527,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((previewBox.width - rootObj.s(16)) / Math.max(1, width), (previewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: barModulesRoot.getFaceUrl("workspaces", modelData.id)
 
                                                     onLoaded: {
@@ -1605,11 +1661,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: timeDateCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf2.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf2
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -1725,7 +1782,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: timeCardGlass.active ? "transparent" : (timeCardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (timeCardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (timeCardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -1734,6 +1791,7 @@ Item {
                                     GlassFill {
                                         id: timeCardGlass
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -1808,6 +1866,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -1822,6 +1888,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((timePreviewBox.width - rootObj.s(16)) / Math.max(1, width), (timePreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: barModulesRoot.getFaceUrl("timedate", modelData.id)
 
                                                     onLoaded: {
@@ -1931,11 +2002,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: visCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf3.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf3
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -1980,6 +2052,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2001,6 +2081,14 @@ Item {
                                     anchors.fill: parent
                                     radius: parent.radius
                                     standalone: true
+                                    surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                }
+                                GlassFill {
+                                    z: -1
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                    tintColor: ThemeBackend.base
                                 }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
                                 border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2014,6 +2102,11 @@ Item {
                                 height: item ? item.implicitHeight : rootObj.s(32)
                                 scale: Math.min(1.0, Math.min((visPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (visPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/vis/VisFace.qml")
 
                                 onLoaded: {
@@ -2152,11 +2245,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: sysmonCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf5.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf5
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -2201,6 +2295,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2222,6 +2324,14 @@ Item {
                                     anchors.fill: parent
                                     radius: parent.radius
                                     standalone: true
+                                    surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                }
+                                GlassFill {
+                                    z: -1
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                    tintColor: ThemeBackend.base
                                 }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
                                 border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2235,6 +2345,11 @@ Item {
                                 height: item ? item.implicitHeight : rootObj.s(32)
                                 scale: Math.min(1.0, Math.min((sysmonPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (sysmonPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/sysmon/SysMonFace.qml")
 
                                 onLoaded: {
@@ -2374,11 +2489,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: visible ? (batteryCardLayout.implicitHeight + rootObj.s(24)) : 0
                 radius: ThemeBackend.borderRadius
-                color: gf7.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf7
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -2423,6 +2539,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2439,6 +2563,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((batPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (batPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/bat/BatFace.qml")
 
                                 onLoaded: {
@@ -2535,7 +2664,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass2.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -2544,6 +2673,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass2
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -2617,6 +2747,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -2650,6 +2788,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((batCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (batCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: Qt.resolvedUrl("../../bar/faces/bat/BatFace.qml")
 
                                                     onLoaded: {
@@ -2701,11 +2844,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: wifiCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf8.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf8
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -2750,6 +2894,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -2766,6 +2918,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((wifiPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (wifiPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/wifi/WifiFace.qml")
 
                                 onLoaded: {
@@ -2859,7 +3016,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass3.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -2868,6 +3025,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass3
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -2941,6 +3099,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -2974,6 +3140,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((wifiCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (wifiCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: Qt.resolvedUrl("../../bar/faces/wifi/WifiFace.qml")
 
                                                     onLoaded: {
@@ -3025,11 +3196,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: btCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf9.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf9
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -3074,6 +3246,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -3090,6 +3270,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((btPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (btPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/bt/BtFace.qml")
 
                                 onLoaded: {
@@ -3183,7 +3368,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass4.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -3192,6 +3377,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass4
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -3265,6 +3451,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -3298,6 +3492,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((btCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (btCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: Qt.resolvedUrl("../../bar/faces/bt/BtFace.qml")
 
                                                     onLoaded: {
@@ -3349,11 +3548,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: volCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf10.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf10
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -3398,6 +3598,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -3414,6 +3622,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((volPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (volPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/vol/VolFace.qml")
 
                                 onLoaded: {
@@ -3507,7 +3720,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass5.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -3516,6 +3729,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass5
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -3589,6 +3803,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -3622,6 +3844,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((volCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (volCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: Qt.resolvedUrl("../../bar/faces/vol/VolFace.qml")
 
                                                     onLoaded: {
@@ -3673,11 +3900,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: kbCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf11.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf11
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -3722,6 +3950,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -3738,6 +3974,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((kbPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (kbPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/kb/KbFace.qml")
 
                                 onLoaded: {
@@ -3810,7 +4051,7 @@ Item {
                                     radius: ThemeBackend.borderRadius
                                     clip: true
 
-                                    color: cardGlass6.active ? "transparent" : (cardMouse.pressed
+                                    color: ThemeBackend.liquidGlass ? "transparent" : (cardMouse.pressed
                                         ? Qt.darker(ThemeBackend.surface0, 1.15)
                                         : (isSelected
                                             ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
@@ -3819,6 +4060,7 @@ Item {
                                     GlassFill {
                                         id: cardGlass6
                                         anchors.fill: parent
+                                        allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                         radius: parent.radius
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: isSelected ? 0.45 : 0.25
@@ -3892,6 +4134,14 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 standalone: true
+                                                surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                            }
+                                            GlassFill {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                tintColor: ThemeBackend.base
                                             }
                                             clip: true
 
@@ -3924,6 +4174,11 @@ Item {
                                                     height: item ? item.implicitHeight : 0
                                                     scale: Math.min(1.0, Math.min((kbCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (kbCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                                     asynchronous: false
+                                                    property bool seen: false
+                                                    readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                                    active: seen || wanted
+                                                    onWantedChanged: if (wanted) seen = true
+                                                    Component.onCompleted: if (wanted) seen = true
                                                     source: Qt.resolvedUrl("../../bar/faces/kb/KbFace.qml")
 
                                                     onLoaded: {
@@ -3975,11 +4230,12 @@ Item {
                 Layout.fillWidth: true
                 implicitHeight: mediaCardLayout.implicitHeight + rootObj.s(24)
                 radius: ThemeBackend.borderRadius
-                color: gf12.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+                color: ThemeBackend.liquidGlass ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
 
                 GlassFill {
                     id: gf12
                     anchors.fill: parent
+                    allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                     radius: parent.radius
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
@@ -4024,6 +4280,14 @@ Item {
                             anchors.fill: parent
                             radius: parent.radius
                             standalone: true
+                            surfaceEnabled: !ThemeBackend.liquidGlass && (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                        }
+                        GlassFill {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                            tintColor: ThemeBackend.base
                         }
                         border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                         border.width: ThemeBackend.liquidGlass ? 0 : 1
@@ -4040,6 +4304,11 @@ Item {
                                 height: item ? item.implicitHeight : 0
                                 scale: Math.min(1.0, Math.min((mediaPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (mediaPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
                                 asynchronous: false
+                                property bool seen: false
+                                readonly property bool wanted: (barModulesRoot ? barModulesRoot.inView(parent) : true)
+                                active: seen || wanted
+                                onWantedChanged: if (wanted) seen = true
+                                Component.onCompleted: if (wanted) seen = true
                                 source: Qt.resolvedUrl("../../bar/faces/media/MediaFace.qml")
 
                                 onLoaded: {

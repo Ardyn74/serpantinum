@@ -90,20 +90,21 @@ float hash12(vec2 p) {
     return fract((p3.x + p3.y) * p3.z);
 }
 
-float blurLod(float rad) {
+float blurLod(float rad, int taps) {
     float R = max(rad, 0.5) * 1.5;
-    float gap = R * sqrt(3.14159265 / float(TAPS));
+    float gap = R * sqrt(3.14159265 / float(taps));
     return clamp(log2(max(gap, 1.0)) + 0.35, 0.0, 6.0);
 }
 
-vec3 blurredAt(vec2 p, float rad, float lod) {
+vec3 blurredAt(vec2 p, float rad, float lod, int taps) {
     float R = max(rad, 0.5) * 1.5;
     float rot = ign(gl_FragCoord.xy) * 6.2831853;
     vec4 acc = vec4(0.0);
     float wsum = 0.0;
     for (int i = 0; i < TAPS; ++i) {
+        if (i >= taps) break;
         float fi = float(i) + 0.5;
-        float r = sqrt(fi / float(TAPS));
+        float r = sqrt(fi / float(taps));
         float a = fi * GOLDEN + rot;
         float w = exp(-2.2 * r * r);
         acc += fetchLod4(p + vec2(cos(a), sin(a)) * r * R, lod) * w;
@@ -175,9 +176,11 @@ void main() {
     vec2 ps = vec2(p.x, p.y * (1.0 - 0.08 * 1.5)) * (1.0 - zoomAmt * (1.0 - zr * zr));
     vec2 follow = clamp((cursor - itemSize * 0.5) / max(itemSize * 0.5, vec2(1.0)), vec2(-1.0), vec2(1.0));
     ps -= follow * 6.0 * near * morph * (1.0 - zr * zr * 0.5);
-    float lod = blurLod(rad);
-    vec3 col = blurredAt(ps + dG, rad, lod);
-    if (dot(dG, dG) > 0.25) {
+    bool interior = t >= bz && near < 0.02;
+    int taps = interior ? 6 : (frost <= 1.2 ? 6 : TAPS);
+    float lod = blurLod(rad, taps);
+    vec3 col = blurredAt(ps + dG, rad, lod, taps);
+    if (!interior && dot(dG, dG) > 0.25) {
         vec4 cR = fetchLod4(ps + dR, lod + 0.5);
         vec4 cB = fetchLod4(ps + dB, lod + 0.5);
         if (cR.a > 0.05) col.r = cR.r / cR.a;
