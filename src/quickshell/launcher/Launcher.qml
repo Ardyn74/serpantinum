@@ -1510,6 +1510,26 @@ PanelWindow {
                         easing.type: Easing.OutCubic
                     }
 
+                    Item {
+                        id: highlightGlassLayer
+                        visible: ThemeBackend.liquidGlass && appList.visible && morphHighlight.visible
+                        width: appList.width
+                        height: morphHighlight.height
+                        x: morphHighlight.x + launcherWindow.s(-20) * (1.0 - launcherWindow.getItemProgress(appList.currentIndex))
+                        y: morphHighlight.y - appList.contentY
+                        opacity: morphHighlight.opacity
+
+                        GlassFill {
+                            anchors.fill: parent
+                            radius: morphHighlight.radius
+                            forceClear: true
+                            tintColor: ThemeBackend.text
+                            tintAmount: 0.1
+                            tintStrength: 1.0
+                            press: 0.6
+                        }
+                    }
+
                     ListView {
                         id: appList
                         anchors.fill: parent
@@ -1589,7 +1609,7 @@ PanelWindow {
                         Rectangle {
                             id: morphHighlight
                             parent: appList.contentItem
-                            z: -1
+                            z: 0
                             visible: opacity > 0.001
                             opacity: (appList.count > 0 && appList.currentIndex >= 0)
                                      ? launcherWindow.getItemOpacity(appList.currentIndex)
@@ -1605,18 +1625,7 @@ PanelWindow {
                             width: appList.width
                             height: launcherWindow.s(44)
                             radius: ThemeBackend.borderRadius
-                            color: hlGlass.active ? "transparent" : ThemeBackend.mauve
-
-                            GlassFill {
-                                id: hlGlass
-                                anchors.fill: parent
-                                radius: parent.radius
-                                forceClear: true
-                                tintColor: ThemeBackend.text
-                                tintAmount: 0.1
-                                tintStrength: 1.0
-                                press: 0.6
-                            }
+                            color: ThemeBackend.liquidGlass ? "transparent" : ThemeBackend.mauve
 
                             property real targetY: (appList.currentIndex >= 0 && appModel.count > 0)
                                                    ? appList.getItemY(appList.currentIndex)
@@ -1805,7 +1814,7 @@ PanelWindow {
                                             font.family: ThemeBackend.fontFamily
                                             font.pixelSize: launcherWindow.s(12)
                                             font.weight: delegateRoot.isSelected ? Font.Bold : Font.Medium
-                                            color: delegateRoot.isSelected ? (hlGlass.active ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.text
+                                            color: delegateRoot.isSelected ? (ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.text
                                             horizontalAlignment: I18n.textAlignment
                                             elide: Text.ElideRight
                                             verticalAlignment: Text.AlignVCenter
@@ -1821,7 +1830,7 @@ PanelWindow {
                                             font.family: ThemeBackend.fontFamily
                                             font.pixelSize: launcherWindow.s(10)
                                             font.weight: Font.Normal
-                                            color: delegateRoot.isSelected ? (hlGlass.active ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.subtext0
+                                            color: delegateRoot.isSelected ? (ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.subtext0
                                             horizontalAlignment: I18n.textAlignment
                                             opacity: delegateRoot.isSelected ? 0.9 : 0.85
                                             elide: Text.ElideRight
