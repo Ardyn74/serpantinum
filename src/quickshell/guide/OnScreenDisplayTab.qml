@@ -440,17 +440,18 @@ Item {
                                         Rectangle {
                                             anchors.fill: parent
                                             radius: rootObj.s(11)
-                                            color: (ThemeBackend.liquidGlass && osdPreviewBlur.active) ? "transparent" : ThemeBackend.base
+                                            color: osdPreviewGlass.active ? "transparent" : ThemeBackend.base
                                             border.width: ThemeBackend.liquidGlass ? 0 : 1
                                             border.color: ThemeBackend.surface0
                                             clip: true
 
-                                            WallpaperBlur {
-                                                id: osdPreviewBlur
-                                                z: -1
+                                            GlassFill {
+                                                id: osdPreviewGlass
                                                 anchors.fill: parent
                                                 radius: parent.radius
-                                                visible: ThemeBackend.liquidGlass
+                                                tintColor: ThemeBackend.base
+                                                tintAmount: 0.35
+                                                shadow: 1
                                             }
 
                                             RowLayout {
@@ -460,14 +461,28 @@ Item {
                                                 anchors.rightMargin: rootObj.s(12)
                                                 spacing: rootObj.s(9)
 
-                                                IconButton {
+                                                Rectangle {
+                                                    Layout.preferredWidth: parent.height - rootObj.s(10)
+                                                    Layout.preferredHeight: parent.height - rootObj.s(10)
                                                     Layout.alignment: Qt.AlignVCenter
-                                                    size: parent.height - rootObj.s(10)
-                                                    cornerRadius: rootObj.s(8)
-                                                    buttonIcon: "󰕾"
-                                                    iconFontSize: rootObj.s(18)
-                                                    accentColor: ThemeBackend.surface1
-                                                    textColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
+                                                    radius: rootObj.s(7)
+                                                    color: osdIconGlassH.active ? "transparent" : ThemeBackend.surface1
+
+                                                    GlassFill {
+                                                        id: osdIconGlassH
+                                                        anchors.fill: parent
+                                                        radius: parent.radius
+                                                        tintColor: ThemeBackend.surface1
+                                                        tintAmount: 0.3
+                                                    }
+
+                                                    Text {
+                                                        anchors.centerIn: parent
+                                                        text: "󰕾"
+                                                        font.family: "Iosevka Nerd Font"
+                                                        font.pixelSize: rootObj.s(18)
+                                                        color: Qt.lighter(ThemeBackend.sapphire, 1.5)
+                                                    }
                                                 }
 
                                                 Draggable {
@@ -475,6 +490,7 @@ Item {
                                                     Layout.preferredHeight: rootObj.s(18)
                                                     Layout.alignment: Qt.AlignVCenter
                                                     showValueBubble: false
+                                                    alwaysShowHandle: true
                                                     value: 65
                                                     backgroundColor: ThemeBackend.surface1
                                                     accentColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
@@ -482,8 +498,8 @@ Item {
                                                     gradColor2: Qt.lighter(accentColor, 1.05)
                                                     gradColor3: Qt.lighter(accentColor, 1.10)
                                                     cornerRadius: rootObj.s(5)
-                                                    handleSize: rootObj.s(22)
-                                                    handleColor: Qt.lighter(accentColor, 1.15)
+                                                    handleSize: rootObj.s(16)
+                                                    handleColor: Qt.lighter(accentColor, 1.3)
                                                 }
                                             }
 
@@ -494,14 +510,28 @@ Item {
                                                 anchors.bottomMargin: rootObj.s(12)
                                                 spacing: rootObj.s(9)
 
-                                                IconButton {
+                                                Rectangle {
+                                                    Layout.preferredWidth: parent.width - rootObj.s(10)
+                                                    Layout.preferredHeight: parent.width - rootObj.s(10)
                                                     Layout.alignment: Qt.AlignHCenter
-                                                    size: parent.width - rootObj.s(10)
-                                                    cornerRadius: rootObj.s(8)
-                                                    buttonIcon: "󰕾"
-                                                    iconFontSize: rootObj.s(18)
-                                                    accentColor: ThemeBackend.surface1
-                                                    textColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
+                                                    radius: rootObj.s(7)
+                                                    color: osdIconGlassV.active ? "transparent" : ThemeBackend.surface1
+
+                                                    GlassFill {
+                                                        id: osdIconGlassV
+                                                        anchors.fill: parent
+                                                        radius: parent.radius
+                                                        tintColor: ThemeBackend.surface1
+                                                        tintAmount: 0.3
+                                                    }
+
+                                                    Text {
+                                                        anchors.centerIn: parent
+                                                        text: "󰕾"
+                                                        font.family: "Iosevka Nerd Font"
+                                                        font.pixelSize: rootObj.s(18)
+                                                        color: Qt.lighter(ThemeBackend.sapphire, 1.5)
+                                                    }
                                                 }
 
                                                 Draggable {
@@ -510,6 +540,7 @@ Item {
                                                     Layout.alignment: Qt.AlignHCenter
                                                     vertical: true
                                                     showValueBubble: false
+                                                    alwaysShowHandle: true
                                                     value: 65
                                                     backgroundColor: ThemeBackend.surface1
                                                     accentColor: Qt.lighter(ThemeBackend.sapphire, 1.5)
@@ -517,8 +548,8 @@ Item {
                                                     gradColor2: Qt.lighter(accentColor, 1.05)
                                                     gradColor3: Qt.lighter(accentColor, 1.10)
                                                     cornerRadius: rootObj.s(5)
-                                                    handleSize: rootObj.s(22)
-                                                    handleColor: Qt.lighter(accentColor, 1.15)
+                                                    handleSize: rootObj.s(16)
+                                                    handleColor: Qt.lighter(accentColor, 1.3)
                                                 }
                                             }
                                         }
