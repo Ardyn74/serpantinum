@@ -22,8 +22,24 @@ QtObject {
         "left": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.actions", "Menu") : "Menu",
             icon: "󰍜",
-            defaultVariant: "default",
-            face: "faces/left/LeftFace.qml"
+            defaultVariant: "button",
+            face: "faces/left/LeftFace.qml",
+            variants: {
+                "button": {
+                    id: "button",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.menu.style.name.button", "Button") : "Button",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.menu.style.button", "Interactive icon buttons with background") : "Interactive icon buttons with background",
+                    icon: "󰍜",
+                    face: "faces/left/LeftFace.qml"
+                },
+                "icon": {
+                    id: "icon",
+                    name: typeof I18n !== "undefined" ? I18n.t("guide.bar.menu.style.name.icon", "Icon") : "Icon",
+                    desc: typeof I18n !== "undefined" ? I18n.t("guide.bar.menu.style.icon", "Clean icons without background") : "Clean icons without background",
+                    icon: "󰍜",
+                    face: "faces/left/LeftFace.qml"
+                }
+            }
         },
         "workspaces": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.workspaces.name", "Workspaces") : "Workspaces",
@@ -255,6 +271,10 @@ QtObject {
         if (norm === "timedate") {
             if (bs.timeStyle) return bs.timeStyle;
             return "classic";
+        }
+        if (norm === "left") {
+            if (bs.menuStyle) return bs.menuStyle;
+            return "button";
         }
         if (norm === "wifi") {
             if (bs.wifiStyle) return bs.wifiStyle;

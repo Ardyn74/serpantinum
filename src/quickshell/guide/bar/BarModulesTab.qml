@@ -110,6 +110,7 @@ Item {
         return ["cpu", "ram", "temp"];
     }
 
+    readonly property var menuStyles: BarModuleRegistry.variantList("left")
     readonly property var workspaceStyles: BarModuleRegistry.variantList("workspaces")
     readonly property var timeStyles: BarModuleRegistry.variantList("timedate")
     readonly property var batStyles: BarModuleRegistry.variantList("bat")
@@ -117,6 +118,24 @@ Item {
     readonly property var btStyles: BarModuleRegistry.variantList("bt")
     readonly property var volStyles: BarModuleRegistry.variantList("vol")
     readonly property var kbStyles: BarModuleRegistry.variantList("kb")
+
+    property string menuStyle: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.menuStyle) return bs.menuStyle;
+        return "button";
+    }
+
+    property bool menuShowSettings: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.menuShowSettings !== undefined) return Boolean(bs.menuShowSettings);
+        return true;
+    }
+
+    property bool menuShowLauncher: {
+        let bs = Config.getSetting("bar", {});
+        if (bs && bs.menuShowLauncher !== undefined) return Boolean(bs.menuShowLauncher);
+        return true;
+    }
 
     property string wifiStyle: {
         let bs = Config.getSetting("bar", {});
@@ -297,6 +316,19 @@ Item {
     }
 
     QtObject {
+        id: previewMenuWidgetObj
+        function s(v) { return rootObj ? rootObj.s(v) : v; }
+        property bool isCompact: false
+        property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
+        property string menuStyle: barModulesRoot.menuStyle
+        property bool menuShowSettings: barModulesRoot.menuShowSettings
+        property bool menuShowLauncher: barModulesRoot.menuShowLauncher
+        property bool isPreview: true
+        property var barWindow: ({ "startupCascadeFinished": true, "isStartupReady": true, "isDataReady": true, "barOpacity": barModulesRoot.barOpacity, "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; } })
+        property bool moduleActive: barModulesRoot.visible
+    }
+
+    QtObject {
         id: previewWifiWidgetObj
         function s(v) { return rootObj ? rootObj.s(v) : v; }
         property bool isCompact: false
@@ -463,6 +495,13 @@ Item {
             barModulesRoot.batShowIcon = Boolean(bs.batShowIcon);
         } else {
             barModulesRoot.batShowIcon = true;
+        }
+
+        barModulesRoot.menuStyle = (bs && bs.menuStyle) ? bs.menuStyle : "button";
+        barModulesRoot.menuShowSettings = (bs && bs.menuShowSettings !== undefined) ? Boolean(bs.menuShowSettings) : true;
+        barModulesRoot.menuShowLauncher = (bs && bs.menuShowLauncher !== undefined) ? Boolean(bs.menuShowLauncher) : true;
+        if (!barModulesRoot.menuShowSettings && !barModulesRoot.menuShowLauncher) {
+            barModulesRoot.menuShowSettings = true;
         }
 
         if (bs && bs.wifiStyle) {
@@ -679,6 +718,29 @@ Item {
         Config.setSetting("bar", current);
     }
 
+    function setMenuStyle(styleName) {
+        barModulesRoot.menuStyle = styleName;
+        let current = Config.getSetting("bar", {});
+        current.menuStyle = styleName;
+        Config.setSetting("bar", current);
+    }
+
+    function setMenuShowSettings(val) {
+        if (!val && !barModulesRoot.menuShowLauncher) return;
+        barModulesRoot.menuShowSettings = val;
+        let current = Config.getSetting("bar", {});
+        current.menuShowSettings = val;
+        Config.setSetting("bar", current);
+    }
+
+    function setMenuShowLauncher(val) {
+        if (!val && !barModulesRoot.menuShowSettings) return;
+        barModulesRoot.menuShowLauncher = val;
+        let current = Config.getSetting("bar", {});
+        current.menuShowLauncher = val;
+        Config.setSetting("bar", current);
+    }
+
     function setWifiStyle(styleName) {
         barModulesRoot.wifiStyle = styleName;
         let current = Config.getSetting("bar", {});
@@ -857,6 +919,331 @@ Item {
             id: modulesCol
             width: parent.width - (parent.contentHeight > parent.height ? rootObj.s(6) : 0)
             spacing: rootObj.s(12)
+
+            Rectangle {
+                id: menuModuleBox
+                Layout.fillWidth: true
+                implicitHeight: menuCardLayout.implicitHeight + rootObj.s(24)
+                radius: ThemeBackend.borderRadius
+                color: gfMenu.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
+
+                GlassFill {
+                    id: gfMenu
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                    tintAmount: 0.25
+                }
+                border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
+                border.width: ThemeBackend.liquidGlass ? 0 : 1
+                clip: true
+
+                ColumnLayout {
+                    id: menuCardLayout
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.margins: rootObj.s(12)
+                    spacing: rootObj.s(6)
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Layout.bottomMargin: rootObj.s(6)
+                        Layout.leftMargin: rootObj.s(4)
+                        Layout.rightMargin: rootObj.s(4)
+                        spacing: rootObj.s(8)
+
+                        Text {
+                            text: I18n.t("guide.bar.modules.actions", "Menu")
+                            font.family: ThemeBackend.fontFamily
+                            font.pixelSize: rootObj.s(16)
+                            font.bold: true
+                            color: ThemeBackend.text
+                        }
+                    }
+
+                    Rectangle {
+                        id: menuPreviewBox
+                        Layout.fillWidth: true
+                        implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 120 : 72)
+                        radius: ThemeBackend.borderRadius
+                        color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                        WallpaperBlur {
+                            z: -1
+                            anchors.fill: parent
+                            radius: parent.radius
+                            standalone: true
+                        }
+                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
+                        clip: true
+
+                        Item {
+                            anchors.fill: parent
+                            enabled: false
+
+                            Loader {
+                                id: menuFacePreviewLoader
+                                anchors.centerIn: parent
+                                width: item ? item.implicitWidth : 0
+                                height: item ? item.implicitHeight : 0
+                                scale: Math.min(1.0, Math.min((menuPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (menuPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
+                                asynchronous: false
+                                source: Qt.resolvedUrl("../../bar/faces/left/LeftFace.qml")
+
+                                onLoaded: {
+                                    if (item) {
+                                        item.widget = previewMenuWidgetObj;
+                                        item.width = Qt.binding(function() { return item.implicitWidth; });
+                                        item.height = Qt.binding(function() { return item.implicitHeight; });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    SettingsRow {
+                        rootObj: barModulesRoot.rootObj
+                        settingId: "bar_menu_show_settings"
+                        searchKeywords: "menu settings gear guide icon button"
+                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                        icon: "󰒓"
+                        title: I18n.t("guide.bar.menu.show_settings.title", "Show settings icon")
+                        description: I18n.t("guide.bar.menu.show_settings.desc", "Display the button that opens settings")
+
+                        Toggle {
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: barModulesRoot.menuShowSettings
+                            enabled: !checked || barModulesRoot.menuShowLauncher
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                barModulesRoot.setMenuShowSettings(c);
+                            }
+                        }
+                    }
+
+                    SettingsRow {
+                        rootObj: barModulesRoot.rootObj
+                        settingId: "bar_menu_show_launcher"
+                        searchKeywords: "menu launcher search apps icon button"
+                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                        icon: "󰍉"
+                        title: I18n.t("guide.bar.menu.show_launcher.title", "Show launcher icon")
+                        description: I18n.t("guide.bar.menu.show_launcher.desc", "Display the search button that opens the launcher")
+
+                        Toggle {
+                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            checked: barModulesRoot.menuShowLauncher
+                            enabled: !checked || barModulesRoot.menuShowSettings
+                            accentColor: ThemeBackend.mauve
+                            baseColor: ThemeBackend.surface1
+                            handleColor: ThemeBackend.crust
+                            handleOffColor: ThemeBackend.text
+                            onToggled: function(c) {
+                                barModulesRoot.setMenuShowLauncher(c);
+                            }
+                        }
+                    }
+
+                    SettingsRow {
+                        id: menuStyleRow
+                        rootObj: barModulesRoot.rootObj
+                        settingId: "bar_menu_style"
+                        searchKeywords: "menu style look button icon layout"
+                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
+                        icon: "󰒓"
+                        title: I18n.t("guide.bar.menu.style.title", "Style")
+                        description: I18n.t("guide.bar.menu.style.desc", "Choose the visual appearance of the menu module")
+
+                        bottomContent: GridLayout {
+                            id: menuStylesGrid
+                            Layout.fillWidth: true
+                            columns: Math.max(1, Math.min(3, Math.floor(menuCardLayout.width / rootObj.s(160))))
+                            rowSpacing: rootObj.s(10)
+                            columnSpacing: rootObj.s(10)
+
+                            Repeater {
+                                model: barModulesRoot.menuStyles
+                                delegate: Rectangle {
+                                    id: menuStyleCard
+                                    required property var modelData
+                                    required property int index
+
+                                    readonly property bool isSelected: barModulesRoot.menuStyle === modelData.id
+                                    property real popScale: 1.0
+                                    property real flashOpacity: 0.0
+
+                                    Layout.fillWidth: true
+                                    Layout.preferredWidth: 1
+                                    implicitHeight: menuStyleInnerCol.implicitHeight + rootObj.s(16)
+                                    radius: ThemeBackend.borderRadius
+                                    clip: true
+
+                                    color: cardGlass3.active ? "transparent" : (cardMouse.pressed
+                                        ? Qt.darker(ThemeBackend.surface0, 1.15)
+                                        : (isSelected
+                                            ? (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.30) : Qt.lighter(ThemeBackend.surface0, 1.24))
+                                            : (cardHover.hovered ? Qt.lighter(ThemeBackend.surface0, 1.10) : ThemeBackend.surface0)))
+
+                                    GlassFill {
+                                        id: cardGlass3
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: isSelected ? 0.45 : 0.25
+                                        press: cardMouse.pressed ? 0.8 : (cardHover.hovered ? 0.25 : 0)
+                                        Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                                    }
+
+                                    border.width: ThemeBackend.liquidGlass ? 0 : 1
+                                    border.color: isSelected
+                                        ? Qt.alpha(ThemeBackend.surface2, 0.75)
+                                        : (cardHover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
+
+                                    Behavior on color { ColorAnimation { duration: 180 } }
+                                    Behavior on border.color { ColorAnimation { duration: 180 } }
+
+                                    scale: (cardMouse.pressed ? 0.985 : (cardHover.hovered ? 1.015 : 1.0)) * menuStyleCard.popScale
+                                    Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+
+                                    HoverHandler {
+                                        id: cardHover
+                                    }
+
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        radius: parent.radius
+                                        color: "#ffffff"
+                                        opacity: menuStyleCard.flashOpacity
+                                        visible: !cardGlass3.active
+                                        PropertyAnimation on opacity { id: menuFlashAnim; to: 0; duration: 350; easing.type: Easing.OutExpo }
+                                    }
+
+                                    SequentialAnimation {
+                                        id: menuPopAnim
+                                        NumberAnimation { target: menuStyleCard; property: "popScale"; to: 1.02; duration: 100; easing.type: Easing.OutQuad }
+                                        NumberAnimation { target: menuStyleCard; property: "popScale"; to: 1.0; duration: 350; easing.type: Easing.OutQuint }
+                                    }
+
+                                    MouseArea {
+                                        id: cardMouse
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: {
+                                            menuPopAnim.start();
+                                            menuStyleCard.flashOpacity = 0.15;
+                                            menuFlashAnim.start();
+                                            if (typeof Sounds !== "undefined") {
+                                                Sounds.playSfx("reusables/clickbutton/click.wav");
+                                            }
+                                            barModulesRoot.setMenuStyle(modelData.id);
+                                        }
+                                    }
+
+                                    ColumnLayout {
+                                        id: menuStyleInnerCol
+                                        anchors.left: parent.left
+                                        anchors.right: parent.right
+                                        anchors.top: parent.top
+                                        anchors.margins: rootObj.s(8)
+                                        spacing: rootObj.s(8)
+
+                                        Rectangle {
+                                            id: menuCardPreviewBox
+                                            Layout.fillWidth: true
+                                            implicitHeight: rootObj.s(barModulesRoot.isSideBar ? 140 : 72)
+                                            radius: ThemeBackend.borderRadius
+                                            color: ThemeBackend.glassActive ? ThemeBackend.faded(ThemeBackend.base) : Qt.darker(ThemeBackend.mantle, 1.1)
+
+                                            WallpaperBlur {
+                                                z: -1
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                standalone: true
+                                            }
+                                            clip: true
+
+                                            Item {
+                                                anchors.fill: parent
+                                                enabled: false
+
+                                                QtObject {
+                                                    id: cardMockWidget
+                                                    function s(v) { return rootObj ? rootObj.s(v) : v; }
+                                                    property bool isCompact: false
+                                                    property string orientation: barModulesRoot.isSideBar ? "vertical" : "horizontal"
+                                                    property string menuStyle: modelData.id
+                                                    property bool menuShowSettings: barModulesRoot.menuShowSettings
+                                                    property bool menuShowLauncher: barModulesRoot.menuShowLauncher
+                                                    property bool isPreview: true
+                                                    property var barWindow: ({
+                                                        "startupCascadeFinished": true,
+                                                        "isStartupReady": true,
+                                                        "isDataReady": true,
+                                                        "barOpacity": barModulesRoot.barOpacity,
+                                                        "s": function(v) { return rootObj ? rootObj.s(v) : v; }, "cs": function(v) { return rootObj ? rootObj.s(v) : v; }
+                                                    })
+                                                    property bool moduleActive: barModulesRoot.visible
+                                                }
+
+                                                Loader {
+                                                    id: menuCardFaceLoader
+                                                    anchors.centerIn: parent
+                                                    width: item ? item.implicitWidth : 0
+                                                    height: item ? item.implicitHeight : 0
+                                                    scale: Math.min(1.0, Math.min((menuCardPreviewBox.width - rootObj.s(16)) / Math.max(1, width), (menuCardPreviewBox.height - rootObj.s(16)) / Math.max(1, height)))
+                                                    asynchronous: false
+                                                    source: Qt.resolvedUrl("../../bar/faces/left/LeftFace.qml")
+
+                                                    onLoaded: {
+                                                        if (item) {
+                                                            item.width = Qt.binding(function() { return item.implicitWidth; });
+                                                            item.height = Qt.binding(function() { return item.implicitHeight; });
+                                                            item.widget = cardMockWidget;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            Rectangle {
+                                                anchors.fill: parent
+                                                radius: parent.radius
+                                                color: "transparent"
+                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
+                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
+                                            }
+                                        }
+
+                                        Text {
+                                            Layout.fillWidth: true
+                                            Layout.leftMargin: rootObj.s(2)
+                                            Layout.rightMargin: rootObj.s(2)
+                                            Layout.bottomMargin: rootObj.s(2)
+                                            text: modelData.name
+                                            font.family: ThemeBackend.fontFamily
+                                            font.pixelSize: rootObj.s(13)
+                                            font.weight: Font.Bold
+                                            color: ThemeBackend.text
+                                        }
+                                    }
+                                }
+                            }
+
+                            Item {
+                                Layout.fillWidth: true
+                                Layout.preferredWidth: 1
+                                visible: menuStylesGrid.columns === 3
+                            }
+                        }
+                    }
+                }
+            }
+
 
             Rectangle {
                 id: workspacesModuleBox
