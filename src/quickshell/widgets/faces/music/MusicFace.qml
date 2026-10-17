@@ -243,7 +243,7 @@ Item {
                         buttonIcon: "󰒮"
                         iconFontSize: root.iconSize
                         accentColor: ThemeBackend.surface1
-                        bgOpacity: ThemeBackend.elementOpacity
+                        bgOpacity: ThemeBackend.liquidGlass ? 1.0 : ThemeBackend.elementOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
                         onClicked: if (root.player && root.player.canGoPrevious) root.player.previous()
                     }
@@ -257,7 +257,7 @@ Item {
                         buttonIcon: (root.isMediaActive && MprisController.isPlaying) ? "󰏤" : "󰐊"
                         iconFontSize: root.iconSize
                         accentColor: ThemeBackend.surface1
-                        bgOpacity: ThemeBackend.elementOpacity
+                        bgOpacity: ThemeBackend.liquidGlass ? 1.0 : ThemeBackend.elementOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.green : ThemeBackend.text
                         onClicked: if (root.player && root.player.canTogglePlaying) root.player.togglePlaying()
                     }
@@ -271,7 +271,7 @@ Item {
                         buttonIcon: "󰒭"
                         iconFontSize: root.iconSize
                         accentColor: ThemeBackend.surface1
-                        bgOpacity: ThemeBackend.elementOpacity
+                        bgOpacity: ThemeBackend.liquidGlass ? 1.0 : ThemeBackend.elementOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay2
                         onClicked: if (root.player && root.player.canGoNext) root.player.next()
                     }

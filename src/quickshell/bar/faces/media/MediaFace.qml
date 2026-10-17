@@ -296,7 +296,7 @@ Item {
                             buttonIcon: "󰒮"
                             iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
-                            bgOpacity: root.barOpacity
+                            bgOpacity: ThemeBackend.liquidGlass ? 1.0 : root.barOpacity
                             textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
                             anchors.verticalCenter: parent.verticalCenter
                             onClicked: if (player && player.canGoPrevious) player.previous()
@@ -310,7 +310,7 @@ Item {
                             buttonIcon: root.isPlaying ? "󰏤" : "󰐊"
                             iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 9 : 10) : (root.isCompact ? 9 : 10)
                             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
-                            bgOpacity: root.barOpacity
+                            bgOpacity: ThemeBackend.liquidGlass ? 1.0 : root.barOpacity
                             textColor: isHoveredOrHighlighted ? ThemeBackend.green : (root.isCompact ? Qt.lighter(ThemeBackend.text, 1.1) : ThemeBackend.text)
                             anchors.verticalCenter: parent.verticalCenter
                             onClicked: if (player && player.canTogglePlaying) player.togglePlaying()
@@ -324,7 +324,7 @@ Item {
                             buttonIcon: "󰒭"
                             iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 7 : 8) : (root.isCompact ? 7 : 8)
                             accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
-                            bgOpacity: root.barOpacity
+                            bgOpacity: ThemeBackend.liquidGlass ? 1.0 : root.barOpacity
                             textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
                             anchors.verticalCenter: parent.verticalCenter
                             onClicked: if (player && player.canGoNext) player.next()
@@ -449,7 +449,7 @@ Item {
                         buttonIcon: "󰒮"
                         iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 6 : 7) : (root.isCompact ? 6 : 7)
                         accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
-                        bgOpacity: root.barOpacity
+                        bgOpacity: ThemeBackend.liquidGlass ? 1.0 : root.barOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
                         anchors.horizontalCenter: parent.horizontalCenter
                         onClicked: if (targetPlayer && targetPlayer.canGoPrevious) targetPlayer.previous()
@@ -462,7 +462,7 @@ Item {
                         buttonIcon: (isMediaActive && isPlaying) ? "󰏤" : "󰐊"
                         iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 8 : 9) : (root.isCompact ? 8 : 9)
                         accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
-                        bgOpacity: root.barOpacity
+                        bgOpacity: ThemeBackend.liquidGlass ? 1.0 : root.barOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.green : (root.isCompact ? Qt.lighter(ThemeBackend.text, 1.1) : ThemeBackend.text)
                         anchors.horizontalCenter: parent.horizontalCenter
                         onClicked: if (targetPlayer && targetPlayer.canTogglePlaying) targetPlayer.togglePlaying()
@@ -475,7 +475,7 @@ Item {
                         buttonIcon: "󰒭"
                         iconFontSize: barWindow ? barWindow.cs(root.isCompact ? 6 : 7) : (root.isCompact ? 6 : 7)
                         accentColor: root.isCompact ? Qt.lighter(ThemeBackend.surface0, 1.18) : ThemeBackend.surface0
-                        bgOpacity: root.barOpacity
+                        bgOpacity: ThemeBackend.liquidGlass ? 1.0 : root.barOpacity
                         textColor: isHoveredOrHighlighted ? ThemeBackend.text : (root.isCompact ? ThemeBackend.subtext0 : ThemeBackend.overlay2)
                         anchors.horizontalCenter: parent.horizontalCenter
                         onClicked: if (targetPlayer && targetPlayer.canGoNext) targetPlayer.next()

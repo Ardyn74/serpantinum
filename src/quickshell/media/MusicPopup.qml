@@ -1536,7 +1536,7 @@ Item {
                                 buttonIcon: "󰒮"
                                 iconFontSize: root.s(11)
                                 accentColor: ThemeBackend.surface0 || "#313244"
-                                bgOpacity: ThemeBackend.elementOpacity
+                                bgOpacity: ThemeBackend.liquidGlass ? 1.0 : ThemeBackend.elementOpacity
                                 textColor: isHoveredOrHighlighted ? (ThemeBackend.text || "#cdd6f4") : (ThemeBackend.subtext0 || "#a6adc8")
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: if (root.targetPlayer && root.targetPlayer.canGoPrevious) root.targetPlayer.previous()
@@ -1550,7 +1550,7 @@ Item {
                                 buttonIcon: (root.targetPlayer && root.targetPlayer.isPlaying) ? "󰏤" : "󰐊"
                                 iconFontSize: root.s(15)
                                 accentColor: ThemeBackend.surface0 || "#313244"
-                                bgOpacity: ThemeBackend.elementOpacity
+                                bgOpacity: ThemeBackend.liquidGlass ? 1.0 : ThemeBackend.elementOpacity
                                 textColor: isHoveredOrHighlighted ? (ThemeBackend.mauve || "#cba6f7") : (ThemeBackend.text || "#cdd6f4")
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: if (root.targetPlayer && root.targetPlayer.canTogglePlaying) root.targetPlayer.togglePlaying()
@@ -1564,7 +1564,7 @@ Item {
                                 buttonIcon: "󰒭"
                                 iconFontSize: root.s(11)
                                 accentColor: ThemeBackend.surface0 || "#313244"
-                                bgOpacity: ThemeBackend.elementOpacity
+                                bgOpacity: ThemeBackend.liquidGlass ? 1.0 : ThemeBackend.elementOpacity
                                 textColor: isHoveredOrHighlighted ? (ThemeBackend.text || "#cdd6f4") : (ThemeBackend.subtext0 || "#a6adc8")
                                 Layout.alignment: Qt.AlignVCenter
                                 onClicked: if (root.targetPlayer && root.targetPlayer.canGoNext) root.targetPlayer.next()
