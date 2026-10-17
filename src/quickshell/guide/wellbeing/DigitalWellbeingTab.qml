@@ -5,27 +5,17 @@ import QtQuick.Effects
 import QtCore
 import Quickshell
 import Quickshell.Io
+import "../"
 import "../../"
 import "../../reusables"
 
-Item {
+GuideTab {
     id: tabRoot
-    required property var rootObj
-    required property int tabIndex
 
     readonly property color textMain: ThemeBackend.liquidGlass ? "#ffffff" : ThemeBackend.text
     readonly property color textSub: ThemeBackend.liquidGlass ? "#ffffff" : ThemeBackend.subtext0
     readonly property color textDim: ThemeBackend.liquidGlass ? "#ffffff" : ThemeBackend.overlay0
     readonly property color textAccent: ThemeBackend.liquidGlass ? "#ffffff" : ThemeBackend.mauve
-
-    anchors.fill: parent
-    visible: rootObj.currentTab === tabIndex
-    opacity: visible ? 1.0 : 0.0
-    property real slideY: visible ? 0 : rootObj.s(10)
-
-    Behavior on slideY { NumberAnimation { duration: 250; easing.type: Easing.OutQuart } }
-    transform: Translate { y: slideY }
-    Behavior on opacity { NumberAnimation { duration: 250 } }
 
     readonly property var monthNames: [
         I18n.t("guide.wellbeing.months.january"),

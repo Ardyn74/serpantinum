@@ -1,24 +1,15 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import "../"
 import "../../"
 import "../../bar"
 import "../../reusables"
 import "../../reusables/guide"
 
-Item {
+GuideTab {
     id: barTabRoot
-    required property var rootObj
-    required property int tabIndex
-
-    anchors.fill: parent
-    visible: rootObj.currentTab === tabIndex
-    opacity: visible ? 1.0 : 0.0
-    property real slideY: visible ? 0 : rootObj.s(10)
-
-    Behavior on slideY { NumberAnimation { duration: 250; easing.type: Easing.OutQuart } }
-    transform: Translate { y: slideY }
-    Behavior on opacity { NumberAnimation { duration: 250 } }
+    subTabIndex: 0
 
     property real cardRadius: ThemeBackend.clampedBorderRadius
 
