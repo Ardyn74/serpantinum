@@ -54,6 +54,7 @@ Item {
     property real imageY: 0
     property real imageScale: 1
     property real imageRotation: 0
+    property rect validRect: Qt.rect(0, 0, 1, 1)
     property int revision: 0
 
     readonly property string snapshotDir: Caching.getCacheDir("wallpaper")
@@ -126,6 +127,15 @@ Item {
         root.imageY = p0.y;
         root.imageScale = len;
         root.imageRotation = Math.atan2(dy, dx) * 180 / Math.PI;
+        const p1 = root.mapFromItem(null, scr.width - wx, scr.height - wy);
+        const iw = Math.max(1, root.width);
+        const ih = Math.max(1, root.height);
+        const x0 = Math.max(0, Math.min(1, Math.min(p0.x, p1.x) / iw));
+        const y0 = Math.max(0, Math.min(1, Math.min(p0.y, p1.y) / ih));
+        const x1 = Math.max(x0, Math.min(1, Math.max(p0.x, p1.x) / iw));
+        const y1 = Math.max(y0, Math.min(1, Math.max(p0.y, p1.y) / ih));
+        if (x0 !== root.validRect.x || y0 !== root.validRect.y || x1 - x0 !== root.validRect.width || y1 - y0 !== root.validRect.height)
+            root.validRect = Qt.rect(x0, y0, x1 - x0, y1 - y0);
     }
 
     FrameAnimation {
@@ -276,6 +286,8 @@ Item {
             filletInset: root.filletInset
             earsOnly: root.earsOnly
             boxRect: root.boxRect
+            validRect: root.validRect
+            unpremul: 1
             clear: root.nestLevel >= 1 ? 1 : 0
             cursorPos: Qt.point(root.cursorX, root.cursorY)
             hover: root.hoverAmount

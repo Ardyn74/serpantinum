@@ -1137,7 +1137,7 @@ Variants {
                     width: (floatingWidget.activeEdge === "bottom" || floatingWidget.activeEdge === "top") ? floatingWidget.s(20) : floatingWidget.s(3.5)
                     height: (floatingWidget.activeEdge === "bottom" || floatingWidget.activeEdge === "top") ? floatingWidget.s(3.5) : floatingWidget.s(20)
                     radius: Math.min(ThemeBackend.borderRadius, Math.min(width, height) / 2)
-                    color: Qt.darker(ThemeBackend.mauve, 1.8)
+                    color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.text, 0.85) : Qt.darker(ThemeBackend.mauve, 1.8)
                 }
 
                 MouseArea {
@@ -1285,13 +1285,13 @@ Variants {
                         WallpaperBlur {
                             z: -1
                             anchors.fill: parent
+                            anchors.leftMargin: floatingWidget.edgeBleed
                             topLeftRadius: parent.topLeftRadius
                             topRightRadius: parent.topRightRadius
                             bottomLeftRadius: parent.bottomLeftRadius
                             bottomRightRadius: parent.bottomRightRadius
                             filletRadius: sidebarFillets.filletRadius
                             filletDir: sidebarFillets.filletDir
-                            filletInset: sidebarFillets.filletInset
                         }
 
                         MouseArea {

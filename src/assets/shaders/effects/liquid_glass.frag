@@ -30,6 +30,8 @@ layout(std140, binding = 0) uniform buf {
     vec4 fillet;
     vec4 box;
     float filletInset;
+    vec4 sampleBounds;
+    float unpremul;
 };
 
 layout(binding = 1) uniform sampler2D src;
@@ -68,9 +70,14 @@ float sdf(vec2 p) {
     return max(r, min(a, b)) - length(u);
 }
 
+vec4 fetchLod4(vec2 p, float lod) {
+    vec2 uv = clamp((p + itemSize * 0.5) / itemSize, max(vec2(0.001), sampleBounds.xy), min(vec2(0.999), sampleBounds.zw));
+    vec4 c = textureLod(src, srcRect.xy + uv * srcRect.zw, lod);
+    return unpremul > 0.5 ? c : vec4(c.rgb, 1.0);
+}
+
 vec3 fetchLod(vec2 p, float lod) {
-    vec2 uv = clamp((p + itemSize * 0.5) / itemSize, vec2(0.001), vec2(0.999));
-    return textureLod(src, srcRect.xy + uv * srcRect.zw, lod).rgb;
+    return fetchLod4(p, lod).rgb;
 }
 
 float ign(vec2 p) {
@@ -92,17 +99,17 @@ float blurLod(float rad) {
 vec3 blurredAt(vec2 p, float rad, float lod) {
     float R = max(rad, 0.5) * 1.5;
     float rot = ign(gl_FragCoord.xy) * 6.2831853;
-    vec3 acc = vec3(0.0);
+    vec4 acc = vec4(0.0);
     float wsum = 0.0;
     for (int i = 0; i < TAPS; ++i) {
         float fi = float(i) + 0.5;
         float r = sqrt(fi / float(TAPS));
         float a = fi * GOLDEN + rot;
         float w = exp(-2.2 * r * r);
-        acc += fetchLod(p + vec2(cos(a), sin(a)) * r * R, lod) * w;
+        acc += fetchLod4(p + vec2(cos(a), sin(a)) * r * R, lod) * w;
         wsum += w;
     }
-    return acc / wsum;
+    return acc.a > 1e-4 * wsum ? acc.rgb / acc.a : vec3(0.0);
 }
 
 vec3 spectrum(float x) {
@@ -171,8 +178,10 @@ void main() {
     float lod = blurLod(rad);
     vec3 col = blurredAt(ps + dG, rad, lod);
     if (dot(dG, dG) > 0.25) {
-        col.r = fetchLod(ps + dR, lod + 0.5).r;
-        col.b = fetchLod(ps + dB, lod + 0.5).b;
+        vec4 cR = fetchLod4(ps + dR, lod + 0.5);
+        vec4 cB = fetchLod4(ps + dB, lod + 0.5);
+        if (cR.a > 0.05) col.r = cR.r / cR.a;
+        if (cB.a > 0.05) col.b = cB.b / cB.a;
     }
 
     float l = dot(col, vec3(0.2126, 0.7152, 0.0722));
