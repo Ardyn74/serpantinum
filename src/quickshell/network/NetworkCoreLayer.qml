@@ -142,7 +142,7 @@ Item {
                     radius: parent.radius
                     forceClear: true
                     tintColor: ThemeBackend.surface0
-                    tintAmount: 0.12
+                    tintAmount: 0
                     shadow: 1
                     press: centralCore.disconnectFill > 0 ? 0.6 + 0.4 * centralCore.disconnectFill : (coreMa.containsMouse ? 0.25 : 0)
                     pulse: Math.min(1, centralCore.flashOpacity * 2.5)
@@ -162,8 +162,8 @@ Item {
                 FluidWave {
                     id: coreWave
                     anchors.fill: parent
-                    visible: window.visible && centralCore.disconnectFill > 0
-                    opacity: coreGlass.active ? 0.6 : 0.95
+                    visible: window.visible && centralCore.disconnectFill > 0 && !coreGlass.active
+                    opacity: 0.95
 
                     property real wavePhase: 0.0
                     NumberAnimation on wavePhase {
@@ -179,6 +179,24 @@ Item {
                     vertical: 1.0
                     color1: ThemeBackend.surface2
                     color2: ThemeBackend.crust
+                }
+
+                LiquidFill {
+                    anchors.centerIn: parent
+                    width: parent.height
+                    height: parent.width
+                    rotation: -90
+                    radius: width / 2
+                    fillLevel: centralCore.disconnectFill
+                    waveAmp: coreWave.waveAmp
+                    phase: coreWave.wavePhase
+                    color1: Qt.lighter(ThemeBackend.surface2, 1.1)
+                    color2: ThemeBackend.surface2
+                    bodyAlpha: 0.4
+                    visible: coreGlass.active && centralCore.disconnectFill > 0.001
+                    property real lift: (centralCore.disconnectFill > 0.001 && centralCore.disconnectFill < 0.999) ? 1.0 : 0.0
+                    Behavior on lift { NumberAnimation { duration: 260; easing.type: Easing.OutCubic } }
+                    scale: 1.0 + 0.07 * lift
                 }
 
                 Rectangle {
