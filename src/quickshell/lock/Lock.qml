@@ -2049,6 +2049,7 @@ Scope {
                                     isLive: screenRoot.wingsReveal > 0.98
                                     hasShadow: true
                                     compact: true
+                                    bgOpacity: ThemeBackend.elementOpacity
                                 }
 
                                 SystemUsageCard {
@@ -2065,6 +2066,7 @@ Scope {
                                     isLive: screenRoot.wingsReveal > 0.98
                                     hasShadow: true
                                     compact: true
+                                    bgOpacity: ThemeBackend.elementOpacity
                                 }
 
                                 SystemUsageCard {
@@ -2081,6 +2083,7 @@ Scope {
                                     isLive: screenRoot.wingsReveal > 0.98
                                     hasShadow: true
                                     compact: true
+                                    bgOpacity: ThemeBackend.elementOpacity
                                 }
 
                                 SystemUsageCard {
@@ -2098,6 +2101,7 @@ Scope {
                                     isLive: screenRoot.wingsReveal > 0.98
                                     hasShadow: true
                                     compact: true
+                                    bgOpacity: ThemeBackend.elementOpacity
                                 }
 
                                 SystemUsageCard {
@@ -2114,6 +2118,7 @@ Scope {
                                     isLive: screenRoot.wingsReveal > 0.98
                                     hasShadow: true
                                     compact: true
+                                    bgOpacity: ThemeBackend.elementOpacity
 
                                     ColumnLayout {
                                         anchors.centerIn: parent
@@ -2123,7 +2128,7 @@ Scope {
                                             Layout.preferredHeight: screenRoot.s(26)
                                             Layout.preferredWidth: screenRoot.s(108)
                                             radius: screenRoot.s(13)
-                                            color: lockNetGlassA.active ? "transparent" : Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5)
+                                            color: lockNetGlassA.active ? "transparent" : Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5 * ThemeBackend.elementOpacity)
 
                                             GlassFill {
                                                 id: lockNetGlassA
@@ -2144,6 +2149,7 @@ Scope {
                                                     buttonIcon: "\uF063"
                                                     iconFontSize: Math.round(screenRoot.s(11))
                                                     accentColor: Qt.rgba(ThemeBackend.green.r, ThemeBackend.green.g, ThemeBackend.green.b, 0.25)
+                                                    bgOpacity: ThemeBackend.elementOpacity
                                                     textColor: ThemeBackend.green
                                                     enabled: false
                                                 }
@@ -2163,7 +2169,7 @@ Scope {
                                             Layout.preferredHeight: screenRoot.s(26)
                                             Layout.preferredWidth: screenRoot.s(108)
                                             radius: screenRoot.s(13)
-                                            color: lockNetGlassB.active ? "transparent" : Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5)
+                                            color: lockNetGlassB.active ? "transparent" : Qt.rgba(ThemeBackend.surface1.r, ThemeBackend.surface1.g, ThemeBackend.surface1.b, 0.5 * ThemeBackend.elementOpacity)
 
                                             GlassFill {
                                                 id: lockNetGlassB
@@ -2184,6 +2190,7 @@ Scope {
                                                     buttonIcon: "\uF062"
                                                     iconFontSize: Math.round(screenRoot.s(11))
                                                     accentColor: Qt.rgba(ThemeBackend.peach.r, ThemeBackend.peach.g, ThemeBackend.peach.b, 0.25)
+                                                    bgOpacity: ThemeBackend.elementOpacity
                                                     textColor: ThemeBackend.peach
                                                     enabled: false
                                                 }
