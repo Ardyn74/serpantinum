@@ -163,7 +163,7 @@ void main() {
     float warpK = 1.0 + 0.644 * motion + 0.368 * energy;
     vec2 warp = (-g * edgeFall * bz * (0.294 + 0.11 * wobble) + vec2(-g.y, g.x) * edgeFall * bz * 0.092 * (wobble - 0.5)) * warpK;
     vec2 dG = displacement(normal, ior, th) + warp;
-    float spread = dispersion * (0.6 + 2.02 * edgeFall) * (1.0 + 1.47 * motion + 0.55 * energy);
+    float spread = dispersion * (0.35 + 1.2 * edgeFall) * (1.0 + 2.2 * motion + 0.55 * energy);
     vec2 dR = dG * (1.0 + spread);
     vec2 dB = dG * (1.0 - spread);
 
@@ -205,7 +205,7 @@ void main() {
         float fb = (t - bz * 0.42) / (bz * 0.22 + 1.0);
         float fringeBand = exp(-fb * fb);
         float fringePhase = dot(g, vec2(0.7, 0.45)) * 0.9 + t / (bz * 1.6) + 0.15 * dot(p, vec2(0.004, 0.003));
-        fringe = (spectrum(fringePhase) - 0.5) * fringeBand * (0.074 + 0.147 * spec) * rim * (1.0 + 1.1 * motion);
+        fringe = (spectrum(fringePhase) - 0.5) * fringeBand * (0.018 + 0.036 * spec) * rim * (1.0 + 3.0 * motion);
     }
     float chroma = max(tintColor.r, max(tintColor.g, tintColor.b)) - min(tintColor.r, min(tintColor.g, tintColor.b));
     float neutralK = 1.0 - smoothstep(0.10, 0.18, chroma);
