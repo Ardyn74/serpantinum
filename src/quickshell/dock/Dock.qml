@@ -2726,6 +2726,7 @@ Variants {
                                     Layout.preferredHeight: dockWindow.s(34)
                                     placeholderText: I18n.t("guide.dock.picker.search", "Search apps...")
                                     baseColor: ThemeBackend.surface0
+                                    bgOpacity: ThemeBackend.glassActive ? 0.0 : 1.0
                                     accentColor: ThemeBackend.mauve
                                     textColor: ThemeBackend.text
                                     subTextColor: ThemeBackend.subtext0
@@ -2752,7 +2753,7 @@ Variants {
                                     cornerRadius: ThemeBackend.borderRadius
                                     buttonText: I18n.t("guide.dock.picker.done", "Done")
                                     accentColor: ThemeBackend.mauve
-                                    textColor: ThemeBackend.crust
+                                    textColor: ThemeBackend.liquidGlass ? ThemeBackend.text : ThemeBackend.crust
                                     textFontSize: dockWindow.s(11)
                                     onClicked: {
                                         dockWindow.setEditMode(false);
@@ -2811,10 +2812,24 @@ Variants {
                                         readonly property var resolvedItem: (modelData !== undefined && modelData) ? modelData : model
                                         readonly property bool isAdded: (resolvedItem && resolvedItem.id) ? dockWindow.isAppInDock(resolvedItem.id) : false
 
-                                        color: isAdded ? ThemeBackend.mauve : (pickerMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.4) : Qt.alpha(ThemeBackend.surface0, 0.25))
+                                        readonly property color contentOnAdded: pickerRowGlass.active ? ThemeBackend.text : ThemeBackend.crust
+
+                                        color: pickerRowGlass.active ? "transparent" : (isAdded ? ThemeBackend.mauve : (pickerMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.4) : Qt.alpha(ThemeBackend.surface0, 0.25)))
                                         border.width: 0
 
                                         Behavior on color { ColorAnimation { duration: 150 } }
+
+                                        GlassFill {
+                                            id: pickerRowGlass
+                                            anchors.fill: parent
+                                            radius: parent.radius
+                                            allowed: pickerDelegate.isAdded || pickerMa.containsMouse
+                                            forceClear: pickerDelegate.isAdded
+                                            tintColor: pickerDelegate.isAdded ? ThemeBackend.text : ThemeBackend.surface0
+                                            tintAmount: pickerDelegate.isAdded ? 0.1 : 0.3
+                                            tintStrength: pickerDelegate.isAdded ? 1.0 : 0.5
+                                            press: pickerMa.pressed ? 0.8 : (pickerDelegate.isAdded ? 0.6 : 0.2)
+                                        }
 
                                         RowLayout {
                                             anchors.fill: parent
@@ -2827,8 +2842,17 @@ Variants {
                                                 implicitHeight: dockWindow.s(28)
                                                 Layout.alignment: Qt.AlignVCenter
                                                 radius: Math.round(dockWindow.s(28) * 0.28)
-                                                color: pickerDelegate.isAdded ? Qt.tint(ThemeBackend.surface0, Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, 0.2)) : ThemeBackend.surface0
+                                                color: pickerIconGlass.active ? "transparent" : (pickerDelegate.isAdded ? Qt.tint(ThemeBackend.surface0, Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, 0.2)) : ThemeBackend.surface0)
                                                 clip: true
+
+                                                GlassFill {
+                                                    id: pickerIconGlass
+                                                    anchors.fill: parent
+                                                    radius: parent.radius
+                                                    forceClear: pickerDelegate.isAdded
+                                                    tintColor: pickerDelegate.isAdded ? ThemeBackend.text : ThemeBackend.surface2
+                                                    tintAmount: pickerDelegate.isAdded ? 0.1 : 0.3
+                                                }
 
                                                 Image {
                                                     id: pIcon
@@ -2861,7 +2885,7 @@ Variants {
                                                     font.family: ThemeBackend.fontFamily
                                                     font.pixelSize: dockWindow.s(12)
                                                     font.bold: true
-                                                    color: pickerDelegate.isAdded ? ThemeBackend.mauve : ThemeBackend.text
+                                                    color: pickerDelegate.isAdded ? (pickerRowGlass.active ? ThemeBackend.text : ThemeBackend.mauve) : ThemeBackend.text
                                                 }
                                             }
 
@@ -2875,7 +2899,7 @@ Variants {
                                                     font.family: ThemeBackend.fontFamily
                                                     font.pixelSize: dockWindow.s(11)
                                                     font.weight: pickerDelegate.isAdded ? Font.Bold : Font.Medium
-                                                    color: pickerDelegate.isAdded ? ThemeBackend.crust : ThemeBackend.text
+                                                    color: pickerDelegate.isAdded ? pickerDelegate.contentOnAdded : ThemeBackend.text
                                                     elide: Text.ElideRight
                                                     Layout.fillWidth: true
                                                     Behavior on color { ColorAnimation { duration: 150 } }
@@ -2885,7 +2909,7 @@ Variants {
                                                     text: pickerDelegate.resolvedItem.comment || pickerDelegate.resolvedItem.id || ""
                                                     font.family: ThemeBackend.fontFamily
                                                     font.pixelSize: dockWindow.s(9)
-                                                    color: pickerDelegate.isAdded ? ThemeBackend.crust : ThemeBackend.subtext0
+                                                    color: pickerDelegate.isAdded ? pickerDelegate.contentOnAdded : ThemeBackend.subtext0
                                                     opacity: pickerDelegate.isAdded ? 0.9 : 0.85
                                                     elide: Text.ElideRight
                                                     Layout.fillWidth: true
