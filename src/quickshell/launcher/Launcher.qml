@@ -1174,8 +1174,18 @@ PanelWindow {
 
         transformOrigin: Item.Center
 
+        GlassFillets {
+            id: launcherFillets
+            card: bgCard
+            filletRadius: launcherWindow.isCentered ? 0 : container.dynamicCornerRadius
+            filletDir: launcherWindow.attachEdge === "top" ? Qt.vector2d(0, -1)
+                     : launcherWindow.attachEdge === "bottom" ? Qt.vector2d(0, 1)
+                     : launcherWindow.attachEdge === "left" ? Qt.vector2d(-1, 0)
+                     : Qt.vector2d(1, 0)
+        }
+
         ShaderEffect {
-            visible: !launcherWindow.isCentered && container.dynamicCornerRadius > 0.5 && !ThemeBackend.liquidGlass
+            visible: !launcherWindow.isCentered && container.dynamicCornerRadius > 0.5
             x: {
                 if (launcherWindow.attachEdge === "left") return 0;
                 if (launcherWindow.attachEdge === "right") return parent.width - container.dynamicCornerRadius;
@@ -1200,7 +1210,7 @@ PanelWindow {
         }
 
         ShaderEffect {
-            visible: !launcherWindow.isCentered && container.dynamicCornerRadius > 0.5 && !ThemeBackend.liquidGlass
+            visible: !launcherWindow.isCentered && container.dynamicCornerRadius > 0.5
             x: {
                 if (launcherWindow.attachEdge === "left") return 0;
                 if (launcherWindow.attachEdge === "right") return parent.width - container.dynamicCornerRadius;
@@ -1228,7 +1238,7 @@ PanelWindow {
             id: bgCard
             anchors.fill: parent
             radius: container.dynamicCornerRadius
-            readonly property bool flatCorners: ThemeBackend.liquidGlass && !launcherWindow.isCentered
+            readonly property bool flatCorners: !launcherWindow.isCentered
             topLeftRadius: (flatCorners && (launcherWindow.attachEdge === "top" || launcherWindow.attachEdge === "left")) ? 0 : container.dynamicCornerRadius
             topRightRadius: (flatCorners && (launcherWindow.attachEdge === "top" || launcherWindow.attachEdge === "right")) ? 0 : container.dynamicCornerRadius
             bottomLeftRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "left")) ? 0 : container.dynamicCornerRadius
@@ -1245,78 +1255,8 @@ PanelWindow {
                 topRightRadius: parent.topRightRadius
                 bottomLeftRadius: parent.bottomLeftRadius
                 bottomRightRadius: parent.bottomRightRadius
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "top" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "top" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "bottom" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "bottom" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "left" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "left" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "right" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: !ThemeBackend.liquidGlass && launcherWindow.attachEdge === "right" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
+                filletRadius: launcherFillets.filletRadius
+                filletDir: launcherFillets.filletDir
             }
 
             Item {

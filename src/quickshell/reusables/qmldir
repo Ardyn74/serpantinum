@@ -18,6 +18,7 @@ LiquidFill 1.0 display/LiquidFill.qml
 MarqueeText 1.0 display/MarqueeText.qml
 WallpaperBlur 1.0 display/WallpaperBlur.qml
 LiquidGlass 1.0 display/LiquidGlass.qml
+GlassFillets 1.0 display/GlassFillets.qml
 GlassFill 1.0 display/GlassFill.qml
 
 LyricsView 1.0 media/LyricsView.qml

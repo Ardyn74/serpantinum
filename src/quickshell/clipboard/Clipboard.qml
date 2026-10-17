@@ -614,6 +614,16 @@ PanelWindow {
 
         opacity: (clipboardWindow.isVisible || animProgress > 0.001) ? 1.0 : 0.0
 
+        GlassFillets {
+            id: clipboardFillets
+            card: bgCard
+            filletRadius: container.dynamicCornerRadius
+            filletDir: clipboardWindow.attachEdge === "top" ? Qt.vector2d(0, -1)
+                     : clipboardWindow.attachEdge === "bottom" ? Qt.vector2d(0, 1)
+                     : clipboardWindow.attachEdge === "left" ? Qt.vector2d(-1, 0)
+                     : Qt.vector2d(1, 0)
+        }
+
         ShaderEffect {
             visible: container.dynamicCornerRadius > 0.5
             x: {
@@ -667,6 +677,10 @@ PanelWindow {
             id: bgCard
             anchors.fill: parent
             radius: clipboardWindow.cornerRadius
+            topLeftRadius: (clipboardWindow.attachEdge === "top" || clipboardWindow.attachEdge === "left") ? 0 : clipboardWindow.cornerRadius
+            topRightRadius: (clipboardWindow.attachEdge === "top" || clipboardWindow.attachEdge === "right") ? 0 : clipboardWindow.cornerRadius
+            bottomLeftRadius: (clipboardWindow.attachEdge === "bottom" || clipboardWindow.attachEdge === "left") ? 0 : clipboardWindow.cornerRadius
+            bottomRightRadius: (clipboardWindow.attachEdge === "bottom" || clipboardWindow.attachEdge === "right") ? 0 : clipboardWindow.cornerRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
             border.width: 0
             border.color: "transparent"
@@ -679,78 +693,8 @@ PanelWindow {
                 topRightRadius: parent.topRightRadius
                 bottomLeftRadius: parent.bottomLeftRadius
                 bottomRightRadius: parent.bottomRightRadius
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "top" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "top" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "bottom" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "bottom" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "left" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "left" && container.dynamicCornerRadius > 0.5
-                x: 0
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "right" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: 0
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            }
-
-            Rectangle {
-                visible: clipboardWindow.attachEdge === "right" && container.dynamicCornerRadius > 0.5
-                x: parent.width - container.dynamicCornerRadius
-                y: parent.height - container.dynamicCornerRadius
-                width: container.dynamicCornerRadius
-                height: container.dynamicCornerRadius
-                color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
+                filletRadius: clipboardFillets.filletRadius
+                filletDir: clipboardFillets.filletDir
             }
 
             Item {

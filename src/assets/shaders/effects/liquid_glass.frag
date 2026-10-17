@@ -27,6 +27,9 @@ layout(std140, binding = 0) uniform buf {
     float nest;
     float morph;
     float motion;
+    vec4 fillet;
+    vec4 box;
+    float filletInset;
 };
 
 layout(binding = 1) uniform sampler2D src;
@@ -43,8 +46,26 @@ float sdRoundBox(vec2 p, vec2 b, vec4 r) {
     return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - rad;
 }
 
+vec2 boxHalf() {
+    return box.z > 0.0 ? box.zw : itemSize * 0.5;
+}
+
+float sdfCard(vec2 p) {
+    return sdRoundBox(p - box.xy, boxHalf() - glassPad, radii);
+}
+
+float sdfPlane(vec2 p) {
+    vec2 h = boxHalf();
+    return abs(fillet.x) * h.x + abs(fillet.y) * h.y - dot(p - box.xy, fillet.xy) - filletInset;
+}
+
 float sdf(vec2 p) {
-    return sdRoundBox(p, itemSize * 0.5 - glassPad, radii);
+    float a = sdfCard(p);
+    if (fillet.z <= 0.0) return a;
+    float b = sdfPlane(p);
+    float r = fillet.z;
+    vec2 u = max(vec2(r - a, r - b), vec2(0.0));
+    return max(r, min(a, b)) - length(u);
 }
 
 vec3 fetchLod(vec2 p, float lod) {
@@ -96,6 +117,10 @@ vec2 displacement(vec3 normal, float index, float travel) {
 void main() {
     vec2 p = qt_TexCoord0 * itemSize - itemSize * 0.5;
     float dist = sdf(p);
+    if (fillet.w > 0.5 && (sdfCard(p) < 0.0 || sdfPlane(p) < 0.0)) {
+        fragColor = vec4(0.0);
+        return;
+    }
     float coverage = clamp(0.5 - dist, 0.0, 1.0);
     float shadow = 0.13 * shadowAmt * (1.0 - smoothstep(-2.0, 9.0, sdf(p - vec2(0.0, 3.0))));
     if (dist > 1.0) {

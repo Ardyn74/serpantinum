@@ -1237,8 +1237,16 @@ Variants {
                         }
                     }
 
+                    GlassFillets {
+                        id: sidebarFillets
+                        card: morphingBackground
+                        filletRadius: floatingWidget.outerCornerRadius > 0.5 ? floatingWidget.outerCornerRadius : 0
+                        filletDir: Qt.vector2d(-1, 0)
+                        filletInset: floatingWidget.edgeBleed
+                    }
+
                     ShaderEffect {
-                        visible: floatingWidget.outerCornerRadius > 0.5 && !ThemeBackend.liquidGlass
+                        visible: floatingWidget.outerCornerRadius > 0.5
                         x: 0
                         y: -floatingWidget.outerCornerRadius
                         width: floatingWidget.outerCornerRadius
@@ -1250,7 +1258,7 @@ Variants {
                     }
 
                     ShaderEffect {
-                        visible: floatingWidget.outerCornerRadius > 0.5 && !ThemeBackend.liquidGlass
+                        visible: floatingWidget.outerCornerRadius > 0.5
                         x: 0
                         y: parent.height
                         width: floatingWidget.outerCornerRadius
@@ -1281,6 +1289,9 @@ Variants {
                             topRightRadius: parent.topRightRadius
                             bottomLeftRadius: parent.bottomLeftRadius
                             bottomRightRadius: parent.bottomRightRadius
+                            filletRadius: sidebarFillets.filletRadius
+                            filletDir: sidebarFillets.filletDir
+                            filletInset: sidebarFillets.filletInset
                         }
 
                         MouseArea {

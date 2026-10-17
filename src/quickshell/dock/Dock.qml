@@ -1305,6 +1305,13 @@ Variants {
                         ? ThemeBackend.borderRadius
                         : Math.max(0, Math.min(dockWindow.outerCornerRadius, (dockWindow.isVertical ? width : height) * 0.5))
 
+                    readonly property real dockSideRadius: dynamicCornerRadius * (1.0 - outerCornerProgress)
+                    readonly property real topLeftCorner: (dockWindow.dockPosition === "top" || dockWindow.dockPosition === "left") ? dockSideRadius : dynamicCornerRadius
+                    readonly property real topRightCorner: (dockWindow.dockPosition === "top" || dockWindow.dockPosition === "right") ? dockSideRadius : dynamicCornerRadius
+                    readonly property real bottomLeftCorner: (dockWindow.dockPosition === "bottom" || dockWindow.dockPosition === "left") ? dockSideRadius : dynamicCornerRadius
+                    readonly property real bottomRightCorner: (dockWindow.dockPosition === "bottom" || dockWindow.dockPosition === "right") ? dockSideRadius : dynamicCornerRadius
+                    readonly property bool fanFillets: dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || (dockWindow.isVertical ? width : height) >= dockWindow.outerCornerRadius)
+
                     Behavior on dynamicCornerRadius {
                         enabled: dockWindow.initialized && !dockWindow.positionChanging
                         NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
@@ -1517,14 +1524,31 @@ Variants {
                         }
                     }
 
+                    GlassFillets {
+                        id: dockFillets
+                        card: dockBg
+                        surfaceEnabled: dockWindow.dockBackground && filletRadius > 0.5
+                        opacity: (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0) * (ThemeBackend.liquidGlass ? 1.0 : dockContainer.outerCornerProgress)
+                        filletRadius: !dockContainer.fanFillets ? 0 : (ThemeBackend.liquidGlass ? dockWindow.outerCornerRadius * dockContainer.outerCornerProgress : (dockContainer.outerCornerProgress > 0.001 ? dockWindow.outerCornerRadius : 0))
+                        filletDir: dockWindow.dockPosition === "bottom" ? Qt.vector2d(0, 1)
+                                 : dockWindow.dockPosition === "top" ? Qt.vector2d(0, -1)
+                                 : dockWindow.dockPosition === "left" ? Qt.vector2d(-1, 0)
+                                 : Qt.vector2d(1, 0)
+                    }
+
                     Item {
                         anchors.fill: parent
                         visible: dockWindow.dockBackground
 
                         WallpaperBlur {
                             anchors.fill: parent
-                            radius: dockContainer.dynamicCornerRadius
+                            topLeftRadius: dockContainer.topLeftCorner
+                            topRightRadius: dockContainer.topRightCorner
+                            bottomLeftRadius: dockContainer.bottomLeftCorner
+                            bottomRightRadius: dockContainer.bottomRightCorner
                             surfaceEnabled: dockWindow.dockBackground
+                            filletRadius: dockFillets.filletRadius
+                            filletDir: dockFillets.filletDir
                         }
                     }
 
@@ -1549,143 +1573,68 @@ Variants {
                             id: dockBg
                             anchors.fill: parent
                             radius: dockContainer.dynamicCornerRadius
+                            topLeftRadius: dockContainer.topLeftCorner
+                            topRightRadius: dockContainer.topRightCorner
+                            bottomLeftRadius: dockContainer.bottomLeftCorner
+                            bottomRightRadius: dockContainer.bottomRightCorner
                             color: ThemeBackend.liquidGlass ? "transparent" : ThemeBackend.base
                             border.width: (!ThemeBackend.liquidGlass && (dockWindow.dockFloating || dockWindow.editMode || dockContainer.outerCornerProgress < 0.99)) ? 1 : 0
                             border.color: (dockWindow.dockFloating || dockWindow.editMode || dockContainer.outerCornerProgress < 0.99) ? Qt.alpha(ThemeBackend.surface1, 0.4 * (1.0 - dockContainer.outerCornerProgress * 0.5)) : "transparent"
                             clip: true
 
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "bottom" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.height >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: 0
-                                y: parent.height - dockWindow.outerCornerRadius
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "bottom" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.height >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: parent.width - dockWindow.outerCornerRadius
-                                y: parent.height - dockWindow.outerCornerRadius
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "top" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.height >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: 0
-                                y: 0
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "top" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.height >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: parent.width - dockWindow.outerCornerRadius
-                                y: 0
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "left" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.width >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: 0
-                                y: 0
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "left" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.width >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: 0
-                                y: parent.height - dockWindow.outerCornerRadius
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "right" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.width >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: parent.width - dockWindow.outerCornerRadius
-                                y: 0
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
-
-                            Rectangle {
-                                visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.dockPosition === "right" && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || dockContainer.width >= dockWindow.outerCornerRadius)
-                                opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                                x: parent.width - dockWindow.outerCornerRadius
-                                y: parent.height - dockWindow.outerCornerRadius
-                                width: dockWindow.outerCornerRadius
-                                height: dockWindow.outerCornerRadius
-                                color: ThemeBackend.base
-                            }
                         }
+                    }
 
-                        ShaderEffect {
-                            visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || (dockWindow.isVertical ? dockContainer.width : dockContainer.height) >= dockWindow.outerCornerRadius)
-                            opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                            x: {
-                                if (dockWindow.dockPosition === "left") return 0;
-                                if (dockWindow.dockPosition === "right") return parent.width - dockWindow.outerCornerRadius;
-                                return -dockWindow.outerCornerRadius;
-                            }
-                            y: {
-                                if (dockWindow.dockPosition === "bottom") return parent.height - dockWindow.outerCornerRadius;
-                                if (dockWindow.dockPosition === "left" || dockWindow.dockPosition === "right") return -dockWindow.outerCornerRadius;
-                                return 0;
-                            }
-                            width: dockWindow.outerCornerRadius
-                            height: dockWindow.outerCornerRadius
-                            property vector2d itemSize: Qt.vector2d(width, height)
-                            property real cornerIndex: {
-                                if (dockWindow.dockPosition === "bottom") return 3.0;
-                                if (dockWindow.dockPosition === "left") return 2.0;
-                                if (dockWindow.dockPosition === "right") return 3.0;
-                                return 1.0; // top
-                            }
-                            property color color: ThemeBackend.base
-                            fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
+                    ShaderEffect {
+                        visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || (dockWindow.isVertical ? dockContainer.width : dockContainer.height) >= dockWindow.outerCornerRadius)
+                        opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
+                        x: {
+                            if (dockWindow.dockPosition === "left") return 0;
+                            if (dockWindow.dockPosition === "right") return dockContainer.width - dockWindow.outerCornerRadius;
+                            return -dockWindow.outerCornerRadius;
                         }
+                        y: {
+                            if (dockWindow.dockPosition === "bottom") return dockContainer.height - dockWindow.outerCornerRadius;
+                            if (dockWindow.dockPosition === "left" || dockWindow.dockPosition === "right") return -dockWindow.outerCornerRadius;
+                            return 0;
+                        }
+                        width: dockWindow.outerCornerRadius
+                        height: dockWindow.outerCornerRadius
+                        property vector2d itemSize: Qt.vector2d(width, height)
+                        property real cornerIndex: {
+                            if (dockWindow.dockPosition === "bottom") return 3.0;
+                            if (dockWindow.dockPosition === "left") return 2.0;
+                            if (dockWindow.dockPosition === "right") return 3.0;
+                            return 1.0; // top
+                        }
+                        property color color: Qt.alpha(ThemeBackend.base, dockWindow.dockOpacity)
+                        fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
+                    }
 
-                        ShaderEffect {
-                            visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || (dockWindow.isVertical ? dockContainer.width : dockContainer.height) >= dockWindow.outerCornerRadius)
-                            opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
-                            x: {
-                                if (dockWindow.dockPosition === "left") return 0;
-                                if (dockWindow.dockPosition === "right") return parent.width - dockWindow.outerCornerRadius;
-                                return parent.width;
-                            }
-                            y: {
-                                if (dockWindow.dockPosition === "bottom") return parent.height - dockWindow.outerCornerRadius;
-                                if (dockWindow.dockPosition === "left" || dockWindow.dockPosition === "right") return parent.height;
-                                return 0;
-                            }
-                            width: dockWindow.outerCornerRadius
-                            height: dockWindow.outerCornerRadius
-                            property vector2d itemSize: Qt.vector2d(width, height)
-                            property real cornerIndex: {
-                                if (dockWindow.dockPosition === "bottom") return 2.0;
-                                if (dockWindow.dockPosition === "left") return 0.0;
-                                if (dockWindow.dockPosition === "right") return 1.0;
-                                return 0.0; // top
-                            }
-                            property color color: ThemeBackend.base
-                            fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
+                    ShaderEffect {
+                        visible: !ThemeBackend.liquidGlass && dockContainer.outerCornerProgress > 0.001 && dockWindow.outerCornerRadius > 0.5 && (!dockWindow.sameSideAsBar || (dockWindow.isVertical ? dockContainer.width : dockContainer.height) >= dockWindow.outerCornerRadius)
+                        opacity: dockContainer.outerCornerProgress * (dockWindow.sameSideAsBar ? dockContainer.revealProgress : 1.0)
+                        x: {
+                            if (dockWindow.dockPosition === "left") return 0;
+                            if (dockWindow.dockPosition === "right") return dockContainer.width - dockWindow.outerCornerRadius;
+                            return dockContainer.width;
                         }
+                        y: {
+                            if (dockWindow.dockPosition === "bottom") return dockContainer.height - dockWindow.outerCornerRadius;
+                            if (dockWindow.dockPosition === "left" || dockWindow.dockPosition === "right") return dockContainer.height;
+                            return 0;
+                        }
+                        width: dockWindow.outerCornerRadius
+                        height: dockWindow.outerCornerRadius
+                        property vector2d itemSize: Qt.vector2d(width, height)
+                        property real cornerIndex: {
+                            if (dockWindow.dockPosition === "bottom") return 2.0;
+                            if (dockWindow.dockPosition === "left") return 0.0;
+                            if (dockWindow.dockPosition === "right") return 1.0;
+                            return 0.0; // top
+                        }
+                        property color color: Qt.alpha(ThemeBackend.base, dockWindow.dockOpacity)
+                        fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
                     }
 
                     Item {
