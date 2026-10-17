@@ -355,7 +355,7 @@ Rectangle {
         anchors.bottomMargin: -(s(1.5) + Math.max(0, typeRoot.dragY * 0.4))
         radius: visualItem.radius
         color: Qt.rgba(0, 0, 0, 0.12 + Math.min(0.06, Math.max(0, typeRoot.dragY / s(3.5)) * 0.06))
-        visible: !ThemeBackend.liquidGlass
+        visible: !ThemeBackend.glassActive
         scale: visualItem.scale
         opacity: visualItem.opacity
         transform: Translate {
@@ -418,7 +418,6 @@ Rectangle {
             anchors.fill: parent
             radius: visualItem.radius
             standalone: true
-            surfaceEnabled: ThemeBackend.liquidGlass
             screenOverride: (typeRoot.root && typeRoot.root.glassScreen) ? typeRoot.root.glassScreen : null
             useSnapshot: !!(typeRoot.root && typeRoot.root.glassScreen)
         }
@@ -558,7 +557,7 @@ Rectangle {
                         anchors.bottomMargin: -s(1.5)
                         radius: parent.boxRadius
                         color: Qt.rgba(0, 0, 0, 0.12)
-                        visible: !ThemeBackend.liquidGlass
+                        visible: !ThemeBackend.glassActive
                     }
 
                     Rectangle {

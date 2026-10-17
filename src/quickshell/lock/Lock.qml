@@ -1426,8 +1426,6 @@ Scope {
                                 height: screenRoot.s(580)
                                 radius: ThemeBackend.borderRadius * 1.5
                                 color: ThemeBackend.faded(ThemeBackend.surface0)
-                                border.width: ThemeBackend.liquidGlass ? 0 : 1.5
-                                border.color: ThemeBackend.surface1
                                 clip: true
 
                                 opacity: screenRoot.centerReveal
@@ -2220,7 +2218,9 @@ Scope {
                                 Layout.fillHeight: true
                                 hasShadow: true
                                 shadowColor: Qt.rgba(0, 0, 0, 0.14)
-                                baseColor: Qt.lighter(ThemeBackend.surface0, 1.28)
+                                baseColor: ThemeBackend.faded(Qt.lighter(ThemeBackend.surface0, 1.28))
+                                standaloneBlur: true
+                                blurScreen: surface.screen
                                 borderWidth: 1
                                 borderColor: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.06)
                                 cornerRadius: screenRoot.s(16)
