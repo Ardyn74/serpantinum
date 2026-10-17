@@ -619,7 +619,7 @@ Item {
                             tintAmount: 0.25
                         }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                         RowLayout {
                             anchors.fill: parent
@@ -691,7 +691,7 @@ Item {
                             tintAmount: 0.25
                         }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.4)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                         Text {
                             anchors.centerIn: parent
@@ -718,7 +718,7 @@ Item {
                             tintAmount: 0.25
                         }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                         RowLayout {
                             anchors.fill: parent
@@ -802,7 +802,7 @@ Item {
                             tintAmount: 0.25
                         }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                         opacity: introMidLeft
                         transform: Translate { x: rootObj.s(-30) * (1 - introMidLeft) }
@@ -890,7 +890,7 @@ Item {
                             tintAmount: 0.25
                         }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                         opacity: introMidRight
                         transform: Translate { x: rootObj.s(30) * (1 - introMidRight) }
@@ -1000,14 +1000,24 @@ Item {
                             width: ListView.view.width - (appList.contentHeight > appList.height ? rootObj.s(8) : 0)
                             height: rootObj.s(52)
                             radius: ThemeBackend.borderRadius
-                            color: rowMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.45) : Qt.alpha(ThemeBackend.surface0, 0.4)
+                            color: gfRow.active ? "transparent" : (rowMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.45) : Qt.alpha(ThemeBackend.surface0, 0.4))
                             border.color: rowMa.containsMouse ? Qt.alpha(ThemeBackend.surface2, 0.45) : Qt.alpha(ThemeBackend.surface1, 0.3)
-                            border.width: 1
+                            border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                             Behavior on color { ColorAnimation { duration: 150 } }
                             Behavior on border.color { ColorAnimation { duration: 150 } }
 
                             transform: Translate { y: (index * rootObj.s(12)) * (1 - introBottom) }
+
+                            GlassFill {
+                                id: gfRow
+                                anchors.fill: parent
+                                radius: parent.radius
+                                tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                                tintAmount: 0.25
+                                press: rowMa.pressed ? 0.8 : (rowMa.containsMouse ? 0.25 : 0)
+                                Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                            }
 
                             MouseArea {
                                 id: rowMa
@@ -1142,7 +1152,7 @@ Item {
                             tintAmount: 0.25
                         }
                         border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-                        border.width: 1
+                        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                         opacity: tabRoot.appViewFocus
                         visible: opacity > 0
@@ -1255,7 +1265,7 @@ Item {
                         tintAmount: 0.25
                     }
                     border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-                    border.width: 1
+                    border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                     opacity: introMidLeft
                     transform: Translate { y: rootObj.s(20) * (1 - introMidLeft) }
@@ -1378,7 +1388,7 @@ Item {
                                     tintAmount: 0.25
                                 }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.35)
-                                border.width: 1
+                                border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                                 RowLayout {
                                     anchors.centerIn: parent
@@ -1430,7 +1440,7 @@ Item {
                                     tintAmount: 0.25
                                 }
                                 border.color: Qt.alpha(ThemeBackend.surface2, 0.35)
-                                border.width: 1
+                                border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                                 RowLayout {
                                     anchors.centerIn: parent
@@ -1500,14 +1510,24 @@ Item {
                             width: ListView.view.width - (weekAppList.contentHeight > weekAppList.height ? rootObj.s(8) : 0)
                             height: rootObj.s(52)
                             radius: ThemeBackend.borderRadius
-                            color: weekRowMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.45) : Qt.alpha(ThemeBackend.surface0, 0.4)
+                            color: gfWeekRow.active ? "transparent" : (weekRowMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.45) : Qt.alpha(ThemeBackend.surface0, 0.4))
                             border.color: weekRowMa.containsMouse ? Qt.alpha(ThemeBackend.surface2, 0.45) : Qt.alpha(ThemeBackend.surface1, 0.3)
-                            border.width: 1
+                            border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                             Behavior on color { ColorAnimation { duration: 150 } }
                             Behavior on border.color { ColorAnimation { duration: 150 } }
 
                             transform: Translate { y: (index * rootObj.s(12)) * (1 - introBottom) }
+
+                            GlassFill {
+                                id: gfWeekRow
+                                anchors.fill: parent
+                                radius: parent.radius
+                                tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
+                                tintAmount: 0.25
+                                press: weekRowMa.pressed ? 0.8 : (weekRowMa.containsMouse ? 0.25 : 0)
+                                Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                            }
 
                             MouseArea {
                                 id: weekRowMa
