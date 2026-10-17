@@ -535,8 +535,18 @@ PanelWindow {
                             anchors.fill: parent
                             visible: !rootItemDelegate.isSep
                             radius: trayMenuWindow.s(4)
-                            color: itemMouse.containsMouse ? ThemeBackend.surface0 : "transparent"
+                            color: rootHoverGlass.active ? "transparent" : (itemMouse.containsMouse ? ThemeBackend.surface0 : "transparent")
                             opacity: (modelData && modelData.enabled) ? 1.0 : 0.4
+
+                            GlassFill {
+                                id: rootHoverGlass
+                                anchors.fill: parent
+                                radius: parent.radius
+                                allowed: itemMouse.containsMouse
+                                tintColor: ThemeBackend.surface0
+                                tintAmount: 0.3
+                                press: itemMouse.pressed ? 0.8 : 0.2
+                            }
 
                             Image {
                                 id: itemIcon
@@ -827,8 +837,18 @@ PanelWindow {
                                 anchors.fill: parent
                                 visible: !subItemDelegate.isSep
                                 radius: trayMenuWindow.s(4)
-                                color: subItemMouse.containsMouse ? ThemeBackend.surface0 : "transparent"
+                                color: subHoverGlass.active ? "transparent" : (subItemMouse.containsMouse ? ThemeBackend.surface0 : "transparent")
                                 opacity: (modelData && modelData.enabled) ? 1.0 : 0.4
+
+                                GlassFill {
+                                    id: subHoverGlass
+                                    anchors.fill: parent
+                                    radius: parent.radius
+                                    allowed: subItemMouse.containsMouse
+                                    tintColor: ThemeBackend.surface0
+                                    tintAmount: 0.3
+                                    press: subItemMouse.pressed ? 0.8 : 0.2
+                                }
 
                                 Image {
                                     id: subItemIcon
