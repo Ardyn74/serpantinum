@@ -136,6 +136,8 @@ Item {
     onActiveChanged: {
         cursorPrimed = false;
         rectPrimed = false;
+        armed = false;
+        armFrames = 0;
         if (active) updateNest();
         register();
     }
@@ -149,9 +151,23 @@ Item {
         function onLiquidGlassChanged() { root.resolve(); }
     }
 
+    function track() {
+        let e = root;
+        let d = 0;
+        while (e && d < 64) {
+            void e.x;
+            void e.y;
+            void e.width;
+            void e.height;
+            e = e.parent;
+            d++;
+        }
+    }
+
     property rect sampleRect: {
         if (!root.active) return Qt.rect(0, 0, 1, 1);
         void root.backdrop.frame;
+        root.track();
         const a = root.backdrop.mapFromItem(root, -root.pad, -root.pad);
         const b = root.backdrop.mapFromItem(root, root.width + root.pad, root.height + root.pad);
         const bw = Math.max(1, root.backdrop.width);
@@ -161,6 +177,7 @@ Item {
 
     property point localCursor: {
         if (!root.active) return Qt.point(0, 0);
+        root.track();
         const c = root.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
         return Qt.point(c.x + root.pad, c.y + root.pad);
     }
@@ -168,6 +185,7 @@ Item {
     property int turns: {
         if (!root.active) return 0;
         void root.backdrop.frame;
+        root.track();
         const p0 = root.backdrop.mapFromItem(root, 0, 0);
         const p1 = root.backdrop.mapFromItem(root, 1, 0);
         const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180 / Math.PI;
@@ -177,6 +195,7 @@ Item {
     property rect frameRect: {
         if (!root.active) return Qt.rect(0, 0, 1, 1);
         void root.backdrop.frame;
+        root.track();
         const a = root.backdrop.mapFromItem(glassFrame, 0, 0);
         const b = root.backdrop.mapFromItem(glassFrame, glassFrame.width, glassFrame.height);
         const bw = Math.max(1, root.backdrop.width);
@@ -186,6 +205,7 @@ Item {
 
     property point frameCursor: {
         if (!root.active) return Qt.point(0, 0);
+        root.track();
         const c = glassFrame.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
         return Qt.point(c.x, c.y);
     }
@@ -201,9 +221,18 @@ Item {
     property size lastSize: Qt.size(0, 0)
     property bool cursorPrimed: false
     property bool rectPrimed: false
+    property bool armed: false
+    property int armFrames: 0
+
+    FrameAnimation {
+        running: root.active && !root.armed
+        onTriggered: {
+            if (++root.armFrames >= 3) root.armed = true;
+        }
+    }
 
     function bump(distance) {
-        if (!root.active || distance < 0.05) return;
+        if (!root.active || !root.armed || distance < 0.05) return;
         root.motion = Math.min(1, root.motion + distance / 36);
         if (!motionDecay.running) motionDecay.start();
     }
