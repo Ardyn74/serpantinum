@@ -331,10 +331,8 @@ Item {
         root._colorQueue = root._colorQueue.slice(n);
     }
 
-    Timer {
+    FrameAnimation {
         id: colorStepTimer
-        interval: 16
-        repeat: true
         onTriggered: {
             root._flushColorQueue();
             if (root._colorQueue.length === 0) stop();

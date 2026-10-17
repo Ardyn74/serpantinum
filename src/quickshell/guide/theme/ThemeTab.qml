@@ -143,10 +143,8 @@ Item {
     onFilteredUserPresetsChanged: restartReveal()
     onFilteredSystemPresetsChanged: restartReveal()
 
-    Timer {
+    FrameAnimation {
         id: revealTimer
-        interval: 16
-        repeat: true
         onTriggered: {
             themeTabRoot.revealedCount = Math.min(themeTabRoot.presetTotal, themeTabRoot.revealedCount + 8);
             if (themeTabRoot.revealedCount >= themeTabRoot.presetTotal) revealTimer.stop();

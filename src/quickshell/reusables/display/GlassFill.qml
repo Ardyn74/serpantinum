@@ -264,12 +264,10 @@ Item {
         bump(Math.min(60, d));
     }
 
-    Timer {
+    FrameAnimation {
         id: motionDecay
-        interval: 16
-        repeat: true
         onTriggered: {
-            root.motion *= 0.91;
+            root.motion *= Math.pow(0.91, frameTime / 0.016);
             if (root.motion < 0.004) {
                 root.motion = 0;
                 stop();
