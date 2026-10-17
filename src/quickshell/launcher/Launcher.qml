@@ -296,7 +296,8 @@ PanelWindow {
         return (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.height) ? s(Config.rawSettings.bar.height) : s(40);
     }
 
-    property bool barMatchesLauncher: (attachEdge === barPosition) && !isBarEffectivelyHidden
+    property bool isBarAttachable: barStyle === "solid" || barStyle === "fill"
+    property bool barMatchesLauncher: isBarAttachable && (attachEdge === barPosition) && !isBarEffectivelyHidden
 
     property string attachEdge: launcherPosition
     property bool isSideAttached: attachEdge === "left" || attachEdge === "right"
