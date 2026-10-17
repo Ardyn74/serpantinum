@@ -611,6 +611,18 @@
         "select_wallpaper": "Selecionar papel de parede",
         "no_wallpaper_selected": "Nenhum papel de parede selecionado",
         "select": "Papel de parede"
+      },
+      "element_opacity": {
+        "title": "Opacidade dos elementos",
+        "desc": "Opacidade da barra, do dock, dos widgets e de todos os outros elementos do shell"
+      },
+      "blur_background": {
+        "title": "Adicionar um fundo de papel de parede desfocado",
+        "desc": "Desfoca o papel de parede atrás de cada elemento que usa transparência",
+        "style": {
+          "blur": "Desfoque",
+          "liquid": "Vidro líquido"
+        }
       }
     },
     "file_picker": {

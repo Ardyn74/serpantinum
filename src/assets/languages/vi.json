@@ -611,6 +611,18 @@
         "select_wallpaper": "Chọn hình nền",
         "no_wallpaper_selected": "Chưa chọn hình nền nào",
         "select": "Hình nền"
+      },
+      "element_opacity": {
+        "title": "Độ mờ của phần tử",
+        "desc": "Độ mờ của thanh, dock, tiện ích và mọi phần tử khác của shell"
+      },
+      "blur_background": {
+        "title": "Thêm nền hình nền làm mờ",
+        "desc": "Làm mờ hình nền phía sau mọi phần tử sử dụng độ trong suốt",
+        "style": {
+          "blur": "Làm mờ",
+          "liquid": "Kính lỏng"
+        }
       }
     },
     "file_picker": {

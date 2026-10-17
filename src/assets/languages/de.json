@@ -612,6 +612,18 @@
         "select_wallpaper": "Hintergrundbild auswählen",
         "no_wallpaper_selected": "Kein Hintergrundbild ausgewählt",
         "select": "Hintergrundbild"
+      },
+      "element_opacity": {
+        "title": "Elementdeckkraft",
+        "desc": "Deckkraft von Leiste, Dock, Widgets und allen anderen Shell-Elementen"
+      },
+      "blur_background": {
+        "title": "Unscharfen Hintergrundbild-Hintergrund hinzufügen",
+        "desc": "Weichzeichnet das Hintergrundbild hinter jedem Element mit Transparenz",
+        "style": {
+          "blur": "Weichzeichnen",
+          "liquid": "Liquid Glass"
+        }
       }
     },
     "file_picker": {

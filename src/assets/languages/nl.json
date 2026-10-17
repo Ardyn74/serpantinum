@@ -611,6 +611,18 @@
         "select_wallpaper": "Achtergrond selecteren",
         "no_wallpaper_selected": "Geen achtergrond geselecteerd",
         "select": "Achtergrond"
+      },
+      "element_opacity": {
+        "title": "Elementdekking",
+        "desc": "Dekking van de balk, dock, widgets en alle andere shell-elementen"
+      },
+      "blur_background": {
+        "title": "Een vervaagde achtergrond van het bureaublad toevoegen",
+        "desc": "Vervaagt de achtergrond achter elk element dat transparantie gebruikt",
+        "style": {
+          "blur": "Vervagen",
+          "liquid": "Liquid glass"
+        }
       }
     },
     "file_picker": {

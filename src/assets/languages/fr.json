@@ -611,6 +611,18 @@
         "select_wallpaper": "Sélectionner un fond d'écran",
         "no_wallpaper_selected": "Aucun fond d'écran sélectionné",
         "select": "Fond d'écran"
+      },
+      "element_opacity": {
+        "title": "Opacité des éléments",
+        "desc": "Opacité de la barre, du dock, des widgets et de tous les autres éléments du shell"
+      },
+      "blur_background": {
+        "title": "Ajouter un arrière-plan de fond d'écran flouté",
+        "desc": "Floute le fond d'écran derrière chaque élément utilisant la transparence",
+        "style": {
+          "blur": "Flou",
+          "liquid": "Verre liquide"
+        }
       }
     },
     "file_picker": {

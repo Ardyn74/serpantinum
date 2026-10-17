@@ -610,6 +610,18 @@
         "select_wallpaper": "Seleziona sfondo",
         "no_wallpaper_selected": "Nessuno sfondo selezionato",
         "select": "Sfondo"
+      },
+      "element_opacity": {
+        "title": "Opacità degli elementi",
+        "desc": "Opacità di barra, dock, widget e di ogni altro elemento della shell"
+      },
+      "blur_background": {
+        "title": "Aggiungi uno sfondo sfocato del wallpaper",
+        "desc": "Sfoca il wallpaper dietro ogni elemento che usa la trasparenza",
+        "style": {
+          "blur": "Sfocatura",
+          "liquid": "Vetro liquido"
+        }
       }
     },
     "file_picker": {

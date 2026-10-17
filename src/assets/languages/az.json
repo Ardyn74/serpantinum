@@ -609,6 +609,18 @@
         "select_wallpaper": "Fon şəkli seç",
         "no_wallpaper_selected": "Fon şəkli seçilməyib",
         "select": "Divar kağızı"
+      },
+      "element_opacity": {
+        "title": "Element şəffaflığı",
+        "desc": "Panelin, dokun, vidjetlərin və digər bütün qabıq elementlərinin şəffaflığı"
+      },
+      "blur_background": {
+        "title": "Bulanıq divar kağızı fonu əlavə et",
+        "desc": "Şəffaflıqdan istifadə edən hər elementin arxasında divar kağızını bulanıqlaşdır",
+        "style": {
+          "blur": "Bulanıqlıq",
+          "liquid": "Maye şüşə"
+        }
       }
     },
     "file_picker": {

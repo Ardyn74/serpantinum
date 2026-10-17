@@ -1317,6 +1317,18 @@
         "select_wallpaper": "壁紙を選択",
         "no_wallpaper_selected": "壁紙が選択されていません",
         "select": "壁紙"
+      },
+      "element_opacity": {
+        "title": "要素の不透明度",
+        "desc": "バー、ドック、ウィジェット、その他すべてのシェル要素の不透明度"
+      },
+      "blur_background": {
+        "title": "ぼかした壁紙の背景を追加",
+        "desc": "透明度を使用するすべての要素の背後の壁紙をぼかします",
+        "style": {
+          "blur": "ぼかし",
+          "liquid": "リキッドグラス"
+        }
       }
     },
     "file_picker": {

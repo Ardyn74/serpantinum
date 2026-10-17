@@ -611,6 +611,18 @@
         "select_wallpaper": "选择壁纸",
         "no_wallpaper_selected": "未选择壁纸",
         "select": "壁纸"
+      },
+      "element_opacity": {
+        "title": "元素不透明度",
+        "desc": "状态栏、程序坞、小组件及所有其他界面元素的不透明度"
+      },
+      "blur_background": {
+        "title": "添加模糊的壁纸背景",
+        "desc": "对所有使用透明度的元素背后的壁纸进行模糊处理",
+        "style": {
+          "blur": "模糊",
+          "liquid": "液态玻璃"
+        }
       }
     },
     "file_picker": {

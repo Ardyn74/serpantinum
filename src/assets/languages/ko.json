@@ -611,6 +611,18 @@
         "select_wallpaper": "배경화면 선택",
         "no_wallpaper_selected": "선택된 배경화면 없음",
         "select": "배경화면"
+      },
+      "element_opacity": {
+        "title": "요소 불투명도",
+        "desc": "바, 독, 위젯 및 기타 모든 셸 요소의 불투명도"
+      },
+      "blur_background": {
+        "title": "흐린 배경화면 배경 추가",
+        "desc": "투명도를 사용하는 모든 요소 뒤의 배경화면을 흐리게 합니다",
+        "style": {
+          "blur": "흐림",
+          "liquid": "리퀴드 글라스"
+        }
       }
     },
     "file_picker": {
