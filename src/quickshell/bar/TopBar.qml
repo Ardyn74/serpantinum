@@ -232,7 +232,10 @@ Item {
         return checkFlat(flatLeftArr) || checkFlat(flatCenterArr) || checkFlat(flatRightArr);
     }
 
+    property int groupRev: 0
+
     function backdropFor(id) {
+        void groupRev;
         if (isSolid) return solidBlur;
         if (!isModuleGrouped(id)) return null;
         for (let i = 0; i < groupBgRepeater.count; i++) {
@@ -736,6 +739,8 @@ Item {
     Repeater {
         id: groupBgRepeater
         model: contentWrapper.groupDefs
+        onItemAdded: contentWrapper.groupRev++
+        onItemRemoved: contentWrapper.groupRev++
         delegate: Rectangle {
             id: groupBgRect
             z: 0
@@ -774,7 +779,7 @@ Item {
             visible: metrics.v && (barWindow ? !barWindow.positionChanging : true) && width > 0 && (!contentWrapper.isSolid || contentWrapper.distinctPills)
             opacity: visible ? 1.0 : 0.0
 
-            color: groupGlass.active ? "transparent" : ((contentWrapper.isSolid && contentWrapper.distinctPills)
+            color: (groupGlass.active || (ThemeBackend.liquidGlass && groupBlur.active)) ? "transparent" : ((contentWrapper.isSolid && contentWrapper.distinctPills)
                 ? Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.15), (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : 1.0)
                 : Qt.alpha(ThemeBackend.base, (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : 1.0))
             radius: ThemeBackend.borderRadius
@@ -786,7 +791,7 @@ Item {
                 z: -1
                 anchors.fill: parent
                 radius: parent.radius
-                surfaceEnabled: !!contentWrapper && !contentWrapper.isSolid
+                surfaceEnabled: !contentWrapper.isSolid
                 standalone: true
             }
 
@@ -795,7 +800,7 @@ Item {
                 anchors.fill: parent
                 z: -1
                 radius: parent.radius
-                allowed: !!contentWrapper && contentWrapper.isSolid && contentWrapper.distinctPills
+                allowed: contentWrapper.isSolid && contentWrapper.distinctPills
                 tintColor: ThemeBackend.surface0
                 tintAmount: 0.3
             }
@@ -829,7 +834,7 @@ Item {
             distinctPills: contentWrapper.distinctPills
             moduleActive: contentWrapper.isModuleActive(modelData)
             isGrouped: contentWrapper.isModuleGrouped(modelData)
-            providedBackdrop: { void groupBgRepeater.count; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
+            providedBackdrop: { void groupBgRepeater.count; void contentWrapper.groupRev; return contentWrapper ? contentWrapper.backdropFor(modelData) : null; }
             targetX: contentWrapper.getModuleX(modelData, contentWrapper.layoutState)
             suppressAnimation: contentWrapper.suppressAnimation
             layoutAnimationsEnabled: contentWrapper.layoutAnimationsEnabled

@@ -94,7 +94,7 @@ Item {
 
     function register() {
         unregister();
-        if (root.active) {
+        if (root.active && root.backdrop) {
             root.backdrop.consumers++;
             root.registeredBackdrop = root.backdrop;
         }
