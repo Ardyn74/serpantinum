@@ -764,6 +764,7 @@ Item {
                                         font.weight: Font.Bold
                                         font.pixelSize: rootObj.s(20)
                                         color: {
+                                            if (ThemeBackend.liquidGlass) return "#ffffff";
                                             let diff = tabRoot.totalSeconds - tabRoot.yesterdaySeconds;
                                             return diff > 0 ? ThemeBackend.peach : ThemeBackend.green;
                                         }
@@ -1265,17 +1266,18 @@ Item {
                                         Rectangle {
                                             anchors.bottom: parent.bottom
                                             width: parent.width
-                                            height: Math.max(rootObj.s(4), parent.height * (tabRoot.hourlyData[index] / Math.max(tabRoot.maxHourlyTotal, 1)) * tabRoot.introAppBars)
+                                            height: Math.max(rootObj.s(4), parent.height * (hourValue / Math.max(tabRoot.maxHourlyTotal, 1)) * tabRoot.introAppBars)
                                             radius: rootObj.s(2)
-                                            color: hourGlass.active ? "transparent" : (tabRoot.hourlyData[index] > 0 ? ThemeBackend.blue : ThemeBackend.surface1)
+                                            readonly property real hourValue: tabRoot ? (tabRoot.hourlyData[index] || 0) : 0
+                                            color: hourGlass.active ? "transparent" : (hourValue > 0 ? ThemeBackend.blue : ThemeBackend.surface1)
 
                                             GlassFill {
                                                 id: hourGlass
                                                 anchors.fill: parent
                                                 radius: parent.radius
-                                                forceClear: tabRoot.hourlyData[index] > 0
-                                                tintColor: tabRoot.hourlyData[index] > 0 ? ThemeBackend.blue : ThemeBackend.surface1
-                                                tintAmount: tabRoot.hourlyData[index] > 0 ? 0.6 : 0.22
+                                                forceClear: parent.hourValue > 0
+                                                tintColor: parent.hourValue > 0 ? ThemeBackend.blue : ThemeBackend.surface1
+                                                tintAmount: parent.hourValue > 0 ? 0.6 : 0.22
                                                 tintStrength: 1.0
                                             }
 
@@ -1412,7 +1414,7 @@ Item {
                                                         height: parent.height
                                                         radius: 0
 
-                                                        property real val: (tabRoot.weekHeatmapData[dayIndex] && tabRoot.weekHeatmapData[dayIndex][index]) ? tabRoot.weekHeatmapData[dayIndex][index] : 0
+                                                        property real val: (tabRoot && tabRoot.weekHeatmapData[dayIndex] && tabRoot.weekHeatmapData[dayIndex][index]) ? tabRoot.weekHeatmapData[dayIndex][index] : 0
                                                         property real intensity: Math.min(1.0, 0.2 + 0.8 * (val / Math.max(tabRoot.maxWeekHour, 1)))
                                                         color: weekCellGlass.active ? "transparent" : (val === 0 ? ThemeBackend.surface1 : Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, intensity))
 
