@@ -21,7 +21,7 @@ Item {
     property real elementOpacity: 1.0
     property bool blurBackground: false
     property string blurStyle: "blur"
-    readonly property real liquidGlassOpacity: 0.04
+    readonly property real liquidGlassOpacity: 0.1
     readonly property bool glassActive: blurBackground && elementOpacity < 0.999
     readonly property bool liquidGlass: blurBackground && blurStyle === "liquid"
 
