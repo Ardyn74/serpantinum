@@ -32,6 +32,7 @@ layout(binding = 1) uniform sampler2D src;
 
 const int TAPS = 10;
 const float GOLDEN = 2.39996323;
+const float DARKEN = 0.15;
 const vec2 lightDir = vec2(-0.55, -0.83);
 
 float sdRoundBox(vec2 p, vec2 b, vec4 r) {
@@ -172,8 +173,11 @@ void main() {
     float clearA = lensA * (1.0 - tA) + tA;
 
     vec3 premul = mix(opaqueRgb, clearRgb, clear);
+    float veil = DARKEN * smoothstep(0.35, 0.9, l) * (1.0 - clear) * (1.0 - nest);
+    premul *= 1.0 - veil;
     premul += light;
     float alpha = mix(1.0, clearA, clear);
+    alpha += veil * (1.0 - alpha);
 
     float gn = hash12(gl_FragCoord.xy) + hash12(gl_FragCoord.xy * 1.7 + 17.0) - 1.0;
     premul += vec3(gn * 0.03 * (1.0 - 0.7 * nest)) * alpha;

@@ -13,9 +13,9 @@ Item {
     property real bottomRightRadius: radius
     property color tintColor: ThemeBackend.base
     property real tintAmount: 0.35
-    property real frost: 1.5
+    property real frost: 2.2
     property real rim: 0.45
-    property real saturation: 1.2
+    property real saturation: 1.0
     property real thickness: -1
     property real tintStrength: 0.5
     property real shadow: 0
