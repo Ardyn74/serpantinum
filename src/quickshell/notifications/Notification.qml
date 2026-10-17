@@ -140,9 +140,22 @@ Rectangle {
     }
 
     onTimestampChanged: updateTimeText()
+    property real arrive: 0.0
+
+    NumberAnimation {
+        id: arriveAnim
+        target: typeRoot
+        property: "arrive"
+        from: 1.0
+        to: 0.0
+        duration: 900
+        easing.type: Easing.OutCubic
+    }
+
     Component.onCompleted: {
         updateTimeText();
         Qt.callLater(playPopupSound);
+        if (ThemeBackend.liquidGlass) arriveAnim.start();
     }
 
     function s(val) { return root && typeof root.s === "function" ? root.s(val) : val; }
@@ -429,10 +442,19 @@ Rectangle {
         Behavior on color { enabled: !cardHover.draggingH && !cardHover.draggingV; ColorAnimation { duration: 150 } }
         Behavior on scale { enabled: !cardHover.draggingH && !cardHover.draggingV; NumberAnimation { duration: 150; easing.type: Easing.OutQuint } }
 
-        transform: Translate {
-            x: typeRoot.dragX
-            y: typeRoot.dragY
-        }
+        readonly property real dragFraction: Math.min(1.0, Math.abs(typeRoot.dragX) / Math.max(1, typeRoot.width * 0.75))
+        transform: [
+            Scale {
+                origin.x: visualItem.width / 2
+                origin.y: visualItem.height / 2
+                xScale: ThemeBackend.liquidGlass ? 1.0 - 0.1 * visualItem.dragFraction : 1.0
+                yScale: ThemeBackend.liquidGlass ? 1.0 + 0.03 * visualItem.dragFraction : 1.0
+            },
+            Translate {
+                x: typeRoot.dragX
+                y: typeRoot.dragY
+            }
+        ]
         opacity: Math.max(0.0, 1.0 - (Math.abs(typeRoot.dragX) / (typeRoot.width * 0.75)))
 
         Item {
@@ -574,6 +596,7 @@ Rectangle {
                             tintColor: typeRoot.urgency === 2 ? ThemeBackend.red : ThemeBackend.surface2
                             tintAmount: typeRoot.urgency === 2 ? 0.3 : 0.35
                             tintStrength: 1.0
+                            pulse: typeRoot.arrive
                         }
                     }
 

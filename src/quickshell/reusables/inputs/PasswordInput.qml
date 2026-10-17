@@ -250,11 +250,27 @@ FocusScope {
         }
     }
 
+    property real typePulse: 0.0
+    property real errorPulse: 0.0
+
+    SequentialAnimation {
+        id: typePulseAnim
+        NumberAnimation { target: root; property: "typePulse"; to: 0.55; duration: 60; easing.type: Easing.OutQuad }
+        NumberAnimation { target: root; property: "typePulse"; to: 0.0; duration: 380; easing.type: Easing.OutCubic }
+    }
+
+    SequentialAnimation {
+        id: errorPulseAnim
+        NumberAnimation { target: root; property: "errorPulse"; to: 1.0; duration: 90; easing.type: Easing.OutQuad }
+        NumberAnimation { target: root; property: "errorPulse"; to: 0.0; duration: 620; easing.type: Easing.OutCubic }
+    }
+
     onTextChanged: {
         if (innerInput.text !== root.text) {
             innerInput.text = root.text;
             syncModel();
         }
+        if (glass.active) typePulseAnim.restart();
         root.hasSuccess = false;
         root.hasError = false;
     }
@@ -266,7 +282,10 @@ FocusScope {
         lockButton.requestPaint();
     }
 
-    onHasErrorChanged: lockButton.requestPaint()
+    onHasErrorChanged: {
+        if (hasError && glass.active) errorPulseAnim.restart();
+        lockButton.requestPaint();
+    }
     onHasSuccessChanged: lockButton.requestPaint()
     onIsBusyChanged: {
         if (!isBusy) {
@@ -363,6 +382,7 @@ FocusScope {
                 tintColor: bgShape.stateColor
                 tintAmount: root.hasFocus ? 0.38 : 0.26
                 press: root.hasFocus ? 0.55 : (root.isHoveredOrHighlighted ? 0.2 : 0)
+                pulse: Math.min(1, root.typePulse + root.errorPulse)
                 Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
                 Behavior on tintAmount { NumberAnimation { duration: 180 } }
             }

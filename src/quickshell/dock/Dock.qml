@@ -1879,7 +1879,7 @@ Variants {
                                                     radius: parent.radius
                                                     tintColor: dockButton.btnColor
                                                     tintAmount: 0.3
-                                                    press: btnMa.pressed ? 1 : (btnMa.containsMouse ? 0.3 : 0)
+                                                    press: btnMa.pressed ? 1 : Math.max(btnMa.containsMouse ? 0.3 : 0, 0.3 * Math.max(0, Math.min(1, (dockButton.baseHoverScale - 1.0) / Math.max(0.01, dockButton.hoverScaleDelta))))
                                                     Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                                                 }
 
@@ -2352,7 +2352,7 @@ Variants {
                                                     radius: parent.radius
                                                     tintColor: runningDockButton.btnColor
                                                     tintAmount: 0.3
-                                                    press: runningBtnMa.pressed ? 1 : (runningBtnMa.containsMouse ? 0.3 : 0)
+                                                    press: runningBtnMa.pressed ? 1 : Math.max(runningBtnMa.containsMouse ? 0.3 : 0, 0.3 * Math.max(0, Math.min(1, (runningDockButton.baseHoverScale - 1.0) / Math.max(0.01, runningDockButton.hoverScaleDelta))))
                                                     Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                                                 }
                                                 transformOrigin: Item.Center
@@ -2738,6 +2738,23 @@ Variants {
                                     model: pickerFilteredModel
                                     spacing: dockWindow.s(4)
                                     boundsBehavior: Flickable.StopAtBounds
+                                    property Item hoverItem: null
+
+                                    GlassLens {
+                                        id: pickerLens
+                                        z: -1
+                                        targetX: pickerList.hoverItem ? pickerList.hoverItem.x : 0
+                                        targetY: pickerList.hoverItem ? pickerList.hoverItem.y : 0
+                                        targetWidth: pickerList.hoverItem ? pickerList.hoverItem.width : 0
+                                        targetHeight: pickerList.hoverItem ? pickerList.hoverItem.height : 0
+                                        radius: ThemeBackend.borderRadius
+                                        tintColor: ThemeBackend.surface0
+                                        tintAmount: 0.3
+                                        shadow: 0
+                                        restPress: 0.2
+                                        magnify: dockWindow.s(4)
+                                        press: pickerList.hoverItem && pickerList.hoverItem.pressed ? 0.8 : 0
+                                    }
 
                                     ScrollBar.vertical: ScrollBar {
                                         active: parent.moving || parent.movingVertically
@@ -2761,9 +2778,20 @@ Variants {
                                         readonly property var resolvedItem: (modelData !== undefined && modelData) ? modelData : model
                                         readonly property bool isAdded: (resolvedItem && resolvedItem.id) ? dockWindow.isAppInDock(resolvedItem.id) : false
 
+                                        readonly property bool pressed: pickerMa.pressed
+                                        readonly property bool lensWanted: pickerMa.containsMouse
+
+                                        onLensWantedChanged: {
+                                            if (lensWanted) pickerList.hoverItem = pickerDelegate;
+                                            else if (pickerList.hoverItem === pickerDelegate) pickerList.hoverItem = null;
+                                        }
+                                        Component.onDestruction: {
+                                            if (pickerList.hoverItem === pickerDelegate) pickerList.hoverItem = null;
+                                        }
+
                                         readonly property color contentOnAdded: pickerRowGlass.active ? ThemeBackend.text : ThemeBackend.crust
 
-                                        color: pickerRowGlass.active ? "transparent" : (isAdded ? ThemeBackend.mauve : (pickerMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.4) : Qt.alpha(ThemeBackend.surface0, 0.25)))
+                                        color: pickerRowGlass.active ? "transparent" : (isAdded ? ThemeBackend.mauve : ((pickerMa.containsMouse && !pickerLens.glassActive) ? Qt.alpha(ThemeBackend.surface1, 0.4) : Qt.alpha(ThemeBackend.surface0, 0.25)))
                                         border.width: 0
 
                                         Behavior on color { ColorAnimation { duration: 150 } }
@@ -2772,7 +2800,7 @@ Variants {
                                             id: pickerRowGlass
                                             anchors.fill: parent
                                             radius: parent.radius
-                                            allowed: pickerDelegate.isAdded || pickerMa.containsMouse
+                                            allowed: pickerDelegate.isAdded || (pickerMa.containsMouse && !pickerLens.glassActive)
                                             forceClear: pickerDelegate.isAdded
                                             tintColor: pickerDelegate.isAdded ? ThemeBackend.text : ThemeBackend.surface0
                                             tintAmount: pickerDelegate.isAdded ? 0.1 : 0.3

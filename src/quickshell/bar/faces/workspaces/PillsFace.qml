@@ -24,7 +24,7 @@ Item {
             radius: parent.radius
             tintColor: ThemeBackend.mauve
             tintAmount: 0.5
-            press: 0.3
+            press: 0.3 + 0.7 * activeHighlight.lift
         }
 
         property int prevIdx: 0
@@ -75,6 +75,12 @@ Item {
 
         Behavior on actualStart { NumberAnimation { id: startAnim; duration: 380; easing.type: Easing.OutQuint } }
         Behavior on actualEnd { NumberAnimation { id: endAnim; duration: 380; easing.type: Easing.OutQuint } }
+
+        readonly property bool isMoving: Math.abs(actualStart - targetStart) > 0.5 || Math.abs(actualEnd - targetEnd) > 0.5
+        property real lift: (pillsGlass.active && isMoving) ? 1.0 : 0.0
+        Behavior on lift { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
+        scale: 1.0 + 0.14 * lift
+        transformOrigin: Item.Center
 
         readonly property real thickness: widget ? widget.s(widget.isCompact ? 16 : 18) : 18
 

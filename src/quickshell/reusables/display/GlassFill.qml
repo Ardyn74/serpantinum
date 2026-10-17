@@ -180,14 +180,11 @@ Item {
 
     onLocalCursorChanged: {
         if (!root.active) return;
-        const dx = localCursor.x - lastCursor.x;
-        const dy = localCursor.y - lastCursor.y;
         lastCursor = localCursor;
         if (!cursorPrimed) {
             cursorPrimed = true;
             return;
         }
-        if (root.followBackdropHover && root.backdrop.hoverAmount > 0.05) bump(Math.min(60, Math.sqrt(dx * dx + dy * dy)));
     }
 
     onSampleRectChanged: {
@@ -227,7 +224,8 @@ Item {
         glassPad: root.pad
         shadowAmt: root.shadow * (1 - 0.6 * root.nest)
         nest: root.nest
-        morph: 1
+        morph: 0
+        dispersion: 0.02
         clear: root.forceOpaque ? 0 : ((root.forceClear || root.nestLevel >= 1) ? 1 : 0)
         energy: Math.min(1, root.press + root.pulse)
         motion: root.motion

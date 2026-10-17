@@ -1034,6 +1034,21 @@ PanelWindow {
                             z: isSelected ? 2 : 1
 
                             property bool isSelected: index === clipList.currentIndex
+                            property real selectFlash: 0.0
+
+                            onIsSelectedChanged: {
+                                if (isSelected && rowGlass.active) selectFlashAnim.restart();
+                            }
+
+                            NumberAnimation {
+                                id: selectFlashAnim
+                                target: clipDelegateWrapper
+                                property: "selectFlash"
+                                from: 1.0
+                                to: 0.0
+                                duration: 520
+                                easing.type: Easing.OutCubic
+                            }
 
                             scale: clipCardMa.pressed ? 0.98 : 1.0
                             Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
@@ -1194,6 +1209,7 @@ PanelWindow {
                                     tintAmount: clipDelegateWrapper.isSelected ? 0.1 : 0.3
                                     tintStrength: 1.0
                                     press: clipCardMa.pressed ? 0.8 : (clipDelegateWrapper.isSelected ? 0.6 : (clipCardMa.containsMouse ? 0.25 : 0))
+                                    pulse: clipDelegateWrapper.selectFlash
                                 }
 
                                 Image {

@@ -1456,14 +1456,25 @@ PanelWindow {
                         y: morphHighlight.y - appList.contentY
                         opacity: morphHighlight.opacity
 
+                        readonly property bool isMoving: Math.abs(morphHighlight.y - morphHighlight.targetY) > 0.5
+                        property real lift: (highlightLayerGlass.active && isMoving) ? 1.0 : 0.0
+                        Behavior on lift { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
+                        transform: Scale {
+                            origin.x: highlightGlassLayer.width / 2
+                            origin.y: highlightGlassLayer.height / 2
+                            xScale: 1.0 + 0.015 * highlightGlassLayer.lift
+                            yScale: 1.0 + 0.1 * highlightGlassLayer.lift
+                        }
+
                         GlassFill {
+                            id: highlightLayerGlass
                             anchors.fill: parent
                             radius: morphHighlight.radius
                             forceOpaque: true
                             tintColor: ThemeBackend.text
                             tintAmount: 0
                             tintStrength: 1.0
-                            press: 0.6
+                            press: 0.6 + 0.4 * highlightGlassLayer.lift
                         }
                     }
 
@@ -1543,6 +1554,24 @@ PanelWindow {
                             }
                         }
 
+                        property Item hoverItem: null
+
+                        GlassLens {
+                            id: rowHoverLens
+                            z: -1
+                            targetX: appList.hoverItem ? appList.hoverItem.x : 0
+                            targetY: appList.hoverItem ? appList.hoverItem.y : 0
+                            targetWidth: appList.hoverItem ? appList.hoverItem.width : 0
+                            targetHeight: appList.hoverItem ? appList.hoverItem.height : 0
+                            radius: ThemeBackend.borderRadius
+                            tintColor: ThemeBackend.surface0
+                            tintAmount: 0.3
+                            shadow: 0
+                            restPress: 0.2
+                            magnify: launcherWindow.s(4)
+                            press: appList.hoverItem && appList.hoverItem.pressed ? 0.8 : 0
+                        }
+
                         Rectangle {
                             id: morphHighlight
                             parent: appList.contentItem
@@ -1590,6 +1619,16 @@ PanelWindow {
                             z: 1
 
                             property bool isSelected: index === appList.currentIndex
+                            readonly property bool pressed: ma.pressed
+                            readonly property bool lensWanted: ma.containsMouse && !isSelected
+
+                            onLensWantedChanged: {
+                                if (lensWanted) appList.hoverItem = delegateRoot;
+                                else if (appList.hoverItem === delegateRoot) appList.hoverItem = null;
+                            }
+                            Component.onDestruction: {
+                                if (appList.hoverItem === delegateRoot) appList.hoverItem = null;
+                            }
 
                             opacity: launcherWindow.getItemOpacity(index)
                             transform: Translate {
@@ -1613,7 +1652,7 @@ PanelWindow {
                                         id: rowHoverGlass
                                         anchors.fill: parent
                                         radius: parent.radius
-                                        allowed: ma.containsMouse && !delegateRoot.isSelected
+                                        allowed: ma.containsMouse && !delegateRoot.isSelected && !rowHoverLens.glassActive
                                         tintColor: ThemeBackend.surface0
                                         tintAmount: 0.3
                                         press: ma.pressed ? 0.8 : 0.2
@@ -1867,6 +1906,26 @@ PanelWindow {
                             }
                         }
 
+                        GlassLens {
+                            id: emojiLens
+                            z: -1
+                            readonly property bool valid: emojiGrid.currentIndex >= 0 && emojiGrid.currentIndex < emojiGrid.count
+                            targetX: valid ? (emojiGrid.currentIndex % 5) * emojiGrid.cellWidth + launcherWindow.s(3) : 0
+                            targetY: valid ? Math.floor(emojiGrid.currentIndex / 5) * emojiGrid.cellHeight + launcherWindow.s(3) : 0
+                            targetWidth: valid ? Math.max(0, emojiGrid.cellWidth - launcherWindow.s(6)) : 0
+                            targetHeight: valid ? Math.max(0, emojiGrid.cellHeight - launcherWindow.s(6)) : 0
+                            radius: ThemeBackend.borderRadius
+                            forceOpaque: true
+                            tintColor: ThemeBackend.text
+                            tintAmount: 0
+                            tintStrength: 1.0
+                            shadow: 0
+                            restPress: 0.6
+                            followBackdropHover: false
+                            fastDuration: 260
+                            slowDuration: 260
+                        }
+
                         NumberAnimation {
                             id: emojiScrollAnim
                             target: emojiGrid
@@ -1882,6 +1941,7 @@ PanelWindow {
                             clip: false
 
                             readonly property bool isSelected: index === emojiGrid.currentIndex
+                            readonly property bool lensHandled: isSelected && emojiLens.glassActive
 
                             opacity: launcherWindow.getItemOpacity(Math.floor(index / 5))
                             transform: Translate {
@@ -1902,7 +1962,7 @@ PanelWindow {
                                     id: emojiBg
                                     anchors.fill: parent
                                     radius: ThemeBackend.borderRadius
-                                    color: emojiGlass.active ? "transparent" : (emojiDelegateRoot.isSelected
+                                    color: (emojiGlass.active || emojiDelegateRoot.lensHandled) ? "transparent" : (emojiDelegateRoot.isSelected
                                            ? ThemeBackend.mauve
                                            : (emojiMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.7) : Qt.alpha(ThemeBackend.surface0, 0.45)))
                                     border.width: (emojiDelegateRoot.isSelected || ThemeBackend.liquidGlass) ? 0 : 1
@@ -1911,6 +1971,7 @@ PanelWindow {
                                         id: emojiGlass
                                         anchors.fill: parent
                                         radius: parent.radius
+                                        allowed: !emojiDelegateRoot.lensHandled
                                         forceOpaque: emojiDelegateRoot.isSelected
                                         tintColor: emojiDelegateRoot.isSelected ? ThemeBackend.text : ThemeBackend.surface0
                                         tintStrength: emojiDelegateRoot.isSelected ? 1.0 : 0.5
@@ -1944,7 +2005,7 @@ PanelWindow {
                                         font.family: ThemeBackend.fontFamily
                                         font.pixelSize: launcherWindow.s(9)
                                         font.weight: emojiDelegateRoot.isSelected ? Font.Bold : Font.Normal
-                                        color: emojiDelegateRoot.isSelected ? (emojiGlass.active ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.subtext0
+                                        color: emojiDelegateRoot.isSelected ? ((emojiGlass.active || emojiDelegateRoot.lensHandled) ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.subtext0
                                         elide: Text.ElideRight
                                         horizontalAlignment: Text.AlignHCenter
                                         maximumLineCount: 1

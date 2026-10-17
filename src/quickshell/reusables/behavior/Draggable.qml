@@ -62,6 +62,33 @@ Item {
     property real animPosition: visualPosition
     readonly property real percentage: root.visualPosition * 100
 
+    property real flow: 0
+    property real lastPosition: 0
+
+    Component.onCompleted: lastPosition = animPosition
+
+    onAnimPositionChanged: {
+        const span = root.vertical ? root.height : root.width;
+        const d = Math.abs(animPosition - lastPosition) * span;
+        lastPosition = animPosition;
+        if (!handleGlass.active || d < 0.05) return;
+        flow = Math.min(1, flow + d / 28);
+        if (!flowDecay.running) flowDecay.start();
+    }
+
+    Timer {
+        id: flowDecay
+        interval: 16
+        repeat: true
+        onTriggered: {
+            root.flow *= 0.88;
+            if (root.flow < 0.01) {
+                root.flow = 0;
+                stop();
+            }
+        }
+    }
+
     Behavior on animPosition {
         enabled: !root.isDragging
         NumberAnimation {
@@ -251,6 +278,12 @@ Item {
 
         opacity: root.enabled ? 1.0 : 0.5
         scale: root.targetScale * popScale
+        transform: Scale {
+            origin.x: handle.width / 2
+            origin.y: handle.height / 2
+            xScale: root.vertical ? 1 - 0.12 * root.flow : 1 + 0.45 * root.flow
+            yScale: root.vertical ? 1 + 0.45 * root.flow : 1 - 0.12 * root.flow
+        }
 
         Behavior on color { ColorAnimation { duration: 150 } }
         Behavior on border.color { ColorAnimation { duration: 150 } }

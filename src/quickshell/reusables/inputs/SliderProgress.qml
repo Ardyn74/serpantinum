@@ -32,6 +32,32 @@ Item {
     property real visualPosition: Math.max(0.0, Math.min(1.0, (value - from) / Math.max(0.0001, to - from)))
     property real animPosition: visualPosition
 
+    property real flow: 0
+    property real lastPosition: 0
+
+    Component.onCompleted: lastPosition = animPosition
+
+    onAnimPositionChanged: {
+        const d = Math.abs(animPosition - lastPosition) * root.width;
+        lastPosition = animPosition;
+        if (!thumbGlass.active || d < 0.05) return;
+        flow = Math.min(1, flow + d / 28);
+        if (!flowDecay.running) flowDecay.start();
+    }
+
+    Timer {
+        id: flowDecay
+        interval: 16
+        repeat: true
+        onTriggered: {
+            root.flow *= 0.88;
+            if (root.flow < 0.01) {
+                root.flow = 0;
+                stop();
+            }
+        }
+    }
+
     Behavior on animPosition {
         enabled: !root.isDragging
         NumberAnimation { duration: 250; easing.type: Easing.OutQuint }
@@ -53,7 +79,9 @@ Item {
             radius: parent.radius
             tintColor: root.backgroundColor
             tintAmount: 0.22
+            press: root.isDragging ? 0.35 : 0
             Behavior on tintAmount { NumberAnimation { duration: 180 } }
+            Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
         }
 
         Item {
@@ -105,6 +133,12 @@ Item {
         scale: root.isDragging ? 1.2 : 1.0
         Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
         Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutBack } }
+        transform: Scale {
+            origin.x: thumbGlass.width / 2
+            origin.y: thumbGlass.height / 2
+            xScale: 1 + 0.45 * root.flow
+            yScale: 1 - 0.12 * root.flow
+        }
     }
 
     Rectangle {

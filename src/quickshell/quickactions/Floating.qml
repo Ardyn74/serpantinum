@@ -1646,8 +1646,14 @@ Variants {
                                     tintColor: ThemeBackend.mauve
                                     tintAmount: 0.5
                                     shadow: 1
-                                    press: 0.3
+                                    press: 0.3 + 0.7 * activeHighlight.lift
                                 }
+
+                                readonly property bool isMoving: Math.abs(actualTop - targetTop) > 0.5 || Math.abs(actualBottom - targetBottom) > 0.5
+                                property real lift: (highlightGlass.active && isMoving) ? 1.0 : 0.0
+                                Behavior on lift { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
+                                scale: 1.0 + 0.14 * lift
+                                transformOrigin: Item.Center
 
                                 property int prevIdx: 0
                                 property int curIdx: floatingWidget.activeIndex

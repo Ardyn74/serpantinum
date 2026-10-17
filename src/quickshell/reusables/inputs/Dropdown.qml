@@ -729,7 +729,7 @@ Item {
 
         enter: Transition {
             NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200; easing.type: Easing.OutQuint }
-            NumberAnimation { property: "scale"; from: 0.9; to: 1.0; duration: 200; easing.type: Easing.OutQuint }
+            NumberAnimation { property: "scale"; from: ThemeBackend.liquidGlass ? 0.82 : 0.9; to: 1.0; duration: ThemeBackend.liquidGlass ? 380 : 200; easing.type: ThemeBackend.liquidGlass ? Easing.OutBack : Easing.OutQuint }
         }
 
         exit: Transition {
@@ -744,6 +744,7 @@ Item {
             readonly property int selectedIndex: root.currentIndex
             readonly property color accentColor: root.accentColor
             readonly property color textColor: root.textColor
+            property Item hoverItem: null
             implicitHeight: Math.min(contentHeight, 250)
             boundsBehavior: Flickable.StopAtBounds
             clip: true
@@ -752,6 +753,27 @@ Item {
 
             HoverHandler {
                 id: listHover
+            }
+
+            GlassLens {
+                id: hoverLens
+                z: 0
+                targetX: listView.hoverItem ? listView.hoverItem.x : 0
+                targetY: listView.hoverItem ? listView.hoverItem.y : 0
+                targetWidth: listView.hoverItem ? listView.hoverItem.width : 0
+                targetHeight: listView.hoverItem ? listView.hoverItem.height : 0
+                radius: Math.max(2, Math.min(root.cornerRadius - 4, 16))
+                backdropOverride: root.glassBackdrop
+                followBackdropHover: false
+                forceClear: true
+                tintColor: root.textColor
+                tintAmount: 0.14
+                tintStrength: 1.0
+                shadow: 0
+                restPress: 0.25
+                fastDuration: 180
+                slowDuration: 180
+                press: listView.hoverItem && listView.hoverItem.pressed ? 0.8 : 0
             }
 
             ScrollBar.vertical: ScrollBar {
@@ -783,6 +805,7 @@ Item {
                 radius: Math.max(2, Math.min(root.cornerRadius - 4, 16))
 
                 property int realIndex: root.options.indexOf(modelData)
+                readonly property bool pressed: itemMa.pressed
                 readonly property var view: ListView.view
                 readonly property bool isSelected: !!view && view.selectedIndex === realIndex
                 property bool shown: root.isEditing
@@ -833,11 +856,26 @@ Item {
                 }
                 Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
 
-                color: delegateGlass.active ? "transparent" : (root.currentIndex === realIndex ? (ThemeBackend.liquidGlass ? Qt.alpha(root.accentColor, 0.28) : root.accentColor) : (itemMa.pressed ? Qt.darker(root.hoverColor, 1.1) : (itemMa.containsMouse ? root.hoverColor : "transparent")))
+                color: delegateGlass.active ? "transparent" : (root.currentIndex === realIndex ? (ThemeBackend.liquidGlass ? Qt.alpha(root.accentColor, 0.28) : root.accentColor) : ((itemMa.pressed && !hoverLens.glassActive) ? Qt.darker(root.hoverColor, 1.1) : ((itemMa.containsMouse && !hoverLens.glassActive) ? root.hoverColor : "transparent")))
                 Behavior on color { ColorAnimation { duration: 150 } }
 
-                scale: itemMa.pressed ? 0.96 : (itemMa.containsMouse ? 1.02 : 1.0)
+                scale: itemMa.pressed ? 0.96 : ((itemMa.containsMouse && !hoverLens.glassActive) ? 1.02 : 1.0)
                 Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+
+                Connections {
+                    target: itemMa
+                    function onContainsMouseChanged() {
+                        if (itemMa.containsMouse) {
+                            listView.hoverItem = delegateRect;
+                        } else if (listView.hoverItem === delegateRect) {
+                            listView.hoverItem = null;
+                        }
+                    }
+                }
+
+                Component.onDestruction: {
+                    if (listView.hoverItem === delegateRect) listView.hoverItem = null;
+                }
 
                 property real flashOpacity: 0.0
 
@@ -845,7 +883,7 @@ Item {
                     id: delegateGlass
                     anchors.fill: parent
                     radius: parent.radius
-                    allowed: itemMa.containsMouse || delegateRect.isSelected
+                    allowed: delegateRect.isSelected || (itemMa.containsMouse && !hoverLens.glassActive)
                     forceClear: true
                     backdropOverride: delegateRect.glassBackdropItem
                     followBackdropHover: false
