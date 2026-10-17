@@ -600,7 +600,7 @@ Item {
         y: barWindow ? (barWindow.barPosition === "bottom" ? (barWindow.baseOffsetY - height) : (barWindow.baseOffsetY + barWindow.barHeight)) : 0
         width: contentWrapper.cornerRadius
         height: contentWrapper.cornerRadius
-        visible: contentWrapper.outerCornersReady && (barWindow ? !barWindow.positionChanging : true)
+        visible: !ThemeBackend.liquidGlass && contentWrapper.outerCornersReady && (barWindow ? !barWindow.positionChanging : true)
         opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
         z: 0
 
@@ -622,7 +622,7 @@ Item {
         y: barWindow ? (barWindow.barPosition === "bottom" ? (barWindow.baseOffsetY - height) : (barWindow.baseOffsetY + barWindow.barHeight)) : 0
         width: contentWrapper.cornerRadius
         height: contentWrapper.cornerRadius
-        visible: contentWrapper.outerCornersReady && (barWindow ? !barWindow.positionChanging : true)
+        visible: !ThemeBackend.liquidGlass && contentWrapper.outerCornersReady && (barWindow ? !barWindow.positionChanging : true)
         opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
         z: 0
 
@@ -645,7 +645,7 @@ Item {
         y: barWindow ? (contentWrapper.barAtBottom ? (barWindow.baseOffsetY + barWindow.barHeight - height) : barWindow.baseOffsetY) : 0
         width: radius
         height: radius
-        visible: contentWrapper.isFill && radius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
+        visible: !ThemeBackend.liquidGlass && contentWrapper.isFill && radius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
         opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
         z: 0
 
@@ -668,7 +668,7 @@ Item {
         y: barWindow ? (contentWrapper.barAtBottom ? (barWindow.baseOffsetY + barWindow.barHeight - height) : barWindow.baseOffsetY) : 0
         width: radius
         height: radius
-        visible: contentWrapper.isFill && radius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
+        visible: !ThemeBackend.liquidGlass && contentWrapper.isFill && radius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
         opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
         z: 0
 
@@ -677,6 +677,52 @@ Item {
         property color color: Qt.alpha(ThemeBackend.base, (barWindow && barWindow.barOpacity !== undefined) ? barWindow.barOpacity : 1.0)
 
         fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/corner_cutout.frag.qsb"
+
+        Behavior on opacity {
+            enabled: barWindow && !barWindow.positionChanging && barWindow.startupCascadeFinished && !contentWrapper.suppressAnimation
+            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
+        }
+    }
+
+    Rectangle {
+        id: outerCornerCard
+        visible: false
+        readonly property real overshoot: contentWrapper.cornerRadius * 2 + 8
+        x: 0
+        width: contentWrapper.width
+        y: contentWrapper.barAtBottom ? solidBackground.y : -overshoot
+        height: contentWrapper.barAtBottom ? (contentWrapper.height + overshoot - solidBackground.y) : (solidBackground.y + solidBackground.height + overshoot)
+        radius: 0
+    }
+
+    Repeater {
+        model: [-1, 1]
+
+        GlassFillets {
+            required property int modelData
+            card: outerCornerCard
+            filletDir: Qt.vector2d(modelData, 0)
+            filletRadius: (ThemeBackend.liquidGlass && contentWrapper.outerCornersReady) ? contentWrapper.cornerRadius : 0
+            visible: filletRadius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
+            opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
+            z: 0
+
+            Behavior on opacity {
+                enabled: barWindow && !barWindow.positionChanging && barWindow.startupCascadeFinished && !contentWrapper.suppressAnimation
+                NumberAnimation { duration: 80; easing.type: Easing.OutCubic }
+            }
+        }
+    }
+
+    GlassFillets {
+        card: solidBackground
+        filletDir: contentWrapper.barAtBottom ? Qt.vector2d(0, 1) : Qt.vector2d(0, -1)
+        filletRadius: ThemeBackend.liquidGlass && contentWrapper.isFill
+            ? Math.min(contentWrapper.cornerRadius, Math.max(0, solidBackground.x), Math.max(0, contentWrapper.width - solidBackground.x - solidBackground.width)) * contentWrapper.fillAttachProgress
+            : 0
+        visible: filletRadius > 0.5 && (barWindow ? !barWindow.positionChanging : true)
+        opacity: (visible && (!barWindow || barWindow.isRevealed)) ? 1.0 : 0.0
+        z: 0
 
         Behavior on opacity {
             enabled: barWindow && !barWindow.positionChanging && barWindow.startupCascadeFinished && !contentWrapper.suppressAnimation
