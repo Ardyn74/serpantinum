@@ -165,6 +165,36 @@ Item {
         return Qt.point(c.x + root.pad, c.y + root.pad);
     }
 
+    property int turns: {
+        if (!root.active) return 0;
+        void root.backdrop.frame;
+        const p0 = root.backdrop.mapFromItem(root, 0, 0);
+        const p1 = root.backdrop.mapFromItem(root, 1, 0);
+        const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180 / Math.PI;
+        return (((-Math.round(angle / 90)) % 4) + 4) % 4;
+    }
+
+    property rect frameRect: {
+        if (!root.active) return Qt.rect(0, 0, 1, 1);
+        void root.backdrop.frame;
+        const a = root.backdrop.mapFromItem(glassFrame, 0, 0);
+        const b = root.backdrop.mapFromItem(glassFrame, glassFrame.width, glassFrame.height);
+        const bw = Math.max(1, root.backdrop.width);
+        const bh = Math.max(1, root.backdrop.height);
+        return Qt.rect(Math.min(a.x, b.x) / bw, Math.min(a.y, b.y) / bh, Math.abs(b.x - a.x) / bw, Math.abs(b.y - a.y) / bh);
+    }
+
+    property point frameCursor: {
+        if (!root.active) return Qt.point(0, 0);
+        const c = glassFrame.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
+        return Qt.point(c.x, c.y);
+    }
+
+    function cornerRadius(i) {
+        const r = [root.topLeftRadius, root.topRightRadius, root.bottomRightRadius, root.bottomLeftRadius];
+        return r[(i + root.turns) % 4];
+    }
+
     property real motion: 0
     property point lastCursor: Qt.point(0, 0)
     property point lastCenter: Qt.point(0, 0)
@@ -218,32 +248,39 @@ Item {
         }
     }
 
-    LiquidGlass {
-        anchors.fill: parent
-        anchors.margins: -root.pad
-        glassPad: root.pad
-        shadowAmt: root.shadow * (1 - 0.6 * root.nest)
-        nest: root.nest
-        morph: 0
-        dispersion: 0.02
-        clear: root.forceOpaque ? 0 : ((root.forceClear || root.nestLevel >= 1) ? 1 : 0)
-        energy: Math.min(1, root.press + root.pulse)
-        motion: root.motion
+    Item {
+        id: glassFrame
+        anchors.centerIn: parent
+        width: (root.turns % 2 === 0 ? root.width : root.height) + root.pad * 2
+        height: (root.turns % 2 === 0 ? root.height : root.width) + root.pad * 2
+        rotation: root.turns * 90
         visible: root.active
-        src: root.backdrop ? root.backdrop.texture : null
-        topLeftRadius: root.topLeftRadius
-        topRightRadius: root.topRightRadius
-        bottomLeftRadius: root.bottomLeftRadius
-        bottomRightRadius: root.bottomRightRadius
-        tintColor: root.tintColor
-        tintAmount: root.tintAmount * root.tintStrength * (1 - 0.5 * root.nest)
-        frost: root.nestLevel >= 1 ? Math.min(root.frost, 1.0) : root.frost
-        rim: root.rim * (1 - 0.35 * root.nest)
-        saturation: 1 + (root.saturation - 1) * (1 - root.nest)
-        bezel: Math.max(3, Math.min(14, Math.min(root.width, root.height) * 0.28))
-        thickness: root.thickness >= 0 ? root.thickness : bezel * 0.8
-        sourceRect: root.sampleRect
-        cursorPos: root.localCursor
-        hover: (root.backdrop && root.followBackdropHover) ? root.backdrop.hoverAmount : 0
+
+        LiquidGlass {
+            anchors.fill: parent
+            glassPad: root.pad
+            shadowAmt: root.shadow * (1 - 0.6 * root.nest)
+            nest: root.nest
+            morph: 0
+            dispersion: 0.02
+            clear: root.forceOpaque ? 0 : ((root.forceClear || root.nestLevel >= 1) ? 1 : 0)
+            energy: Math.min(1, root.press + root.pulse)
+            motion: root.motion
+            src: root.backdrop ? root.backdrop.texture : null
+            topLeftRadius: root.cornerRadius(0)
+            topRightRadius: root.cornerRadius(1)
+            bottomRightRadius: root.cornerRadius(2)
+            bottomLeftRadius: root.cornerRadius(3)
+            tintColor: root.tintColor
+            tintAmount: root.tintAmount * root.tintStrength * (1 - 0.5 * root.nest)
+            frost: root.nestLevel >= 1 ? Math.min(root.frost, 1.0) : root.frost
+            rim: root.rim * (1 - 0.35 * root.nest)
+            saturation: 1 + (root.saturation - 1) * (1 - root.nest)
+            bezel: Math.max(3, Math.min(14, Math.min(root.width, root.height) * 0.28))
+            thickness: root.thickness >= 0 ? root.thickness : bezel * 0.8
+            sourceRect: root.frameRect
+            cursorPos: root.frameCursor
+            hover: (root.backdrop && root.followBackdropHover) ? root.backdrop.hoverAmount : 0
+        }
     }
 }
