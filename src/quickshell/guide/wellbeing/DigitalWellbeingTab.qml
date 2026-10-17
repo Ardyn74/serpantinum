@@ -953,12 +953,31 @@ Item {
                                         width: rootObj.s(16)
                                         height: rootObj.s(16)
                                         radius: rootObj.s(3)
-                                        color: model.total === -1 ? "transparent" : (model.total === 0 ? ThemeBackend.surface2 : Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, Math.min(1.0, 0.3 + 0.7 * (model.total / tabRoot.maxMonthTotal))))
+                                        property real intensity: Math.min(1.0, 0.3 + 0.7 * (model.total / tabRoot.maxMonthTotal))
+                                        color: monthGlass.active || model.total === -1 ? "transparent" : (model.total === 0 ? ThemeBackend.surface2 : Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, intensity))
                                         Behavior on color { ColorAnimation { duration: 700; easing.type: Easing.OutQuint } }
 
                                         border.color: model.isTarget ? ThemeBackend.text : "transparent"
-                                        border.width: model.isTarget ? 1 : 0
+                                        border.width: model.isTarget && !monthGlass.active ? 1 : 0
                                         Behavior on border.color { ColorAnimation { duration: 300 } }
+
+                                        GlassFill {
+                                            id: monthGlass
+                                            anchors.fill: parent
+                                            radius: parent.radius
+                                            forceClear: model.total > 0
+                                            tintColor: model.total > 0 ? ThemeBackend.mauve : ThemeBackend.surface2
+                                            tintAmount: model.total > 0 ? 0.25 + 0.45 * parent.intensity : 0.22
+                                            tintStrength: 1.0
+                                        }
+
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            radius: parent.radius
+                                            color: "transparent"
+                                            border.color: tabRoot.textMain
+                                            border.width: model.isTarget && monthGlass.active ? 1 : 0
+                                        }
 
                                         visible: model.total !== -1
                                         scale: 0.7 + (0.3 * introMidRight)
@@ -1395,7 +1414,17 @@ Item {
 
                                                         property real val: (tabRoot.weekHeatmapData[dayIndex] && tabRoot.weekHeatmapData[dayIndex][index]) ? tabRoot.weekHeatmapData[dayIndex][index] : 0
                                                         property real intensity: Math.min(1.0, 0.2 + 0.8 * (val / Math.max(tabRoot.maxWeekHour, 1)))
-                                                        color: val === 0 ? ThemeBackend.surface1 : Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, intensity)
+                                                        color: weekCellGlass.active ? "transparent" : (val === 0 ? ThemeBackend.surface1 : Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, intensity))
+
+                                                        GlassFill {
+                                                            id: weekCellGlass
+                                                            anchors.fill: parent
+                                                            radius: parent.radius
+                                                            forceClear: parent.val > 0
+                                                            tintColor: parent.val > 0 ? ThemeBackend.mauve : ThemeBackend.surface1
+                                                            tintAmount: parent.val > 0 ? 0.25 + 0.45 * parent.intensity : 0.22
+                                                            tintStrength: 1.0
+                                                        }
 
                                                         scale: tabRoot.isWeekView ? 1.0 : 0.5
                                                         Behavior on scale {
