@@ -8,6 +8,7 @@ Item {
     property var widget: null
 
     readonly property bool isVertical: widget ? widget.orientation === "vertical" : false
+    readonly property int activeIdx: widget ? Number(widget.activeIndex) : -1
 
     implicitWidth: wsLayout.implicitWidth
     implicitHeight: wsLayout.implicitHeight
@@ -109,7 +110,7 @@ Item {
                 required property int index
 
                 property bool isOccupied: widget ? widget.isOccupied(index) : false
-                property bool isActive: widget ? (index === widget.activeIndex) : false
+                property bool isActive: index === pillsFaceRoot.activeIdx
                 property bool initAnimTrigger: false
                 property bool shown: widget && typeof widget.isShown === "function" ? widget.isShown(index) : true
 
