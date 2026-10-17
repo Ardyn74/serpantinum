@@ -997,8 +997,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -1255,8 +1253,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -1632,8 +1628,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -1973,8 +1967,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -2061,8 +2053,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2090,8 +2080,6 @@ Item {
                                     allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                     tintColor: ThemeBackend.base
                                 }
-                                border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
-                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                 visible: width > 0 && height > 0
                             }
 
@@ -2304,8 +2292,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2333,8 +2319,6 @@ Item {
                                     allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                                     tintColor: ThemeBackend.base
                                 }
-                                border.color: Qt.alpha(ThemeBackend.surface2, 0.4)
-                                border.width: ThemeBackend.liquidGlass ? 0 : 1
                                 visible: width > 0 && height > 0
                             }
 
@@ -2548,8 +2532,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -2809,8 +2791,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -2903,8 +2883,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -3161,8 +3139,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -3255,8 +3231,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -3513,8 +3487,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -3607,8 +3579,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -3865,8 +3835,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -3959,8 +3927,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {
@@ -4195,8 +4161,6 @@ Item {
                                                 anchors.fill: parent
                                                 radius: parent.radius
                                                 color: "transparent"
-                                                border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                                border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
                                             }
                                         }
 
@@ -4289,8 +4253,6 @@ Item {
                             allowed: (barModulesRoot ? barModulesRoot.inView(parent) : true)
                             tintColor: ThemeBackend.base
                         }
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.25)
-                        border.width: ThemeBackend.liquidGlass ? 0 : 1
                         clip: true
 
                         Item {

@@ -26,6 +26,7 @@ Item {
     property real bezelSize: Math.max(5, Math.min(26, Math.min(width, height) * 0.36))
 
     readonly property bool liquid: ThemeBackend.liquidGlass
+    readonly property real blurPad: liquid ? 0 : 64
     readonly property bool isGlassBackdrop: true
     property alias texture: glassTexture
     property int consumers: 0
@@ -217,6 +218,7 @@ Item {
     Item {
         id: content
         anchors.fill: parent
+        anchors.margins: -root.blurPad
         visible: false
         layer.enabled: true
         layer.mipmap: root.liquid
@@ -224,8 +226,8 @@ Item {
 
         ShaderEffect {
             id: blend
-            x: root.imageX
-            y: root.imageY
+            x: root.imageX + root.blurPad
+            y: root.imageY + root.blurPad
             width: root.screenWidth
             height: root.screenHeight
             scale: root.imageScale
@@ -255,15 +257,44 @@ Item {
         anchors.fill: parent
 
         MultiEffect {
-            anchors.fill: parent
-            visible: !root.liquid
-            source: content
+            id: blurred
+            x: -root.blurPad
+            y: -root.blurPad
+            width: root.width + 2 * root.blurPad
+            height: root.height + 2 * root.blurPad
+            visible: false
+            source: root.liquid ? null : content
             autoPaddingEnabled: false
             blurEnabled: true
             blurMax: 64
             blur: Math.min(1.0, root.blurStrength)
+        }
+
+        ShaderEffectSource {
+            id: blurCrop
+            anchors.fill: parent
+            visible: false
+            sourceItem: root.liquid ? null : blurred
+            sourceRect: Qt.rect(root.blurPad, root.blurPad, root.width, root.height)
+            smooth: true
+        }
+
+        MultiEffect {
+            anchors.fill: parent
+            visible: !root.liquid && root.maskItem !== mask
+            source: blurCrop
             maskEnabled: true
             maskSource: root.maskItem
+        }
+
+        ShaderEffect {
+            anchors.fill: parent
+            visible: !root.liquid && root.maskItem === mask
+            property variant src: blurCrop
+            property vector2d itemSize: Qt.vector2d(width, height)
+            property vector4d radii: Qt.vector4d(root.topLeftRadius, root.topRightRadius, root.bottomRightRadius, root.bottomLeftRadius)
+            property real fillAlpha: Math.min(0.98, ThemeBackend.elementOpacity)
+            fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/ui/rounded_mask.frag.qsb"
         }
 
         LiquidGlass {
