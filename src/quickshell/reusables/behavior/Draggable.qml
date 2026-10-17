@@ -29,6 +29,15 @@ Item {
     property color handleDragColor: Qt.lighter(root.handleColor, 1.30)
     property color handleBorderColor: Qt.rgba(0, 0, 0, root.isDragging ? 0.20 : 0.10)
 
+    readonly property real accentHue: Math.max(0, root.accentColor.hslHue)
+    readonly property real accentSat: root.accentColor.hslSaturation
+    readonly property real accentLight: root.accentColor.hslLightness
+    readonly property real glassTint: 0.12 + 0.16 * root.accentSat
+    readonly property real glassFrost: 0.8 + 2.4 * root.accentLight
+    readonly property real glassRim: 0.3 + 0.5 * root.accentSat
+    readonly property real glassSaturation: 1.0 + 0.5 * root.accentSat
+    readonly property real glassThickness: 0.5 + 0.7 * (0.5 + 0.5 * Math.sin(root.accentHue * 6.2832))
+
     property real cornerRadius: (root.vertical ? width : height) / 2
     property real handleSize: root.vertical ? root.width : root.height
     property real handleRadius: handleSize / 2
@@ -146,7 +155,7 @@ Item {
             anchors.fill: parent
             radius: root.cornerRadius
             tintColor: root.backgroundColor
-            tintAmount: 0.22
+            tintAmount: 0.1
         }
 
         Behavior on color { ColorAnimation { duration: 150 } }
@@ -184,8 +193,12 @@ Item {
                 radius: root.cornerRadius
                 forceClear: true
                 tintColor: root.accentColor
-                tintAmount: 0.6
+                tintAmount: root.glassTint
                 tintStrength: 1.0
+                frost: root.glassFrost
+                rim: root.glassRim
+                saturation: root.glassSaturation
+                thickness: Math.max(3, Math.min(14, Math.min(width, height) * 0.28)) * root.glassThickness
                 press: root.isDragging ? 0.5 : (root.isHoveredOrHighlighted ? 0.2 : 0)
                 Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
             }
@@ -222,7 +235,11 @@ Item {
             anchors.fill: parent
             radius: parent.radius
             tintColor: root.handleColor
-            tintAmount: 0.45
+            tintAmount: root.glassTint * 0.8
+            frost: root.glassFrost
+            rim: root.glassRim
+            saturation: root.glassSaturation
+            thickness: Math.max(3, Math.min(14, Math.min(width, height) * 0.28)) * root.glassThickness
             shadow: 1
             press: root.isDragging ? 1 : (root.isHoveredOrHighlighted ? 0.3 : 0)
             pulse: Math.min(1, handle.flashOpacity * 2.5)
