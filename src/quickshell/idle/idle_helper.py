@@ -7,6 +7,7 @@ logind sleep delay inhibitor on the system bus.
 Output, one line per event:
     inhibit 1 | inhibit 0   an app asked not to lock, or stopped asking
     sleep                   logind announced PrepareForSleep
+    wake                    logind announced the end of sleep
 
 Input, one line per command on stdin:
     sleep-lock on | sleep-lock off
