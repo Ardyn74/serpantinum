@@ -541,10 +541,10 @@ Item {
                             width: contentList.width
 
                             readonly property PwNode node: modelData
-                            readonly property bool isActiveNode: window.activeTab === "outputs" ? (node === Audio.defaultSink) : (window.activeTab === "inputs" ? (node === Audio.defaultSource) : false)
+                            readonly property bool isActiveNode: window && window.activeTab === "outputs" ? (node === Audio.defaultSink) : (window && window.activeTab === "inputs" ? (node === Audio.defaultSource) : false)
                             readonly property int nodeVol: node && node.audio ? Math.round(node.audio.volume * 100) : 0
                             readonly property bool nodeMute: node && node.audio ? node.audio.muted : false
-                            readonly property string nodeDesc: window.activeTab === "apps" ? Audio.getNodeAppName(node) : Audio.getNodeName(node)
+                            readonly property string nodeDesc: window && window.activeTab === "apps" ? Audio.getNodeAppName(node) : Audio.getNodeName(node)
                             readonly property string nodeNameStr: Audio.getNodeSubDesc(node)
 
                             property bool isLoaded: false

@@ -110,7 +110,7 @@ Item {
                 required property int index
 
                 property bool isOccupied: widget ? widget.isOccupied(index) : false
-                property bool isActive: index === pillsFaceRoot.activeIdx
+                property bool isActive: pillsFaceRoot ? index === pillsFaceRoot.activeIdx : false
                 property bool initAnimTrigger: false
                 property bool shown: widget && typeof widget.isShown === "function" ? widget.isShown(index) : true
 
