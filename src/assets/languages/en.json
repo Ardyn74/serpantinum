@@ -42,7 +42,8 @@
       "dock": "Dock",
       "bar_general": "General",
       "bar_modules": "Modules",
-      "bar_side_modules": "Side modules"
+      "bar_side_modules": "Side modules",
+      "display_lockscreen": "Lock screen"
     },
     "launcher": {
       "position": {
@@ -282,6 +283,29 @@
         },
         "preset_name_placeholder": "Enter preset name...",
         "screen_desc": "Configure and edit desktop widgets"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "Lock screen",
+          "desc": "Customize the layout of your lock screen",
+          "button": "Edit lock screen"
+        },
+        "limits": {
+          "title": "Attempt limits",
+          "desc": "Temporarily block password entry and disable the fingerprint reader after too many failed attempts"
+        },
+        "password_attempts": {
+          "title": "Password attempts",
+          "desc": "Failed attempts before password entry is blocked for 30 seconds"
+        },
+        "fingerprint_attempts": {
+          "title": "Fingerprint attempts",
+          "desc": "Failed scans before the fingerprint reader is disabled until the next unlock"
+        },
+        "fingerprint": {
+          "title": "Enable fingerprint login",
+          "desc": "Allow unlocking the lock screen with a fingerprint"
+        }
       }
     },
     "bar": {
@@ -974,12 +998,14 @@
       "locked": "Locked",
       "access_denied": "Access denied",
       "authenticating": "Authenticating...",
-      "enter_pin": "Enter PIN"
+      "enter_pin": "Enter PIN",
+      "too_many_attempts": "Too many attempts"
     },
     "fingerprint": {
       "ready": "Touch the sensor",
       "not_recognized": "Fingerprint not recognized",
-      "recognized": "Fingerprint recognized"
+      "recognized": "Fingerprint recognized",
+      "blocked": "Fingerprint disabled"
     },
     "power": {
       "suspend": "Suspend",

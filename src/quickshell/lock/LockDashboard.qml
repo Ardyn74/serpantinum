@@ -198,7 +198,7 @@ Item {
                         }
 
                         onTextEdited: (newText) => {
-                            if (screenRoot.lockUI.authenticating || screenRoot.isUnlocking) return;
+                            if (screenRoot.lockUI.authenticating || screenRoot.isUnlocking || screenRoot.lockUI.lockedOut) return;
                             if (newText.length > 0 && !screenRoot.inputActive) {
                                 screenRoot.inputActive = true;
                             }
