@@ -146,6 +146,7 @@ DisplayLockscreenState {
                     },
 
                     SettingsRow {
+                        visible: displayLockscreenRoot.fingerprintSupported
                         rootObj: displayLockscreenRoot.rootObj
                         baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                         icon: "󰈷"
