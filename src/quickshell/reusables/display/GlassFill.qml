@@ -139,11 +139,11 @@ Item {
         armFrames = 0;
         if (active) updateNest();
         register();
-        refresh();
+        refresh(true);
     }
     onBackdropChanged: {
         register();
-        refresh();
+        refresh(true);
     }
     onParentChanged: resolve()
     Component.onCompleted: resolve()
@@ -159,13 +159,23 @@ Item {
     property rect frameRect: Qt.rect(0, 0, 1, 1)
     property point frameCursor: Qt.point(0, 0)
 
-    function refresh() {
+    property var sig: [0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0]
+
+    function refresh(force) {
         if (!root.active) return;
         const bd = root.backdrop;
-        const bw = Math.max(1, bd.width);
-        const bh = Math.max(1, bd.height);
         const p0 = bd.mapFromItem(root, 0, 0);
         const p1 = bd.mapFromItem(root, 1, 0);
+        const p2 = bd.mapFromItem(root, 0, 1);
+        const s = root.sig;
+        if (!force && p0.x === s[0] && p0.y === s[1] && p1.x === s[2] && p1.y === s[3] && p2.x === s[4] && p2.y === s[5]
+                && root.width === s[6] && root.height === s[7] && bd.width === s[8] && bd.height === s[9]
+                && bd.cursorX === s[10] && bd.cursorY === s[11] && root.pad === s[12]) return;
+        s[0] = p0.x; s[1] = p0.y; s[2] = p1.x; s[3] = p1.y; s[4] = p2.x; s[5] = p2.y;
+        s[6] = root.width; s[7] = root.height; s[8] = bd.width; s[9] = bd.height;
+        s[10] = bd.cursorX; s[11] = bd.cursorY; s[12] = root.pad;
+        const bw = Math.max(1, bd.width);
+        const bh = Math.max(1, bd.height);
         const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180 / Math.PI;
         const t = (((-Math.round(angle / 90)) % 4) + 4) % 4;
         if (t !== root.turns) root.turns = t;
