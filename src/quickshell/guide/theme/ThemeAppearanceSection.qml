@@ -137,7 +137,7 @@ SettingsBlob {
             Layout.rightMargin: rootObj.s(8)
             implicitWidth: rootObj.s(220)
             implicitHeight: rootObj.s(18)
-            from: 20
+            from: 0
             to: 100
             stepSize: 1
             defaultValue: 100
