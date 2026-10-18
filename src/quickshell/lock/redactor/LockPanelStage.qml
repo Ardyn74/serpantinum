@@ -98,6 +98,7 @@ Item {
         MouseArea {
             id: moveMa
             anchors.fill: parent
+            hoverEnabled: true
             preventStealing: true
             cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
 

@@ -563,6 +563,7 @@ Item {
                 id: dragMa
                 z: 2
                 anchors.fill: parent
+                hoverEnabled: true
                 preventStealing: true
                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
 
