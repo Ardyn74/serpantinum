@@ -10,6 +10,8 @@ Item {
 
     anchors.fill: parent
 
+    readonly property real wallpaperReveal: screenRoot.isPlayingIntro ? (screenRoot.panelReveal >= 0.7 ? 1.0 : 0.0) : screenRoot.panelReveal
+
     Item {
         id: freezeBackdropLayer
         anchors.fill: parent
@@ -136,7 +138,7 @@ Item {
             enabled: !screenRoot.isPlayingIntro && !screenRoot.isUnlocking
             NumberAnimation { duration: 500; easing.type: Easing.OutCubic }
         }
-        opacity: screenRoot.panelReveal
+        opacity: backdrop.wallpaperReveal
         visible: opacity > 0.01
     }
 
@@ -145,7 +147,7 @@ Item {
         anchors.fill: parent
         z: 2
         color: ThemeBackend.crust
-        opacity: (screenRoot.inputActive ? 0.14 : 0.38) * screenRoot.panelReveal
+        opacity: (screenRoot.inputActive ? 0.14 : 0.38) * backdrop.wallpaperReveal
         Behavior on opacity {
             enabled: !screenRoot.isPlayingIntro && !screenRoot.isUnlocking
             NumberAnimation { duration: 600; easing.type: Easing.OutCubic }
