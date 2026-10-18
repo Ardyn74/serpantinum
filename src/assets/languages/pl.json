@@ -802,7 +802,8 @@
       "dock": "Dok",
       "bar_general": "Ogólne",
       "bar_modules": "Moduły",
-      "bar_side_modules": "Moduły boczne"
+      "bar_side_modules": "Moduły boczne",
+      "display_lockscreen": "Ekran blokady"
     },
     "launcher": {
       "position": {
@@ -1042,6 +1043,36 @@
         },
         "preset_name_placeholder": "Wprowadź nazwę szablonu...",
         "screen_desc": "Konfiguruj i edytuj widżety pulpitu"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "Ekran blokady",
+          "desc": "Dostosuj układ ekranu blokady",
+          "button": "Edytuj ekran blokady"
+        },
+        "limits": {
+          "title": "Limity prób",
+          "desc": "Tymczasowo blokuj wpisywanie hasła i wyłącz czytnik linii papilarnych po zbyt wielu nieudanych próbach"
+        },
+        "password_attempts": {
+          "title": "Próby hasła",
+          "desc": "Nieudane próby, po których wpisywanie hasła zostanie zablokowane na 30 sekund"
+        },
+        "fingerprint_attempts": {
+          "title": "Próby odcisku palca",
+          "desc": "Nieudane skany, po których czytnik linii papilarnych zostanie wyłączony do następnego odblokowania"
+        },
+        "fingerprint": {
+          "title": "Włącz logowanie odciskiem palca",
+          "desc": "Zezwalaj na odblokowanie ekranu blokady odciskiem palca"
+        },
+        "background": {
+          "select": "Wybierz tło",
+          "follow": "Podążaj za tapetą",
+          "custom": "Własne",
+          "follows_hint": "Podąża za tapetą",
+          "none": "Nie wybrano tła"
+        }
       }
     },
     "bar": {

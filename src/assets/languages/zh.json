@@ -42,7 +42,8 @@
       "dock": "程序坞",
       "bar_general": "通用",
       "bar_modules": "模块",
-      "bar_side_modules": "侧边模块"
+      "bar_side_modules": "侧边模块",
+      "display_lockscreen": "锁屏"
     },
     "launcher": {
       "position": {
@@ -282,6 +283,36 @@
         },
         "preset_name_placeholder": "输入预设名称...",
         "screen_desc": "配置并编辑桌面小组件"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "锁屏",
+          "desc": "自定义锁屏的布局",
+          "button": "编辑锁屏"
+        },
+        "limits": {
+          "title": "尝试次数限制",
+          "desc": "失败尝试过多后，暂时阻止密码输入并禁用指纹读取器"
+        },
+        "password_attempts": {
+          "title": "密码尝试次数",
+          "desc": "密码输入被阻止 30 秒之前允许的失败次数"
+        },
+        "fingerprint_attempts": {
+          "title": "指纹尝试次数",
+          "desc": "指纹读取器在下次解锁前被禁用之前允许的失败扫描次数"
+        },
+        "fingerprint": {
+          "title": "启用指纹登录",
+          "desc": "允许使用指纹解锁锁屏"
+        },
+        "background": {
+          "select": "选择背景",
+          "follow": "跟随壁纸",
+          "custom": "自定义",
+          "follows_hint": "跟随壁纸",
+          "none": "未选择背景"
+        }
       }
     },
     "bar": {

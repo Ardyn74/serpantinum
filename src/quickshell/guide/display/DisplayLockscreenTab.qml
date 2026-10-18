@@ -35,6 +35,10 @@ DisplayLockscreenState {
             width: parent.width - (parent.contentHeight > parent.height ? rootObj.s(6) : 0)
             spacing: rootObj.s(6)
 
+            LockBackgroundPreview {
+                tab: displayLockscreenRoot
+            }
+
             SettingsRow {
                 rootObj: displayLockscreenRoot.rootObj
                 settingId: "lockscreen_edit"

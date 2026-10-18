@@ -12,7 +12,9 @@ GuideTab {
         "fingerprintEnabled": true,
         "attemptLimitEnabled": false,
         "passwordMaxAttempts": 5,
-        "fingerprintMaxAttempts": 5
+        "fingerprintMaxAttempts": 5,
+        "backgroundMode": "follow",
+        "customBackground": ""
     })
 
     property var lockscreenSettings: {
@@ -23,6 +25,15 @@ GuideTab {
     }
 
     property bool fingerprintSupported: false
+    property string currentBackgroundMode: lockscreenSettings.backgroundMode === "custom" ? "custom" : "follow"
+    property string currentCustomBackground: lockscreenSettings.customBackground ? String(lockscreenSettings.customBackground) : ""
+    readonly property string currentWallpaperPath: {
+        Wallpaper.screenWallpaperPaths;
+        return Wallpaper.getWallpaperPath("");
+    }
+    readonly property bool customBackgroundActive: displayLockscreenRoot.currentBackgroundMode === "custom" && displayLockscreenRoot.currentCustomBackground !== ""
+    readonly property string effectiveBackgroundPath: displayLockscreenRoot.customBackgroundActive ? displayLockscreenRoot.currentCustomBackground : displayLockscreenRoot.currentWallpaperPath
+    readonly property bool effectiveBackgroundIsVideo: displayLockscreenRoot.isVideoPath(displayLockscreenRoot.effectiveBackgroundPath)
     property bool currentFingerprintEnabled: lockscreenSettings.fingerprintEnabled !== false
     property bool currentAttemptLimitEnabled: lockscreenSettings.attemptLimitEnabled === true
     property int currentPasswordMaxAttempts: lockscreenSettings.passwordMaxAttempts !== undefined ? lockscreenSettings.passwordMaxAttempts : 5
@@ -35,6 +46,21 @@ GuideTab {
     }
 
     Component.onCompleted: fingerprintProbe.running = true
+
+    function isVideoPath(path) {
+        let lp = String(path || "").toLowerCase();
+        return lp.endsWith(".mp4") || lp.endsWith(".mkv") || lp.endsWith(".mov") || lp.endsWith(".webm");
+    }
+
+    function setBackgroundMode(mode) {
+        displayLockscreenRoot.currentBackgroundMode = mode;
+        displayLockscreenRoot.updateLockscreenSetting("backgroundMode", mode);
+    }
+
+    function setCustomBackground(path) {
+        displayLockscreenRoot.currentCustomBackground = path;
+        displayLockscreenRoot.updateLockscreenSetting("customBackground", path);
+    }
 
     function openRedactor() {
         Quickshell.execDetached(["quickshell", "-p", Caching.mainQml, "ipc", "call", "lock-redactor", "open", ""]);

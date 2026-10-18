@@ -36,7 +36,25 @@ FocusScope {
 
     readonly property var glassScreen: surface.screen
     property string safeScreenName: (surface.screen && surface.screen.name) ? surface.screen.name : (surface.output && surface.output.name ? surface.output.name : "")
+    readonly property var lockSettings: Config.getSetting("lockscreen", {})
+    readonly property string customBackgroundPath: lockSettings.customBackground ? String(lockSettings.customBackground) : ""
+    readonly property bool customBackgroundActive: lockSettings.backgroundMode === "custom" && customBackgroundPath !== ""
+    readonly property string desktopWallpaperPath: {
+        Wallpaper.screenWallpaperPaths;
+        return Wallpaper.getWallpaperPath(safeScreenName);
+    }
+    readonly property string backgroundPath: customBackgroundActive ? customBackgroundPath : desktopWallpaperPath
+    readonly property bool backgroundIsVideo: isVideoPath(backgroundPath)
+
+    function isVideoPath(path) {
+        let lp = String(path || "").toLowerCase();
+        return lp.endsWith(".mp4") || lp.endsWith(".mkv") || lp.endsWith(".mov") || lp.endsWith(".webm");
+    }
+
     property string wallpaperSource: {
+        if (customBackgroundActive && !isVideoPath(customBackgroundPath)) {
+            return "file://" + customBackgroundPath;
+        }
         let cacheDir = Caching.getCacheDir("wallpaper");
         if (safeScreenName !== "" && safeScreenName !== "default") {
             return "file://" + cacheDir + "/current_wallpaper_" + safeScreenName + ".png";

@@ -305,6 +305,13 @@
         "fingerprint": {
           "title": "Enable fingerprint login",
           "desc": "Allow unlocking the lock screen with a fingerprint"
+        },
+        "background": {
+          "select": "Select background",
+          "follow": "Follow wallpaper",
+          "custom": "Custom",
+          "follows_hint": "Follows wallpaper",
+          "none": "No background selected"
         }
       }
     },

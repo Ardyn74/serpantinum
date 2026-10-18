@@ -42,7 +42,8 @@
       "dock": "도크",
       "bar_general": "일반",
       "bar_modules": "모듈",
-      "bar_side_modules": "사이드 모듈"
+      "bar_side_modules": "사이드 모듈",
+      "display_lockscreen": "잠금 화면"
     },
     "launcher": {
       "position": {
@@ -282,6 +283,36 @@
         },
         "preset_name_placeholder": "프리셋 이름 입력...",
         "screen_desc": "바탕화면 위젯 설정 및 편집"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "잠금 화면",
+          "desc": "잠금 화면의 레이아웃을 맞춤 설정합니다",
+          "button": "잠금 화면 편집"
+        },
+        "limits": {
+          "title": "시도 횟수 제한",
+          "desc": "실패한 시도가 너무 많으면 비밀번호 입력을 일시적으로 차단하고 지문 리더를 비활성화합니다"
+        },
+        "password_attempts": {
+          "title": "비밀번호 시도 횟수",
+          "desc": "비밀번호 입력이 30초 동안 차단되기 전까지의 실패 횟수"
+        },
+        "fingerprint_attempts": {
+          "title": "지문 시도 횟수",
+          "desc": "다음 잠금 해제 때까지 지문 리더가 비활성화되기 전까지의 실패한 스캔 횟수"
+        },
+        "fingerprint": {
+          "title": "지문 로그인 사용",
+          "desc": "지문으로 잠금 화면을 해제할 수 있도록 허용합니다"
+        },
+        "background": {
+          "select": "배경 선택",
+          "follow": "배경화면 따라가기",
+          "custom": "사용자 지정",
+          "follows_hint": "배경화면을 따라갑니다",
+          "none": "선택된 배경 없음"
+        }
       }
     },
     "bar": {

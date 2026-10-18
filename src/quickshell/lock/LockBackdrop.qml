@@ -86,6 +86,14 @@ Item {
             }
         }
 
+        Loader {
+            anchors.fill: parent
+            active: screenRoot.backgroundIsVideo && screenRoot.backgroundPath !== ""
+            sourceComponent: VideoLock {
+                wallpaperPath: screenRoot.backgroundPath
+            }
+        }
+
         Image {
             id: liveFreezeView
             anchors.fill: parent

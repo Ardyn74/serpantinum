@@ -43,7 +43,8 @@
       "dock": "Dock",
       "bar_general": "General",
       "bar_modules": "Módulos",
-      "bar_side_modules": "Módulos laterales"
+      "bar_side_modules": "Módulos laterales",
+      "display_lockscreen": "Pantalla de bloqueo"
     },
     "launcher": {
       "position": {
@@ -283,6 +284,36 @@
         },
         "preset_name_placeholder": "Introduce el nombre del ajuste...",
         "screen_desc": "Configurar y editar widgets del escritorio"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "Pantalla de bloqueo",
+          "desc": "Personaliza el diseño de tu pantalla de bloqueo",
+          "button": "Editar pantalla de bloqueo"
+        },
+        "limits": {
+          "title": "Límites de intentos",
+          "desc": "Bloquea temporalmente la entrada de contraseña y desactiva el lector de huellas tras demasiados intentos fallidos"
+        },
+        "password_attempts": {
+          "title": "Intentos de contraseña",
+          "desc": "Intentos fallidos antes de bloquear la entrada de contraseña durante 30 segundos"
+        },
+        "fingerprint_attempts": {
+          "title": "Intentos de huella",
+          "desc": "Lecturas fallidas antes de desactivar el lector de huellas hasta el próximo desbloqueo"
+        },
+        "fingerprint": {
+          "title": "Activar inicio con huella dactilar",
+          "desc": "Permitir desbloquear la pantalla de bloqueo con una huella dactilar"
+        },
+        "background": {
+          "select": "Seleccionar fondo",
+          "follow": "Seguir fondo de pantalla",
+          "custom": "Personalizado",
+          "follows_hint": "Sigue el fondo de pantalla",
+          "none": "Ningún fondo seleccionado"
+        }
       }
     },
     "bar": {

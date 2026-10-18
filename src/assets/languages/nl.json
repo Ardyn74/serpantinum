@@ -42,7 +42,8 @@
       "dock": "Dock",
       "bar_general": "Algemeen",
       "bar_modules": "Modules",
-      "bar_side_modules": "Zijmodules"
+      "bar_side_modules": "Zijmodules",
+      "display_lockscreen": "Vergrendelscherm"
     },
     "launcher": {
       "position": {
@@ -282,6 +283,36 @@
         },
         "preset_name_placeholder": "Voer voorinstellingsnaam in...",
         "screen_desc": "Bureaubladwidgets configureren en bewerken"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "Vergrendelscherm",
+          "desc": "Pas de indeling van je vergrendelscherm aan",
+          "button": "Vergrendelscherm bewerken"
+        },
+        "limits": {
+          "title": "Pogingslimieten",
+          "desc": "Blokkeer wachtwoordinvoer tijdelijk en schakel de vingerafdruklezer uit na te veel mislukte pogingen"
+        },
+        "password_attempts": {
+          "title": "Wachtwoordpogingen",
+          "desc": "Mislukte pogingen voordat wachtwoordinvoer 30 seconden wordt geblokkeerd"
+        },
+        "fingerprint_attempts": {
+          "title": "Vingerafdrukpogingen",
+          "desc": "Mislukte scans voordat de vingerafdruklezer tot de volgende ontgrendeling wordt uitgeschakeld"
+        },
+        "fingerprint": {
+          "title": "Inloggen met vingerafdruk inschakelen",
+          "desc": "Ontgrendelen van het vergrendelscherm met een vingerafdruk toestaan"
+        },
+        "background": {
+          "select": "Achtergrond selecteren",
+          "follow": "Achtergrond volgen",
+          "custom": "Aangepast",
+          "follows_hint": "Volgt de achtergrond",
+          "none": "Geen achtergrond geselecteerd"
+        }
       }
     },
     "bar": {

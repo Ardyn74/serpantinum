@@ -42,7 +42,8 @@
       "dock": "Dock",
       "bar_general": "Genel",
       "bar_modules": "Modüller",
-      "bar_side_modules": "Yan modüller"
+      "bar_side_modules": "Yan modüller",
+      "display_lockscreen": "Kilit ekranı"
     },
     "launcher": {
       "position": {
@@ -282,6 +283,36 @@
         },
         "preset_name_placeholder": "Ön ayar adını girin...",
         "screen_desc": "Masaüstü widget'larını yapılandırın ve düzenleyin"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "Kilit ekranı",
+          "desc": "Kilit ekranınızın düzenini özelleştirin",
+          "button": "Kilit ekranını düzenle"
+        },
+        "limits": {
+          "title": "Deneme sınırları",
+          "desc": "Çok fazla başarısız denemeden sonra parola girişini geçici olarak engelle ve parmak izi okuyucuyu devre dışı bırak"
+        },
+        "password_attempts": {
+          "title": "Parola denemeleri",
+          "desc": "Parola girişi 30 saniye engellenmeden önceki başarısız denemeler"
+        },
+        "fingerprint_attempts": {
+          "title": "Parmak izi denemeleri",
+          "desc": "Parmak izi okuyucu bir sonraki kilit açmaya kadar devre dışı bırakılmadan önceki başarısız taramalar"
+        },
+        "fingerprint": {
+          "title": "Parmak izi ile girişi etkinleştir",
+          "desc": "Kilit ekranını parmak iziyle açmaya izin ver"
+        },
+        "background": {
+          "select": "Arka plan seç",
+          "follow": "Duvar kâğıdını izle",
+          "custom": "Özel",
+          "follows_hint": "Duvar kâğıdını izler",
+          "none": "Arka plan seçilmedi"
+        }
       }
     },
     "bar": {

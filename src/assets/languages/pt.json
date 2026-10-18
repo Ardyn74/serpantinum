@@ -42,7 +42,8 @@
       "dock": "Dock",
       "bar_general": "Geral",
       "bar_modules": "Módulos",
-      "bar_side_modules": "Módulos laterais"
+      "bar_side_modules": "Módulos laterais",
+      "display_lockscreen": "Tela de bloqueio"
     },
     "launcher": {
       "position": {
@@ -282,6 +283,36 @@
         },
         "preset_name_placeholder": "Digite o nome da predefinição...",
         "screen_desc": "Configurar e editar widgets da área de trabalho"
+      },
+      "lockscreen": {
+        "edit": {
+          "title": "Tela de bloqueio",
+          "desc": "Personalize o layout da sua tela de bloqueio",
+          "button": "Editar tela de bloqueio"
+        },
+        "limits": {
+          "title": "Limites de tentativas",
+          "desc": "Bloqueia temporariamente a entrada de senha e desativa o leitor de impressão digital após muitas tentativas falhas"
+        },
+        "password_attempts": {
+          "title": "Tentativas de senha",
+          "desc": "Tentativas falhas antes de a entrada de senha ser bloqueada por 30 segundos"
+        },
+        "fingerprint_attempts": {
+          "title": "Tentativas de impressão digital",
+          "desc": "Leituras falhas antes de o leitor de impressão digital ser desativado até o próximo desbloqueio"
+        },
+        "fingerprint": {
+          "title": "Ativar login por impressão digital",
+          "desc": "Permitir desbloquear a tela de bloqueio com uma impressão digital"
+        },
+        "background": {
+          "select": "Selecionar plano de fundo",
+          "follow": "Seguir papel de parede",
+          "custom": "Personalizado",
+          "follows_hint": "Segue o papel de parede",
+          "none": "Nenhum plano de fundo selecionado"
+        }
       }
     },
     "bar": {
