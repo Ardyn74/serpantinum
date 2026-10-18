@@ -95,13 +95,13 @@ float hash12(vec2 p) {
 }
 
 float blurLod(float rad, int taps) {
-    float R = max(rad, 0.5) * 1.5;
+    float R = max(rad, 0.5) * 0.9;
     float gap = R * sqrt(3.14159265 / float(taps));
-    return clamp(log2(max(gap, 1.0)) + 0.35, 0.0, 6.0);
+    return clamp(log2(max(gap, 1.0)) - 0.15, 0.0, 6.0);
 }
 
 vec3 blurredAt(vec2 p, float rad, float lod, int taps) {
-    float R = max(rad, 0.5) * 1.5;
+    float R = max(rad, 0.5) * 0.9;
     float rot = ign(gl_FragCoord.xy) * 6.2831853;
     vec4 acc = vec4(0.0);
     float wsum = 0.0;
