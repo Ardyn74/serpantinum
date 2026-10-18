@@ -39,6 +39,8 @@ layout(binding = 1) uniform sampler2D src;
 const int TAPS = 10;
 const float GOLDEN = 2.39996323;
 const float LENS_ZOOM = 0.045;
+const float LENS_FULL = 180.0;
+const float LENS_NONE = 420.0;
 const float FRESNEL = 0.55;
 const float INNER_SHADOW = 0.16;
 const float BROAD_SPEC = 0.2;
@@ -177,7 +179,8 @@ void main() {
     vec2 zq = p / max(glassSize * 0.5, vec2(1.0));
     float zr = clamp(length(zq), 0.0, 1.0);
     float zoomAmt = LENS_ZOOM * (1.0 - 0.5 * nest) + 0.129 * clamp(energy, 0.0, 1.0) + 0.064 * motion;
-    vec2 ps = vec2(p.x, p.y * (1.0 - 0.08 * 1.5)) * (1.0 - zoomAmt * (1.0 - zr * zr));
+    float lensK = 1.0 - smoothstep(LENS_FULL, LENS_NONE, max(glassSize.x, glassSize.y) * 0.5);
+    vec2 ps = p + (vec2(p.x, p.y * (1.0 - 0.08 * 1.5)) * (1.0 - zoomAmt * (1.0 - zr * zr)) - p) * lensK;
     vec2 follow = clamp((cursor - itemSize * 0.5) / max(itemSize * 0.5, vec2(1.0)), vec2(-1.0), vec2(1.0));
     ps -= follow * 6.0 * near * morph * (1.0 - zr * zr * 0.5);
     bool interior = t >= bz && near < 0.02;
