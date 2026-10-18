@@ -134,14 +134,17 @@ Item {
         }
     }
     onActiveChanged: {
-        cursorPrimed = false;
         rectPrimed = false;
         armed = false;
         armFrames = 0;
         if (active) updateNest();
         register();
+        refresh();
     }
-    onBackdropChanged: register()
+    onBackdropChanged: {
+        register();
+        refresh();
+    }
     onParentChanged: resolve()
     Component.onCompleted: resolve()
     Component.onDestruction: unregister()
@@ -151,64 +154,41 @@ Item {
         function onLiquidGlassChanged() { root.resolve(); }
     }
 
-    function track() {
-        let e = root;
-        let d = 0;
-        while (e && d < 64) {
-            void e.x;
-            void e.y;
-            void e.width;
-            void e.height;
-            e = e.parent;
-            d++;
-        }
-    }
+    property rect sampleRect: Qt.rect(0, 0, 1, 1)
+    property int turns: 0
+    property rect frameRect: Qt.rect(0, 0, 1, 1)
+    property point frameCursor: Qt.point(0, 0)
 
-    property rect sampleRect: {
-        if (!root.active) return Qt.rect(0, 0, 1, 1);
-        void root.backdrop.frame;
-        root.track();
-        const a = root.backdrop.mapFromItem(root, -root.pad, -root.pad);
-        const b = root.backdrop.mapFromItem(root, root.width + root.pad, root.height + root.pad);
-        const bw = Math.max(1, root.backdrop.width);
-        const bh = Math.max(1, root.backdrop.height);
-        return Qt.rect(a.x / bw, a.y / bh, (b.x - a.x) / bw, (b.y - a.y) / bh);
-    }
-
-    property point localCursor: {
-        if (!root.active) return Qt.point(0, 0);
-        root.track();
-        const c = root.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
-        return Qt.point(c.x + root.pad, c.y + root.pad);
-    }
-
-    property int turns: {
-        if (!root.active) return 0;
-        void root.backdrop.frame;
-        root.track();
-        const p0 = root.backdrop.mapFromItem(root, 0, 0);
-        const p1 = root.backdrop.mapFromItem(root, 1, 0);
+    function refresh() {
+        if (!root.active) return;
+        const bd = root.backdrop;
+        const bw = Math.max(1, bd.width);
+        const bh = Math.max(1, bd.height);
+        const p0 = bd.mapFromItem(root, 0, 0);
+        const p1 = bd.mapFromItem(root, 1, 0);
         const angle = Math.atan2(p1.y - p0.y, p1.x - p0.x) * 180 / Math.PI;
-        return (((-Math.round(angle / 90)) % 4) + 4) % 4;
+        const t = (((-Math.round(angle / 90)) % 4) + 4) % 4;
+        if (t !== root.turns) root.turns = t;
+        const a = bd.mapFromItem(root, -root.pad, -root.pad);
+        const b = bd.mapFromItem(root, root.width + root.pad, root.height + root.pad);
+        root.sampleRect = Qt.rect(a.x / bw, a.y / bh, (b.x - a.x) / bw, (b.y - a.y) / bh);
+        const fa = bd.mapFromItem(glassFrame, 0, 0);
+        const fb = bd.mapFromItem(glassFrame, glassFrame.width, glassFrame.height);
+        root.frameRect = Qt.rect(Math.min(fa.x, fb.x) / bw, Math.min(fa.y, fb.y) / bh, Math.abs(fb.x - fa.x) / bw, Math.abs(fb.y - fa.y) / bh);
+        const c = glassFrame.mapFromItem(bd, bd.cursorX, bd.cursorY);
+        root.frameCursor = Qt.point(c.x, c.y);
     }
 
-    property rect frameRect: {
-        if (!root.active) return Qt.rect(0, 0, 1, 1);
-        void root.backdrop.frame;
-        root.track();
-        const a = root.backdrop.mapFromItem(glassFrame, 0, 0);
-        const b = root.backdrop.mapFromItem(glassFrame, glassFrame.width, glassFrame.height);
-        const bw = Math.max(1, root.backdrop.width);
-        const bh = Math.max(1, root.backdrop.height);
-        return Qt.rect(Math.min(a.x, b.x) / bw, Math.min(a.y, b.y) / bh, Math.abs(b.x - a.x) / bw, Math.abs(b.y - a.y) / bh);
+    Connections {
+        target: root.backdrop
+        ignoreUnknownSignals: true
+        function onFrameChanged() { root.refresh(); }
     }
 
-    property point frameCursor: {
-        if (!root.active) return Qt.point(0, 0);
-        root.track();
-        const c = glassFrame.mapFromItem(root.backdrop, root.backdrop.cursorX, root.backdrop.cursorY);
-        return Qt.point(c.x, c.y);
-    }
+    onWidthChanged: refresh()
+    onHeightChanged: refresh()
+    onXChanged: refresh()
+    onYChanged: refresh()
 
     function cornerRadius(i) {
         const r = [root.topLeftRadius, root.topRightRadius, root.bottomRightRadius, root.bottomLeftRadius];
@@ -216,10 +196,8 @@ Item {
     }
 
     property real motion: 0
-    property point lastCursor: Qt.point(0, 0)
     property point lastCenter: Qt.point(0, 0)
     property size lastSize: Qt.size(0, 0)
-    property bool cursorPrimed: false
     property bool rectPrimed: false
     property bool armed: false
     property int armFrames: 0
@@ -235,15 +213,6 @@ Item {
         if (!root.active || !root.armed || distance < 0.05) return;
         root.motion = Math.min(1, root.motion + distance / 36);
         if (!motionDecay.running) motionDecay.start();
-    }
-
-    onLocalCursorChanged: {
-        if (!root.active) return;
-        lastCursor = localCursor;
-        if (!cursorPrimed) {
-            cursorPrimed = true;
-            return;
-        }
     }
 
     onSampleRectChanged: {

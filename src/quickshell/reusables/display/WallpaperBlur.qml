@@ -39,7 +39,6 @@ Item {
     Component.onCompleted: nestLevel = standalone ? 0 : Nesting.nestLevel(root, null, true)
     readonly property bool transitioning: engine ? (engine.transitionProgress > 0.0 && engine.transitionProgress < 1.0) : false
     property int frame: 0
-    property int tick: 0
 
     property var screenOverride: null
     property bool useSnapshot: false
@@ -143,7 +142,7 @@ Item {
         running: root.active
         onTriggered: {
             root.refreshGeometry();
-            if (root.consumers > 0 && (++root.tick % 2) === 0) root.frame++;
+            if (root.consumers > 0) root.frame++;
         }
     }
 
