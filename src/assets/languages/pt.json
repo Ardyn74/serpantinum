@@ -980,7 +980,61 @@
       "power_off": "Desligar"
     },
     "default_user": "Usuário",
-    "unknown": "Desconhecido"
+    "unknown": "Desconhecido",
+    "redactor": {
+      "done": "Concluído",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Usuário",
+        "password": "Senha",
+        "fingerprint": "Impressão digital",
+        "notifications": "Notificações",
+        "clock": "Relógio",
+        "lockstatus": "Status do bloqueio",
+        "keyboard": "Teclado",
+        "battery": "Bateria"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Clássico",
+          "stacked": "Empilhado",
+          "compact": "Compacto",
+          "analog": "Analógico"
+        },
+        "avatar": {
+          "round": "Redondo",
+          "rounded": "Arredondado"
+        },
+        "user": {
+          "filled": "Preenchido",
+          "plain": "Simples"
+        },
+        "password": {
+          "filled": "Preenchido",
+          "glass": "Vidro"
+        },
+        "fingerprint": {
+          "labeled": "Com rótulo",
+          "icon": "Só ícone"
+        },
+        "notifications": {
+          "card": "Cartão",
+          "plain": "Simples"
+        },
+        "lockstatus": {
+          "filled": "Preenchido",
+          "plain": "Simples"
+        },
+        "keyboard": {
+          "filled": "Preenchido",
+          "plain": "Simples"
+        },
+        "battery": {
+          "filled": "Preenchido",
+          "plain": "Simples"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Nada tocando",

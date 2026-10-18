@@ -979,7 +979,61 @@
       "power_off": "Spegni"
     },
     "default_user": "Utente",
-    "unknown": "Sconosciuto"
+    "unknown": "Sconosciuto",
+    "redactor": {
+      "done": "Fatto",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Utente",
+        "password": "Password",
+        "fingerprint": "Impronta digitale",
+        "notifications": "Notifiche",
+        "clock": "Orologio",
+        "lockstatus": "Stato del blocco",
+        "keyboard": "Tastiera",
+        "battery": "Batteria"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Classico",
+          "stacked": "Impilato",
+          "compact": "Compatto",
+          "analog": "Analogico"
+        },
+        "avatar": {
+          "round": "Rotondo",
+          "rounded": "Arrotondato"
+        },
+        "user": {
+          "filled": "Pieno",
+          "plain": "Semplice"
+        },
+        "password": {
+          "filled": "Pieno",
+          "glass": "Vetro"
+        },
+        "fingerprint": {
+          "labeled": "Con etichetta",
+          "icon": "Solo icona"
+        },
+        "notifications": {
+          "card": "Scheda",
+          "plain": "Semplice"
+        },
+        "lockstatus": {
+          "filled": "Pieno",
+          "plain": "Semplice"
+        },
+        "keyboard": {
+          "filled": "Pieno",
+          "plain": "Semplice"
+        },
+        "battery": {
+          "filled": "Pieno",
+          "plain": "Semplice"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Non c'è niente in riproduzione",

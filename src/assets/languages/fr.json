@@ -980,7 +980,61 @@
       "power_off": "Éteindre"
     },
     "default_user": "Utilisateur",
-    "unknown": "Inconnu"
+    "unknown": "Inconnu",
+    "redactor": {
+      "done": "Terminé",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Utilisateur",
+        "password": "Mot de passe",
+        "fingerprint": "Empreinte digitale",
+        "notifications": "Notifications",
+        "clock": "Horloge",
+        "lockstatus": "État du verrouillage",
+        "keyboard": "Clavier",
+        "battery": "Batterie"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Classique",
+          "stacked": "Empilé",
+          "compact": "Compact",
+          "analog": "Analogique"
+        },
+        "avatar": {
+          "round": "Rond",
+          "rounded": "Arrondi"
+        },
+        "user": {
+          "filled": "Rempli",
+          "plain": "Simple"
+        },
+        "password": {
+          "filled": "Rempli",
+          "glass": "Verre"
+        },
+        "fingerprint": {
+          "labeled": "Avec libellé",
+          "icon": "Icône seule"
+        },
+        "notifications": {
+          "card": "Carte",
+          "plain": "Simple"
+        },
+        "lockstatus": {
+          "filled": "Rempli",
+          "plain": "Simple"
+        },
+        "keyboard": {
+          "filled": "Rempli",
+          "plain": "Simple"
+        },
+        "battery": {
+          "filled": "Rempli",
+          "plain": "Simple"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Aucune lecture en cours",

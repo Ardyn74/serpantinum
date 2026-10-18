@@ -980,7 +980,61 @@
       "power_off": "Matikan daya"
     },
     "default_user": "Pengguna",
-    "unknown": "Tidak diketahui"
+    "unknown": "Tidak diketahui",
+    "redactor": {
+      "done": "Selesai",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Pengguna",
+        "password": "Kata sandi",
+        "fingerprint": "Sidik jari",
+        "notifications": "Notifikasi",
+        "clock": "Jam",
+        "lockstatus": "Status kunci",
+        "keyboard": "Papan ketik",
+        "battery": "Baterai"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Klasik",
+          "stacked": "Bertumpuk",
+          "compact": "Ringkas",
+          "analog": "Analog"
+        },
+        "avatar": {
+          "round": "Bulat",
+          "rounded": "Membulat"
+        },
+        "user": {
+          "filled": "Terisi",
+          "plain": "Polos"
+        },
+        "password": {
+          "filled": "Terisi",
+          "glass": "Kaca"
+        },
+        "fingerprint": {
+          "labeled": "Berlabel",
+          "icon": "Ikon saja"
+        },
+        "notifications": {
+          "card": "Kartu",
+          "plain": "Polos"
+        },
+        "lockstatus": {
+          "filled": "Terisi",
+          "plain": "Polos"
+        },
+        "keyboard": {
+          "filled": "Terisi",
+          "plain": "Polos"
+        },
+        "battery": {
+          "filled": "Terisi",
+          "plain": "Polos"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Tidak ada yang diputar",

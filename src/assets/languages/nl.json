@@ -980,7 +980,61 @@
       "power_off": "Uitschakelen"
     },
     "default_user": "Gebruiker",
-    "unknown": "Onbekend"
+    "unknown": "Onbekend",
+    "redactor": {
+      "done": "Klaar",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Gebruiker",
+        "password": "Wachtwoord",
+        "fingerprint": "Vingerafdruk",
+        "notifications": "Meldingen",
+        "clock": "Klok",
+        "lockstatus": "Vergrendelstatus",
+        "keyboard": "Toetsenbord",
+        "battery": "Batterij"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Klassiek",
+          "stacked": "Gestapeld",
+          "compact": "Compact",
+          "analog": "Analoog"
+        },
+        "avatar": {
+          "round": "Rond",
+          "rounded": "Afgerond"
+        },
+        "user": {
+          "filled": "Gevuld",
+          "plain": "Eenvoudig"
+        },
+        "password": {
+          "filled": "Gevuld",
+          "glass": "Glas"
+        },
+        "fingerprint": {
+          "labeled": "Met label",
+          "icon": "Alleen pictogram"
+        },
+        "notifications": {
+          "card": "Kaart",
+          "plain": "Eenvoudig"
+        },
+        "lockstatus": {
+          "filled": "Gevuld",
+          "plain": "Eenvoudig"
+        },
+        "keyboard": {
+          "filled": "Gevuld",
+          "plain": "Eenvoudig"
+        },
+        "battery": {
+          "filled": "Gevuld",
+          "plain": "Eenvoudig"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Er wordt niets afgespeeld",

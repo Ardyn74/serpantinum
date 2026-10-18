@@ -612,25 +612,6 @@ FocusScope {
                 screenRoot: lockScreenRoot
             }
 
-            FingerprintIndicator {
-                id: clockFingerprint
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: lockScreenRoot.s(36)
-                anchors.horizontalCenter: parent.horizontalCenter
-                status: lockUI.fpState
-                label: lockUI.fpLabel
-                attempts: lockUI.fpFailures
-                maxAttempts: root.fingerprintMaxAttempts
-                glyphSize: lockScreenRoot.s(40)
-                labelPixelSize: lockScreenRoot.s(12)
-                opacity: (lockScreenRoot.inputActive || lockScreenRoot.centerReveal > 0.02) ? 0.0 : 1.0
-                scale: (lockScreenRoot.inputActive || lockScreenRoot.centerReveal > 0.02) ? 0.92 : 1.0
-                visible: root.fingerprintAvailable && opacity > 0.01
-
-                Behavior on opacity { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
-                Behavior on scale { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
-            }
-
             LockDashboard {
                 id: dashboard
                 screenRoot: lockScreenRoot

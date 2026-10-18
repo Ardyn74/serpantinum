@@ -980,7 +980,61 @@
       "power_off": "Изключване"
     },
     "default_user": "Потребител",
-    "unknown": "Неизвестно"
+    "unknown": "Неизвестно",
+    "redactor": {
+      "done": "Готово",
+      "element": {
+        "avatar": "Аватар",
+        "user": "Потребител",
+        "password": "Парола",
+        "fingerprint": "Отпечатък",
+        "notifications": "Известия",
+        "clock": "Часовник",
+        "lockstatus": "Състояние на заключването",
+        "keyboard": "Клавиатура",
+        "battery": "Батерия"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Класически",
+          "stacked": "Подреден",
+          "compact": "Компактен",
+          "analog": "Аналогов"
+        },
+        "avatar": {
+          "round": "Кръгъл",
+          "rounded": "Заоблен"
+        },
+        "user": {
+          "filled": "Запълнен",
+          "plain": "Обикновен"
+        },
+        "password": {
+          "filled": "Запълнен",
+          "glass": "Стъкло"
+        },
+        "fingerprint": {
+          "labeled": "С етикет",
+          "icon": "Само иконка"
+        },
+        "notifications": {
+          "card": "Карта",
+          "plain": "Обикновен"
+        },
+        "lockstatus": {
+          "filled": "Запълнен",
+          "plain": "Обикновен"
+        },
+        "keyboard": {
+          "filled": "Запълнен",
+          "plain": "Обикновен"
+        },
+        "battery": {
+          "filled": "Запълнен",
+          "plain": "Обикновен"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "В момента нищо не се възпроизвежда",

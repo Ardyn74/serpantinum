@@ -980,7 +980,61 @@
       "power_off": "關機"
     },
     "default_user": "使用者",
-    "unknown": "未知"
+    "unknown": "未知",
+    "redactor": {
+      "done": "完成",
+      "element": {
+        "avatar": "大頭貼",
+        "user": "使用者",
+        "password": "密碼",
+        "fingerprint": "指紋",
+        "notifications": "通知",
+        "clock": "時鐘",
+        "lockstatus": "鎖定狀態",
+        "keyboard": "鍵盤",
+        "battery": "電池"
+      },
+      "variant": {
+        "clock": {
+          "classic": "經典",
+          "stacked": "堆疊",
+          "compact": "精簡",
+          "analog": "指針"
+        },
+        "avatar": {
+          "round": "圓形",
+          "rounded": "圓角"
+        },
+        "user": {
+          "filled": "填滿",
+          "plain": "簡約"
+        },
+        "password": {
+          "filled": "填滿",
+          "glass": "玻璃"
+        },
+        "fingerprint": {
+          "labeled": "含標籤",
+          "icon": "僅圖示"
+        },
+        "notifications": {
+          "card": "卡片",
+          "plain": "簡約"
+        },
+        "lockstatus": {
+          "filled": "填滿",
+          "plain": "簡約"
+        },
+        "keyboard": {
+          "filled": "填滿",
+          "plain": "簡約"
+        },
+        "battery": {
+          "filled": "填滿",
+          "plain": "簡約"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "未播放任何內容",

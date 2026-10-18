@@ -1024,7 +1024,61 @@
       "power_off": "Herunterfahren"
     },
     "default_user": "Benutzer",
-    "unknown": "Unbekannt"
+    "unknown": "Unbekannt",
+    "redactor": {
+      "done": "Fertig",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Benutzer",
+        "password": "Passwort",
+        "fingerprint": "Fingerabdruck",
+        "notifications": "Benachrichtigungen",
+        "clock": "Uhr",
+        "lockstatus": "Sperrstatus",
+        "keyboard": "Tastatur",
+        "battery": "Akku"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Klassisch",
+          "stacked": "Gestapelt",
+          "compact": "Kompakt",
+          "analog": "Analog"
+        },
+        "avatar": {
+          "round": "Rund",
+          "rounded": "Abgerundet"
+        },
+        "user": {
+          "filled": "Gefüllt",
+          "plain": "Schlicht"
+        },
+        "password": {
+          "filled": "Gefüllt",
+          "glass": "Glas"
+        },
+        "fingerprint": {
+          "labeled": "Mit Beschriftung",
+          "icon": "Nur Symbol"
+        },
+        "notifications": {
+          "card": "Karte",
+          "plain": "Schlicht"
+        },
+        "lockstatus": {
+          "filled": "Gefüllt",
+          "plain": "Schlicht"
+        },
+        "keyboard": {
+          "filled": "Gefüllt",
+          "plain": "Schlicht"
+        },
+        "battery": {
+          "filled": "Gefüllt",
+          "plain": "Schlicht"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Keine Wiedergabe",

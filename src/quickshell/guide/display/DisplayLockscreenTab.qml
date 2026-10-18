@@ -54,6 +54,7 @@ DisplayLockscreenState {
                     textFontSize: rootObj.s(12)
                     accentColor: ThemeBackend.mauve
                     textColor: ThemeBackend.crust
+                    onClicked: displayLockscreenRoot.openRedactor()
                 }
             }
 

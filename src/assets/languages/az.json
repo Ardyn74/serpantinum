@@ -974,7 +974,61 @@
       "power_off": "Söndür"
     },
     "default_user": "İstifadəçi",
-    "unknown": "Naməlum"
+    "unknown": "Naməlum",
+    "redactor": {
+      "done": "Hazırdır",
+      "element": {
+        "avatar": "Avatar",
+        "user": "İstifadəçi",
+        "password": "Parol",
+        "fingerprint": "Barmaq izi",
+        "notifications": "Bildirişlər",
+        "clock": "Saat",
+        "lockstatus": "Kilid vəziyyəti",
+        "keyboard": "Klaviatura",
+        "battery": "Batareya"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Klassik",
+          "stacked": "Üst-üstə",
+          "compact": "Yığcam",
+          "analog": "Analoq"
+        },
+        "avatar": {
+          "round": "Dairəvi",
+          "rounded": "Yumrulanmış"
+        },
+        "user": {
+          "filled": "Dolu",
+          "plain": "Sadə"
+        },
+        "password": {
+          "filled": "Dolu",
+          "glass": "Şüşə"
+        },
+        "fingerprint": {
+          "labeled": "Etiketli",
+          "icon": "Yalnız ikon"
+        },
+        "notifications": {
+          "card": "Kart",
+          "plain": "Sadə"
+        },
+        "lockstatus": {
+          "filled": "Dolu",
+          "plain": "Sadə"
+        },
+        "keyboard": {
+          "filled": "Dolu",
+          "plain": "Sadə"
+        },
+        "battery": {
+          "filled": "Dolu",
+          "plain": "Sadə"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Heç nə səsləndirilmir",

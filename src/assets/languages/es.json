@@ -1024,7 +1024,61 @@
       "power_off": "Apagar"
     },
     "default_user": "Usuario",
-    "unknown": "Desconocido"
+    "unknown": "Desconocido",
+    "redactor": {
+      "done": "Listo",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Usuario",
+        "password": "Contraseña",
+        "fingerprint": "Huella dactilar",
+        "notifications": "Notificaciones",
+        "clock": "Reloj",
+        "lockstatus": "Estado de bloqueo",
+        "keyboard": "Teclado",
+        "battery": "Batería"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Clásico",
+          "stacked": "Apilado",
+          "compact": "Compacto",
+          "analog": "Analógico"
+        },
+        "avatar": {
+          "round": "Redondo",
+          "rounded": "Redondeado"
+        },
+        "user": {
+          "filled": "Relleno",
+          "plain": "Simple"
+        },
+        "password": {
+          "filled": "Relleno",
+          "glass": "Cristal"
+        },
+        "fingerprint": {
+          "labeled": "Con etiqueta",
+          "icon": "Solo icono"
+        },
+        "notifications": {
+          "card": "Tarjeta",
+          "plain": "Simple"
+        },
+        "lockstatus": {
+          "filled": "Relleno",
+          "plain": "Simple"
+        },
+        "keyboard": {
+          "filled": "Relleno",
+          "plain": "Simple"
+        },
+        "battery": {
+          "filled": "Relleno",
+          "plain": "Simple"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "No hay nada reproduciéndose",

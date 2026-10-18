@@ -1003,7 +1003,61 @@
       "power_off": "Вимкнення"
     },
     "default_user": "Користувач",
-    "unknown": "Невідомо"
+    "unknown": "Невідомо",
+    "redactor": {
+      "done": "Готово",
+      "element": {
+        "avatar": "Аватар",
+        "user": "Користувач",
+        "password": "Пароль",
+        "fingerprint": "Відбиток пальця",
+        "notifications": "Сповіщення",
+        "clock": "Годинник",
+        "lockstatus": "Стан блокування",
+        "keyboard": "Клавіатура",
+        "battery": "Батарея"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Класичний",
+          "stacked": "Стовпчиком",
+          "compact": "Компактний",
+          "analog": "Аналоговий"
+        },
+        "avatar": {
+          "round": "Круглий",
+          "rounded": "Закруглений"
+        },
+        "user": {
+          "filled": "Заливка",
+          "plain": "Простий"
+        },
+        "password": {
+          "filled": "Заливка",
+          "glass": "Скло"
+        },
+        "fingerprint": {
+          "labeled": "З підписом",
+          "icon": "Лише значок"
+        },
+        "notifications": {
+          "card": "Картка",
+          "plain": "Простий"
+        },
+        "lockstatus": {
+          "filled": "Заливка",
+          "plain": "Простий"
+        },
+        "keyboard": {
+          "filled": "Заливка",
+          "plain": "Простий"
+        },
+        "battery": {
+          "filled": "Заливка",
+          "plain": "Простий"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Нічого не відтворюється",

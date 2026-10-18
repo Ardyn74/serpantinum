@@ -1024,7 +1024,61 @@
       "power_off": "Выключение"
     },
     "default_user": "Пользователь",
-    "unknown": "Неизвестно"
+    "unknown": "Неизвестно",
+    "redactor": {
+      "done": "Готово",
+      "element": {
+        "avatar": "Аватар",
+        "user": "Пользователь",
+        "password": "Пароль",
+        "fingerprint": "Отпечаток пальца",
+        "notifications": "Уведомления",
+        "clock": "Часы",
+        "lockstatus": "Состояние блокировки",
+        "keyboard": "Клавиатура",
+        "battery": "Батарея"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Классические",
+          "stacked": "Столбцом",
+          "compact": "Компактные",
+          "analog": "Аналоговые"
+        },
+        "avatar": {
+          "round": "Круглый",
+          "rounded": "Скруглённый"
+        },
+        "user": {
+          "filled": "Заливка",
+          "plain": "Простой"
+        },
+        "password": {
+          "filled": "Заливка",
+          "glass": "Стекло"
+        },
+        "fingerprint": {
+          "labeled": "С подписью",
+          "icon": "Только значок"
+        },
+        "notifications": {
+          "card": "Карточка",
+          "plain": "Простой"
+        },
+        "lockstatus": {
+          "filled": "Заливка",
+          "plain": "Простой"
+        },
+        "keyboard": {
+          "filled": "Заливка",
+          "plain": "Простой"
+        },
+        "battery": {
+          "filled": "Заливка",
+          "plain": "Простой"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Ничего не воспроизводится",

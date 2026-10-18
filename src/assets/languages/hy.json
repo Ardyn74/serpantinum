@@ -980,7 +980,61 @@
       "power_off": "Անջատել"
     },
     "default_user": "Օգտատեր",
-    "unknown": "Անհայտ"
+    "unknown": "Անհայտ",
+    "redactor": {
+      "done": "Պատրաստ է",
+      "element": {
+        "avatar": "Ավատար",
+        "user": "Օգտատեր",
+        "password": "Գաղտնաբառ",
+        "fingerprint": "Մատնահետք",
+        "notifications": "Ծանուցումներ",
+        "clock": "Ժամացույց",
+        "lockstatus": "Կողպման կարգավիճակ",
+        "keyboard": "Ստեղնաշար",
+        "battery": "Մարտկոց"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Դասական",
+          "stacked": "Կուտակված",
+          "compact": "Կոմպակտ",
+          "analog": "Անալոգային"
+        },
+        "avatar": {
+          "round": "Կլոր",
+          "rounded": "Կլորացված"
+        },
+        "user": {
+          "filled": "Լցված",
+          "plain": "Պարզ"
+        },
+        "password": {
+          "filled": "Լցված",
+          "glass": "Ապակի"
+        },
+        "fingerprint": {
+          "labeled": "Պիտակով",
+          "icon": "Միայն պատկերակ"
+        },
+        "notifications": {
+          "card": "Քարտ",
+          "plain": "Պարզ"
+        },
+        "lockstatus": {
+          "filled": "Լցված",
+          "plain": "Պարզ"
+        },
+        "keyboard": {
+          "filled": "Լցված",
+          "plain": "Պարզ"
+        },
+        "battery": {
+          "filled": "Լցված",
+          "plain": "Պարզ"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Ոչինչ չի նվագարկվում",

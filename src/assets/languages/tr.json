@@ -980,7 +980,61 @@
       "power_off": "Kapat"
     },
     "default_user": "Kullanıcı",
-    "unknown": "Bilinmiyor"
+    "unknown": "Bilinmiyor",
+    "redactor": {
+      "done": "Bitti",
+      "element": {
+        "avatar": "Avatar",
+        "user": "Kullanıcı",
+        "password": "Parola",
+        "fingerprint": "Parmak izi",
+        "notifications": "Bildirimler",
+        "clock": "Saat",
+        "lockstatus": "Kilit durumu",
+        "keyboard": "Klavye",
+        "battery": "Pil"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Klasik",
+          "stacked": "Yığılmış",
+          "compact": "Kompakt",
+          "analog": "Analog"
+        },
+        "avatar": {
+          "round": "Yuvarlak",
+          "rounded": "Yuvarlatılmış"
+        },
+        "user": {
+          "filled": "Dolgulu",
+          "plain": "Sade"
+        },
+        "password": {
+          "filled": "Dolgulu",
+          "glass": "Cam"
+        },
+        "fingerprint": {
+          "labeled": "Etiketli",
+          "icon": "Yalnızca simge"
+        },
+        "notifications": {
+          "card": "Kart",
+          "plain": "Sade"
+        },
+        "lockstatus": {
+          "filled": "Dolgulu",
+          "plain": "Sade"
+        },
+        "keyboard": {
+          "filled": "Dolgulu",
+          "plain": "Sade"
+        },
+        "battery": {
+          "filled": "Dolgulu",
+          "plain": "Sade"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Hiçbir şey çalmıyor",

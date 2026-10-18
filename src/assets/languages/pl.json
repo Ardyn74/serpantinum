@@ -84,7 +84,61 @@
       "power_off": "Wyłącz"
     },
     "default_user": "Użytkownik",
-    "unknown": "Nieznany"
+    "unknown": "Nieznany",
+    "redactor": {
+      "done": "Gotowe",
+      "element": {
+        "avatar": "Awatar",
+        "user": "Użytkownik",
+        "password": "Hasło",
+        "fingerprint": "Odcisk palca",
+        "notifications": "Powiadomienia",
+        "clock": "Zegar",
+        "lockstatus": "Stan blokady",
+        "keyboard": "Klawiatura",
+        "battery": "Bateria"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Klasyczny",
+          "stacked": "Ułożony",
+          "compact": "Kompaktowy",
+          "analog": "Analogowy"
+        },
+        "avatar": {
+          "round": "Okrągły",
+          "rounded": "Zaokrąglony"
+        },
+        "user": {
+          "filled": "Wypełniony",
+          "plain": "Prosta"
+        },
+        "password": {
+          "filled": "Wypełniony",
+          "glass": "Szkło"
+        },
+        "fingerprint": {
+          "labeled": "Z etykietą",
+          "icon": "Tylko ikona"
+        },
+        "notifications": {
+          "card": "Karta",
+          "plain": "Prosta"
+        },
+        "lockstatus": {
+          "filled": "Wypełniony",
+          "plain": "Prosta"
+        },
+        "keyboard": {
+          "filled": "Wypełniony",
+          "plain": "Prosta"
+        },
+        "battery": {
+          "filled": "Wypełniony",
+          "plain": "Prosta"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Nic nie jest odtwarzane",

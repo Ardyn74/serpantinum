@@ -1171,7 +1171,61 @@
       "not_recognized": "لم يتم التعرف على البصمة",
       "recognized": "تم التعرف على البصمة"
     },
-    "unknown": "غير معروف"
+    "unknown": "غير معروف",
+    "redactor": {
+      "done": "تم",
+      "element": {
+        "avatar": "الصورة الرمزية",
+        "user": "المستخدم",
+        "password": "كلمة المرور",
+        "fingerprint": "بصمة الإصبع",
+        "notifications": "الإشعارات",
+        "clock": "الساعة",
+        "lockstatus": "حالة القفل",
+        "keyboard": "لوحة المفاتيح",
+        "battery": "البطارية"
+      },
+      "variant": {
+        "clock": {
+          "classic": "كلاسيكي",
+          "stacked": "متراص",
+          "compact": "مضغوط",
+          "analog": "تناظري"
+        },
+        "avatar": {
+          "round": "دائري",
+          "rounded": "مستدير الحواف"
+        },
+        "user": {
+          "filled": "معبأ",
+          "plain": "بسيط"
+        },
+        "password": {
+          "filled": "معبأ",
+          "glass": "زجاجي"
+        },
+        "fingerprint": {
+          "labeled": "مع تسمية",
+          "icon": "أيقونة فقط"
+        },
+        "notifications": {
+          "card": "بطاقة",
+          "plain": "بسيط"
+        },
+        "lockstatus": {
+          "filled": "معبأ",
+          "plain": "بسيط"
+        },
+        "keyboard": {
+          "filled": "معبأ",
+          "plain": "بسيط"
+        },
+        "battery": {
+          "filled": "معبأ",
+          "plain": "بسيط"
+        }
+      }
+    }
   },
   "music": {
     "by_artist": "بواسطة {artist}",

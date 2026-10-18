@@ -980,7 +980,61 @@
       "power_off": "خاموش کردن"
     },
     "default_user": "کاربر",
-    "unknown": "ناشناخته"
+    "unknown": "ناشناخته",
+    "redactor": {
+      "done": "تمام",
+      "element": {
+        "avatar": "آواتار",
+        "user": "کاربر",
+        "password": "گذرواژه",
+        "fingerprint": "اثر انگشت",
+        "notifications": "اعلان‌ها",
+        "clock": "ساعت",
+        "lockstatus": "وضعیت قفل",
+        "keyboard": "صفحه‌کلید",
+        "battery": "باتری"
+      },
+      "variant": {
+        "clock": {
+          "classic": "کلاسیک",
+          "stacked": "عمودی",
+          "compact": "فشرده",
+          "analog": "آنالوگ"
+        },
+        "avatar": {
+          "round": "گرد",
+          "rounded": "گوشه‌گرد"
+        },
+        "user": {
+          "filled": "توپر",
+          "plain": "ساده"
+        },
+        "password": {
+          "filled": "توپر",
+          "glass": "شیشه‌ای"
+        },
+        "fingerprint": {
+          "labeled": "با برچسب",
+          "icon": "فقط نماد"
+        },
+        "notifications": {
+          "card": "کارت",
+          "plain": "ساده"
+        },
+        "lockstatus": {
+          "filled": "توپر",
+          "plain": "ساده"
+        },
+        "keyboard": {
+          "filled": "توپر",
+          "plain": "ساده"
+        },
+        "battery": {
+          "filled": "توپر",
+          "plain": "ساده"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "چیزی در حال پخش نیست",

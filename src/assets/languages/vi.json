@@ -980,7 +980,61 @@
       "power_off": "Tắt nguồn"
     },
     "default_user": "Người dùng",
-    "unknown": "Không rõ"
+    "unknown": "Không rõ",
+    "redactor": {
+      "done": "Xong",
+      "element": {
+        "avatar": "Ảnh đại diện",
+        "user": "Người dùng",
+        "password": "Mật khẩu",
+        "fingerprint": "Vân tay",
+        "notifications": "Thông báo",
+        "clock": "Đồng hồ",
+        "lockstatus": "Trạng thái khóa",
+        "keyboard": "Bàn phím",
+        "battery": "Pin"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Cổ điển",
+          "stacked": "Xếp chồng",
+          "compact": "Gọn",
+          "analog": "Kim"
+        },
+        "avatar": {
+          "round": "Tròn",
+          "rounded": "Bo góc"
+        },
+        "user": {
+          "filled": "Đặc",
+          "plain": "Đơn giản"
+        },
+        "password": {
+          "filled": "Đặc",
+          "glass": "Kính"
+        },
+        "fingerprint": {
+          "labeled": "Có nhãn",
+          "icon": "Chỉ biểu tượng"
+        },
+        "notifications": {
+          "card": "Thẻ",
+          "plain": "Đơn giản"
+        },
+        "lockstatus": {
+          "filled": "Đặc",
+          "plain": "Đơn giản"
+        },
+        "keyboard": {
+          "filled": "Đặc",
+          "plain": "Đơn giản"
+        },
+        "battery": {
+          "filled": "Đặc",
+          "plain": "Đơn giản"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Không có nhạc đang phát",

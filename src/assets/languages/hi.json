@@ -980,7 +980,61 @@
       "power_off": "बंद करें"
     },
     "default_user": "उपयोगकर्ता",
-    "unknown": "अज्ञात"
+    "unknown": "अज्ञात",
+    "redactor": {
+      "done": "हो गया",
+      "element": {
+        "avatar": "अवतार",
+        "user": "उपयोगकर्ता",
+        "password": "पासवर्ड",
+        "fingerprint": "फिंगरप्रिंट",
+        "notifications": "सूचनाएँ",
+        "clock": "घड़ी",
+        "lockstatus": "लॉक स्थिति",
+        "keyboard": "कीबोर्ड",
+        "battery": "बैटरी"
+      },
+      "variant": {
+        "clock": {
+          "classic": "क्लासिक",
+          "stacked": "स्टैक्ड",
+          "compact": "कॉम्पैक्ट",
+          "analog": "एनालॉग"
+        },
+        "avatar": {
+          "round": "गोल",
+          "rounded": "गोलाकार किनारे"
+        },
+        "user": {
+          "filled": "भरा हुआ",
+          "plain": "सादा"
+        },
+        "password": {
+          "filled": "भरा हुआ",
+          "glass": "ग्लास"
+        },
+        "fingerprint": {
+          "labeled": "लेबल सहित",
+          "icon": "केवल आइकन"
+        },
+        "notifications": {
+          "card": "कार्ड",
+          "plain": "सादा"
+        },
+        "lockstatus": {
+          "filled": "भरा हुआ",
+          "plain": "सादा"
+        },
+        "keyboard": {
+          "filled": "भरा हुआ",
+          "plain": "सादा"
+        },
+        "battery": {
+          "filled": "भरा हुआ",
+          "plain": "सादा"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "कुछ नहीं बज रहा है",

@@ -1,0 +1,65 @@
+import QtQuick
+import "../../"
+
+Item {
+    id: frame
+
+    property real screenW: 1920
+    property real screenH: 1080
+    property real k: 0.5
+    property bool current: false
+    property string wallpaper: ""
+    default property alias content: contentItem.data
+    signal activated()
+
+    width: frame.screenW * frame.k
+    height: frame.screenH * frame.k
+
+    Rectangle {
+        anchors.fill: parent
+        color: ThemeBackend.crust
+    }
+
+    Item {
+        anchors.fill: parent
+        clip: true
+
+        Image {
+            anchors.fill: parent
+            source: frame.wallpaper
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
+            sourceSize: Qt.size(frame.width, frame.height)
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: Qt.rgba(ThemeBackend.crust.r, ThemeBackend.crust.g, ThemeBackend.crust.b, 0.35)
+        }
+
+        Item {
+            id: contentItem
+            width: frame.screenW
+            height: frame.screenH
+            scale: frame.k
+            transformOrigin: Item.TopLeft
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+        border.width: Scaler.s(2)
+        border.color: frame.current ? ThemeBackend.mauve : Qt.alpha(ThemeBackend.text, 0.18)
+        z: 10
+        Behavior on border.color { ColorAnimation { duration: 180 } }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        z: 20
+        enabled: !frame.current
+        cursorShape: Qt.PointingHandCursor
+        onClicked: frame.activated()
+    }
+}

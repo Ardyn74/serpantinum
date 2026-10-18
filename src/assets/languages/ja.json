@@ -81,7 +81,61 @@
       "power_off": "電源オフ"
     },
     "default_user": "ユーザー",
-    "unknown": "不明"
+    "unknown": "不明",
+    "redactor": {
+      "done": "完了",
+      "element": {
+        "avatar": "アバター",
+        "user": "ユーザー",
+        "password": "パスワード",
+        "fingerprint": "指紋",
+        "notifications": "通知",
+        "clock": "時計",
+        "lockstatus": "ロック状態",
+        "keyboard": "キーボード",
+        "battery": "バッテリー"
+      },
+      "variant": {
+        "clock": {
+          "classic": "クラシック",
+          "stacked": "縦積み",
+          "compact": "コンパクト",
+          "analog": "アナログ"
+        },
+        "avatar": {
+          "round": "円形",
+          "rounded": "角丸"
+        },
+        "user": {
+          "filled": "塗りつぶし",
+          "plain": "シンプル"
+        },
+        "password": {
+          "filled": "塗りつぶし",
+          "glass": "ガラス"
+        },
+        "fingerprint": {
+          "labeled": "ラベル付き",
+          "icon": "アイコンのみ"
+        },
+        "notifications": {
+          "card": "カード",
+          "plain": "シンプル"
+        },
+        "lockstatus": {
+          "filled": "塗りつぶし",
+          "plain": "シンプル"
+        },
+        "keyboard": {
+          "filled": "塗りつぶし",
+          "plain": "シンプル"
+        },
+        "battery": {
+          "filled": "塗りつぶし",
+          "plain": "シンプル"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "再生中の曲はありません",

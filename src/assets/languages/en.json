@@ -342,7 +342,10 @@
           }
         },
         "info": "Recording/timer",
-        "weather": "Weather"
+        "weather": "Weather",
+        "notifications": "Notifications",
+        "usage": "System usage",
+        "clock": "Clock"
       },
       "position": {
         "title": "Bar position",
@@ -1013,7 +1016,61 @@
       "power_off": "Power off"
     },
     "default_user": "User",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "redactor": {
+      "done": "Done",
+      "element": {
+        "avatar": "Avatar",
+        "user": "User",
+        "password": "Password",
+        "fingerprint": "Fingerprint",
+        "notifications": "Notifications",
+        "clock": "Clock",
+        "lockstatus": "Lock status",
+        "keyboard": "Keyboard",
+        "battery": "Battery"
+      },
+      "variant": {
+        "clock": {
+          "classic": "Classic",
+          "stacked": "Stacked",
+          "compact": "Compact",
+          "analog": "Analog"
+        },
+        "avatar": {
+          "round": "Round",
+          "rounded": "Rounded"
+        },
+        "user": {
+          "filled": "Filled",
+          "plain": "Plain"
+        },
+        "password": {
+          "filled": "Filled",
+          "glass": "Glass"
+        },
+        "fingerprint": {
+          "labeled": "Labeled",
+          "icon": "Icon only"
+        },
+        "notifications": {
+          "card": "Card",
+          "plain": "Plain"
+        },
+        "lockstatus": {
+          "filled": "Filled",
+          "plain": "Plain"
+        },
+        "keyboard": {
+          "filled": "Filled",
+          "plain": "Plain"
+        },
+        "battery": {
+          "filled": "Filled",
+          "plain": "Plain"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "Nothing is playing",

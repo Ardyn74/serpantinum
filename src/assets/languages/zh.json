@@ -980,7 +980,61 @@
       "power_off": "关机"
     },
     "default_user": "用户",
-    "unknown": "未知"
+    "unknown": "未知",
+    "redactor": {
+      "done": "完成",
+      "element": {
+        "avatar": "头像",
+        "user": "用户",
+        "password": "密码",
+        "fingerprint": "指纹",
+        "notifications": "通知",
+        "clock": "时钟",
+        "lockstatus": "锁定状态",
+        "keyboard": "键盘",
+        "battery": "电池"
+      },
+      "variant": {
+        "clock": {
+          "classic": "经典",
+          "stacked": "堆叠",
+          "compact": "紧凑",
+          "analog": "指针"
+        },
+        "avatar": {
+          "round": "圆形",
+          "rounded": "圆角"
+        },
+        "user": {
+          "filled": "填充",
+          "plain": "简洁"
+        },
+        "password": {
+          "filled": "填充",
+          "glass": "玻璃"
+        },
+        "fingerprint": {
+          "labeled": "带标签",
+          "icon": "仅图标"
+        },
+        "notifications": {
+          "card": "卡片",
+          "plain": "简洁"
+        },
+        "lockstatus": {
+          "filled": "填充",
+          "plain": "简洁"
+        },
+        "keyboard": {
+          "filled": "填充",
+          "plain": "简洁"
+        },
+        "battery": {
+          "filled": "填充",
+          "plain": "简洁"
+        }
+      }
+    }
   },
   "music": {
     "nothing_playing": "未在播放",
