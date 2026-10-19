@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "填滿",
           "plain": "簡約"
-        },
-        "keyboard": {
-          "filled": "填滿",
-          "plain": "簡約"
-        },
-        "battery": {
-          "filled": "填滿",
-          "plain": "簡約"
         }
       }
     }

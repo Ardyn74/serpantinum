@@ -1246,14 +1246,6 @@
         "lockstatus": {
           "filled": "معبأ",
           "plain": "بسيط"
-        },
-        "keyboard": {
-          "filled": "معبأ",
-          "plain": "بسيط"
-        },
-        "battery": {
-          "filled": "معبأ",
-          "plain": "بسيط"
         }
       }
     }

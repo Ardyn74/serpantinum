@@ -2,6 +2,7 @@ pragma Singleton
 import QtQuick
 import "../../"
 import "../../widgets"
+import "../../bar"
 
 QtObject {
     id: registry
@@ -58,15 +59,19 @@ QtObject {
             icon: String.fromCodePoint(0xF030C),
             file: "elements/LockKeyboardElement.qml",
             scopes: ["panel"],
-            w: 185, h: 44, minW: 80, minH: 32, maxW: 1000, maxH: 80,
-            variants: ["filled", "plain"]
+            scaled: true,
+            barModule: "kb",
+            defaultVariant: "button",
+            variantAliases: { "filled": "button", "plain": "text" }
         },
         "battery": {
             icon: String.fromCodePoint(0xF0079),
             file: "elements/LockBatteryElement.qml",
             scopes: ["panel"],
-            w: 185, h: 44, minW: 80, minH: 32, maxW: 1000, maxH: 80,
-            variants: ["filled", "plain"]
+            scaled: true,
+            barModule: "bat",
+            defaultVariant: "button",
+            variantAliases: { "filled": "button", "plain": "text" }
         },
         "notifications": {
             icon: String.fromCodePoint(0xF009A),
@@ -130,6 +135,7 @@ QtObject {
         }
         let t = registry.types[type];
         if (!t) return [];
+        if (t.barModule) return BarModuleRegistry.variantList(t.barModule).map(v => ({ id: v.id, name: v.name }));
         return t.variants.map(id => ({ id: id, name: I18n.t("lock.redactor.variant." + type + "." + id) }));
     }
 
@@ -140,7 +146,13 @@ QtObject {
     function defaultVariant(type) {
         if (registry.isWidget(type)) return WidgetRegistry.defaultVariant(registry.widgetKey(type));
         let t = registry.types[type];
-        return t ? t.variants[0] : "";
+        if (!t) return "";
+        return t.defaultVariant || t.variants[0];
+    }
+
+    function normalizeVariant(type, variantId) {
+        let t = registry.isWidget(type) ? null : registry.types[type];
+        return t && t.variantAliases && t.variantAliases[variantId] ? t.variantAliases[variantId] : variantId;
     }
 
     function defaultSize(type) {

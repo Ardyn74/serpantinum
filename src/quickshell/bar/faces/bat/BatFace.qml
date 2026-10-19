@@ -254,7 +254,33 @@ Item {
         id: pillLoader
         visible: root.batStyle !== "text"
         anchors.centerIn: parent
-        sourceComponent: root.isVertical ? sideLayoutComponent : topLayoutComponent
+        sourceComponent: root.batStyle === "button" ? buttonLayoutComponent : (root.isVertical ? sideLayoutComponent : topLayoutComponent)
+    }
+
+    Component {
+        id: buttonLayoutComponent
+
+        Item {
+            id: buttonLayout
+            readonly property var pill: null
+            implicitWidth: batButton.width
+            implicitHeight: batButton.height
+
+            ClickButton {
+                id: batButton
+                height: root.pillHeight
+                width: root.isVertical ? height : Math.max(s(root.isCompact ? 32 : 36), implicitWidth)
+                cornerRadius: Math.max(0, ThemeBackend.borderRadius - s(2))
+                horizontalPadding: s(root.isCompact ? 10 : 12)
+                buttonIcon: root.effectiveShowIcon ? root.batIcon : ""
+                iconFontSize: s(root.isCompact ? 14 : 15)
+                buttonText: (!root.isVertical && root.effectiveShowPercent) ? root.batPercent : ""
+                textFontSize: s(root.isCompact ? 11 : 12)
+                accentColor: Qt.lighter(ThemeBackend.surface0, root.isCompact ? 1.18 : 1.28)
+                textColor: root.batDynamicColor
+                onClicked: if (!root.isPreview) Quickshell.execDetached(["bash", "-c", Caching.serpantinumDir + "/scripts/qs_manager.sh toggle system"])
+            }
+        }
     }
 
     Component {

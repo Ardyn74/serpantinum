@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "Gevuld",
           "plain": "Eenvoudig"
-        },
-        "keyboard": {
-          "filled": "Gevuld",
-          "plain": "Eenvoudig"
-        },
-        "battery": {
-          "filled": "Gevuld",
-          "plain": "Eenvoudig"
         }
       }
     }

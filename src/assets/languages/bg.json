@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "Запълнен",
           "plain": "Обикновен"
-        },
-        "keyboard": {
-          "filled": "Запълнен",
-          "plain": "Обикновен"
-        },
-        "battery": {
-          "filled": "Запълнен",
-          "plain": "Обикновен"
         }
       }
     }

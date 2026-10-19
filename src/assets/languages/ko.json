@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "채움",
           "plain": "단순"
-        },
-        "keyboard": {
-          "filled": "채움",
-          "plain": "단순"
-        },
-        "battery": {
-          "filled": "채움",
-          "plain": "단순"
         }
       }
     }

@@ -1099,14 +1099,6 @@
         "lockstatus": {
           "filled": "Relleno",
           "plain": "Simple"
-        },
-        "keyboard": {
-          "filled": "Relleno",
-          "plain": "Simple"
-        },
-        "battery": {
-          "filled": "Relleno",
-          "plain": "Simple"
         }
       }
     }

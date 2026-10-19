@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "Լցված",
           "plain": "Պարզ"
-        },
-        "keyboard": {
-          "filled": "Լցված",
-          "plain": "Պարզ"
-        },
-        "battery": {
-          "filled": "Լցված",
-          "plain": "Պարզ"
         }
       }
     }

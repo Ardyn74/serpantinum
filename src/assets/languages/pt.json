@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "Preenchido",
           "plain": "Simples"
-        },
-        "keyboard": {
-          "filled": "Preenchido",
-          "plain": "Simples"
-        },
-        "battery": {
-          "filled": "Preenchido",
-          "plain": "Simples"
         }
       }
     }

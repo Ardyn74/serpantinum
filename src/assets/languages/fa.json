@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "توپر",
           "plain": "ساده"
-        },
-        "keyboard": {
-          "filled": "توپر",
-          "plain": "ساده"
-        },
-        "battery": {
-          "filled": "توپر",
-          "plain": "ساده"
         }
       }
     }

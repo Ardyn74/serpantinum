@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "Đặc",
           "plain": "Đơn giản"
-        },
-        "keyboard": {
-          "filled": "Đặc",
-          "plain": "Đơn giản"
-        },
-        "battery": {
-          "filled": "Đặc",
-          "plain": "Đơn giản"
         }
       }
     }

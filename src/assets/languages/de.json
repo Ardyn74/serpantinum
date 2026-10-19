@@ -1099,14 +1099,6 @@
         "lockstatus": {
           "filled": "Gefüllt",
           "plain": "Schlicht"
-        },
-        "keyboard": {
-          "filled": "Gefüllt",
-          "plain": "Schlicht"
-        },
-        "battery": {
-          "filled": "Gefüllt",
-          "plain": "Schlicht"
         }
       }
     }

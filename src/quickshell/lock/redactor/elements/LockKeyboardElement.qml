@@ -1,25 +1,32 @@
 import QtQuick
 import "../../../"
-import "../../../reusables"
 
 Item {
     id: el
 
-    property string variant: "filled"
+    property string variant: "button"
     property var ctx: null
 
-    readonly property bool plain: el.variant === "plain"
+    implicitWidth: faceLoader.item ? faceLoader.item.implicitWidth : 0
+    implicitHeight: faceLoader.item ? faceLoader.item.implicitHeight : 0
 
-    ClickButton {
-        anchors.fill: parent
-        cornerRadius: ThemeBackend.borderRadius
-        horizontalPadding: Scaler.s(12)
-        buttonIcon: "󰌌"
-        iconFontSize: Scaler.s(14)
-        buttonText: el.ctx ? el.ctx.root.kbLayout : "US"
-        textFontSize: Scaler.s(12)
-        accentColor: el.plain ? "transparent" : Qt.lighter(ThemeBackend.surface0, 1.28)
-        textColor: ThemeBackend.text
-        onClicked: if (el.ctx) el.ctx.root.switchKbLayout()
+    QtObject {
+        id: host
+
+        property string kbStyle: el.variant
+        property bool kbShowIcon: true
+        property bool isCompact: false
+        property bool isPreview: false
+        property bool moduleActive: true
+        property string orientation: "horizontal"
+        property real thickness: Math.round(Scaler.s(34))
+        property var barWindow: null
+    }
+
+    Loader {
+        id: faceLoader
+        anchors.centerIn: parent
+        source: Qt.resolvedUrl("../../../bar/faces/kb/KbFace.qml")
+        onLoaded: item.module = host
     }
 }

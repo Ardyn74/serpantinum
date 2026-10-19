@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "Rempli",
           "plain": "Simple"
-        },
-        "keyboard": {
-          "filled": "Rempli",
-          "plain": "Simple"
-        },
-        "battery": {
-          "filled": "Rempli",
-          "plain": "Simple"
         }
       }
     }

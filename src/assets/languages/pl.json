@@ -128,14 +128,6 @@
         "lockstatus": {
           "filled": "Wypełniony",
           "plain": "Prosta"
-        },
-        "keyboard": {
-          "filled": "Wypełniony",
-          "plain": "Prosta"
-        },
-        "battery": {
-          "filled": "Wypełniony",
-          "plain": "Prosta"
         }
       }
     }

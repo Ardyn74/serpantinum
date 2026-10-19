@@ -1054,14 +1054,6 @@
         "lockstatus": {
           "filled": "Pieno",
           "plain": "Semplice"
-        },
-        "keyboard": {
-          "filled": "Pieno",
-          "plain": "Semplice"
-        },
-        "battery": {
-          "filled": "Pieno",
-          "plain": "Semplice"
         }
       }
     }

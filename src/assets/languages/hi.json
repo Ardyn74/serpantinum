@@ -1055,14 +1055,6 @@
         "lockstatus": {
           "filled": "भरा हुआ",
           "plain": "सादा"
-        },
-        "keyboard": {
-          "filled": "भरा हुआ",
-          "plain": "सादा"
-        },
-        "battery": {
-          "filled": "भरा हुआ",
-          "plain": "सादा"
         }
       }
     }

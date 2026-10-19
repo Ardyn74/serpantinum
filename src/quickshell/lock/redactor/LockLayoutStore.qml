@@ -92,8 +92,8 @@ QtObject {
             root.makeEntry("user", "filled", 450, 236, 185, 44),
             root.makeEntry("lockstatus", "filled", 645, 236, 185, 44),
             root.makeEntry("password", "filled", 450, 288, 380, 44),
-            root.makeEntry("keyboard", "filled", 450, 340, 185, 44),
-            root.makeEntry("battery", "filled", 645, 340, 185, 44),
+            root.makeEntry("keyboard", "button", 600, 364, 0, 0),
+            root.makeEntry("battery", "button", 685, 364, 0, 0),
             root.makeEntry("fingerprint", "labeled", 640, 450, 0, 0),
             root.makeEntry("notifications", "card", 860, 20, 400, 422),
             root.makeEntry("widget:music", "full", 860, 450, 400, 96)
@@ -252,11 +252,18 @@ QtObject {
         let e = {};
         for (let k in raw) e[k] = raw[k];
         e.iid = raw.iid ? String(raw.iid) : root.newId();
-        e.ivariant = LockElementRegistry.hasVariant(raw.itype, raw.ivariant) ? raw.ivariant : LockElementRegistry.defaultVariant(raw.itype);
+        let variant = LockElementRegistry.normalizeVariant(raw.itype, raw.ivariant);
+        e.ivariant = LockElementRegistry.hasVariant(raw.itype, variant) ? variant : LockElementRegistry.defaultVariant(raw.itype);
         e.ix = n(raw.ix, 0);
         e.iy = n(raw.iy, 0);
         e.iw = Math.max(0, n(raw.iw, 0));
         e.ih = Math.max(0, n(raw.ih, 0));
+        if (variant !== raw.ivariant && LockElementRegistry.isScaled(raw.itype) && e.iw > 0 && e.ih > 0) {
+            e.ix += e.iw / 2;
+            e.iy += e.ih / 2;
+            e.iw = 0;
+            e.ih = 0;
+        }
         if (scope === "panel") {
             e.iw = Math.min(e.iw, root.panelW);
             e.ih = Math.min(e.ih, root.panelH);

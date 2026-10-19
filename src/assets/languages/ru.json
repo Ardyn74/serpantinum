@@ -1099,14 +1099,6 @@
         "lockstatus": {
           "filled": "Заливка",
           "plain": "Простой"
-        },
-        "keyboard": {
-          "filled": "Заливка",
-          "plain": "Простой"
-        },
-        "battery": {
-          "filled": "Заливка",
-          "plain": "Простой"
         }
       }
     }

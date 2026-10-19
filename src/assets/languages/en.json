@@ -490,11 +490,13 @@
           "name": {
             "classic": "Classic",
             "minimal": "Minimal",
-            "text": "Text"
+            "text": "Text",
+            "button": "Button"
           },
           "classic": "Pill with gradient wave fill",
           "minimal": "iOS/Android capsule with cap",
-          "text": "Clean text and icon without background"
+          "text": "Clean text and icon without background",
+          "button": "Interactive button pill with background"
         }
       },
       "wifi": {
@@ -1065,14 +1067,6 @@
           "plain": "Plain"
         },
         "lockstatus": {
-          "filled": "Filled",
-          "plain": "Plain"
-        },
-        "keyboard": {
-          "filled": "Filled",
-          "plain": "Plain"
-        },
-        "battery": {
           "filled": "Filled",
           "plain": "Plain"
         }
