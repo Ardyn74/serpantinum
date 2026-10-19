@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "在应用后绘制背景",
+        "desc": "在应用图标后显示程序坞面板"
       }
     },
     "lyrics_picker": {

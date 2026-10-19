@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Gambar latar di belakang aplikasi",
+        "desc": "Tampilkan panel dock di belakang ikon aplikasi"
       }
     },
     "lyrics_picker": {

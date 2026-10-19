@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "在應用程式後繪製背景",
+        "desc": "在應用程式圖示後顯示 Dock 面板"
       }
     },
     "lyrics_picker": {

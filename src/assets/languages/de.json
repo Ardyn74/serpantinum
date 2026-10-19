@@ -960,6 +960,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Hintergrund hinter Apps zeichnen",
+        "desc": "Dock-Leiste hinter den App-Symbolen anzeigen"
       }
     },
     "lyrics_picker": {

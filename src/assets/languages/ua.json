@@ -939,6 +939,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Малювати фон за застосунками",
+        "desc": "Показувати панель дока за значками застосунків"
       }
     },
     "lyrics_picker": {

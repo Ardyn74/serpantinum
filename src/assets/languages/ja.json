@@ -1668,6 +1668,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "アプリの背面に背景を描画",
+        "desc": "アプリアイコンの背面にドックパネルを表示"
       }
     },
     "lyrics_picker": {

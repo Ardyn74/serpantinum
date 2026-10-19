@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Dessiner un arrière-plan derrière les applications",
+        "desc": "Afficher le panneau du dock derrière les icônes des applications"
       }
     },
     "lyrics_picker": {

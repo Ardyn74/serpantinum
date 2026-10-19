@@ -960,6 +960,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Dibujar un fondo detrás de las apps",
+        "desc": "Mostrar el panel del dock detrás de los iconos de las apps"
       }
     },
     "lyrics_picker": {

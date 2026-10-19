@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Uygulamaların arkasına arka plan çiz",
+        "desc": "Dok panelini uygulama simgelerinin arkasında göster"
       }
     },
     "lyrics_picker": {

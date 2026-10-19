@@ -915,6 +915,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Disegna uno sfondo dietro le app",
+        "desc": "Mostra il pannello del dock dietro le icone delle app"
       }
     },
     "lyrics_picker": {

@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Achtergrond achter apps tekenen",
+        "desc": "Toon het dockpaneel achter de app-pictogrammen"
       }
     },
     "lyrics_picker": {

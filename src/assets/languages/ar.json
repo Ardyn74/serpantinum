@@ -670,6 +670,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "رسم خلفية خلف التطبيقات",
+        "desc": "إظهار لوحة الشريط خلف أيقونات التطبيقات"
       }
     },
     "file_picker": {

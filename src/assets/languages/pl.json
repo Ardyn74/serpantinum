@@ -1668,6 +1668,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "Rysuj tło za aplikacjami",
+        "desc": "Pokaż panel docka za ikonami aplikacji"
       }
     },
     "lyrics_picker": {

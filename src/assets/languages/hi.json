@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "ऐप्स के पीछे पृष्ठभूमि बनाएं",
+        "desc": "ऐप आइकन के पीछे डॉक पैनल दिखाएं"
       }
     },
     "lyrics_picker": {

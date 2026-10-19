@@ -916,6 +916,10 @@
       },
       "window_menu": {
         "untitled": "Untitled"
+      },
+      "background": {
+        "title": "رسم پس‌زمینه پشت برنامه‌ها",
+        "desc": "نمایش پنل داک پشت آیکون‌های برنامه"
       }
     },
     "lyrics_picker": {
