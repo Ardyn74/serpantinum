@@ -703,6 +703,8 @@ Item {
                             readonly property int ey: modelData ? modelData.ey : 0
                             readonly property bool corner: hit.ex !== 0 && hit.ey !== 0
                             readonly property real u: scene.unit
+                            readonly property real insetX: Math.max(0, Math.min(18 * hit.u, (selectionUI.width - 8 * hit.u) / 2))
+                            readonly property real insetY: Math.max(0, Math.min(18 * hit.u, (selectionUI.height - 8 * hit.u) / 2))
 
                             property real startMX
                             property real startMY
@@ -714,10 +716,10 @@ Item {
                             visible: hit.corner || !proxy.aspectLocked
                             enabled: hit.visible && proxy.isSelected && faceLoader.status === Loader.Ready
                             z: 20
-                            width: hit.corner ? 24 * hit.u : (hit.ex === 0 ? selectionUI.width - 36 * hit.u : 16 * hit.u)
-                            height: hit.corner ? 24 * hit.u : (hit.ey === 0 ? selectionUI.height - 36 * hit.u : 16 * hit.u)
-                            x: hit.ex < 0 ? -hit.width / 2 : (hit.ex > 0 ? selectionUI.width - hit.width / 2 : 18 * hit.u)
-                            y: hit.ey < 0 ? -hit.height / 2 : (hit.ey > 0 ? selectionUI.height - hit.height / 2 : 18 * hit.u)
+                            width: hit.corner ? 24 * hit.u : (hit.ex === 0 ? selectionUI.width - 2 * hit.insetX : 16 * hit.u)
+                            height: hit.corner ? 24 * hit.u : (hit.ey === 0 ? selectionUI.height - 2 * hit.insetY : 16 * hit.u)
+                            x: hit.ex < 0 ? -hit.width / 2 : (hit.ex > 0 ? selectionUI.width - hit.width / 2 : hit.insetX)
+                            y: hit.ey < 0 ? -hit.height / 2 : (hit.ey > 0 ? selectionUI.height - hit.height / 2 : hit.insetY)
                             hoverEnabled: true
                             preventStealing: true
                             cursorShape: {

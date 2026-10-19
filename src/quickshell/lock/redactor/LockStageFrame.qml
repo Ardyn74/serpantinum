@@ -68,7 +68,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         z: 20
-        enabled: !frame.current
+        visible: !frame.current
         cursorShape: Qt.PointingHandCursor
         onClicked: frame.activated()
     }
