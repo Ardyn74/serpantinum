@@ -1237,11 +1237,32 @@
       "pin": "Épingler",
       "unpin": "Désépingler"
     },
+    "calculator": {
+      "history": "Historique",
+      "no_history": "Aucun calcul pour le moment",
+      "clear_history": "Effacer l'historique",
+      "copied": "Copié",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Avancé"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Expression invalide",
+        "div0": "Division par zéro impossible",
+        "domain": "Entrée invalide"
+      }
+    },
     "tabs": {
       "draw": "Dessin",
       "system": "Système",
       "timer": "Minuteur",
       "notes": "Notes",
+      "calculator": "Calculatrice",
       "tab": "Onglet"
     }
   },

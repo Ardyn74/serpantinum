@@ -1237,11 +1237,32 @@
       "pin": "Sabitle",
       "unpin": "Sabitlemeyi kaldır"
     },
+    "calculator": {
+      "history": "Geçmiş",
+      "no_history": "Henüz hesaplama yok",
+      "clear_history": "Geçmişi temizle",
+      "copied": "Kopyalandı",
+      "deg": "Der",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Ters",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Gelişmiş"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Geçersiz ifade",
+        "div0": "Sıfıra bölünemez",
+        "domain": "Geçersiz giriş"
+      }
+    },
     "tabs": {
       "draw": "Çizim",
       "system": "Sistem",
       "timer": "Zamanlayıcı",
       "notes": "Notlar",
+      "calculator": "Hesap makinesi",
       "tab": "Sekme"
     }
   },

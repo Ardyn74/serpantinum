@@ -1237,11 +1237,32 @@
       "pin": "固定",
       "unpin": "取消固定"
     },
+    "calculator": {
+      "history": "历史记录",
+      "no_history": "暂无计算记录",
+      "clear_history": "清除历史记录",
+      "copied": "已复制",
+      "deg": "度",
+      "rad": "弧度",
+      "grad": "百分度",
+      "inv": "反",
+      "mode": {
+        "normal": "标准",
+        "advanced": "高级"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "表达式无效",
+        "div0": "不能除以零",
+        "domain": "输入无效"
+      }
+    },
     "tabs": {
       "draw": "绘图",
       "system": "系统",
       "timer": "计时",
       "notes": "便签",
+      "calculator": "计算器",
       "tab": "标签"
     }
   },

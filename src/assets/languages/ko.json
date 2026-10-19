@@ -1234,11 +1234,32 @@
       "pin": "고정",
       "unpin": "고정 해제"
     },
+    "calculator": {
+      "history": "기록",
+      "no_history": "아직 계산 내역이 없습니다",
+      "clear_history": "기록 지우기",
+      "copied": "복사됨",
+      "deg": "도",
+      "rad": "Rad",
+      "grad": "그레이드",
+      "inv": "역",
+      "mode": {
+        "normal": "일반",
+        "advanced": "고급"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "잘못된 수식",
+        "div0": "0으로 나눌 수 없습니다",
+        "domain": "잘못된 입력"
+      }
+    },
     "tabs": {
       "draw": "그리기",
       "system": "시스템",
       "timer": "타이머",
       "notes": "메모",
+      "calculator": "계산기",
       "tab": "탭"
     }
   },

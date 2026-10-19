@@ -1233,11 +1233,32 @@
       "pin": "Fissa",
       "unpin": "Sblocca"
     },
+    "calculator": {
+      "history": "Cronologia",
+      "no_history": "Nessun calcolo ancora",
+      "clear_history": "Cancella cronologia",
+      "copied": "Copiato",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Gon",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normale",
+        "advanced": "Avanzata"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Espressione non valida",
+        "div0": "Impossibile dividere per zero",
+        "domain": "Input non valido"
+      }
+    },
     "tabs": {
       "draw": "Disegno",
       "system": "Sistema",
       "timer": "Timer",
       "notes": "Note",
+      "calculator": "Calcolatrice",
       "tab": "Scheda"
     }
   },

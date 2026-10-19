@@ -1237,11 +1237,32 @@
       "pin": "Vastzetten",
       "unpin": "Losmaken"
     },
+    "calculator": {
+      "history": "Geschiedenis",
+      "no_history": "Nog geen berekeningen",
+      "clear_history": "Geschiedenis wissen",
+      "copied": "Gekopieerd",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Gon",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normaal",
+        "advanced": "Geavanceerd"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Ongeldige uitdrukking",
+        "div0": "Delen door nul is niet mogelijk",
+        "domain": "Ongeldige invoer"
+      }
+    },
     "tabs": {
       "draw": "Tekenen",
       "system": "Systeem",
       "timer": "Timer",
       "notes": "Notities",
+      "calculator": "Rekenmachine",
       "tab": "Tabblad"
     }
   },

@@ -1234,11 +1234,32 @@
       "pin": "Fixar",
       "unpin": "Desafixar"
     },
+    "calculator": {
+      "history": "Histórico",
+      "no_history": "Ainda não há cálculos",
+      "clear_history": "Limpar histórico",
+      "copied": "Copiado",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Avançada"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Expressão inválida",
+        "div0": "Não é possível dividir por zero",
+        "domain": "Entrada inválida"
+      }
+    },
     "tabs": {
       "draw": "Desenho",
       "system": "Sistema",
       "timer": "Temporizador",
       "notes": "Notas",
+      "calculator": "Calculadora",
       "tab": "Aba"
     }
   },

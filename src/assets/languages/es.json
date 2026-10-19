@@ -1278,11 +1278,32 @@
       "pin": "Fijar",
       "unpin": "Desfijar"
     },
+    "calculator": {
+      "history": "Historial",
+      "no_history": "Aún no hay cálculos",
+      "clear_history": "Borrar historial",
+      "copied": "Copiado",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Avanzado"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Expresión no válida",
+        "div0": "No se puede dividir entre cero",
+        "domain": "Entrada no válida"
+      }
+    },
     "tabs": {
       "draw": "Dibujo",
       "system": "Sistema",
       "timer": "Temporizador",
       "notes": "Notas",
+      "calculator": "Calculadora",
       "tab": "Pestaña"
     }
   },

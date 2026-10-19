@@ -1234,11 +1234,32 @@
       "pin": "Ghim",
       "unpin": "Bỏ ghim"
     },
+    "calculator": {
+      "history": "Lịch sử",
+      "no_history": "Chưa có phép tính nào",
+      "clear_history": "Xóa lịch sử",
+      "copied": "Đã sao chép",
+      "deg": "Độ",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Ngược",
+      "mode": {
+        "normal": "Thường",
+        "advanced": "Nâng cao"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Biểu thức không hợp lệ",
+        "div0": "Không thể chia cho không",
+        "domain": "Đầu vào không hợp lệ"
+      }
+    },
     "tabs": {
       "draw": "Vẽ",
       "system": "Hệ thống",
       "timer": "Hẹn giờ",
       "notes": "Ghi chú",
+      "calculator": "Máy tính",
       "tab": "Tab"
     }
   },

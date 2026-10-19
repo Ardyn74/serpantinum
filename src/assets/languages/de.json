@@ -1281,11 +1281,32 @@
       "pin": "Anheften",
       "unpin": "Lösen"
     },
+    "calculator": {
+      "history": "Verlauf",
+      "no_history": "Noch keine Berechnungen",
+      "clear_history": "Verlauf löschen",
+      "copied": "Kopiert",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Gon",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Erweitert"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Ungültiger Ausdruck",
+        "div0": "Division durch null nicht möglich",
+        "domain": "Ungültige Eingabe"
+      }
+    },
     "tabs": {
       "draw": "Zeichnen",
       "system": "System",
       "timer": "Timer",
       "notes": "Notizen",
+      "calculator": "Taschenrechner",
       "tab": "Tab"
     }
   },

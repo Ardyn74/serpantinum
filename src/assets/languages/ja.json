@@ -303,11 +303,32 @@
       "pin": "固定",
       "unpin": "固定解除"
     },
+    "calculator": {
+      "history": "履歴",
+      "no_history": "まだ計算がありません",
+      "clear_history": "履歴を消去",
+      "copied": "コピーしました",
+      "deg": "度",
+      "rad": "Rad",
+      "grad": "グラード",
+      "inv": "逆",
+      "mode": {
+        "normal": "標準",
+        "advanced": "高度"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "無効な式です",
+        "div0": "0で割ることはできません",
+        "domain": "無効な入力です"
+      }
+    },
     "tabs": {
       "draw": "手描き",
       "system": "システム",
       "timer": "タイマー",
       "notes": "メモ",
+      "calculator": "電卓",
       "tab": "タブ"
     }
   },

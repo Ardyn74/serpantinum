@@ -1228,11 +1228,32 @@
       "pin": "Bərkit",
       "unpin": "Bərkitməni sil"
     },
+    "calculator": {
+      "history": "Tarixçə",
+      "no_history": "Hələ hesablama yoxdur",
+      "clear_history": "Tarixçəni təmizlə",
+      "copied": "Kopyalandı",
+      "deg": "Der",
+      "rad": "Rad",
+      "grad": "Qrad",
+      "inv": "Tərs",
+      "mode": {
+        "normal": "Adi",
+        "advanced": "Qabaqcıl"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Yanlış ifadə",
+        "div0": "Sıfıra bölmək olmaz",
+        "domain": "Yanlış giriş"
+      }
+    },
     "tabs": {
       "draw": "Rəsm",
       "system": "Sistem",
       "timer": "Taymer",
       "notes": "Qeydlər",
+      "calculator": "Kalkulyator",
       "tab": "Vərəq"
     }
   },

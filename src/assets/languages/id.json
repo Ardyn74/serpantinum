@@ -1237,11 +1237,32 @@
       "pin": "Sematkan",
       "unpin": "Lepas sematan"
     },
+    "calculator": {
+      "history": "Riwayat",
+      "no_history": "Belum ada perhitungan",
+      "clear_history": "Hapus riwayat",
+      "copied": "Disalin",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Lanjutan"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Ekspresi tidak valid",
+        "div0": "Tidak dapat membagi dengan nol",
+        "domain": "Masukan tidak valid"
+      }
+    },
     "tabs": {
       "draw": "Gambar",
       "system": "Sistem",
       "timer": "Timer",
       "notes": "Catatan",
+      "calculator": "Kalkulator",
       "tab": "Tab"
     }
   },

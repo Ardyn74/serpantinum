@@ -1247,11 +1247,32 @@
       "pin": "Pin",
       "unpin": "Unpin"
     },
+    "calculator": {
+      "history": "History",
+      "no_history": "No calculations yet",
+      "clear_history": "Clear history",
+      "copied": "Copied",
+      "deg": "Deg",
+      "rad": "Rad",
+      "grad": "Grad",
+      "inv": "Inv",
+      "mode": {
+        "normal": "Normal",
+        "advanced": "Advanced"
+      },
+      "clear": "AC",
+      "error": {
+        "syntax": "Invalid expression",
+        "div0": "Can't divide by zero",
+        "domain": "Invalid input"
+      }
+    },
     "tabs": {
       "draw": "Draw",
       "system": "System",
       "timer": "Timer",
       "notes": "Notes",
+      "calculator": "Calculator",
       "tab": "Tab"
     }
   },
