@@ -1030,12 +1030,6 @@
         "battery": "Pil"
       },
       "variant": {
-        "clock": {
-          "classic": "Klasik",
-          "stacked": "Yığılmış",
-          "compact": "Kompakt",
-          "analog": "Analog"
-        },
         "avatar": {
           "round": "Yuvarlak",
           "rounded": "Yuvarlatılmış"
@@ -1478,6 +1472,7 @@
       "default": "Varsayılan",
       "material": "Material",
       "materialAnalog": "Material Analog",
+      "lockscreen": "Kilit ekranı",
       "lumen": "Lumen",
       "lyrics": "Şarkı Sözleri",
       "simpleLyrics": "Basit Şarkı Sözleri"

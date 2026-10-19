@@ -1030,12 +1030,6 @@
         "battery": "배터리"
       },
       "variant": {
-        "clock": {
-          "classic": "클래식",
-          "stacked": "세로 배치",
-          "compact": "간결",
-          "analog": "아날로그"
-        },
         "avatar": {
           "round": "원형",
           "rounded": "둥근 모서리"
@@ -1475,6 +1469,7 @@
       "default": "기본",
       "material": "머티리얼",
       "materialAnalog": "머티리얼 아날로그",
+      "lockscreen": "잠금 화면",
       "lumen": "루멘",
       "lyrics": "가사",
       "simpleLyrics": "단순 가사"

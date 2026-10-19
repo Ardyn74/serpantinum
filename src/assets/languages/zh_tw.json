@@ -1030,12 +1030,6 @@
         "battery": "電池"
       },
       "variant": {
-        "clock": {
-          "classic": "經典",
-          "stacked": "堆疊",
-          "compact": "精簡",
-          "analog": "指針"
-        },
         "avatar": {
           "round": "圓形",
           "rounded": "圓角"
@@ -1478,6 +1472,7 @@
       "default": "預設",
       "material": "Material",
       "materialAnalog": "Material 類比",
+      "lockscreen": "鎖定畫面",
       "lumen": "Lumen",
       "lyrics": "歌詞",
       "simpleLyrics": "簡約歌詞"

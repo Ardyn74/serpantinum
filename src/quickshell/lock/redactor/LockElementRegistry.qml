@@ -12,11 +12,11 @@ QtObject {
     readonly property var types: ({
         "clock": {
             icon: String.fromCodePoint(0xF0954),
-            file: "LockClockFace.qml",
             scopes: ["screen"],
-            scaled: true,
             deletable: false,
-            variants: ["classic", "stacked", "compact", "analog"]
+            widgetKey: "time",
+            defaultVariant: "lockscreen",
+            w: 420, h: 200
         },
         "avatar": {
             icon: String.fromCodePoint(0xF0009),
@@ -83,11 +83,11 @@ QtObject {
     })
 
     function isWidget(type) {
-        return String(type).indexOf("widget:") === 0;
+        return type === "clock" || String(type).indexOf("widget:") === 0;
     }
 
     function widgetKey(type) {
-        return String(type).substring(7);
+        return type === "clock" ? registry.types["clock"].widgetKey : String(type).substring(7);
     }
 
     function hasType(type) {
@@ -108,12 +108,14 @@ QtObject {
     }
 
     function isDeletable(type) {
+        if (type === "clock") return false;
         if (registry.isWidget(type)) return true;
         let t = registry.types[type];
         return !!t && t.deletable !== false;
     }
 
     function typeName(type) {
+        if (type === "clock") return I18n.t("lock.redactor.element.clock");
         if (registry.isWidget(type)) {
             let w = WidgetRegistry.types[registry.widgetKey(type)];
             return w ? w.name : "";
@@ -144,6 +146,7 @@ QtObject {
     }
 
     function defaultVariant(type) {
+        if (type === "clock") return registry.types["clock"].defaultVariant;
         if (registry.isWidget(type)) return WidgetRegistry.defaultVariant(registry.widgetKey(type));
         let t = registry.types[type];
         if (!t) return "";
@@ -156,6 +159,7 @@ QtObject {
     }
 
     function defaultSize(type) {
+        if (type === "clock") return { w: registry.types["clock"].w, h: registry.types["clock"].h };
         if (registry.isWidget(type)) return WidgetRegistry.defaultSize(registry.widgetKey(type));
         let t = registry.types[type];
         if (!t || t.scaled) return { w: 0, h: 0 };

@@ -1040,12 +1040,6 @@
         "battery": "Battery"
       },
       "variant": {
-        "clock": {
-          "classic": "Classic",
-          "stacked": "Stacked",
-          "compact": "Compact",
-          "analog": "Analog"
-        },
         "avatar": {
           "round": "Round",
           "rounded": "Rounded"
@@ -1488,6 +1482,7 @@
       "default": "Default",
       "material": "Material",
       "materialAnalog": "Material Analog",
+      "lockscreen": "Lockscreen",
       "lumen": "Lumen",
       "lyrics": "Lyrics",
       "simpleLyrics": "Simple Lyrics",

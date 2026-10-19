@@ -96,12 +96,6 @@
         "battery": "バッテリー"
       },
       "variant": {
-        "clock": {
-          "classic": "クラシック",
-          "stacked": "縦積み",
-          "compact": "コンパクト",
-          "analog": "アナログ"
-        },
         "avatar": {
           "round": "円形",
           "rounded": "角丸"
@@ -544,6 +538,7 @@
       "default": "デフォルト",
       "material": "マテリアル",
       "materialAnalog": "マテリアルアナログ",
+      "lockscreen": "ロック画面",
       "lumen": "ルーメン",
       "lyrics": "歌詞",
       "simpleLyrics": "シンプル歌詞"

@@ -1074,12 +1074,6 @@
         "battery": "Akku"
       },
       "variant": {
-        "clock": {
-          "classic": "Klassisch",
-          "stacked": "Gestapelt",
-          "compact": "Kompakt",
-          "analog": "Analog"
-        },
         "avatar": {
           "round": "Rund",
           "rounded": "Abgerundet"
@@ -1522,6 +1516,7 @@
       "default": "Standard",
       "material": "Material",
       "materialAnalog": "Material analog",
+      "lockscreen": "Sperrbildschirm",
       "lumen": "Lumen",
       "lyrics": "Songtext",
       "simpleLyrics": "Einfacher Songtext"

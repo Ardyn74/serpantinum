@@ -1030,12 +1030,6 @@
         "battery": "बैटरी"
       },
       "variant": {
-        "clock": {
-          "classic": "क्लासिक",
-          "stacked": "स्टैक्ड",
-          "compact": "कॉम्पैक्ट",
-          "analog": "एनालॉग"
-        },
         "avatar": {
           "round": "गोल",
           "rounded": "गोलाकार किनारे"
@@ -1478,6 +1472,7 @@
       "default": "डिफ़ॉल्ट",
       "material": "मटीरियल",
       "materialAnalog": "मटीरियल एनालॉग",
+      "lockscreen": "Lockscreen",
       "lumen": "ल्यूमेन",
       "lyrics": "बोल",
       "simpleLyrics": "सरल बोल"

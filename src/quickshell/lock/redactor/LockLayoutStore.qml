@@ -80,7 +80,7 @@ QtObject {
 
     function defaultScreenItems() {
         return [
-            root.makeEntry("clock", "classic", root.screenW * 0.5, root.screenH * 0.36, 0, 0),
+            root.makeEntry("clock", "lockscreen", root.screenW * 0.5 - 210, root.screenH * 0.36 - 100, 420, 200),
             root.makeEntry("fingerprint", "labeled", root.screenW * 0.5, root.screenH * 0.92, 0, 0)
         ];
     }
@@ -312,6 +312,13 @@ QtObject {
         e.iy = n(raw.iy, 0);
         e.iw = Math.max(0, n(raw.iw, 0));
         e.ih = Math.max(0, n(raw.ih, 0));
+        if (raw.itype === "clock" && e.iw <= 0) {
+            let cs = LockElementRegistry.defaultSize("clock");
+            e.ix -= cs.w / 2;
+            e.iy -= cs.h / 2;
+            e.iw = cs.w;
+            e.ih = cs.h;
+        }
         if (variant !== raw.ivariant && LockElementRegistry.isScaled(raw.itype) && e.iw > 0 && e.ih > 0) {
             e.ix += e.iw / 2;
             e.iy += e.ih / 2;

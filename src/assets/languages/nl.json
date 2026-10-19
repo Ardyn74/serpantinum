@@ -1030,12 +1030,6 @@
         "battery": "Batterij"
       },
       "variant": {
-        "clock": {
-          "classic": "Klassiek",
-          "stacked": "Gestapeld",
-          "compact": "Compact",
-          "analog": "Analoog"
-        },
         "avatar": {
           "round": "Rond",
           "rounded": "Afgerond"
@@ -1478,6 +1472,7 @@
       "default": "Standaard",
       "material": "Material",
       "materialAnalog": "Material Analoog",
+      "lockscreen": "Vergrendelscherm",
       "lumen": "Lumen",
       "lyrics": "Songtekst",
       "simpleLyrics": "Eenvoudige songtekst"

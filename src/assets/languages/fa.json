@@ -1030,12 +1030,6 @@
         "battery": "باتری"
       },
       "variant": {
-        "clock": {
-          "classic": "کلاسیک",
-          "stacked": "عمودی",
-          "compact": "فشرده",
-          "analog": "آنالوگ"
-        },
         "avatar": {
           "round": "گرد",
           "rounded": "گوشه‌گرد"
@@ -1478,6 +1472,7 @@
       "default": "پیش‌فرض",
       "material": "متریال",
       "materialAnalog": "متریال عقربه‌ای",
+      "lockscreen": "Lockscreen",
       "lumen": "لومن",
       "lyrics": "متن ترانه",
       "simpleLyrics": "متن ترانه ساده"

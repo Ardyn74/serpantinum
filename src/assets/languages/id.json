@@ -1030,12 +1030,6 @@
         "battery": "Baterai"
       },
       "variant": {
-        "clock": {
-          "classic": "Klasik",
-          "stacked": "Bertumpuk",
-          "compact": "Ringkas",
-          "analog": "Analog"
-        },
         "avatar": {
           "round": "Bulat",
           "rounded": "Membulat"
@@ -1478,6 +1472,7 @@
       "default": "Default",
       "material": "Material",
       "materialAnalog": "Material Analog",
+      "lockscreen": "Lockscreen",
       "lumen": "Lumen",
       "lyrics": "Lirik",
       "simpleLyrics": "Lirik Sederhana"

@@ -99,12 +99,6 @@
         "battery": "Bateria"
       },
       "variant": {
-        "clock": {
-          "classic": "Klasyczny",
-          "stacked": "Ułożony",
-          "compact": "Kompaktowy",
-          "analog": "Analogowy"
-        },
         "avatar": {
           "round": "Okrągły",
           "rounded": "Zaokrąglony"
@@ -547,6 +541,7 @@
       "default": "Domyślny",
       "material": "Material",
       "materialAnalog": "Material Analogowy",
+      "lockscreen": "Ekran blokady",
       "lumen": "Lumen",
       "lyrics": "Tekst utworu",
       "simpleLyrics": "Prosty tekst utworu"

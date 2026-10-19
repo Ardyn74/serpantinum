@@ -1074,12 +1074,6 @@
         "battery": "Батарея"
       },
       "variant": {
-        "clock": {
-          "classic": "Классические",
-          "stacked": "Столбцом",
-          "compact": "Компактные",
-          "analog": "Аналоговые"
-        },
         "avatar": {
           "round": "Круглый",
           "rounded": "Скруглённый"
@@ -1522,6 +1516,7 @@
       "default": "По умолчанию",
       "material": "Материал",
       "materialAnalog": "Материал аналоговые",
+      "lockscreen": "Экран блокировки",
       "lumen": "Люмен",
       "lyrics": "Текст песни",
       "simpleLyrics": "Простой текст песни"

@@ -1053,12 +1053,6 @@
         "battery": "Батарея"
       },
       "variant": {
-        "clock": {
-          "classic": "Класичний",
-          "stacked": "Стовпчиком",
-          "compact": "Компактний",
-          "analog": "Аналоговий"
-        },
         "avatar": {
           "round": "Круглий",
           "rounded": "Закруглений"
@@ -1498,6 +1492,7 @@
       "default": "Типовий",
       "material": "Матеріал",
       "materialAnalog": "Матеріал Аналоговий",
+      "lockscreen": "Екран блокування",
       "lumen": "Люмен",
       "lyrics": "Текст пісні",
       "simpleLyrics": "Простий текст пісні"

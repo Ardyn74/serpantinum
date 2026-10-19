@@ -1024,12 +1024,6 @@
         "battery": "Batareya"
       },
       "variant": {
-        "clock": {
-          "classic": "Klassik",
-          "stacked": "Üst-üstə",
-          "compact": "Yığcam",
-          "analog": "Analoq"
-        },
         "avatar": {
           "round": "Dairəvi",
           "rounded": "Yumrulanmış"
@@ -1469,6 +1463,7 @@
       "default": "Standart",
       "material": "Material",
       "materialAnalog": "Material analoq",
+      "lockscreen": "Lockscreen",
       "lumen": "Lümen",
       "lyrics": "Mahnı sözləri",
       "simpleLyrics": "Sadə mahnı mətni"

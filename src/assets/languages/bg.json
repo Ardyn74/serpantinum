@@ -1030,12 +1030,6 @@
         "battery": "Батерия"
       },
       "variant": {
-        "clock": {
-          "classic": "Класически",
-          "stacked": "Подреден",
-          "compact": "Компактен",
-          "analog": "Аналогов"
-        },
         "avatar": {
           "round": "Кръгъл",
           "rounded": "Заоблен"
@@ -1478,6 +1472,7 @@
       "default": "По подразбиране",
       "material": "Material",
       "materialAnalog": "Material Аналогов",
+      "lockscreen": "Lockscreen",
       "lumen": "Lumen",
       "lyrics": "Текст",
       "simpleLyrics": "Опростен текст"

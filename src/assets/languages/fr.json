@@ -1030,12 +1030,6 @@
         "battery": "Batterie"
       },
       "variant": {
-        "clock": {
-          "classic": "Classique",
-          "stacked": "Empilé",
-          "compact": "Compact",
-          "analog": "Analogique"
-        },
         "avatar": {
           "round": "Rond",
           "rounded": "Arrondi"
@@ -1478,6 +1472,7 @@
       "default": "Par défaut",
       "material": "Material",
       "materialAnalog": "Material analogique",
+      "lockscreen": "Écran de verrouillage",
       "lumen": "Lumen",
       "lyrics": "Paroles",
       "simpleLyrics": "Paroles simples"

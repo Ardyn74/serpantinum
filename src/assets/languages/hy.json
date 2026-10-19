@@ -1030,12 +1030,6 @@
         "battery": "Մարտկոց"
       },
       "variant": {
-        "clock": {
-          "classic": "Դասական",
-          "stacked": "Կուտակված",
-          "compact": "Կոմպակտ",
-          "analog": "Անալոգային"
-        },
         "avatar": {
           "round": "Կլոր",
           "rounded": "Կլորացված"
@@ -1475,6 +1469,7 @@
       "default": "Լռելյայն",
       "material": "Մատերիալ",
       "materialAnalog": "Մատերիալ անալոգային",
+      "lockscreen": "Lockscreen",
       "lumen": "Լյումեն",
       "lyrics": "Երգի բառեր",
       "simpleLyrics": "Պարզ երգի տեքստ"

@@ -1030,12 +1030,6 @@
         "battery": "电池"
       },
       "variant": {
-        "clock": {
-          "classic": "经典",
-          "stacked": "堆叠",
-          "compact": "紧凑",
-          "analog": "指针"
-        },
         "avatar": {
           "round": "圆形",
           "rounded": "圆角"
@@ -1478,6 +1472,7 @@
       "default": "默认",
       "material": "Material",
       "materialAnalog": "Material 模拟指针",
+      "lockscreen": "锁屏",
       "lumen": "Lumen",
       "lyrics": "歌词",
       "simpleLyrics": "简易歌词"

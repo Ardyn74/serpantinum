@@ -1221,12 +1221,6 @@
         "battery": "البطارية"
       },
       "variant": {
-        "clock": {
-          "classic": "كلاسيكي",
-          "stacked": "متراص",
-          "compact": "مضغوط",
-          "analog": "تناظري"
-        },
         "avatar": {
           "round": "دائري",
           "rounded": "مستدير الحواف"
@@ -1735,6 +1729,7 @@
       "default": "افتراضي",
       "digital": "رقمي",
       "full": "كامل",
+      "lockscreen": "Lockscreen",
       "lumen": "لومن",
       "lyrics": "كلمات الأغاني",
       "material": "ماتيريال",

@@ -1030,12 +1030,6 @@
         "battery": "Pin"
       },
       "variant": {
-        "clock": {
-          "classic": "Cổ điển",
-          "stacked": "Xếp chồng",
-          "compact": "Gọn",
-          "analog": "Kim"
-        },
         "avatar": {
           "round": "Tròn",
           "rounded": "Bo góc"
@@ -1475,6 +1469,7 @@
       "default": "Mặc định",
       "material": "Material",
       "materialAnalog": "Material kim",
+      "lockscreen": "Lockscreen",
       "lumen": "Lumen",
       "lyrics": "Lời bài hát",
       "simpleLyrics": "Lời bài hát đơn giản"
