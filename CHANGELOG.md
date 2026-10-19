@@ -1,5 +1,7 @@
 ### 2.2.14
 
+- feat(picker): preview videos in the image picker
+- fix(lock): show resize cursors in the lock editor and keep short element side handles
 - feat(lock): add orbit and liquid fingerprint looks, success shader, and block fingerprint after max attempts
 - feat(clock): redraw stretched clock digits as translucent vector glyphs
 - feat(lock): add fingerprint looks and a show text toggle in the lock editor
