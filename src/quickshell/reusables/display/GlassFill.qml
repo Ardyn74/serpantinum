@@ -146,7 +146,12 @@ Item {
         refresh(true);
     }
     onParentChanged: resolve()
-    Component.onCompleted: resolve()
+    onAllowedChanged: {
+        if (allowed && backdrop === null && visible && ThemeBackend.liquidGlass) resolve();
+    }
+    Component.onCompleted: {
+        if (allowed && visible) resolve();
+    }
     Component.onDestruction: unregister()
 
     Connections {
