@@ -36,20 +36,40 @@ Item {
     property bool standalone: false
     property bool surfaceEnabled: true
 
-    Component.onCompleted: nestLevel = standalone ? 0 : Nesting.nestLevel(root, null, true)
+    Component.onCompleted: {
+        inheritedOwner = findInheritedOwner();
+        nestLevel = (standalone || inheritedOwner !== null) ? 0 : Nesting.nestLevel(root, null, true);
+    }
     readonly property bool transitioning: engine ? (engine.transitionProgress > 0.0 && engine.transitionProgress < 1.0) : false
     property int frame: 0
 
     property var screenOverride: null
     property bool useSnapshot: false
+    property Item inheritedOwner: null
+    readonly property var inheritedScreen: inheritedOwner ? inheritedOwner.glassScreen : null
+
+    function findInheritedOwner() {
+        let e = root.parent;
+        let d = 0;
+        while (e && d < 64) {
+            if (e.glassScreen !== undefined) return e;
+            e = e.parent;
+            d++;
+        }
+        return null;
+    }
+
+    onParentChanged: inheritedOwner = findInheritedOwner()
+    readonly property var effectiveScreenOverride: screenOverride ? screenOverride : inheritedScreen
+    readonly property bool snapshotMode: useSnapshot || inheritedOwner !== null
 
     readonly property var hostWindow: QsWindow.window
-    readonly property var hostScreen: screenOverride ? screenOverride : (hostWindow ? hostWindow.screen : null)
+    readonly property var hostScreen: effectiveScreenOverride ? effectiveScreenOverride : (hostWindow ? hostWindow.screen : null)
     readonly property string screenName: hostScreen && hostScreen.name ? hostScreen.name : ""
     readonly property bool parentVisible: parent ? parent.visible : true
     readonly property bool active: surfaceEnabled && parentVisible && ThemeBackend.blurBackground && ThemeBackend.elementOpacity < 0.999 && width > 0 && height > 0 && hostScreen !== null && (hostWindow ? hostWindow.visible : true)
 
-    readonly property var engine: useSnapshot ? null : (Wallpaper.engines[screenName] || null)
+    readonly property var engine: snapshotMode ? null : (Wallpaper.engines[screenName] || null)
 
     property real imageX: 0
     property real imageY: 0
@@ -110,7 +130,7 @@ Item {
         if (!scr) return;
         let wx = 0;
         let wy = 0;
-        if (w && w.anchors && !root.screenOverride) {
+        if (w && w.anchors && !root.effectiveScreenOverride) {
             const a = w.anchors;
             const m = w.margins;
             if (a.left) wx = m.left;
