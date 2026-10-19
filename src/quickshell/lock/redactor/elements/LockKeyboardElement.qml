@@ -16,6 +16,7 @@ Item {
         property string kbStyle: el.variant
         property bool kbShowIcon: true
         property bool isCompact: false
+        property bool lockLook: true
         property bool isPreview: false
         property bool moduleActive: true
         property string orientation: "horizontal"
