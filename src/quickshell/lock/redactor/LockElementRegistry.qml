@@ -13,7 +13,6 @@ QtObject {
         "clock": {
             icon: String.fromCodePoint(0xF0954),
             scopes: ["screen"],
-            deletable: false,
             widgetKey: "time",
             defaultVariant: "lockscreen",
             w: 420, h: 200
@@ -108,7 +107,6 @@ QtObject {
     }
 
     function isDeletable(type) {
-        if (type === "clock") return false;
         if (registry.isWidget(type)) return true;
         let t = registry.types[type];
         return !!t && t.deletable !== false;
