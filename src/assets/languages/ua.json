@@ -1069,7 +1069,9 @@
           "classic": "Класика",
           "ring": "Кільце",
           "scanner": "Сканер",
-          "pulse": "Пульс"
+          "pulse": "Пульс",
+          "orbit": "Орбіта",
+          "liquid": "Рідина"
         },
         "notifications": {
           "card": "Картка",

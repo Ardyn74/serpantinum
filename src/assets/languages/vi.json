@@ -1046,7 +1046,9 @@
           "classic": "Cổ điển",
           "ring": "Vòng",
           "scanner": "Máy quét",
-          "pulse": "Nhịp"
+          "pulse": "Nhịp",
+          "orbit": "Quỹ đạo",
+          "liquid": "Chất lỏng"
         },
         "notifications": {
           "card": "Thẻ",

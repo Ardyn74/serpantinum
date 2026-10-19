@@ -1045,7 +1045,9 @@
           "classic": "Classico",
           "ring": "Anello",
           "scanner": "Scanner",
-          "pulse": "Impulso"
+          "pulse": "Impulso",
+          "orbit": "Orbita",
+          "liquid": "Liquido"
         },
         "notifications": {
           "card": "Scheda",

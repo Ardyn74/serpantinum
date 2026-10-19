@@ -1090,7 +1090,9 @@
           "classic": "Klassisch",
           "ring": "Ring",
           "scanner": "Scanner",
-          "pulse": "Puls"
+          "pulse": "Puls",
+          "orbit": "Orbit",
+          "liquid": "Flüssig"
         },
         "notifications": {
           "card": "Karte",

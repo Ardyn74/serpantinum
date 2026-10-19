@@ -115,7 +115,9 @@
           "classic": "Klasyczny",
           "ring": "Pierścień",
           "scanner": "Skaner",
-          "pulse": "Puls"
+          "pulse": "Puls",
+          "orbit": "Orbita",
+          "liquid": "Płyn"
         },
         "notifications": {
           "card": "Karta",

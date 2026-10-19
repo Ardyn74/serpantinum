@@ -1046,7 +1046,9 @@
           "classic": "經典",
           "ring": "環形",
           "scanner": "掃描器",
-          "pulse": "脈衝"
+          "pulse": "脈衝",
+          "orbit": "軌道",
+          "liquid": "液態"
         },
         "notifications": {
           "card": "卡片",

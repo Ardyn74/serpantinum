@@ -231,7 +231,7 @@ Scope {
 
     Timer {
         id: fingerprintUnlockTimer
-        interval: 480
+        interval: 500
         repeat: false
         onTriggered: root.finishUnlock()
     }
@@ -285,7 +285,7 @@ Scope {
     }
 
     function applyPasswordConfig() {
-        if (!root.fingerprintEnabled && root.noFpPamReady) {
+        if ((!root.fingerprintEnabled || root.fpBlocked) && root.noFpPamReady) {
             pam.configDirectory = root.noFpPamDir;
             pam.config = "serpantinum-nofp";
         } else {
@@ -342,7 +342,13 @@ Scope {
         fingerprintSettleTimer.stop();
         if (fpPam.active) fpPam.abort();
         lockUI.fpState = "blocked";
-        root.startPassword(true);
+        if (pam.active) {
+            root.pwAborting = true;
+            pam.abort();
+            passwordRetryTimer.restart();
+        } else {
+            root.startPassword(true);
+        }
     }
 
     function startPasswordLockout() {

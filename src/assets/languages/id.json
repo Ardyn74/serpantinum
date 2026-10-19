@@ -1046,7 +1046,9 @@
           "classic": "Klasik",
           "ring": "Cincin",
           "scanner": "Pemindai",
-          "pulse": "Denyut"
+          "pulse": "Denyut",
+          "orbit": "Orbit",
+          "liquid": "Cair"
         },
         "notifications": {
           "card": "Kartu",

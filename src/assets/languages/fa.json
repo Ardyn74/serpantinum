@@ -1046,7 +1046,9 @@
           "classic": "کلاسیک",
           "ring": "حلقه",
           "scanner": "اسکنر",
-          "pulse": "نبض"
+          "pulse": "نبض",
+          "orbit": "مدار",
+          "liquid": "مایع"
         },
         "notifications": {
           "card": "کارت",

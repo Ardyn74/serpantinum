@@ -1046,7 +1046,9 @@
           "classic": "क्लासिक",
           "ring": "रिंग",
           "scanner": "स्कैनर",
-          "pulse": "पल्स"
+          "pulse": "पल्स",
+          "orbit": "ऑर्बिट",
+          "liquid": "तरल"
         },
         "notifications": {
           "card": "कार्ड",

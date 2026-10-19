@@ -13,7 +13,8 @@ Item {
     property int attempts: 0
     property int maxAttempts: 5
 
-    readonly property bool tintGlyph: look === "ring" || look === "pulse"
+    readonly property bool shaderLook: look === "orbit" || look === "liquid"
+    readonly property bool tintGlyph: look === "ring" || look === "pulse" || shaderLook
     readonly property bool halted: status === "blocked" || status === "error"
     readonly property bool pulsing: status === "ready" || status === "hold"
     readonly property color accent: {
@@ -38,6 +39,39 @@ Item {
     property real shownFill: targetFill
     property real breath: 0.9
     property real scanPos: 0
+    property real shaderTime: 0
+    property real shaderBurst: 0
+    property real successT: 0
+
+    NumberAnimation {
+        id: successAnim
+        target: fp
+        property: "successT"
+        from: 0
+        to: 1
+        duration: 500
+        easing.type: Easing.Linear
+    }
+    property real spin: pulsing ? 1 : 0
+    Behavior on spin { NumberAnimation { duration: 260 } }
+
+    NumberAnimation on shaderTime {
+        running: fp.visible && fp.shaderLook
+        from: 0
+        to: 3600
+        duration: 3600000
+        loops: Animation.Infinite
+    }
+
+    NumberAnimation {
+        id: shaderBurstAnim
+        target: fp
+        property: "shaderBurst"
+        from: 0
+        to: 1
+        duration: 760
+        easing.type: Easing.OutCubic
+    }
     SequentialAnimation {
         running: fp.visible && fp.status === "ready"
         loops: Animation.Infinite
@@ -64,13 +98,18 @@ Item {
     implicitHeight: stageSize + (showLabel ? labelText.implicitHeight + glyphSize * 0.12 + pips.height : 0)
 
     onStatusChanged: {
+        if (status !== "success") {
+            successAnim.stop();
+            successT = 0;
+        }
         if (status === "success") {
             popAnim.restart();
-            burstAnim.restart();
             lockOnAnim.restart();
+            successAnim.restart();
         } else if (status === "failed") {
             shakeAnim.restart();
             flashAnim.restart();
+            shaderBurstAnim.restart();
         }
     }
 
@@ -111,24 +150,6 @@ Item {
                     NumberAnimation { target: rippleRing; property: "opacity"; from: 0.1; to: 0; duration: fp.status === "hold" ? 1100 : 2400; easing.type: Easing.OutQuad }
                 }
                 PauseAnimation { duration: fp.status === "hold" ? 200 : 700 }
-            }
-        }
-
-        Rectangle {
-            id: burstRing
-            anchors.centerIn: parent
-            width: restRing.width
-            height: width
-            radius: width / 2
-            color: ThemeBackend.green
-            opacity: 0
-            scale: 1
-            visible: fp.look !== "scanner"
-
-            ParallelAnimation {
-                id: burstAnim
-                NumberAnimation { target: burstRing; property: "scale"; from: 1; to: 1.75; duration: 560; easing.type: Easing.OutCubic }
-                NumberAnimation { target: burstRing; property: "opacity"; from: 0.4; to: 0; duration: 560; easing.type: Easing.OutQuad }
             }
         }
 
@@ -238,6 +259,21 @@ Item {
                     PauseAnimation { duration: (2 - pulseRing.index) * (fp.status === "hold" ? 260 : 700) }
                 }
             }
+        }
+
+        ShaderEffect {
+            id: shaderFx
+            anchors.centerIn: parent
+            width: fp.stageSize
+            height: fp.stageSize
+            visible: fp.shaderLook
+
+            property vector2d itemSize: Qt.vector2d(width, height)
+            property color accentColor: fp.shownAccent
+            property vector4d params: Qt.vector4d(fp.shaderTime, fp.shownFill, fp.shaderBurst, fp.look === "liquid" ? 1.0 : 0.0)
+            property vector4d cfg: Qt.vector4d(fp.spin, fp.status === "hold" ? (fp.look === "liquid" ? 2.0 : 5.0) : (fp.look === "liquid" ? 1.0 : 2.4), 0.0, 0.0)
+
+            fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/lock/fingerprint_ring.frag.qsb"
         }
 
         Item {
@@ -352,6 +388,19 @@ Item {
                 NumberAnimation { target: shakeShift; property: "x"; to: fp.glyphSize * 0.04; duration: 70; easing.type: Easing.InOutQuad }
                 NumberAnimation { target: shakeShift; property: "x"; to: 0; duration: 60; easing.type: Easing.InQuad }
             }
+        }
+        ShaderEffect {
+            anchors.centerIn: parent
+            width: fp.stageSize * 2.0
+            height: width
+            visible: fp.successT > 0
+            z: 10
+
+            property vector2d itemSize: Qt.vector2d(width, height)
+            property color accentColor: ThemeBackend.green
+            property vector4d params: Qt.vector4d(fp.successT, 2.0, 0.0, 0.0)
+
+            fragmentShader: "file://" + Caching.serpantinumDir + "/assets/shaders/lock/fingerprint_success.frag.qsb"
         }
     }
 

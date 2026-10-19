@@ -1046,7 +1046,9 @@
           "classic": "Classique",
           "ring": "Anneau",
           "scanner": "Scanner",
-          "pulse": "Pulsation"
+          "pulse": "Pulsation",
+          "orbit": "Orbite",
+          "liquid": "Liquide"
         },
         "notifications": {
           "card": "Carte",

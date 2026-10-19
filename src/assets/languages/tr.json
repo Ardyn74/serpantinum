@@ -1046,7 +1046,9 @@
           "classic": "Klasik",
           "ring": "Halka",
           "scanner": "Tarayıcı",
-          "pulse": "Nabız"
+          "pulse": "Nabız",
+          "orbit": "Yörünge",
+          "liquid": "Sıvı"
         },
         "notifications": {
           "card": "Kart",

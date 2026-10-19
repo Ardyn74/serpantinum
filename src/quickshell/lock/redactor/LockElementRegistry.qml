@@ -107,7 +107,7 @@ QtObject {
             scopes: ["screen", "panel"],
             scaled: true,
             defaultVariant: "classic",
-            variants: ["classic", "ring", "scanner", "pulse"],
+            variants: ["classic", "ring", "scanner", "pulse", "orbit", "liquid"],
             variantAliases: { "labeled": "classic", "icon": "classic" },
             additionalSettings: [
                 { id: "showText", row: "bottom", component: registry.showTextComponent }

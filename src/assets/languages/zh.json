@@ -1046,7 +1046,9 @@
           "classic": "经典",
           "ring": "环形",
           "scanner": "扫描仪",
-          "pulse": "脉冲"
+          "pulse": "脉冲",
+          "orbit": "轨道",
+          "liquid": "液态"
         },
         "notifications": {
           "card": "卡片",

@@ -1040,7 +1040,9 @@
           "classic": "Klassik",
           "ring": "Halqa",
           "scanner": "Skaner",
-          "pulse": "Nəbz"
+          "pulse": "Nəbz",
+          "orbit": "Orbit",
+          "liquid": "Maye"
         },
         "notifications": {
           "card": "Kart",

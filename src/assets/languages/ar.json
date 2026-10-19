@@ -1237,7 +1237,9 @@
           "classic": "كلاسيكي",
           "ring": "حلقة",
           "scanner": "ماسح",
-          "pulse": "نبض"
+          "pulse": "نبض",
+          "orbit": "مدار",
+          "liquid": "سائل"
         },
         "notifications": {
           "card": "بطاقة",

@@ -1046,7 +1046,9 @@
           "classic": "Klassiek",
           "ring": "Ring",
           "scanner": "Scanner",
-          "pulse": "Puls"
+          "pulse": "Puls",
+          "orbit": "Baan",
+          "liquid": "Vloeistof"
         },
         "notifications": {
           "card": "Kaart",
