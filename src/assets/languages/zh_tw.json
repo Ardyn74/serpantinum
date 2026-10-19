@@ -1043,8 +1043,11 @@
           "glass": "玻璃"
         },
         "fingerprint": {
-          "labeled": "含標籤",
-          "icon": "僅圖示"
+          "classic": "經典",
+          "ring": "環形",
+          "scanner": "掃描器",
+          "pulse": "脈衝",
+          "tile": "方塊"
         },
         "notifications": {
           "card": "卡片",
@@ -1054,6 +1057,9 @@
           "filled": "填滿",
           "plain": "簡約"
         }
+      },
+      "setting": {
+        "show_text": "顯示文字"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material 類比",
       "lockscreen": "鎖定畫面",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "歌詞",
       "simpleLyrics": "簡約歌詞"

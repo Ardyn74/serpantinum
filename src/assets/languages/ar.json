@@ -1234,8 +1234,11 @@
           "glass": "زجاجي"
         },
         "fingerprint": {
-          "labeled": "مع تسمية",
-          "icon": "أيقونة فقط"
+          "classic": "كلاسيكي",
+          "ring": "حلقة",
+          "scanner": "ماسح",
+          "pulse": "نبض",
+          "tile": "بلاطة"
         },
         "notifications": {
           "card": "بطاقة",
@@ -1245,6 +1248,9 @@
           "filled": "معبأ",
           "plain": "بسيط"
         }
+      },
+      "setting": {
+        "show_text": "إظهار النص"
       }
     }
   },
@@ -1730,6 +1736,7 @@
       "digital": "رقمي",
       "full": "كامل",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "لومن",
       "lyrics": "كلمات الأغاني",
       "material": "ماتيريال",

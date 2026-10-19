@@ -1042,8 +1042,11 @@
           "glass": "Vetro"
         },
         "fingerprint": {
-          "labeled": "Con etichetta",
-          "icon": "Solo icona"
+          "classic": "Classico",
+          "ring": "Anello",
+          "scanner": "Scanner",
+          "pulse": "Impulso",
+          "tile": "Riquadro"
         },
         "notifications": {
           "card": "Scheda",
@@ -1053,6 +1056,9 @@
           "filled": "Pieno",
           "plain": "Semplice"
         }
+      },
+      "setting": {
+        "show_text": "Mostra testo"
       }
     }
   },
@@ -1469,6 +1475,7 @@
       "material": "Material",
       "materialAnalog": "Material analogico",
       "lockscreen": "Schermata di blocco",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Testo",
       "simpleLyrics": "Testo semplice"

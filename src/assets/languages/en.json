@@ -1053,8 +1053,11 @@
           "glass": "Glass"
         },
         "fingerprint": {
-          "labeled": "Labeled",
-          "icon": "Icon only"
+          "classic": "Classic",
+          "ring": "Ring",
+          "scanner": "Scanner",
+          "pulse": "Pulse",
+          "tile": "Tile"
         },
         "notifications": {
           "card": "Card",
@@ -1064,6 +1067,9 @@
           "filled": "Filled",
           "plain": "Plain"
         }
+      },
+      "setting": {
+        "show_text": "Show text"
       }
     }
   },
@@ -1483,6 +1489,7 @@
       "material": "Material",
       "materialAnalog": "Material Analog",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Lyrics",
       "simpleLyrics": "Simple Lyrics",

@@ -1043,8 +1043,11 @@
           "glass": "Vidro"
         },
         "fingerprint": {
-          "labeled": "Com rótulo",
-          "icon": "Só ícone"
+          "classic": "Clássico",
+          "ring": "Anel",
+          "scanner": "Scanner",
+          "pulse": "Pulso",
+          "tile": "Bloco"
         },
         "notifications": {
           "card": "Cartão",
@@ -1054,6 +1057,9 @@
           "filled": "Preenchido",
           "plain": "Simples"
         }
+      },
+      "setting": {
+        "show_text": "Mostrar texto"
       }
     }
   },
@@ -1470,6 +1476,7 @@
       "material": "Material",
       "materialAnalog": "Material analógico",
       "lockscreen": "Tela de bloqueio",
+      "stretched": "Stretched",
       "lumen": "Lúmen",
       "lyrics": "Letra",
       "simpleLyrics": "Letra simples"

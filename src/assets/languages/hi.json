@@ -1043,8 +1043,11 @@
           "glass": "ग्लास"
         },
         "fingerprint": {
-          "labeled": "लेबल सहित",
-          "icon": "केवल आइकन"
+          "classic": "क्लासिक",
+          "ring": "रिंग",
+          "scanner": "स्कैनर",
+          "pulse": "पल्स",
+          "tile": "टाइल"
         },
         "notifications": {
           "card": "कार्ड",
@@ -1054,6 +1057,9 @@
           "filled": "भरा हुआ",
           "plain": "सादा"
         }
+      },
+      "setting": {
+        "show_text": "टेक्स्ट दिखाएँ"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "मटीरियल",
       "materialAnalog": "मटीरियल एनालॉग",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "ल्यूमेन",
       "lyrics": "बोल",
       "simpleLyrics": "सरल बोल"

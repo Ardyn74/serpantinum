@@ -1043,8 +1043,11 @@
           "glass": "Glas"
         },
         "fingerprint": {
-          "labeled": "Met label",
-          "icon": "Alleen pictogram"
+          "classic": "Klassiek",
+          "ring": "Ring",
+          "scanner": "Scanner",
+          "pulse": "Puls",
+          "tile": "Tegel"
         },
         "notifications": {
           "card": "Kaart",
@@ -1054,6 +1057,9 @@
           "filled": "Gevuld",
           "plain": "Eenvoudig"
         }
+      },
+      "setting": {
+        "show_text": "Tekst tonen"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material Analoog",
       "lockscreen": "Vergrendelscherm",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Songtekst",
       "simpleLyrics": "Eenvoudige songtekst"

@@ -1037,8 +1037,11 @@
           "glass": "Şüşə"
         },
         "fingerprint": {
-          "labeled": "Etiketli",
-          "icon": "Yalnız ikon"
+          "classic": "Klassik",
+          "ring": "Halqa",
+          "scanner": "Skaner",
+          "pulse": "Nəbz",
+          "tile": "Kafel"
         },
         "notifications": {
           "card": "Kart",
@@ -1048,6 +1051,9 @@
           "filled": "Dolu",
           "plain": "Sadə"
         }
+      },
+      "setting": {
+        "show_text": "Mətni göstər"
       }
     }
   },
@@ -1464,6 +1470,7 @@
       "material": "Material",
       "materialAnalog": "Material analoq",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "Lümen",
       "lyrics": "Mahnı sözləri",
       "simpleLyrics": "Sadə mahnı mətni"

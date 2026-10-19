@@ -1087,8 +1087,11 @@
           "glass": "Glas"
         },
         "fingerprint": {
-          "labeled": "Mit Beschriftung",
-          "icon": "Nur Symbol"
+          "classic": "Klassisch",
+          "ring": "Ring",
+          "scanner": "Scanner",
+          "pulse": "Puls",
+          "tile": "Kachel"
         },
         "notifications": {
           "card": "Karte",
@@ -1098,6 +1101,9 @@
           "filled": "Gefüllt",
           "plain": "Schlicht"
         }
+      },
+      "setting": {
+        "show_text": "Text anzeigen"
       }
     }
   },
@@ -1517,6 +1523,7 @@
       "material": "Material",
       "materialAnalog": "Material analog",
       "lockscreen": "Sperrbildschirm",
+      "stretched": "Gestreckt",
       "lumen": "Lumen",
       "lyrics": "Songtext",
       "simpleLyrics": "Einfacher Songtext"

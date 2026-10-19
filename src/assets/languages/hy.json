@@ -1043,8 +1043,11 @@
           "glass": "Ապակի"
         },
         "fingerprint": {
-          "labeled": "Պիտակով",
-          "icon": "Միայն պատկերակ"
+          "classic": "Դասական",
+          "ring": "Օղակ",
+          "scanner": "Սկաներ",
+          "pulse": "Զարկ",
+          "tile": "Սալիկ"
         },
         "notifications": {
           "card": "Քարտ",
@@ -1054,6 +1057,9 @@
           "filled": "Լցված",
           "plain": "Պարզ"
         }
+      },
+      "setting": {
+        "show_text": "Ցուցադրել տեքստը"
       }
     }
   },
@@ -1470,6 +1476,7 @@
       "material": "Մատերիալ",
       "materialAnalog": "Մատերիալ անալոգային",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "Լյումեն",
       "lyrics": "Երգի բառեր",
       "simpleLyrics": "Պարզ երգի տեքստ"

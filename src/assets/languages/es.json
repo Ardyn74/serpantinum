@@ -1087,8 +1087,11 @@
           "glass": "Cristal"
         },
         "fingerprint": {
-          "labeled": "Con etiqueta",
-          "icon": "Solo icono"
+          "classic": "Clásico",
+          "ring": "Anillo",
+          "scanner": "Escáner",
+          "pulse": "Pulso",
+          "tile": "Mosaico"
         },
         "notifications": {
           "card": "Tarjeta",
@@ -1098,6 +1101,9 @@
           "filled": "Relleno",
           "plain": "Simple"
         }
+      },
+      "setting": {
+        "show_text": "Mostrar texto"
       }
     }
   },
@@ -1514,6 +1520,7 @@
       "material": "Material",
       "materialAnalog": "Material analógico",
       "lockscreen": "Pantalla de bloqueo",
+      "stretched": "Estirado",
       "lumen": "Lumen",
       "lyrics": "Letra",
       "simpleLyrics": "Letra simple"

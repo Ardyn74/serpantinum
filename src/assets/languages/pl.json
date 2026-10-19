@@ -112,8 +112,11 @@
           "glass": "Szkło"
         },
         "fingerprint": {
-          "labeled": "Z etykietą",
-          "icon": "Tylko ikona"
+          "classic": "Klasyczny",
+          "ring": "Pierścień",
+          "scanner": "Skaner",
+          "pulse": "Puls",
+          "tile": "Kafelek"
         },
         "notifications": {
           "card": "Karta",
@@ -123,6 +126,9 @@
           "filled": "Wypełniony",
           "plain": "Prosta"
         }
+      },
+      "setting": {
+        "show_text": "Pokaż tekst"
       }
     }
   },
@@ -542,6 +548,7 @@
       "material": "Material",
       "materialAnalog": "Material Analogowy",
       "lockscreen": "Ekran blokady",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Tekst utworu",
       "simpleLyrics": "Prosty tekst utworu"

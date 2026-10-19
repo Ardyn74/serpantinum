@@ -1066,8 +1066,11 @@
           "glass": "Скло"
         },
         "fingerprint": {
-          "labeled": "З підписом",
-          "icon": "Лише значок"
+          "classic": "Класика",
+          "ring": "Кільце",
+          "scanner": "Сканер",
+          "pulse": "Пульс",
+          "tile": "Плитка"
         },
         "notifications": {
           "card": "Картка",
@@ -1077,6 +1080,9 @@
           "filled": "Заливка",
           "plain": "Простий"
         }
+      },
+      "setting": {
+        "show_text": "Показувати текст"
       }
     }
   },
@@ -1493,6 +1499,7 @@
       "material": "Матеріал",
       "materialAnalog": "Матеріал Аналоговий",
       "lockscreen": "Екран блокування",
+      "stretched": "Розтягнутий",
       "lumen": "Люмен",
       "lyrics": "Текст пісні",
       "simpleLyrics": "Простий текст пісні"

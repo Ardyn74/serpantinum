@@ -1043,8 +1043,11 @@
           "glass": "Verre"
         },
         "fingerprint": {
-          "labeled": "Avec libellé",
-          "icon": "Icône seule"
+          "classic": "Classique",
+          "ring": "Anneau",
+          "scanner": "Scanner",
+          "pulse": "Pulsation",
+          "tile": "Tuile"
         },
         "notifications": {
           "card": "Carte",
@@ -1054,6 +1057,9 @@
           "filled": "Rempli",
           "plain": "Simple"
         }
+      },
+      "setting": {
+        "show_text": "Afficher le texte"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material analogique",
       "lockscreen": "Écran de verrouillage",
+      "stretched": "Étiré",
       "lumen": "Lumen",
       "lyrics": "Paroles",
       "simpleLyrics": "Paroles simples"

@@ -1043,8 +1043,11 @@
           "glass": "Cam"
         },
         "fingerprint": {
-          "labeled": "Etiketli",
-          "icon": "Yalnızca simge"
+          "classic": "Klasik",
+          "ring": "Halka",
+          "scanner": "Tarayıcı",
+          "pulse": "Nabız",
+          "tile": "Karo"
         },
         "notifications": {
           "card": "Kart",
@@ -1054,6 +1057,9 @@
           "filled": "Dolgulu",
           "plain": "Sade"
         }
+      },
+      "setting": {
+        "show_text": "Metni göster"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material Analog",
       "lockscreen": "Kilit ekranı",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Şarkı Sözleri",
       "simpleLyrics": "Basit Şarkı Sözleri"

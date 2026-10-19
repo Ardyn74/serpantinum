@@ -10,9 +10,15 @@ Item {
     property real minHeight: 80
     property real maxWidth: 1600
     property real maxHeight: 800
-    property real minAspect: 1.2
-    property real maxAspect: 4.0
+    property real minAspect: 0.8
+    property real maxAspect: 2.8
     property bool isRound: false
+
+    readonly property bool isStacked: (width / height) < 1.25
+    readonly property color hourColor: ThemeBackend.mauve
+    readonly property color minuteColor: ThemeBackend.text
+    readonly property color dateColor: ThemeBackend.subtext0
+    readonly property string stackedDateText: root.meridiemText !== "" ? root.meridiemText + "  ·  " + root.dateText : root.dateText
 
     property var currentTime: (typeof DateTime !== "undefined" && DateTime.now) ? DateTime.now : new Date()
     property string timeFormat: {
@@ -37,24 +43,55 @@ Item {
 
     component ShadowText: Text {
         font.family: ThemeBackend.fontFamily
-        color: "#ffffff"
+        font.weight: Font.Bold
 
         Text {
             anchors.fill: parent
-            anchors.topMargin: Scaler.s(1.5)
-            anchors.bottomMargin: -Scaler.s(1.5)
+            anchors.topMargin: Scaler.s(3)
+            anchors.bottomMargin: -Scaler.s(3)
             font.family: parent.font.family
             font.pixelSize: parent.font.pixelSize
             font.weight: parent.font.weight
             font.letterSpacing: parent.font.letterSpacing
-            color: Qt.rgba(0, 0, 0, 0.16)
+            color: Qt.rgba(0, 0, 0, 0.32)
             text: parent.text
             z: -1
         }
     }
 
     ColumnLayout {
-        id: content
+        visible: root.isStacked
+        anchors.centerIn: parent
+        spacing: Scaler.s(8)
+        scale: Math.min(root.width / Math.max(1, implicitWidth), root.height / Math.max(1, implicitHeight))
+
+        ShadowText {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.bottomMargin: -Scaler.s(28)
+            text: root.hoursText
+            color: root.hourColor
+            font.pixelSize: Scaler.s(150)
+        }
+
+        ShadowText {
+            Layout.alignment: Qt.AlignHCenter
+            text: root.minutesText
+            color: root.minuteColor
+            font.pixelSize: Scaler.s(150)
+        }
+
+        ShadowText {
+            Layout.alignment: Qt.AlignHCenter
+            text: root.stackedDateText
+            color: root.dateColor
+            font.pixelSize: Scaler.s(16)
+            font.weight: Font.Medium
+            font.letterSpacing: 1.4
+        }
+    }
+
+    ColumnLayout {
+        visible: !root.isStacked
         anchors.centerIn: parent
         spacing: Scaler.s(8)
         scale: Math.min(root.width / Math.max(1, implicitWidth), root.height / Math.max(1, implicitHeight))
@@ -65,19 +102,20 @@ Item {
 
             ShadowText {
                 text: root.hoursText
+                color: root.hourColor
                 font.pixelSize: Scaler.s(120)
             }
 
             ShadowText {
                 Layout.alignment: Qt.AlignVCenter
                 text: ":"
+                color: root.dateColor
                 font.pixelSize: Scaler.s(80)
-                font.weight: Font.Light
-                opacity: 0.75
             }
 
             ShadowText {
                 text: root.minutesText
+                color: root.minuteColor
                 font.pixelSize: Scaler.s(120)
             }
 
@@ -86,19 +124,18 @@ Item {
                 Layout.alignment: Qt.AlignBottom
                 Layout.bottomMargin: Scaler.s(24)
                 text: root.meridiemText
+                color: root.dateColor
                 font.pixelSize: Scaler.s(28)
-                font.weight: Font.Bold
-                opacity: 0.8
             }
         }
 
         ShadowText {
             Layout.alignment: Qt.AlignHCenter
             text: root.dateText
-            font.pixelSize: Scaler.s(14)
-            font.weight: Font.Bold
+            color: root.dateColor
+            font.pixelSize: Scaler.s(16)
+            font.weight: Font.Medium
             font.letterSpacing: 1.4
-            opacity: 0.85
         }
     }
 }

@@ -1043,8 +1043,11 @@
           "glass": "玻璃"
         },
         "fingerprint": {
-          "labeled": "带标签",
-          "icon": "仅图标"
+          "classic": "经典",
+          "ring": "环形",
+          "scanner": "扫描仪",
+          "pulse": "脉冲",
+          "tile": "方块"
         },
         "notifications": {
           "card": "卡片",
@@ -1054,6 +1057,9 @@
           "filled": "填充",
           "plain": "简洁"
         }
+      },
+      "setting": {
+        "show_text": "显示文字"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material 模拟指针",
       "lockscreen": "锁屏",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "歌词",
       "simpleLyrics": "简易歌词"

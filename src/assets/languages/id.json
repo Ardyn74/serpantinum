@@ -1043,8 +1043,11 @@
           "glass": "Kaca"
         },
         "fingerprint": {
-          "labeled": "Berlabel",
-          "icon": "Ikon saja"
+          "classic": "Klasik",
+          "ring": "Cincin",
+          "scanner": "Pemindai",
+          "pulse": "Denyut",
+          "tile": "Ubin"
         },
         "notifications": {
           "card": "Kartu",
@@ -1054,6 +1057,9 @@
           "filled": "Terisi",
           "plain": "Polos"
         }
+      },
+      "setting": {
+        "show_text": "Tampilkan teks"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material Analog",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Lirik",
       "simpleLyrics": "Lirik Sederhana"

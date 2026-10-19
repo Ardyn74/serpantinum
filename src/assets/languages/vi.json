@@ -1043,8 +1043,11 @@
           "glass": "Kính"
         },
         "fingerprint": {
-          "labeled": "Có nhãn",
-          "icon": "Chỉ biểu tượng"
+          "classic": "Cổ điển",
+          "ring": "Vòng",
+          "scanner": "Máy quét",
+          "pulse": "Nhịp",
+          "tile": "Ô vuông"
         },
         "notifications": {
           "card": "Thẻ",
@@ -1054,6 +1057,9 @@
           "filled": "Đặc",
           "plain": "Đơn giản"
         }
+      },
+      "setting": {
+        "show_text": "Hiện văn bản"
       }
     }
   },
@@ -1470,6 +1476,7 @@
       "material": "Material",
       "materialAnalog": "Material kim",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Lời bài hát",
       "simpleLyrics": "Lời bài hát đơn giản"

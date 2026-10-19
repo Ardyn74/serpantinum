@@ -1043,8 +1043,11 @@
           "glass": "Стъкло"
         },
         "fingerprint": {
-          "labeled": "С етикет",
-          "icon": "Само иконка"
+          "classic": "Класически",
+          "ring": "Пръстен",
+          "scanner": "Скенер",
+          "pulse": "Пулс",
+          "tile": "Плочка"
         },
         "notifications": {
           "card": "Карта",
@@ -1054,6 +1057,9 @@
           "filled": "Запълнен",
           "plain": "Обикновен"
         }
+      },
+      "setting": {
+        "show_text": "Показване на текст"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "Material",
       "materialAnalog": "Material Аналогов",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "Lumen",
       "lyrics": "Текст",
       "simpleLyrics": "Опростен текст"

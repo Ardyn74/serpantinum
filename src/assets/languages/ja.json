@@ -109,8 +109,11 @@
           "glass": "ガラス"
         },
         "fingerprint": {
-          "labeled": "ラベル付き",
-          "icon": "アイコンのみ"
+          "classic": "クラシック",
+          "ring": "リング",
+          "scanner": "スキャナー",
+          "pulse": "パルス",
+          "tile": "タイル"
         },
         "notifications": {
           "card": "カード",
@@ -120,6 +123,9 @@
           "filled": "塗りつぶし",
           "plain": "シンプル"
         }
+      },
+      "setting": {
+        "show_text": "テキストを表示"
       }
     }
   },
@@ -539,6 +545,7 @@
       "material": "マテリアル",
       "materialAnalog": "マテリアルアナログ",
       "lockscreen": "ロック画面",
+      "stretched": "Stretched",
       "lumen": "ルーメン",
       "lyrics": "歌詞",
       "simpleLyrics": "シンプル歌詞"

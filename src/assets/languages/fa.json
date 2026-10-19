@@ -1043,8 +1043,11 @@
           "glass": "شیشه‌ای"
         },
         "fingerprint": {
-          "labeled": "با برچسب",
-          "icon": "فقط نماد"
+          "classic": "کلاسیک",
+          "ring": "حلقه",
+          "scanner": "اسکنر",
+          "pulse": "نبض",
+          "tile": "کاشی"
         },
         "notifications": {
           "card": "کارت",
@@ -1054,6 +1057,9 @@
           "filled": "توپر",
           "plain": "ساده"
         }
+      },
+      "setting": {
+        "show_text": "نمایش متن"
       }
     }
   },
@@ -1473,6 +1479,7 @@
       "material": "متریال",
       "materialAnalog": "متریال عقربه‌ای",
       "lockscreen": "Lockscreen",
+      "stretched": "Stretched",
       "lumen": "لومن",
       "lyrics": "متن ترانه",
       "simpleLyrics": "متن ترانه ساده"
