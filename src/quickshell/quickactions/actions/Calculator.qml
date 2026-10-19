@@ -779,7 +779,7 @@ Item {
                                     cellWidth: keypad.unitW
                                     cellHeight: keypad.unitH
                                     keyMargin: Math.round(root.s(2))
-                                    cornerRadius: ThemeBackend.borderRadius
+                                    cornerRadius: Math.round(root.s(10))
                                     textFontSize: Math.round(root.s(13))
                                     buttonText: root.sciLabel(modelData)
                                     kind: modelData === "angle" ? "operator" : "normal"
@@ -808,7 +808,7 @@ Item {
                             cellWidth: keypad.unitW
                             cellHeight: keypad.unitH
                             keyMargin: Math.round(root.s(2))
-                            cornerRadius: ThemeBackend.borderRadius
+                            cornerRadius: Math.round(root.s(10))
                             textFontSize: Math.round(root.s(17))
                             iconFontSize: Math.round(root.s(16))
                             buttonText: modelData.label !== undefined ? modelData.label : ""
