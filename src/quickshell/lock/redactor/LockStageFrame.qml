@@ -1,5 +1,6 @@
 import QtQuick
 import "../../"
+import "../"
 
 Item {
     id: frame
@@ -9,6 +10,7 @@ Item {
     property real k: 0.5
     property bool current: false
     property string wallpaper: ""
+    property string videoPath: ""
     default property alias content: contentItem.data
     signal activated()
 
@@ -30,6 +32,14 @@ Item {
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             sourceSize: Qt.size(frame.width, frame.height)
+        }
+
+        Loader {
+            anchors.fill: parent
+            active: frame.videoPath !== ""
+            sourceComponent: VideoLock {
+                wallpaperPath: frame.videoPath
+            }
         }
 
         Rectangle {

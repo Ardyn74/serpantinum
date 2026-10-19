@@ -60,7 +60,28 @@ Scope {
                 readonly property string monitorName: root.targetMonitorName !== "" ? root.targetMonitorName : (Quickshell.screens.length > 0 ? Quickshell.screens[0].name : "")
                 readonly property var targetScreen: Quickshell.screens.find(s => s.name === win.monitorName) || (Quickshell.screens.length > 0 ? Quickshell.screens[0] : null)
                 readonly property string safeMonitorName: (win.monitorName || "default").replace(/[^a-zA-Z0-9_-]/g, "_")
-                readonly property string wallpaperSource: "file://" + Caching.getCacheDir("wallpaper") + "/current_wallpaper_" + win.monitorName + ".png"
+                readonly property var lockSettings: Config.getSetting("lockscreen", {})
+                readonly property string customBackgroundPath: lockSettings.customBackground ? String(lockSettings.customBackground) : ""
+                readonly property bool customBackgroundActive: lockSettings.backgroundMode === "custom" && customBackgroundPath !== ""
+                readonly property string desktopWallpaperPath: {
+                    Wallpaper.screenWallpaperPaths;
+                    return Wallpaper.getWallpaperPath(win.monitorName);
+                }
+                readonly property string backgroundPath: customBackgroundActive ? customBackgroundPath : desktopWallpaperPath
+                readonly property bool backgroundIsVideo: {
+                    let lp = win.backgroundPath.toLowerCase();
+                    return lp.endsWith(".mp4") || lp.endsWith(".mkv") || lp.endsWith(".mov") || lp.endsWith(".webm");
+                }
+                readonly property string videoPath: win.backgroundIsVideo ? win.backgroundPath : ""
+                readonly property string wallpaperSource: {
+                    if (win.customBackgroundActive && !win.backgroundIsVideo) {
+                        return "file://" + win.customBackgroundPath;
+                    }
+                    if (win.customBackgroundActive) {
+                        return "";
+                    }
+                    return "file://" + Caching.getCacheDir("wallpaper") + "/current_wallpaper_" + win.monitorName + ".png";
+                }
 
                 screen: win.targetScreen
 
@@ -225,6 +246,7 @@ Scope {
                             k: ui.k
                             current: win.page === 0
                             wallpaper: win.wallpaperSource
+                            videoPath: win.videoPath
                             x: pager.width / 2 + (0 - win.pageProgress) * (width + ui.frameGap) - width / 2
                             y: (pager.height - height) / 2
                             opacity: Math.max(0.3, 1 - distance * 0.7)
@@ -251,6 +273,7 @@ Scope {
                             k: ui.k
                             current: win.page === 1
                             wallpaper: win.wallpaperSource
+                            videoPath: win.videoPath
                             x: pager.width / 2 + (1 - win.pageProgress) * (width + ui.frameGap) - width / 2
                             y: (pager.height - height) / 2
                             opacity: Math.max(0.3, 1 - distance * 0.7)
