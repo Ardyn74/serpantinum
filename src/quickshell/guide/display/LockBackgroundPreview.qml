@@ -13,6 +13,9 @@ Item {
     readonly property bool following: tab.currentBackgroundMode === "follow"
     readonly property string shownPath: tab.effectiveBackgroundPath
     readonly property bool shownIsVideo: tab.effectiveBackgroundIsVideo
+    readonly property string wallpaperPath: tab.currentWallpaperPath
+    readonly property string customPath: tab.currentCustomBackground
+    readonly property bool wallpaperIsVideo: tab.isVideoPath(preview.wallpaperPath)
     readonly property bool customVideo: !preview.following && tab.customBackgroundActive && preview.shownIsVideo
 
     Layout.alignment: Qt.AlignHCenter
@@ -42,8 +45,11 @@ Item {
     Item {
         id: cardContent
         anchors.fill: parent
-        visible: false
         layer.enabled: true
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: cardMask
+        }
 
         Rectangle {
             anchors.fill: parent
@@ -52,11 +58,23 @@ Item {
 
         Image {
             anchors.fill: parent
-            visible: !preview.customVideo && source !== ""
-            source: {
-                if (preview.shownIsVideo) return "file://" + Caching.getCacheDir("wallpaper") + "/current_wallpaper.png?rev=" + preview.tab.currentBackgroundMode;
-                return preview.shownPath !== "" ? "file://" + preview.shownPath : "";
-            }
+            visible: opacity > 0 && source !== ""
+            opacity: preview.tab.customBackgroundActive ? 0.0 : 1.0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            source: preview.wallpaperPath !== "" && !preview.wallpaperIsVideo ? "file://" + preview.wallpaperPath : ""
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
+            smooth: true
+            mipmap: true
+            cache: false
+        }
+
+        Image {
+            anchors.fill: parent
+            visible: opacity > 0 && source !== ""
+            opacity: preview.tab.customBackgroundActive && !preview.customVideo ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            source: preview.customPath !== "" && !preview.tab.isVideoPath(preview.customPath) ? "file://" + preview.customPath : ""
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
             smooth: true
@@ -66,9 +84,17 @@ Item {
 
         Loader {
             anchors.fill: parent
+            active: preview.wallpaperIsVideo && !preview.tab.customBackgroundActive
+            sourceComponent: VideoLock {
+                wallpaperPath: preview.wallpaperPath
+            }
+        }
+
+        Loader {
+            anchors.fill: parent
             active: preview.customVideo
             sourceComponent: VideoLock {
-                wallpaperPath: preview.shownPath
+                wallpaperPath: preview.customPath
             }
         }
 
@@ -90,13 +116,6 @@ Item {
             opacity: preview.following ? 1.0 : 0.0
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
-    }
-
-    MultiEffect {
-        anchors.fill: parent
-        source: cardContent
-        maskEnabled: true
-        maskSource: cardMask
     }
 
     ColumnLayout {
@@ -122,19 +141,6 @@ Item {
             font.weight: Font.Bold
             color: ThemeBackend.text
         }
-    }
-
-    IconButton {
-        visible: preview.shownIsVideo && preview.following
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: rootObj.s(44)
-        size: rootObj.s(36)
-        cornerRadius: rootObj.s(12)
-        iconFontSize: rootObj.s(16)
-        buttonIcon: "󰐊"
-        accentColor: ThemeBackend.surface0
-        textColor: ThemeBackend.text
-        enabled: false
     }
 
     RowLayout {
