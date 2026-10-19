@@ -81,7 +81,12 @@ Scope {
 
                 property int page: 0
 
-                Component.onCompleted: LockLayoutStore.setReference(win.screenW, win.screenH)
+                Component.onCompleted: {
+                    LockLayoutStore.setReference(win.screenW, win.screenH);
+                    LockLayoutStore.beginHistory();
+                }
+
+                Component.onDestruction: LockLayoutStore.endHistory()
                 property real pageProgress: win.page
                 property bool gridScreen: false
                 property bool gridPanel: true
@@ -160,6 +165,16 @@ Scope {
                 Shortcut {
                     sequence: "Right"
                     onActivated: win.go(1)
+                }
+
+                Shortcut {
+                    sequence: "Ctrl+Z"
+                    onActivated: LockLayoutStore.undo()
+                }
+
+                Shortcut {
+                    sequences: ["Ctrl+Shift+Z", "Ctrl+Y"]
+                    onActivated: LockLayoutStore.redo()
                 }
 
                 Shortcut {

@@ -46,6 +46,10 @@ QtObject {
     property bool loaded: false
     property string lastWrittenText: ""
 
+    property var historyStack: []
+    property int historyIndex: -1
+    property bool historyActive: false
+
     readonly property string stateDir: Caching.getStateDir("lockscreen")
     readonly property string filePath: root.stateDir + "/layout.json"
 
@@ -139,7 +143,57 @@ QtObject {
 
     function touch() {
         root.revision++;
-        if (!root.applying) saveTimer.restart();
+        if (root.applying) return;
+        saveTimer.restart();
+        if (root.historyActive) historyTimer.restart();
+    }
+
+    function beginHistory() {
+        root.historyActive = true;
+        root.historyStack = [];
+        root.historyIndex = -1;
+        historyTimer.stop();
+        historyBaseline.restart();
+    }
+
+    function endHistory() {
+        historyBaseline.stop();
+        historyTimer.stop();
+        root.historyActive = false;
+        root.historyStack = [];
+        root.historyIndex = -1;
+    }
+
+    function commitHistory() {
+        historyTimer.stop();
+        if (!root.historyActive || root.historyIndex < 0) return;
+        let text = root.serialize();
+        if (root.historyStack[root.historyIndex] === text) return;
+        let stack = root.historyStack.slice(0, root.historyIndex + 1);
+        stack.push(text);
+        if (stack.length > 100) stack.shift();
+        root.historyStack = stack;
+        root.historyIndex = stack.length - 1;
+    }
+
+    function stepHistory(delta) {
+        root.commitHistory();
+        let target = root.historyIndex + delta;
+        if (!root.historyActive || target < 0 || target >= root.historyStack.length) return;
+        if (!root.applyText(root.historyStack[target])) return;
+        let stack = root.historyStack.slice();
+        stack[target] = root.serialize();
+        root.historyStack = stack;
+        root.historyIndex = target;
+        root.touch();
+    }
+
+    function undo() {
+        root.stepHistory(-1);
+    }
+
+    function redo() {
+        root.stepHistory(1);
     }
 
     function findItem(id) {
@@ -356,6 +410,21 @@ QtObject {
         }
         if (trimmed === root.lastWrittenText.trim()) return;
         if (!root.applyText(trimmed) && !root.loaded) root.applyDefaults();
+    }
+
+    property Timer historyTimer: Timer {
+        interval: 600
+        repeat: false
+        onTriggered: root.commitHistory()
+    }
+
+    property Timer historyBaseline: Timer {
+        interval: 800
+        repeat: false
+        onTriggered: {
+            root.historyStack = [root.serialize()];
+            root.historyIndex = 0;
+        }
     }
 
     property Timer saveTimer: Timer {
