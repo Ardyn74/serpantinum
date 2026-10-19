@@ -11,8 +11,28 @@ QtObject {
     readonly property real screenW: Quickshell.screens.length > 0 ? Quickshell.screens[0].width : 1920
     readonly property real screenH: Quickshell.screens.length > 0 ? Quickshell.screens[0].height : 1080
 
-    property real panelW: 1280
-    property real panelH: 580
+    readonly property real defaultPanelW: 1280
+    readonly property real defaultPanelH: 566
+    readonly property var legacyPanelSize: ({ w: 1280, h: 580 })
+    readonly property var legacyPanelItems: [
+        ["widget:weather", "full", 20, 20, 380, 182],
+        ["widget:cpu", "default", 20, 210, 186, 170],
+        ["widget:ram", "default", 214, 210, 186, 170],
+        ["widget:temp", "default", 20, 388, 186, 170],
+        ["widget:disk", "default", 214, 388, 186, 170],
+        ["avatar", "round", 540, 20, 200, 200],
+        ["user", "filled", 450, 236, 185, 44],
+        ["lockstatus", "filled", 645, 236, 185, 44],
+        ["password", "filled", 450, 288, 380, 44],
+        ["keyboard", "filled", 450, 340, 185, 44],
+        ["battery", "filled", 645, 340, 185, 44],
+        ["fingerprint", "labeled", 640, 450, 0, 0],
+        ["notifications", "card", 860, 20, 400, 440],
+        ["widget:music", "full", 860, 468, 400, 92]
+    ]
+
+    property real panelW: root.defaultPanelW
+    property real panelH: root.defaultPanelH
     property real panelX: -1
     property real panelOpacity: 1.0
     property real refW: 1920
@@ -63,11 +83,11 @@ QtObject {
 
     function defaultPanelItems() {
         return [
-            root.makeEntry("widget:weather", "full", 20, 20, 380, 182),
-            root.makeEntry("widget:cpu", "default", 20, 210, 186, 170),
-            root.makeEntry("widget:ram", "default", 214, 210, 186, 170),
-            root.makeEntry("widget:temp", "default", 20, 388, 186, 170),
-            root.makeEntry("widget:disk", "default", 214, 388, 186, 170),
+            root.makeEntry("widget:weather", "full", 20, 20, 380, 190),
+            root.makeEntry("widget:cpu", "default", 20, 218, 186, 160),
+            root.makeEntry("widget:ram", "default", 214, 218, 186, 160),
+            root.makeEntry("widget:temp", "default", 20, 386, 186, 160),
+            root.makeEntry("widget:disk", "default", 214, 386, 186, 160),
             root.makeEntry("avatar", "round", 540, 20, 200, 200),
             root.makeEntry("user", "filled", 450, 236, 185, 44),
             root.makeEntry("lockstatus", "filled", 645, 236, 185, 44),
@@ -75,8 +95,8 @@ QtObject {
             root.makeEntry("keyboard", "filled", 450, 340, 185, 44),
             root.makeEntry("battery", "filled", 645, 340, 185, 44),
             root.makeEntry("fingerprint", "labeled", 640, 450, 0, 0),
-            root.makeEntry("notifications", "card", 860, 20, 400, 440),
-            root.makeEntry("widget:music", "full", 860, 468, 400, 92)
+            root.makeEntry("notifications", "card", 860, 20, 400, 422),
+            root.makeEntry("widget:music", "full", 860, 450, 400, 96)
         ];
     }
 
@@ -164,8 +184,8 @@ QtObject {
     function resetScope(scope) {
         root.applying = true;
         if (scope === "panel") {
-            root.panelW = 1280;
-            root.panelH = 580;
+            root.panelW = root.defaultPanelW;
+            root.panelH = root.defaultPanelH;
             root.panelX = -1;
             root.panelY = -1;
             root.panelOpacity = 1.0;
@@ -187,8 +207,8 @@ QtObject {
 
     function applyDefaults() {
         root.applying = true;
-        root.panelW = 1280;
-        root.panelH = 580;
+        root.panelW = root.defaultPanelW;
+        root.panelH = root.defaultPanelH;
         root.panelX = -1;
         root.panelY = -1;
         root.panelOpacity = 1.0;
@@ -261,6 +281,22 @@ QtObject {
         }
     }
 
+    function isLegacyPanel(data) {
+        let p = data.panel || {};
+        let list = Array.isArray(data.items) ? data.items : [];
+        let legacy = root.legacyPanelItems;
+        if (Number(p.w) !== root.legacyPanelSize.w || Number(p.h) !== root.legacyPanelSize.h) return false;
+        if (list.length !== legacy.length) return false;
+        for (let i = 0; i < legacy.length; i++) {
+            let e = list[i] || {};
+            let l = legacy[i];
+            if (e.itype !== l[0] || e.ivariant !== l[1]) return false;
+            if (Math.round(Number(e.ix)) !== l[2] || Math.round(Number(e.iy)) !== l[3]) return false;
+            if (Math.round(Number(e.iw)) !== l[4] || Math.round(Number(e.ih)) !== l[5]) return false;
+        }
+        return true;
+    }
+
     function applyText(text) {
         let data = null;
         try {
@@ -272,8 +308,9 @@ QtObject {
 
         root.applying = true;
         let p = data.panel || {};
-        root.panelW = Math.max(240, Number(p.w) || 1280);
-        root.panelH = Math.max(160, Number(p.h) || 580);
+        let legacy = root.isLegacyPanel(data);
+        root.panelW = legacy ? root.defaultPanelW : Math.max(240, Number(p.w) || root.defaultPanelW);
+        root.panelH = legacy ? root.defaultPanelH : Math.max(160, Number(p.h) || root.defaultPanelH);
         root.panelOpacity = p.opacity !== undefined ? Math.max(0, Math.min(1, Number(p.opacity))) : 1.0;
         let r = data.ref || {};
         root.refW = Number(r.w) > 0 ? Number(r.w) : root.screenW;
@@ -281,7 +318,8 @@ QtObject {
         root.panelX = p.x !== undefined && Number(p.x) >= 0 ? Number(p.x) : -1;
         root.panelY = p.y !== undefined && Number(p.y) >= 0 ? Number(p.y) : -1;
         root.loadList("screen", Array.isArray(data.screen) ? data.screen : []);
-        root.loadList("panel", Array.isArray(data.items) ? data.items : []);
+        if (legacy) root.fill(root.panelItems, root.defaultPanelItems());
+        else root.loadList("panel", Array.isArray(data.items) ? data.items : []);
         root.ensurePassword();
         root.applying = false;
         root.revision++;
