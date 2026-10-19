@@ -27,8 +27,8 @@ Item {
     property real baseW: s(advanced ? 580 : 380)
     property real baseL: s(advanced ? 420 : 350)
 
-    property real preferredWidth: (root.safeActiveEdge === "bottom" || root.safeActiveEdge === "top") ? baseL + 50 : baseW
-    property real preferredExtraLength: (root.safeActiveEdge === "bottom" || root.safeActiveEdge === "top") ? baseW : baseL
+    property real preferredWidth: (root.safeActiveEdge === "bottom" || root.safeActiveEdge === "top") ? baseL + s(100) : baseW
+    property real preferredExtraLength: (root.safeActiveEdge === "bottom" || root.safeActiveEdge === "top") ? baseW - s(60) : baseL
 
     property real counterRotation: {
         if (root.safeActiveEdge === "right") return 180;
@@ -40,6 +40,7 @@ Item {
     property string expr: ""
     property string preview: ""
     property string lastExpr: ""
+    property string repeatSuffix: ""
     property string errorCode: ""
     property bool evaluated: false
     property string angleMode: "deg"
@@ -174,12 +175,14 @@ Item {
     }
 
     function typed(text) {
+        let wantsEquals = String(text).indexOf("=") !== -1;
         let clean = Engine.sanitizeTyped(text);
         root.evaluated = false;
         root.lastExpr = "";
         root.errorCode = "";
         root.expr = clean;
         if (field.text !== clean) field.text = clean;
+        if (wantsEquals) root.equals();
     }
 
     function recompute() {
@@ -335,14 +338,35 @@ Item {
         root.saveState();
     }
 
+    function trailingOperation(expression) {
+        let depth = 0;
+        let found = -1;
+        for (let i = 0; i < expression.length; i++) {
+            let ch = expression.charAt(i);
+            if (ch === "(") depth++;
+            else if (ch === ")") depth--;
+            else if (depth === 0 && i > 0 && "+−×÷^".indexOf(ch) !== -1) {
+                let prev = expression.slice(0, i).replace(/\s+$/, "").slice(-1);
+                if (prev !== "" && (root.isDigit(prev) || prev === ")" || prev === "π" || prev === "e" || prev === "%" || prev === "!")) found = i;
+            }
+        }
+        return found === -1 ? "" : expression.slice(found).replace(/\s+$/, "");
+    }
+
     function equals() {
-        if (root.evaluated) return;
-        let e = Engine.trimTrailing(root.expr);
+        let repeating = root.evaluated;
+        let source = root.expr;
+        if (repeating) {
+            if (root.repeatSuffix === "") return;
+            source = (source.charAt(0) === "−" ? "(" + source + ")" : source) + root.repeatSuffix;
+        }
+        let e = Engine.trimTrailing(source);
         if (e === "") return;
         let closed = Engine.closeParens(e);
         try {
             let text = Engine.format(Engine.evaluate(closed, root.angleMode));
             if (closed !== text) root.pushHistory(closed, text);
+            if (!repeating) root.repeatSuffix = root.trailingOperation(closed);
             root.errorCode = "";
             root.preview = "";
             root.lastExpr = closed;
@@ -355,14 +379,17 @@ Item {
 
     function insertText(text) {
         let t = Engine.normalizeClipboard(text || "");
-        if (t === "" || t.length > 256 || !Engine.isValid(t)) return;
+        if (t === "" || t.length > 256 || !Engine.isValid(t)) {
+            root.errorCode = "paste";
+            return;
+        }
         root.beginEntry();
         root.expr += t;
     }
 
     function copyText(text) {
         if (!text) return;
-        Quickshell.execDetached(["sh", "-c", "command -v wl-copy >/dev/null 2>&1 && printf '%s' \"$1\" | wl-copy", "sh", Engine.toPlain(text)]);
+        Quickshell.execDetached(["wl-copy", "--", Engine.toPlain(text)]);
         root.copiedFlash = true;
         copiedTimer.restart();
     }

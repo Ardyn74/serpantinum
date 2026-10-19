@@ -1245,7 +1245,8 @@
       "error": {
         "syntax": "Yanlış ifadə",
         "div0": "Sıfıra bölmək olmaz",
-        "domain": "Yanlış giriş"
+        "domain": "Yanlış giriş",
+        "paste": "Yanlış yapışdırma"
       }
     },
     "tabs": {

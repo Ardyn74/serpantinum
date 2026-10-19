@@ -1298,7 +1298,8 @@
       "error": {
         "syntax": "Ungültiger Ausdruck",
         "div0": "Division durch null nicht möglich",
-        "domain": "Ungültige Eingabe"
+        "domain": "Ungültige Eingabe",
+        "paste": "Ungültiges Einfügen"
       }
     },
     "tabs": {

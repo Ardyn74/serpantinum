@@ -1264,7 +1264,8 @@
       "error": {
         "syntax": "Invalid expression",
         "div0": "Can't divide by zero",
-        "domain": "Invalid input"
+        "domain": "Invalid input",
+        "paste": "Invalid paste"
       }
     },
     "tabs": {

@@ -1254,7 +1254,8 @@
       "error": {
         "syntax": "Ekspresi tidak valid",
         "div0": "Tidak dapat membagi dengan nol",
-        "domain": "Masukan tidak valid"
+        "domain": "Masukan tidak valid",
+        "paste": "Tempel tidak valid"
       }
     },
     "tabs": {

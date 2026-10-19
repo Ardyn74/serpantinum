@@ -1251,7 +1251,8 @@
       "error": {
         "syntax": "Biểu thức không hợp lệ",
         "div0": "Không thể chia cho không",
-        "domain": "Đầu vào không hợp lệ"
+        "domain": "Đầu vào không hợp lệ",
+        "paste": "Dán không hợp lệ"
       }
     },
     "tabs": {

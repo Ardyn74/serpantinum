@@ -1254,7 +1254,8 @@
       "error": {
         "syntax": "Ongeldige uitdrukking",
         "div0": "Delen door nul is niet mogelijk",
-        "domain": "Ongeldige invoer"
+        "domain": "Ongeldige invoer",
+        "paste": "Ongeldig plakken"
       }
     },
     "tabs": {

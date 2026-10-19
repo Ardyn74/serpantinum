@@ -1254,7 +1254,8 @@
       "error": {
         "syntax": "Expression invalide",
         "div0": "Division par zéro impossible",
-        "domain": "Entrée invalide"
+        "domain": "Entrée invalide",
+        "paste": "Collage invalide"
       }
     },
     "tabs": {

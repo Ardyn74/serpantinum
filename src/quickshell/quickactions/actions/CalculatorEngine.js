@@ -342,7 +342,8 @@ function normalizeClipboard(text) {
 
 function sanitizeTyped(text) {
     return String(text)
-        .replace(/\*/g, "×").replace(/\//g, "÷").replace(/[-–]/g, "−").replace(/,/g, ".")
+        .replace(/[*·]/g, "×").replace(/[\/:]/g, "÷").replace(/[-–]/g, "−").replace(/,/g, ".")
+        .replace(/[\[{]/g, "(").replace(/[\]}]/g, ")")
         .replace(/[^0-9A-Za-z+−×÷^%!().πE√∛⁻¹ ]/g, "");
 }
 

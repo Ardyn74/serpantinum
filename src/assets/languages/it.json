@@ -1250,7 +1250,8 @@
       "error": {
         "syntax": "Espressione non valida",
         "div0": "Impossibile dividere per zero",
-        "domain": "Input non valido"
+        "domain": "Input non valido",
+        "paste": "Incolla non valido"
       }
     },
     "tabs": {

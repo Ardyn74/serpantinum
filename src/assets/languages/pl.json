@@ -323,7 +323,8 @@
       "error": {
         "syntax": "Nieprawidłowe wyrażenie",
         "div0": "Nie można dzielić przez zero",
-        "domain": "Nieprawidłowe dane"
+        "domain": "Nieprawidłowe dane",
+        "paste": "Nieprawidłowe wklejanie"
       }
     },
     "tabs": {

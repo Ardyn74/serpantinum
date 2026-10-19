@@ -1295,7 +1295,8 @@
       "error": {
         "syntax": "Expresión no válida",
         "div0": "No se puede dividir entre cero",
-        "domain": "Entrada no válida"
+        "domain": "Entrada no válida",
+        "paste": "Pegado no válido"
       }
     },
     "tabs": {

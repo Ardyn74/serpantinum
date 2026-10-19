@@ -1254,7 +1254,8 @@
       "error": {
         "syntax": "Geçersiz ifade",
         "div0": "Sıfıra bölünemez",
-        "domain": "Geçersiz giriş"
+        "domain": "Geçersiz giriş",
+        "paste": "Geçersiz yapıştırma"
       }
     },
     "tabs": {
