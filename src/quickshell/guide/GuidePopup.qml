@@ -785,6 +785,7 @@ Item {
         interval: 280
         repeat: true
         onTriggered: {
+            if (startupSequence.running || closeSequence.running) return;
             interval = 100;
             if (root.searchLoadCursor >= root.totalTabSlots) {
                 stop();
@@ -832,7 +833,7 @@ Item {
 
     Component.onCompleted: {
         if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
-            searchLoadTimer.interval = 600;
+            searchLoadTimer.interval = 300;
             searchLoadTimer.restart();
         }
         if (visible) {
