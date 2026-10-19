@@ -2187,7 +2187,7 @@ Scope {
                                                     gradColor1: ThemeBackend.mauve
                                                     gradColor2: Qt.lighter(ThemeBackend.mauve, 1.05)
                                                     gradColor3: Qt.lighter(ThemeBackend.mauve, 1.10)
-                                                    cornerRadius: s(8)
+                                                    cornerRadius: ThemeBackend.borderRadius
                                                     handleSize: s(16)
                                                     handleColor: Qt.lighter(ThemeBackend.mauve, 1.15)
                                                     handleHoverColor: Qt.lighter(ThemeBackend.mauve, 1.3)

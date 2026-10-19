@@ -296,7 +296,7 @@ Scope {
                             anchors.leftMargin: Scaler.s(32)
                             anchors.verticalCenter: parent.verticalCenter
                             size: Scaler.s(52)
-                            cornerRadius: Scaler.s(10)
+                            cornerRadius: ThemeBackend.borderRadius
                             buttonIcon: "󰅁"
                             iconFontSize: Scaler.s(24)
                             accentColor: ThemeBackend.surface0
@@ -312,7 +312,7 @@ Scope {
                             anchors.rightMargin: Scaler.s(32)
                             anchors.verticalCenter: parent.verticalCenter
                             size: Scaler.s(52)
-                            cornerRadius: Scaler.s(10)
+                            cornerRadius: ThemeBackend.borderRadius
                             buttonIcon: "󰅂"
                             iconFontSize: Scaler.s(24)
                             accentColor: ThemeBackend.surface0
@@ -572,7 +572,7 @@ Scope {
                                         gradColor1: ThemeBackend.mauve
                                         gradColor2: Qt.lighter(ThemeBackend.mauve, 1.05)
                                         gradColor3: Qt.lighter(ThemeBackend.mauve, 1.10)
-                                        cornerRadius: Scaler.s(8)
+                                        cornerRadius: ThemeBackend.borderRadius
                                         handleSize: Scaler.s(16)
                                         handleColor: Qt.lighter(ThemeBackend.mauve, 1.15)
                                         handleHoverColor: Qt.lighter(ThemeBackend.mauve, 1.3)

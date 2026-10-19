@@ -346,6 +346,7 @@ QtObject {
                     id: noLyricsToggle
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalPadding: 0
+                    cornerRadius: ThemeBackend.borderRadius
                     checked: settingRoot.targetWidget ? settingRoot.targetWidget.showNoLyrics !== false : true
                     accentColor: ThemeBackend.mauve
                     baseColor: ThemeBackend.surface1
