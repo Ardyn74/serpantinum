@@ -1046,8 +1046,7 @@
           "classic": "Klasik",
           "ring": "Cincin",
           "scanner": "Pemindai",
-          "pulse": "Denyut",
-          "tile": "Ubin"
+          "pulse": "Denyut"
         },
         "notifications": {
           "card": "Kartu",

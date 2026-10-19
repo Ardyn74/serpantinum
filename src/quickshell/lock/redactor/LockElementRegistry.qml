@@ -3,9 +3,63 @@ import QtQuick
 import "../../"
 import "../../widgets"
 import "../../bar"
+import "../../reusables"
 
 QtObject {
     id: registry
+
+    property Component showTextComponent: Component {
+        Item {
+            id: settingRoot
+            property var proxy: null
+            property var redactor: null
+
+            implicitWidth: showTextRow.implicitWidth + Scaler.s(20)
+            implicitHeight: Scaler.s(34)
+
+            Rectangle {
+                anchors.fill: parent
+                radius: ThemeBackend.borderRadius
+                color: showTextGlass.active ? "transparent" : ThemeBackend.surface0
+
+                GlassFill {
+                    id: showTextGlass
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: ThemeBackend.surface0
+                    tintAmount: 0.3
+                }
+            }
+
+            Row {
+                id: showTextRow
+                anchors.centerIn: parent
+                spacing: Scaler.s(8)
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: I18n.t("lock.redactor.setting.show_text", "Show text")
+                    font.family: ThemeBackend.fontFamily
+                    font.pixelSize: Scaler.s(11)
+                    font.bold: true
+                    color: ThemeBackend.text
+                }
+
+                Toggle {
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalPadding: 0
+                    checked: settingRoot.proxy ? settingRoot.proxy.pShowText : true
+                    accentColor: ThemeBackend.mauve
+                    baseColor: ThemeBackend.surface1
+                    handleColor: ThemeBackend.crust
+                    handleOffColor: ThemeBackend.text
+                    onToggled: function(c) {
+                        if (settingRoot.redactor && settingRoot.proxy) settingRoot.redactor.setWidgetProperty("showText", c, settingRoot.proxy.pId);
+                    }
+                }
+            }
+        }
+    }
 
     readonly property var lockTypeIds: ["clock", "avatar", "user", "lockstatus", "password", "fingerprint", "keyboard", "battery", "notifications"]
 
@@ -52,7 +106,12 @@ QtObject {
             file: "elements/LockFingerprintElement.qml",
             scopes: ["screen", "panel"],
             scaled: true,
-            variants: ["labeled", "icon"]
+            defaultVariant: "classic",
+            variants: ["classic", "ring", "scanner", "pulse"],
+            variantAliases: { "labeled": "classic", "icon": "classic" },
+            additionalSettings: [
+                { id: "showText", row: "bottom", component: registry.showTextComponent }
+            ]
         },
         "keyboard": {
             icon: String.fromCodePoint(0xF030C),
@@ -137,6 +196,13 @@ QtObject {
         if (!t) return [];
         if (t.barModule) return BarModuleRegistry.variantList(t.barModule).map(v => ({ id: v.id, name: v.name }));
         return t.variants.map(id => ({ id: id, name: I18n.t("lock.redactor.variant." + type + "." + id) }));
+    }
+
+    function additionalSettings(type, row) {
+        if (registry.isWidget(type)) return [];
+        let t = registry.types[type];
+        if (!t || !t.additionalSettings) return [];
+        return t.additionalSettings.filter(s => (s.row || "top") === row);
     }
 
     function hasVariant(type, variantId) {

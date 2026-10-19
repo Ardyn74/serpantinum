@@ -1046,8 +1046,7 @@
           "classic": "클래식",
           "ring": "링",
           "scanner": "스캐너",
-          "pulse": "펄스",
-          "tile": "타일"
+          "pulse": "펄스"
         },
         "notifications": {
           "card": "카드",

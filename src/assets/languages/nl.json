@@ -1046,8 +1046,7 @@
           "classic": "Klassiek",
           "ring": "Ring",
           "scanner": "Scanner",
-          "pulse": "Puls",
-          "tile": "Tegel"
+          "pulse": "Puls"
         },
         "notifications": {
           "card": "Kaart",

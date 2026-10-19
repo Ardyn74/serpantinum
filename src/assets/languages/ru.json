@@ -1090,8 +1090,7 @@
           "classic": "Классика",
           "ring": "Кольцо",
           "scanner": "Сканер",
-          "pulse": "Пульс",
-          "tile": "Плитка"
+          "pulse": "Пульс"
         },
         "notifications": {
           "card": "Карточка",

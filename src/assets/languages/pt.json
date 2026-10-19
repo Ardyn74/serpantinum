@@ -1046,8 +1046,7 @@
           "classic": "Clássico",
           "ring": "Anel",
           "scanner": "Scanner",
-          "pulse": "Pulso",
-          "tile": "Bloco"
+          "pulse": "Pulso"
         },
         "notifications": {
           "card": "Cartão",

@@ -482,6 +482,7 @@ Scope {
                             LockSettingsRepeater {
                                 row: "bottom"
                                 widgetKey: chrome.widgetKey
+                                elementType: chrome.pType
                                 proxy: win.selProxy
                                 scene: win.activeScene
                                 buttonComponent: defaultSettingButton

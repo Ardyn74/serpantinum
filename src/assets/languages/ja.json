@@ -112,8 +112,7 @@
           "classic": "クラシック",
           "ring": "リング",
           "scanner": "スキャナー",
-          "pulse": "パルス",
-          "tile": "タイル"
+          "pulse": "パルス"
         },
         "notifications": {
           "card": "カード",

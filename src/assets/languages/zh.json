@@ -1046,8 +1046,7 @@
           "classic": "经典",
           "ring": "环形",
           "scanner": "扫描仪",
-          "pulse": "脉冲",
-          "tile": "方块"
+          "pulse": "脉冲"
         },
         "notifications": {
           "card": "卡片",

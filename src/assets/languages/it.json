@@ -1045,8 +1045,7 @@
           "classic": "Classico",
           "ring": "Anello",
           "scanner": "Scanner",
-          "pulse": "Impulso",
-          "tile": "Riquadro"
+          "pulse": "Impulso"
         },
         "notifications": {
           "card": "Scheda",

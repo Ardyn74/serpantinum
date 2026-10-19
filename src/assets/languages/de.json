@@ -1090,8 +1090,7 @@
           "classic": "Klassisch",
           "ring": "Ring",
           "scanner": "Scanner",
-          "pulse": "Puls",
-          "tile": "Kachel"
+          "pulse": "Puls"
         },
         "notifications": {
           "card": "Karte",

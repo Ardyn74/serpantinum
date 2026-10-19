@@ -9,9 +9,11 @@ Item {
     property real glyphSize: 56
     property real labelPixelSize: 13
     property bool showLabel: true
+    property string look: "classic"
     property int attempts: 0
     property int maxAttempts: 5
 
+    readonly property bool tintGlyph: look === "ring" || look === "pulse"
     readonly property bool halted: status === "blocked" || status === "error"
     readonly property bool pulsing: status === "ready" || status === "hold"
     readonly property color accent: {
@@ -35,12 +37,23 @@ Item {
     property color shownAccent: accent
     property real shownFill: targetFill
     property real breath: 0.9
+    property real scanPos: 0
     SequentialAnimation {
         running: fp.visible && fp.status === "ready"
         loops: Animation.Infinite
         NumberAnimation { target: fp; property: "breath"; to: 0.72; duration: 1100; easing.type: Easing.InOutSine }
         NumberAnimation { target: fp; property: "breath"; to: 0.9; duration: 1100; easing.type: Easing.InOutSine }
     }
+
+    SequentialAnimation {
+        running: fp.visible && fp.look === "scanner" && fp.pulsing
+        loops: Animation.Infinite
+        NumberAnimation { target: fp; property: "scanPos"; to: 1; duration: fp.status === "hold" ? 500 : 1300; easing.type: Easing.InOutSine }
+        NumberAnimation { target: fp; property: "scanPos"; to: 0; duration: fp.status === "hold" ? 500 : 1300; easing.type: Easing.InOutSine }
+    }
+
+    onShownAccentChanged: { ringCanvas.requestPaint(); sweepCanvas.requestPaint(); bracketCanvas.requestPaint(); }
+    onShownFillChanged: ringCanvas.requestPaint()
 
     Behavior on shownAccent { ColorAnimation { duration: 220 } }
     Behavior on shownFill { NumberAnimation { duration: status === "success" ? 300 : 360; easing.type: Easing.OutCubic } }
@@ -54,6 +67,7 @@ Item {
         if (status === "success") {
             popAnim.restart();
             burstAnim.restart();
+            lockOnAnim.restart();
         } else if (status === "failed") {
             shakeAnim.restart();
             flashAnim.restart();
@@ -73,6 +87,7 @@ Item {
             width: fp.glyphSize * 1.28
             height: width
             radius: width / 2
+            visible: fp.look === "classic"
             color: Qt.rgba(fp.shownAccent.r, fp.shownAccent.g, fp.shownAccent.b, fp.halted ? 0.04 : 0.07)
         }
 
@@ -85,9 +100,10 @@ Item {
             color: fp.shownAccent
             opacity: 0
             scale: 1
+            visible: fp.look === "classic"
 
             SequentialAnimation {
-                running: fp.visible && fp.pulsing
+                running: fp.visible && fp.pulsing && fp.look === "classic"
                 loops: Animation.Infinite
                 onRunningChanged: if (!running) { rippleRing.opacity = 0; rippleRing.scale = 1; }
                 ParallelAnimation {
@@ -107,6 +123,7 @@ Item {
             color: ThemeBackend.green
             opacity: 0
             scale: 1
+            visible: fp.look !== "scanner"
 
             ParallelAnimation {
                 id: burstAnim
@@ -123,11 +140,155 @@ Item {
             radius: width / 2
             color: ThemeBackend.red
             opacity: 0
+            visible: fp.look !== "scanner"
 
             SequentialAnimation {
                 id: flashAnim
                 NumberAnimation { target: flashRing; property: "opacity"; to: 0.3; duration: 90; easing.type: Easing.OutQuad }
                 NumberAnimation { target: flashRing; property: "opacity"; to: 0; duration: 520; easing.type: Easing.OutCubic }
+            }
+        }
+
+        Canvas {
+            id: ringCanvas
+            anchors.centerIn: parent
+            width: fp.glyphSize * 1.5
+            height: width
+            visible: fp.look === "ring"
+            onWidthChanged: requestPaint()
+            onVisibleChanged: if (visible) requestPaint()
+            onPaint: {
+                let ctx = getContext("2d");
+                ctx.reset();
+                let lw = fp.glyphSize * 0.07;
+                let c = width / 2;
+                let r = (width - lw) / 2;
+                ctx.lineWidth = lw;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = Qt.rgba(fp.shownAccent.r, fp.shownAccent.g, fp.shownAccent.b, 0.2);
+                ctx.beginPath();
+                ctx.arc(c, c, r, 0, Math.PI * 2);
+                ctx.stroke();
+                if (fp.shownFill > 0.005) {
+                    ctx.strokeStyle = fp.shownAccent;
+                    ctx.beginPath();
+                    ctx.arc(c, c, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.min(1, fp.shownFill));
+                    ctx.stroke();
+                }
+            }
+        }
+
+        Canvas {
+            id: sweepCanvas
+            anchors.centerIn: parent
+            width: ringCanvas.width
+            height: width
+            visible: fp.look === "ring"
+            opacity: fp.pulsing && fp.shownFill < 0.05 ? 1 : 0
+            onWidthChanged: requestPaint()
+            onVisibleChanged: if (visible) requestPaint()
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            onPaint: {
+                let ctx = getContext("2d");
+                ctx.reset();
+                let lw = fp.glyphSize * 0.07;
+                let c = width / 2;
+                ctx.lineWidth = lw;
+                ctx.lineCap = "round";
+                ctx.strokeStyle = fp.shownAccent;
+                ctx.beginPath();
+                ctx.arc(c, c, (width - lw) / 2, -Math.PI / 2, -Math.PI / 2 + Math.PI * 0.5);
+                ctx.stroke();
+            }
+
+            RotationAnimation on rotation {
+                running: fp.visible && fp.look === "ring" && fp.pulsing
+                loops: Animation.Infinite
+                from: 0
+                to: 360
+                duration: fp.status === "hold" ? 900 : 2600
+            }
+        }
+
+        Repeater {
+            model: fp.look === "pulse" ? 3 : 0
+
+            Rectangle {
+                id: pulseRing
+                required property int index
+                anchors.centerIn: parent
+                width: fp.glyphSize * 1.1
+                height: width
+                radius: width / 2
+                color: "transparent"
+                border.width: Math.max(1, fp.glyphSize * 0.035)
+                border.color: fp.shownAccent
+                opacity: 0
+                scale: 1
+
+                SequentialAnimation {
+                    running: fp.visible && fp.pulsing
+                    loops: Animation.Infinite
+                    onRunningChanged: if (!running) { pulseRing.opacity = 0; pulseRing.scale = 1; }
+                    PauseAnimation { duration: pulseRing.index * (fp.status === "hold" ? 260 : 700) }
+                    ParallelAnimation {
+                        NumberAnimation { target: pulseRing; property: "scale"; from: 1; to: 1.5; duration: fp.status === "hold" ? 800 : 2100; easing.type: Easing.OutCubic }
+                        NumberAnimation { target: pulseRing; property: "opacity"; from: 0.55; to: 0; duration: fp.status === "hold" ? 800 : 2100; easing.type: Easing.OutQuad }
+                    }
+                    PauseAnimation { duration: (2 - pulseRing.index) * (fp.status === "hold" ? 260 : 700) }
+                }
+            }
+        }
+
+        Item {
+            id: scanFrame
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: shakeShift.x
+            width: fp.glyphSize * 1.45
+            height: width
+            visible: fp.look === "scanner"
+            scale: 1
+
+            SequentialAnimation {
+                id: lockOnAnim
+                NumberAnimation { target: scanFrame; property: "scale"; to: 1.18; duration: 120; easing.type: Easing.OutQuad }
+                NumberAnimation { target: scanFrame; property: "scale"; to: 1.0; duration: 320; easing.type: Easing.OutBack; easing.overshoot: 2.0 }
+            }
+
+            Canvas {
+                id: bracketCanvas
+                anchors.fill: parent
+                onWidthChanged: requestPaint()
+                onVisibleChanged: if (visible) requestPaint()
+                onPaint: {
+                    let ctx = getContext("2d");
+                    ctx.reset();
+                    let lw = fp.glyphSize * 0.06;
+                    let a = width * 0.24;
+                    let o = lw / 2;
+                    let e = width - o;
+                    ctx.lineWidth = lw;
+                    ctx.lineCap = "round";
+                    ctx.lineJoin = "round";
+                    ctx.strokeStyle = fp.shownAccent;
+                    ctx.beginPath();
+                    ctx.moveTo(o, o + a); ctx.lineTo(o, o); ctx.lineTo(o + a, o);
+                    ctx.moveTo(e - a, o); ctx.lineTo(e, o); ctx.lineTo(e, o + a);
+                    ctx.moveTo(e, e - a); ctx.lineTo(e, e); ctx.lineTo(e - a, e);
+                    ctx.moveTo(o + a, e); ctx.lineTo(o, e); ctx.lineTo(o, e - a);
+                    ctx.stroke();
+                }
+            }
+
+            Rectangle {
+                width: parent.width * 0.78
+                height: Math.max(2, fp.glyphSize * 0.045)
+                radius: height / 2
+                x: (parent.width - width) / 2
+                y: parent.height * 0.12 + fp.scanPos * (parent.height * 0.76 - height)
+                color: fp.shownAccent
+                opacity: fp.pulsing ? 0.9 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
             }
         }
 
@@ -156,7 +317,7 @@ Item {
                 text: "󰈷"
                 font.family: "Iosevka Nerd Font"
                 font.pixelSize: fp.glyphSize * 0.82
-                color: ThemeBackend.overlay0
+                color: fp.tintGlyph ? fp.shownAccent : ThemeBackend.overlay0
                 opacity: fp.halted ? 0.45 : (fp.status === "ready" ? fp.breath : 0.85)
             }
 
@@ -165,7 +326,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                height: parent.height * fp.shownFill
+                height: fp.tintGlyph ? 0 : parent.height * fp.shownFill
                 clip: true
 
                 Text {

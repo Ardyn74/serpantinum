@@ -1046,8 +1046,7 @@
           "classic": "Classique",
           "ring": "Anneau",
           "scanner": "Scanner",
-          "pulse": "Pulsation",
-          "tile": "Tuile"
+          "pulse": "Pulsation"
         },
         "notifications": {
           "card": "Carte",

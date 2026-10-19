@@ -1,17 +1,23 @@
 import QtQuick
 import QtQuick.Layouts
 import "../../widgets"
+import "."
 
 Repeater {
     id: rep
 
     property string row: "top"
     property string widgetKey: ""
+    property string elementType: ""
     property var proxy: null
     property var scene: null
     property Component buttonComponent: null
 
-    model: rep.widgetKey !== "" && rep.proxy ? WidgetRegistry.additionalSettings(rep.widgetKey, rep.row, rep.proxy.pVariant) : []
+    model: {
+        if (!rep.proxy) return [];
+        if (rep.widgetKey !== "") return WidgetRegistry.additionalSettings(rep.widgetKey, rep.row, rep.proxy.pVariant);
+        return LockElementRegistry.additionalSettings(rep.elementType, rep.row);
+    }
 
     delegate: Loader {
         id: settingLoader

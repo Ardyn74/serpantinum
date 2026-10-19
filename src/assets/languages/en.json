@@ -1056,8 +1056,7 @@
           "classic": "Classic",
           "ring": "Ring",
           "scanner": "Scanner",
-          "pulse": "Pulse",
-          "tile": "Tile"
+          "pulse": "Pulse"
         },
         "notifications": {
           "card": "Card",

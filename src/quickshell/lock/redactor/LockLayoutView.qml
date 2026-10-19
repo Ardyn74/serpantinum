@@ -23,6 +23,7 @@ Item {
             readonly property string sType: model.itype ?? ""
             readonly property string sVariant: model.ivariant ?? ""
             readonly property string sImage: model.iimage ?? ""
+            readonly property bool sShowText: model.showText ?? true
             readonly property real sRotation: model.irotation ?? 0
             readonly property real sOpacity: model.iopacity ?? 1
             readonly property real gX: model.ix ?? 0
@@ -95,6 +96,7 @@ Item {
                             }
                         } else {
                             if (item.variant !== undefined) item.variant = Qt.binding(() => slot.sVariant);
+                            if (item.showText !== undefined) item.showText = Qt.binding(() => slot.sShowText);
                             if (item.ctx !== undefined) item.ctx = Qt.binding(() => view.ctx);
                             if (slot.sType === "password") view.passwordItem = item;
                         }

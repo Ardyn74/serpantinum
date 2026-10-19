@@ -1046,8 +1046,7 @@
           "classic": "Класически",
           "ring": "Пръстен",
           "scanner": "Скенер",
-          "pulse": "Пулс",
-          "tile": "Плочка"
+          "pulse": "Пулс"
         },
         "notifications": {
           "card": "Карта",

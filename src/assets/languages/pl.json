@@ -115,8 +115,7 @@
           "classic": "Klasyczny",
           "ring": "Pierścień",
           "scanner": "Skaner",
-          "pulse": "Puls",
-          "tile": "Kafelek"
+          "pulse": "Puls"
         },
         "notifications": {
           "card": "Karta",

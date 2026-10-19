@@ -1090,8 +1090,7 @@
           "classic": "Clásico",
           "ring": "Anillo",
           "scanner": "Escáner",
-          "pulse": "Pulso",
-          "tile": "Mosaico"
+          "pulse": "Pulso"
         },
         "notifications": {
           "card": "Tarjeta",

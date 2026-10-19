@@ -319,6 +319,7 @@ Item {
             readonly property string pType: model.itype
             readonly property string pVariant: model.ivariant
             readonly property string pImage: model.iimage
+            readonly property bool pShowText: model.showText ?? true
             readonly property real pRotation: model.irotation ?? 0
             readonly property real pOpacity: model.iopacity ?? 1
             readonly property real gX: model.ix ?? 0
@@ -657,8 +658,9 @@ Item {
                                     proxy.triggerSync();
                                 }
                             }
-                        } else if (item.variant !== undefined) {
-                            item.variant = Qt.binding(() => proxy.pVariant);
+                        } else {
+                            if (item.variant !== undefined) item.variant = Qt.binding(() => proxy.pVariant);
+                            if (item.showText !== undefined) item.showText = Qt.binding(() => proxy.pShowText);
                         }
                         proxy.settleScaled();
                     }

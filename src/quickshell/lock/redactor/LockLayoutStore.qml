@@ -81,7 +81,7 @@ QtObject {
     function defaultScreenItems() {
         return [
             root.makeEntry("clock", "lockscreen", root.screenW * 0.5 - 210, root.screenH * 0.36 - 100, 420, 200),
-            root.makeEntry("fingerprint", "labeled", root.screenW * 0.5, root.screenH * 0.92, 0, 0)
+            root.makeEntry("fingerprint", "classic", root.screenW * 0.5, root.screenH * 0.92, 0, 0)
         ];
     }
 
@@ -98,7 +98,7 @@ QtObject {
             root.makeEntry("password", "filled", 450, 288, 380, 44),
             root.makeEntry("keyboard", "button", 600, 364, 0, 0),
             root.makeEntry("battery", "button", 685, 364, 0, 0),
-            root.makeEntry("fingerprint", "labeled", 640, 450, 0, 0),
+            root.makeEntry("fingerprint", "classic", 640, 450, 0, 0),
             root.makeEntry("notifications", "card", 860, 20, 400, 422),
             root.makeEntry("widget:music", "full", 860, 450, 400, 96)
         ];
@@ -334,6 +334,7 @@ QtObject {
         e.iopacity = Math.max(0, Math.min(1, n(raw.iopacity, 1)));
         e.irotation = ((Math.round(n(raw.irotation, 0)) % 360) + 360) % 360;
         e.iimage = raw.iimage ? String(raw.iimage) : "";
+        if (raw.itype === "fingerprint") e.showText = raw.ivariant === "icon" ? false : raw.showText !== false;
         return e;
     }
 
