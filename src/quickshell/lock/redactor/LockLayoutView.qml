@@ -51,7 +51,7 @@ Item {
             onFaceIHChanged: slot.captureRef()
 
             function captureRef() {
-                if (!slot.scaled || slot.refW > 0 || slot.faceIW <= 0 || slot.faceIH <= 0) return;
+                if (!slot.scaled || slot.faceIW <= 0 || slot.faceIH <= 0) return;
                 slot.refW = slot.faceIW;
                 slot.refH = slot.faceIH;
             }
