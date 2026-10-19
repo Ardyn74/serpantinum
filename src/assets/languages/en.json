@@ -1523,7 +1523,8 @@
       "lyricsAlignment": "Alignment",
       "usageStyle": "Style",
       "lineThickness": "Thickness",
-      "visualizerStyle": "Visualizer style"
+      "visualizerStyle": "Visualizer style",
+      "showNoLyrics": "Show \"no lyrics\" text"
     },
     "align": {
       "left": "Left",

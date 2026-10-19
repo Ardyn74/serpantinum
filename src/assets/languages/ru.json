@@ -1556,7 +1556,8 @@
     },
     "settings": {
       "lyricsLines": "Строки",
-      "lyricsAlignment": "Выравнивание"
+      "lyricsAlignment": "Выравнивание",
+      "showNoLyrics": "Показывать текст «нет текста песни»"
     },
     "align": {
       "left": "Слева",
