@@ -9,6 +9,20 @@ slug: /cli/client
 
 `serpantinum` is the command-line client for the desktop shell.
 
+## Overview
+
+| Command | Purpose |
+| --- | --- |
+| `msg` | Open, close or toggle panels and switch workspaces. |
+| `launch` | Run standalone components such as the setup wizard or the layout editors. |
+| `config` | Read and write raw settings. |
+| `info` | Print the current state of a setting. |
+| `set` | Change a setting. |
+| `trigger` | Run a one-off action. |
+| `ipc` | Send raw IPC calls to the running shell. |
+| `kill`, `restart` | Stop or restart the daemon. |
+| [Script shortcuts](#script-shortcuts) | Wrappers around the bundled scripts, such as `lock`, `volume` or `reboot`. |
+
 ## Options
 
 - `-v, --verbose`: Enable verbose logging output.
@@ -251,3 +265,19 @@ Terminates desktop session:
 - `serpantinum hibernate`: Hibernate the system.
 - `serpantinum reboot`: Reboot the system.
 - `serpantinum poweroff`: Power off the system.
+
+## Keybinding examples
+
+Panels and workspaces go through `msg`, everything else through `set`, `trigger` or the script shortcuts:
+
+```
+serpantinum msg toggle launcher
+serpantinum msg toggle clipboard
+serpantinum msg toggle calendar
+serpantinum set dnd toggle
+serpantinum set wallpaper random
+serpantinum set caffeine toggle
+serpantinum trigger notifications-clear
+serpantinum volume raise
+serpantinum screenshot --full
+```
