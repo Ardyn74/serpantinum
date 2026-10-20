@@ -87,6 +87,7 @@ Item {
             active: preview.wallpaperIsVideo && !preview.tab.customBackgroundActive
             sourceComponent: VideoLock {
                 wallpaperPath: preview.wallpaperPath
+                paused: !preview.visible
             }
         }
 
@@ -95,6 +96,7 @@ Item {
             active: preview.customVideo
             sourceComponent: VideoLock {
                 wallpaperPath: preview.customPath
+                paused: !preview.visible
             }
         }
 
