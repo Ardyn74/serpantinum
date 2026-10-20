@@ -1586,7 +1586,14 @@
     "clipboard_desc": "Klembordgeschiedenis schakelen, openen of sluiten",
     "guide_desc": "Instellingengids schakelen, openen of sluiten (optioneel op een tabblad)",
     "calendar_desc": "Agendapopup schakelen, openen of sluiten",
-    "lock_redactor_desc": "Lay-outeditor van het vergrendelscherm schakelen, openen of sluiten"
+    "lock_redactor_desc": "Lay-outeditor van het vergrendelscherm schakelen, openen of sluiten",
+    "config_desc": "Instellingen lezen en wijzigen (get, set, dump, path, edit)",
+    "lang_desc": "De interfacetaal tonen, weergeven of wijzigen",
+    "monitors_desc": "Actieve beeldschermuitgangen weergeven, optioneel als JSON",
+    "check_updates_desc": "Controleren of er een nieuwere versie beschikbaar is",
+    "error_unknown_language": "Fout: onbekende taal '{CODE}'.",
+    "update_available": "Update beschikbaar: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum is up-to-date ({VERSION})."
   },
   "daemon": {
     "already_running": "Daemon draait al. Afsluiten...",

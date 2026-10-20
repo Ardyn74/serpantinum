@@ -94,6 +94,10 @@ show_help() {
     echo "  guide [action] [tab]         $(t "cli.guide_desc")"
     echo "  calendar [action]            $(t "cli.calendar_desc")"
     echo "  lock-redactor [action]       $(t "cli.lock_redactor_desc")"
+    echo "  config <action> [args]       $(t "cli.config_desc")"
+    echo "  lang <action> [code]         $(t "cli.lang_desc")"
+    echo "  monitors [--json]            $(t "cli.monitors_desc")"
+    echo "  check-updates [--json]       $(t "cli.check_updates_desc")"
     echo ""
     echo "$(t "cli.script_commands")"
     echo "  exit                         $(t "cli.scripts.exit")"
@@ -294,6 +298,121 @@ cli_lock_redactor() {
     esac
 }
 
+cli_cfg_apply() {
+    local filter="$1"
+    shift
+    _config_ensure_settings
+    local tmp="${CONFIG_SETTINGS_JSON}.tmp"
+    if jq "$@" "$filter" "$CONFIG_SETTINGS_JSON" > "$tmp" 2>/dev/null && jq . "$tmp" >/dev/null 2>&1; then
+        mv "$tmp" "$CONFIG_SETTINGS_JSON"
+    else
+        rm -f "$tmp"
+        return 1
+    fi
+}
+
+cli_cfg_get() {
+    _config_ensure_settings
+    jq -r --arg p "$1" --arg f "${2:-}" \
+        '(try getpath($p | split(".")) catch null) as $v | if $v == null then $f elif ($v | type) == "string" then $v else ($v | tojson) end' \
+        "$CONFIG_SETTINGS_JSON"
+}
+
+cli_cfg_set() {
+    local value
+    if [ -n "$2" ] && printf '%s' "$2" | jq . >/dev/null 2>&1; then
+        value="$2"
+    else
+        value="$(jq -Rn --arg v "$2" '$v')"
+    fi
+    cli_cfg_apply 'setpath($p | split("."); $v)' --arg p "$1" --argjson v "$value"
+}
+
+cli_config() {
+    local sub="${1:-}"
+    case "$sub" in
+        get)
+            [ -n "$2" ] || cli_usage "config get <key> [fallback]"
+            cli_cfg_get "$2" "${3:-}"
+            ;;
+        set)
+            [ $# -ge 3 ] || cli_usage "config set <key> <value>"
+            cli_cfg_set "$2" "$3"
+            ;;
+        dump)
+            _config_ensure_settings
+            jq . "$CONFIG_SETTINGS_JSON"
+            ;;
+        path)
+            _config_ensure_settings
+            echo "$CONFIG_SETTINGS_JSON"
+            ;;
+        edit)
+            _config_ensure_settings
+            local -a editor
+            read -ra editor <<< "${VISUAL:-${EDITOR:-vi}}"
+            "${editor[@]}" "$CONFIG_SETTINGS_JSON"
+            ;;
+        *)
+            cli_usage "config <get <key> [fallback]|set <key> <value>|dump|path|edit>"
+            ;;
+    esac
+}
+
+cli_lang() {
+    local sub="${1:-}"
+    case "$sub" in
+        get)
+            get_current_language
+            echo
+            ;;
+        list)
+            local file
+            for file in "$I18N_DIR"/*.json; do
+                basename "$file" .json
+            done
+            ;;
+        set)
+            [ -n "$2" ] || cli_usage "lang set <code>"
+            if [ ! -f "$I18N_DIR/$2.json" ]; then
+                echo "$(t "cli.error_unknown_language" CODE="$2")" >&2
+                exit 1
+            fi
+            cli_cfg_set general.language "$2"
+            ;;
+        *)
+            cli_usage "lang <get|set <code>|list>"
+            ;;
+    esac
+}
+
+cli_monitors() {
+    local script="$SERPANTINUM_DIR/scripts/monitors_detect.sh"
+    if [[ "$1" == "--json" ]]; then
+        "$script" --verbose | jq -Rn '[inputs | split("|") | (.[1] | split("x")) as $res | {name: .[0], width: ($res[0] | tonumber? // null), height: ($res[1] | tonumber? // null), refreshRate: (.[2] | tonumber? // null)}]'
+    else
+        "$script"
+    fi
+}
+
+cli_check_updates() {
+    local out
+    out="$(python3 "$SERPANTINUM_DIR/scripts/updater.py")"
+    [ -n "$out" ] || exit 1
+    if [[ "$1" == "--json" ]]; then
+        echo "$out"
+        return
+    fi
+    local local_ver remote_ver
+    local_ver="$(jq -r '.local' <<< "$out")"
+    remote_ver="$(jq -r '.remote' <<< "$out")"
+    if [ "$(jq -r '.has_update' <<< "$out")" = "true" ]; then
+        echo "$(t "cli.update_available" LOCAL="$local_ver" REMOTE="$remote_ver")"
+    else
+        echo "$(t "cli.up_to_date" VERSION="$local_ver")"
+    fi
+}
+
 if [[ "$1" == "kill" ]]; then
     stop_daemon
     echo "$(t "cli.daemon_stopped")"
@@ -392,6 +511,26 @@ case "$1" in
     lock-redactor)
         shift
         cli_lock_redactor "$@"
+        exit $?
+        ;;
+    config)
+        shift
+        cli_config "$@"
+        exit $?
+        ;;
+    lang)
+        shift
+        cli_lang "$@"
+        exit $?
+        ;;
+    monitors)
+        shift
+        cli_monitors "$@"
+        exit $?
+        ;;
+    check-updates)
+        shift
+        cli_check_updates "$@"
         exit $?
         ;;
 esac

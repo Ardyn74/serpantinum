@@ -652,7 +652,14 @@
     "clipboard_desc": "クリップボード履歴を切り替え、開く、または閉じる",
     "guide_desc": "設定ガイドを切り替え、開く、または閉じる (タブを指定可能)",
     "calendar_desc": "カレンダーポップアップを切り替え、開く、または閉じる",
-    "lock_redactor_desc": "ロック画面のレイアウトエディターを切り替え、開く、または閉じる"
+    "lock_redactor_desc": "ロック画面のレイアウトエディターを切り替え、開く、または閉じる",
+    "config_desc": "設定の読み取りと変更 (get, set, dump, path, edit)",
+    "lang_desc": "インターフェース言語の表示、一覧表示、変更",
+    "monitors_desc": "アクティブなディスプレイ出力の一覧表示 (JSON 出力も可)",
+    "check_updates_desc": "新しいバージョンが利用可能か確認",
+    "error_unknown_language": "エラー: 不明な言語 '{CODE}' です。",
+    "update_available": "アップデートがあります: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum は最新です ({VERSION})。"
   },
   "daemon": {
     "already_running": "デーモンは既に実行中です。終了します...",

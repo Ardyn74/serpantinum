@@ -98,7 +98,14 @@
     "clipboard_desc": "تبديل سجل الحافظة أو فتحه أو إغلاقه",
     "guide_desc": "تبديل دليل الإعدادات أو فتحه أو إغلاقه (اختياريًا عند تبويب معيّن)",
     "calendar_desc": "تبديل نافذة التقويم المنبثقة أو فتحها أو إغلاقها",
-    "lock_redactor_desc": "تبديل محرر تخطيط شاشة القفل أو فتحه أو إغلاقه"
+    "lock_redactor_desc": "تبديل محرر تخطيط شاشة القفل أو فتحه أو إغلاقه",
+    "config_desc": "قراءة الإعدادات وتغييرها (get, set, dump, path, edit)",
+    "lang_desc": "عرض لغة الواجهة أو سردها أو تغييرها",
+    "monitors_desc": "سرد مخرجات العرض النشطة، اختياريًا بصيغة JSON",
+    "check_updates_desc": "التحقق من توفر إصدار أحدث",
+    "error_unknown_language": "خطأ: اللغة '{CODE}' غير معروفة.",
+    "update_available": "يتوفر تحديث: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum محدّث ({VERSION})."
   },
   "clipboard": {
     "clear": "مسح",

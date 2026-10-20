@@ -1586,7 +1586,14 @@
     "clipboard_desc": "Bật/tắt, mở hoặc đóng lịch sử bộ nhớ tạm",
     "guide_desc": "Bật/tắt, mở hoặc đóng hướng dẫn cài đặt (tùy chọn tại một tab)",
     "calendar_desc": "Bật/tắt, mở hoặc đóng cửa sổ lịch",
-    "lock_redactor_desc": "Bật/tắt, mở hoặc đóng trình chỉnh sửa bố cục màn hình khóa"
+    "lock_redactor_desc": "Bật/tắt, mở hoặc đóng trình chỉnh sửa bố cục màn hình khóa",
+    "config_desc": "Đọc và thay đổi cài đặt (get, set, dump, path, edit)",
+    "lang_desc": "Hiển thị, liệt kê hoặc thay đổi ngôn ngữ giao diện",
+    "monitors_desc": "Liệt kê các đầu ra màn hình đang hoạt động, có thể xuất dạng JSON",
+    "check_updates_desc": "Kiểm tra xem có phiên bản mới hơn không",
+    "error_unknown_language": "Lỗi: ngôn ngữ '{CODE}' không xác định.",
+    "update_available": "Có bản cập nhật: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum đã được cập nhật ({VERSION})."
   },
   "daemon": {
     "already_running": "Daemon đang chạy rồi. Đang thoát...",

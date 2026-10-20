@@ -655,7 +655,14 @@
     "clipboard_desc": "Przełącz, otwórz lub zamknij historię schowka",
     "guide_desc": "Przełącz, otwórz lub zamknij przewodnik po ustawieniach (opcjonalnie na karcie)",
     "calendar_desc": "Przełącz, otwórz lub zamknij okno kalendarza",
-    "lock_redactor_desc": "Przełącz, otwórz lub zamknij edytor układu ekranu blokady"
+    "lock_redactor_desc": "Przełącz, otwórz lub zamknij edytor układu ekranu blokady",
+    "config_desc": "Odczytaj i zmień ustawienia (get, set, dump, path, edit)",
+    "lang_desc": "Pokaż, wyświetl listę lub zmień język interfejsu",
+    "monitors_desc": "Wyświetl listę aktywnych wyjść obrazu, opcjonalnie jako JSON",
+    "check_updates_desc": "Sprawdź, czy dostępna jest nowsza wersja",
+    "error_unknown_language": "Błąd: nieznany język '{CODE}'.",
+    "update_available": "Dostępna aktualizacja: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum jest aktualny ({VERSION})."
   },
   "daemon": {
     "already_running": "Demon jest już uruchomiony. Kończenie pracy...",

@@ -1630,7 +1630,14 @@
     "clipboard_desc": "Alternar, abrir o cerrar el historial del portapapeles",
     "guide_desc": "Alternar, abrir o cerrar la guía de ajustes (opcionalmente en una pestaña)",
     "calendar_desc": "Alternar, abrir o cerrar la ventana del calendario",
-    "lock_redactor_desc": "Alternar, abrir o cerrar el editor de diseño de la pantalla de bloqueo"
+    "lock_redactor_desc": "Alternar, abrir o cerrar el editor de diseño de la pantalla de bloqueo",
+    "config_desc": "Leer y cambiar la configuración (get, set, dump, path, edit)",
+    "lang_desc": "Mostrar, listar o cambiar el idioma de la interfaz",
+    "monitors_desc": "Listar las salidas de pantalla activas, opcionalmente como JSON",
+    "check_updates_desc": "Comprobar si hay una versión más reciente disponible",
+    "error_unknown_language": "Error: idioma desconocido '{CODE}'.",
+    "update_available": "Actualización disponible: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum está actualizado ({VERSION})."
   },
   "daemon": {
     "already_running": "El demonio ya está en ejecución. Saliendo...",

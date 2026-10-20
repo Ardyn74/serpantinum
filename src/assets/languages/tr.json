@@ -1586,7 +1586,14 @@
     "clipboard_desc": "Pano geçmişini değiştir, aç veya kapat",
     "guide_desc": "Ayarlar kılavuzunu değiştir, aç veya kapat (isteğe bağlı olarak bir sekmede)",
     "calendar_desc": "Takvim açılır penceresini değiştir, aç veya kapat",
-    "lock_redactor_desc": "Kilit ekranı düzen düzenleyicisini değiştir, aç veya kapat"
+    "lock_redactor_desc": "Kilit ekranı düzen düzenleyicisini değiştir, aç veya kapat",
+    "config_desc": "Ayarları oku ve değiştir (get, set, dump, path, edit)",
+    "lang_desc": "Arayüz dilini göster, listele veya değiştir",
+    "monitors_desc": "Etkin ekran çıkışlarını listele, isteğe bağlı olarak JSON olarak",
+    "check_updates_desc": "Daha yeni bir sürüm olup olmadığını denetle",
+    "error_unknown_language": "Hata: bilinmeyen dil '{CODE}'.",
+    "update_available": "Güncelleme mevcut: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum güncel ({VERSION})."
   },
   "daemon": {
     "already_running": "Arka plan programı zaten çalışıyor. Çıkılıyor...",

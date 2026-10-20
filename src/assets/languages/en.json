@@ -1605,7 +1605,14 @@
     "clipboard_desc": "Toggle, open or close the clipboard history",
     "guide_desc": "Toggle, open or close the settings guide (optionally at a tab)",
     "calendar_desc": "Toggle, open or close the calendar popup",
-    "lock_redactor_desc": "Toggle, open or close the lock screen layout editor"
+    "lock_redactor_desc": "Toggle, open or close the lock screen layout editor",
+    "config_desc": "Read and change settings (get, set, dump, path, edit)",
+    "lang_desc": "Show, list or change the interface language",
+    "monitors_desc": "List active display outputs, optionally as JSON",
+    "check_updates_desc": "Check whether a newer version is available",
+    "error_unknown_language": "Error: unknown language '{CODE}'.",
+    "update_available": "Update available: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum is up to date ({VERSION})."
   },
   "daemon": {
     "already_running": "Daemon is already running. Exiting...",

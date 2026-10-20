@@ -1586,7 +1586,14 @@
     "clipboard_desc": "切換、開啟或關閉剪貼簿歷史",
     "guide_desc": "切換、開啟或關閉設定指南 (可選指定分頁)",
     "calendar_desc": "切換、開啟或關閉行事曆彈出視窗",
-    "lock_redactor_desc": "切換、開啟或關閉鎖定畫面版面編輯器"
+    "lock_redactor_desc": "切換、開啟或關閉鎖定畫面版面編輯器",
+    "config_desc": "讀取和變更設定 (get, set, dump, path, edit)",
+    "lang_desc": "顯示、列出或變更介面語言",
+    "monitors_desc": "列出作用中的顯示器輸出，可選 JSON 格式",
+    "check_updates_desc": "檢查是否有新版本可用",
+    "error_unknown_language": "錯誤：未知語言 '{CODE}'。",
+    "update_available": "有可用更新：{LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum 已是最新版本 ({VERSION})。"
   },
   "daemon": {
     "already_running": "常駐程式已在執行中。正在結束...",

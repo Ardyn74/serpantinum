@@ -1586,7 +1586,14 @@
     "clipboard_desc": "Alihkan, buka, atau tutup riwayat papan klip",
     "guide_desc": "Alihkan, buka, atau tutup panduan pengaturan (opsional pada tab tertentu)",
     "calendar_desc": "Alihkan, buka, atau tutup popup kalender",
-    "lock_redactor_desc": "Alihkan, buka, atau tutup editor tata letak layar kunci"
+    "lock_redactor_desc": "Alihkan, buka, atau tutup editor tata letak layar kunci",
+    "config_desc": "Baca dan ubah pengaturan (get, set, dump, path, edit)",
+    "lang_desc": "Tampilkan, daftarkan, atau ubah bahasa antarmuka",
+    "monitors_desc": "Daftar output layar aktif, opsional sebagai JSON",
+    "check_updates_desc": "Periksa apakah versi yang lebih baru tersedia",
+    "error_unknown_language": "Kesalahan: bahasa '{CODE}' tidak dikenal.",
+    "update_available": "Pembaruan tersedia: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum sudah yang terbaru ({VERSION})."
   },
   "daemon": {
     "already_running": "Daemon sudah berjalan. Keluar...",

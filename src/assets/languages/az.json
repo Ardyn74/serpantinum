@@ -1580,7 +1580,14 @@
     "clipboard_desc": "Mübadilə buferi tarixçəsini dəyiş, aç və ya bağla",
     "guide_desc": "Parametrlər bələdçisini dəyiş, aç və ya bağla (istəyə görə tabda)",
     "calendar_desc": "Təqvim pəncərəsini dəyiş, aç və ya bağla",
-    "lock_redactor_desc": "Kilid ekranı düzən redaktorunu dəyiş, aç və ya bağla"
+    "lock_redactor_desc": "Kilid ekranı düzən redaktorunu dəyiş, aç və ya bağla",
+    "config_desc": "Ayarları oxu və dəyiş (get, set, dump, path, edit)",
+    "lang_desc": "İnterfeys dilini göstər, siyahıya al və ya dəyiş",
+    "monitors_desc": "Aktiv displey çıxışlarını siyahıya al, istəyə görə JSON kimi",
+    "check_updates_desc": "Daha yeni versiyanın olub-olmadığını yoxla",
+    "error_unknown_language": "Xəta: naməlum dil '{CODE}'.",
+    "update_available": "Yeniləmə mövcuddur: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum aktualdır ({VERSION})."
   },
   "daemon": {
     "already_running": "Arxa plan xidməti artıq işləyir. Çıxılır...",

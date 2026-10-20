@@ -1633,7 +1633,14 @@
     "clipboard_desc": "Zwischenablageverlauf umschalten, öffnen oder schließen",
     "guide_desc": "Einstellungsanleitung umschalten, öffnen oder schließen (optional bei einem Tab)",
     "calendar_desc": "Kalender-Popup umschalten, öffnen oder schließen",
-    "lock_redactor_desc": "Layout-Editor des Sperrbildschirms umschalten, öffnen oder schließen"
+    "lock_redactor_desc": "Layout-Editor des Sperrbildschirms umschalten, öffnen oder schließen",
+    "config_desc": "Einstellungen lesen und ändern (get, set, dump, path, edit)",
+    "lang_desc": "Oberflächensprache anzeigen, auflisten oder ändern",
+    "monitors_desc": "Aktive Bildschirmausgänge auflisten, optional als JSON",
+    "check_updates_desc": "Prüfen, ob eine neuere Version verfügbar ist",
+    "error_unknown_language": "Fehler: Unbekannte Sprache '{CODE}'.",
+    "update_available": "Update verfügbar: {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum ist auf dem neuesten Stand ({VERSION})."
   },
   "daemon": {
     "already_running": "Daemon läuft bereits. Beenden...",

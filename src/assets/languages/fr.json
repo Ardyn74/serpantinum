@@ -1586,7 +1586,14 @@
     "clipboard_desc": "Basculer, ouvrir ou fermer l'historique du presse-papiers",
     "guide_desc": "Basculer, ouvrir ou fermer le guide des paramètres (éventuellement sur un onglet)",
     "calendar_desc": "Basculer, ouvrir ou fermer la fenêtre du calendrier",
-    "lock_redactor_desc": "Basculer, ouvrir ou fermer l'éditeur de disposition de l'écran de verrouillage"
+    "lock_redactor_desc": "Basculer, ouvrir ou fermer l'éditeur de disposition de l'écran de verrouillage",
+    "config_desc": "Lire et modifier les paramètres (get, set, dump, path, edit)",
+    "lang_desc": "Afficher, lister ou changer la langue de l'interface",
+    "monitors_desc": "Lister les sorties d'affichage actives, éventuellement en JSON",
+    "check_updates_desc": "Vérifier si une version plus récente est disponible",
+    "error_unknown_language": "Erreur : langue inconnue '{CODE}'.",
+    "update_available": "Mise à jour disponible : {LOCAL} -> {REMOTE}",
+    "up_to_date": "Serpantinum est à jour ({VERSION})."
   },
   "daemon": {
     "already_running": "Le démon est déjà en cours d'exécution. Arrêt...",
