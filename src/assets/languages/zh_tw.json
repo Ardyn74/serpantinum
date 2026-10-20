@@ -1574,8 +1574,19 @@
       "monitors_detect": "查詢使用中的螢幕輸出與更新率",
       "location_manual": "手動設定地理座標與時區",
       "blue_light_filter": "調整色溫與自動日夜排程",
-      "translate": "即時文字與選取內容翻譯"
-    }
+      "translate": "即時文字與選取內容翻譯",
+      "suspend": "鎖定螢幕並暫停系統",
+      "hibernate": "休眠系統",
+      "reboot": "重新啟動系統",
+      "poweroff": "關閉系統",
+      "redactor": "開啟或切換桌面小工具版面編輯器"
+    },
+    "usage_label": "用法:",
+    "launcher_desc": "切換、開啟或關閉應用程式啟動器",
+    "clipboard_desc": "切換、開啟或關閉剪貼簿歷史",
+    "guide_desc": "切換、開啟或關閉設定指南 (可選指定分頁)",
+    "calendar_desc": "切換、開啟或關閉行事曆彈出視窗",
+    "lock_redactor_desc": "切換、開啟或關閉鎖定畫面版面編輯器"
   },
   "daemon": {
     "already_running": "常駐程式已在執行中。正在結束...",

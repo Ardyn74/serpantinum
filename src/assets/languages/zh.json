@@ -1574,8 +1574,19 @@
       "monitors_detect": "查询活动显示输出及刷新率",
       "location_manual": "手动设置地理坐标与时区",
       "blue_light_filter": "调节色温及自动昼夜计划",
-      "translate": "即时文本与选中文本翻译"
-    }
+      "translate": "即时文本与选中文本翻译",
+      "suspend": "锁定屏幕并挂起系统",
+      "hibernate": "休眠系统",
+      "reboot": "重启系统",
+      "poweroff": "关闭系统",
+      "redactor": "打开或切换桌面小部件布局编辑器"
+    },
+    "usage_label": "用法:",
+    "launcher_desc": "切换、打开或关闭应用启动器",
+    "clipboard_desc": "切换、打开或关闭剪贴板历史",
+    "guide_desc": "切换、打开或关闭设置指南 (可选指定标签页)",
+    "calendar_desc": "切换、打开或关闭日历弹窗",
+    "lock_redactor_desc": "切换、打开或关闭锁屏布局编辑器"
   },
   "daemon": {
     "already_running": "守护进程已在运行。正在退出...",

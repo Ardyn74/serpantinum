@@ -1574,8 +1574,19 @@
       "monitors_detect": "Truy vấn các đầu ra màn hình đang hoạt động và tần số quét",
       "location_manual": "Đặt thủ công tọa độ địa lý và múi giờ",
       "blue_light_filter": "Điều chỉnh nhiệt độ màu và lịch trình ngày/đêm tự động",
-      "translate": "Trình dịch văn bản và vùng chọn tức thì"
-    }
+      "translate": "Trình dịch văn bản và vùng chọn tức thì",
+      "suspend": "Khóa màn hình và tạm dừng hệ thống",
+      "hibernate": "Ngủ đông hệ thống",
+      "reboot": "Khởi động lại hệ thống",
+      "poweroff": "Tắt hệ thống",
+      "redactor": "Mở hoặc bật/tắt trình chỉnh sửa bố cục widget màn hình nền"
+    },
+    "usage_label": "Cách dùng:",
+    "launcher_desc": "Bật/tắt, mở hoặc đóng trình khởi chạy ứng dụng",
+    "clipboard_desc": "Bật/tắt, mở hoặc đóng lịch sử bộ nhớ tạm",
+    "guide_desc": "Bật/tắt, mở hoặc đóng hướng dẫn cài đặt (tùy chọn tại một tab)",
+    "calendar_desc": "Bật/tắt, mở hoặc đóng cửa sổ lịch",
+    "lock_redactor_desc": "Bật/tắt, mở hoặc đóng trình chỉnh sửa bố cục màn hình khóa"
   },
   "daemon": {
     "already_running": "Daemon đang chạy rồi. Đang thoát...",

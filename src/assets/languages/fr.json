@@ -1574,8 +1574,19 @@
       "monitors_detect": "Interroger les sorties d'affichage actives et les taux de rafraîchissement",
       "location_manual": "Définir manuellement les coordonnées géographiques et le fuseau horaire",
       "blue_light_filter": "Ajuster la température de couleur et la planification jour/nuit automatique",
-      "translate": "Traducteur instantané de texte et de sélection"
-    }
+      "translate": "Traducteur instantané de texte et de sélection",
+      "suspend": "Verrouiller l'écran et mettre le système en veille",
+      "hibernate": "Mettre le système en hibernation",
+      "reboot": "Redémarrer le système",
+      "poweroff": "Éteindre le système",
+      "redactor": "Ouvrir ou basculer l'éditeur de disposition des widgets du bureau"
+    },
+    "usage_label": "Utilisation :",
+    "launcher_desc": "Basculer, ouvrir ou fermer le lanceur d'applications",
+    "clipboard_desc": "Basculer, ouvrir ou fermer l'historique du presse-papiers",
+    "guide_desc": "Basculer, ouvrir ou fermer le guide des paramètres (éventuellement sur un onglet)",
+    "calendar_desc": "Basculer, ouvrir ou fermer la fenêtre du calendrier",
+    "lock_redactor_desc": "Basculer, ouvrir ou fermer l'éditeur de disposition de l'écran de verrouillage"
   },
   "daemon": {
     "already_running": "Le démon est déjà en cours d'exécution. Arrêt...",

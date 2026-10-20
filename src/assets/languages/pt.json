@@ -1574,8 +1574,19 @@
       "monitors_detect": "Consulta saídas de vídeo ativas e taxas de atualização",
       "location_manual": "Define coordenadas e fuso manualmente",
       "blue_light_filter": "Ajusta temperatura de cor e ciclo dia/noite automático",
-      "translate": "Tradutor instantâneo de texto e seleção"
-    }
+      "translate": "Tradutor instantâneo de texto e seleção",
+      "suspend": "Bloquear a tela e suspender o sistema",
+      "hibernate": "Hibernar o sistema",
+      "reboot": "Reiniciar o sistema",
+      "poweroff": "Desligar o sistema",
+      "redactor": "Abrir ou alternar o editor de layout de widgets da área de trabalho"
+    },
+    "usage_label": "Uso:",
+    "launcher_desc": "Alternar, abrir ou fechar o lançador de aplicativos",
+    "clipboard_desc": "Alternar, abrir ou fechar o histórico da área de transferência",
+    "guide_desc": "Alternar, abrir ou fechar o guia de configurações (opcionalmente em uma aba)",
+    "calendar_desc": "Alternar, abrir ou fechar o pop-up do calendário",
+    "lock_redactor_desc": "Alternar, abrir ou fechar o editor de layout da tela de bloqueio"
   },
   "daemon": {
     "already_running": "O daemon já está em execução. Saindo...",

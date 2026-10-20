@@ -1574,8 +1574,19 @@
       "monitors_detect": "Etkin ekran çıkışlarını ve yenileme hızlarını sorgula",
       "location_manual": "Coğrafi koordinatları ve saat dilimini manuel olarak ayarla",
       "blue_light_filter": "Renk sıcaklığını ve otomatik gündüz/gece programını ayarla",
-      "translate": "Anlık metin ve seçim çevirmeni"
-    }
+      "translate": "Anlık metin ve seçim çevirmeni",
+      "suspend": "Ekranı kilitle ve sistemi askıya al",
+      "hibernate": "Sistemi hazırda beklet",
+      "reboot": "Sistemi yeniden başlat",
+      "poweroff": "Sistemi kapat",
+      "redactor": "Masaüstü widget düzen düzenleyicisini aç veya değiştir"
+    },
+    "usage_label": "Kullanım:",
+    "launcher_desc": "Uygulama başlatıcıyı değiştir, aç veya kapat",
+    "clipboard_desc": "Pano geçmişini değiştir, aç veya kapat",
+    "guide_desc": "Ayarlar kılavuzunu değiştir, aç veya kapat (isteğe bağlı olarak bir sekmede)",
+    "calendar_desc": "Takvim açılır penceresini değiştir, aç veya kapat",
+    "lock_redactor_desc": "Kilit ekranı düzen düzenleyicisini değiştir, aç veya kapat"
   },
   "daemon": {
     "already_running": "Arka plan programı zaten çalışıyor. Çıkılıyor...",

@@ -1618,8 +1618,19 @@
       "monitors_detect": "Consultar salidas de pantalla activas y frecuencias de actualización",
       "location_manual": "Establecer coordenadas geográficas y zona horaria manualmente",
       "blue_light_filter": "Ajustar la temperatura de color y el horario automático día/noche",
-      "translate": "Traducción instantánea de texto y selecciones"
-    }
+      "translate": "Traducción instantánea de texto y selecciones",
+      "suspend": "Bloquear la pantalla y suspender el sistema",
+      "hibernate": "Hibernar el sistema",
+      "reboot": "Reiniciar el sistema",
+      "poweroff": "Apagar el sistema",
+      "redactor": "Abrir o alternar el editor de diseño de widgets del escritorio"
+    },
+    "usage_label": "Uso:",
+    "launcher_desc": "Alternar, abrir o cerrar el lanzador de aplicaciones",
+    "clipboard_desc": "Alternar, abrir o cerrar el historial del portapapeles",
+    "guide_desc": "Alternar, abrir o cerrar la guía de ajustes (opcionalmente en una pestaña)",
+    "calendar_desc": "Alternar, abrir o cerrar la ventana del calendario",
+    "lock_redactor_desc": "Alternar, abrir o cerrar el editor de diseño de la pantalla de bloqueo"
   },
   "daemon": {
     "already_running": "El demonio ya está en ejecución. Saliendo...",

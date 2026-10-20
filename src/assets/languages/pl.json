@@ -643,8 +643,19 @@
       "monitors_detect": "Wykryj aktywne ekrany i częstotliwości odświeżania",
       "location_manual": "Ręcznie ustaw współrzędne geograficzne i strefę czasową",
       "blue_light_filter": "Dostosuj temperaturę barwową i automatyczny harmonogram dzień/noc",
-      "translate": "Błyskawiczny tłumacz tekstu i zaznaczenia"
-    }
+      "translate": "Błyskawiczny tłumacz tekstu i zaznaczenia",
+      "suspend": "Zablokuj ekran i uśpij system",
+      "hibernate": "Hibernuj system",
+      "reboot": "Uruchom system ponownie",
+      "poweroff": "Wyłącz system",
+      "redactor": "Otwórz lub przełącz edytor układu widżetów pulpitu"
+    },
+    "usage_label": "Użycie:",
+    "launcher_desc": "Przełącz, otwórz lub zamknij program uruchamiający aplikacje",
+    "clipboard_desc": "Przełącz, otwórz lub zamknij historię schowka",
+    "guide_desc": "Przełącz, otwórz lub zamknij przewodnik po ustawieniach (opcjonalnie na karcie)",
+    "calendar_desc": "Przełącz, otwórz lub zamknij okno kalendarza",
+    "lock_redactor_desc": "Przełącz, otwórz lub zamknij edytor układu ekranu blokady"
   },
   "daemon": {
     "already_running": "Demon jest już uruchomiony. Kończenie pracy...",

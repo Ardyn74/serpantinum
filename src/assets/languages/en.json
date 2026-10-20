@@ -1593,8 +1593,19 @@
       "monitors_detect": "Query active display outputs and refresh rates",
       "location_manual": "Set geographic coordinates and timezone manually",
       "blue_light_filter": "Adjust color temperature and automatic day/night schedule",
-      "translate": "Instant text and selection translator"
-    }
+      "translate": "Instant text and selection translator",
+      "suspend": "Lock the screen and suspend the system",
+      "hibernate": "Hibernate the system",
+      "reboot": "Reboot the system",
+      "poweroff": "Power off the system",
+      "redactor": "Open or toggle the desktop widget layout editor"
+    },
+    "usage_label": "Usage:",
+    "launcher_desc": "Toggle, open or close the application launcher",
+    "clipboard_desc": "Toggle, open or close the clipboard history",
+    "guide_desc": "Toggle, open or close the settings guide (optionally at a tab)",
+    "calendar_desc": "Toggle, open or close the calendar popup",
+    "lock_redactor_desc": "Toggle, open or close the lock screen layout editor"
   },
   "daemon": {
     "already_running": "Daemon is already running. Exiting...",

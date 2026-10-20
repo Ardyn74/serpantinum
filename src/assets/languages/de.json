@@ -1621,8 +1621,19 @@
       "monitors_detect": "Aktive Bildschirmausgänge und Bildwiederholraten abfragen",
       "location_manual": "Geografische Koordinaten und Zeitzone manuell festlegen",
       "blue_light_filter": "Farbtemperatur und Tag/Nacht-Zeitplan anpassen",
-      "translate": "Sofortige Text- und Auswahlübersetzung"
-    }
+      "translate": "Sofortige Text- und Auswahlübersetzung",
+      "suspend": "Bildschirm sperren und System in Bereitschaft versetzen",
+      "hibernate": "System in den Ruhezustand versetzen",
+      "reboot": "System neu starten",
+      "poweroff": "System herunterfahren",
+      "redactor": "Desktop-Widget-Editor öffnen oder umschalten"
+    },
+    "usage_label": "Verwendung:",
+    "launcher_desc": "Anwendungsstarter umschalten, öffnen oder schließen",
+    "clipboard_desc": "Zwischenablageverlauf umschalten, öffnen oder schließen",
+    "guide_desc": "Einstellungsanleitung umschalten, öffnen oder schließen (optional bei einem Tab)",
+    "calendar_desc": "Kalender-Popup umschalten, öffnen oder schließen",
+    "lock_redactor_desc": "Layout-Editor des Sperrbildschirms umschalten, öffnen oder schließen"
   },
   "daemon": {
     "already_running": "Daemon läuft bereits. Beenden...",

@@ -1574,8 +1574,19 @@
       "monitors_detect": "활성 디스플레이 출력과 주사율을 조회합니다",
       "location_manual": "지리 좌표와 시간대를 직접 설정합니다",
       "blue_light_filter": "색온도와 자동 주야간 일정을 조절합니다",
-      "translate": "즉시 텍스트 및 선택 영역 번역기"
-    }
+      "translate": "즉시 텍스트 및 선택 영역 번역기",
+      "suspend": "화면을 잠그고 시스템을 절전 모드로 전환",
+      "hibernate": "시스템을 최대 절전 모드로 전환",
+      "reboot": "시스템 재부팅",
+      "poweroff": "시스템 종료",
+      "redactor": "데스크톱 위젯 레이아웃 편집기 열기 또는 전환"
+    },
+    "usage_label": "사용법:",
+    "launcher_desc": "앱 실행기를 전환, 열기 또는 닫기",
+    "clipboard_desc": "클립보드 기록을 전환, 열기 또는 닫기",
+    "guide_desc": "설정 가이드를 전환, 열기 또는 닫기 (선택적으로 탭 지정)",
+    "calendar_desc": "캘린더 팝업을 전환, 열기 또는 닫기",
+    "lock_redactor_desc": "잠금 화면 레이아웃 편집기를 전환, 열기 또는 닫기"
   },
   "daemon": {
     "already_running": "데몬이 이미 실행 중입니다. 종료합니다...",

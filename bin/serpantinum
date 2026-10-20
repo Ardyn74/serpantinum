@@ -89,10 +89,20 @@ show_help() {
     echo "  ipc ...                      $(t "cli.ipc_desc")"
     echo "  kill                         $(t "cli.kill_desc")"
     echo "  restart                      $(t "cli.restart_desc")"
+    echo "  launcher [action]            $(t "cli.launcher_desc")"
+    echo "  clipboard [action]           $(t "cli.clipboard_desc")"
+    echo "  guide [action] [tab]         $(t "cli.guide_desc")"
+    echo "  calendar [action]            $(t "cli.calendar_desc")"
+    echo "  lock-redactor [action]       $(t "cli.lock_redactor_desc")"
     echo ""
     echo "$(t "cli.script_commands")"
     echo "  exit                         $(t "cli.scripts.exit")"
     echo "  lock                         $(t "cli.scripts.lock")"
+    echo "  suspend                      $(t "cli.scripts.suspend")"
+    echo "  hibernate                    $(t "cli.scripts.hibernate")"
+    echo "  reboot                       $(t "cli.scripts.reboot")"
+    echo "  poweroff                     $(t "cli.scripts.poweroff")"
+    echo "  redactor [monitor] [widget]  $(t "cli.scripts.redactor")"
     echo "  volume                       $(t "cli.scripts.volume")"
     echo "  reload                       $(t "cli.scripts.reload")"
     echo "  weather                      $(t "cli.scripts.weather")"
@@ -240,6 +250,50 @@ stop_daemon() {
     rm -f "/tmp/serpantinumd.lock" 2>/dev/null
 }
 
+cli_usage() {
+    echo "$(t "cli.usage_label") serpantinum $*" >&2
+    exit 1
+}
+
+cli_ipc() {
+    ensure_daemon
+    quickshell -p "$MAIN_QML" ipc call "$@"
+}
+
+cli_applet() {
+    local name="$1"
+    local action="${2:-toggle}"
+    local arg="${3:-}"
+
+    case "$action" in
+        toggle|open|close) ;;
+        *) cli_usage "$name [toggle|open|close]" ;;
+    esac
+
+    case "$name" in
+        launcher|clipboard)
+            cli_ipc main handleCommand "$action" "$name" ""
+            ;;
+        *)
+            ensure_daemon
+            if [[ "$action" == "close" ]]; then
+                "$SERPANTINUM_DIR/scripts/qs_manager.sh" close
+            else
+                "$SERPANTINUM_DIR/scripts/qs_manager.sh" "$action" "$name" "$arg"
+            fi
+            ;;
+    esac
+}
+
+cli_lock_redactor() {
+    local action="${1:-toggle}"
+    case "$action" in
+        toggle|close) cli_ipc lock-redactor "$action" ;;
+        open) cli_ipc lock-redactor open "${2:-}" ;;
+        *) cli_usage "lock-redactor [toggle|open [monitor]|close]" ;;
+    esac
+}
+
 if [[ "$1" == "kill" ]]; then
     stop_daemon
     echo "$(t "cli.daemon_stopped")"
@@ -330,9 +384,26 @@ if [[ "$1" == "ipc" ]]; then
     exec quickshell -p "$SHELL_QML" ipc "$@"
 fi
 
+case "$1" in
+    launcher|clipboard|guide|calendar)
+        cli_applet "$@"
+        exit $?
+        ;;
+    lock-redactor)
+        shift
+        cli_lock_redactor "$@"
+        exit $?
+        ;;
+esac
+
 ALLOWED_SCRIPTS=(
     "exit"
     "lock"
+    "suspend"
+    "hibernate"
+    "reboot"
+    "poweroff"
+    "redactor"
     "volume"
     "reload"
     "weather"
