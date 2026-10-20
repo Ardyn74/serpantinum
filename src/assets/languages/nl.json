@@ -1600,7 +1600,15 @@
     "state_off": "uit",
     "error_unknown_theme": "Fout: onbekend thema '{NAME}'.",
     "error_no_wallpapers": "Fout: geen achtergronden gevonden in de achtergrondmap.",
-    "error_file_not_found": "Fout: bestand niet gevonden: {PATH}"
+    "error_file_not_found": "Fout: bestand niet gevonden: {PATH}",
+    "dnd_desc": "Niet storen aan-, uitzetten of omschakelen",
+    "notif_desc": "Meldingen wissen of het meldingencentrum omschakelen",
+    "bar_desc": "Automatisch verbergen van de balk omschakelen, de balk verplaatsen of herladen",
+    "idle_desc": "Nu een inactiviteitsactie uitvoeren (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Het systeem wakker houden door inactiviteitsacties te pauzeren",
+    "dock_desc": "De dock tonen, verbergen of automatisch verbergen omschakelen",
+    "sfx_desc": "Geluidseffecten van de interface dempen of weer inschakelen",
+    "firstlaunch_desc": "De installatie bij eerste start activeren of resetten"
   },
   "daemon": {
     "already_running": "Daemon draait al. Afsluiten...",

@@ -1600,7 +1600,15 @@
     "state_off": "关",
     "error_unknown_theme": "错误：未知主题“{NAME}”。",
     "error_no_wallpapers": "错误：壁纸目录中未找到壁纸。",
-    "error_file_not_found": "错误：未找到文件：{PATH}"
+    "error_file_not_found": "错误：未找到文件：{PATH}",
+    "dnd_desc": "开启、关闭或切换勿扰模式",
+    "notif_desc": "清除通知或切换通知中心",
+    "bar_desc": "切换栏的自动隐藏、移动栏或重新加载栏",
+    "idle_desc": "立即执行空闲操作 (dim, dpms, lock, suspend)",
+    "caffeine_desc": "暂停空闲操作以保持系统唤醒",
+    "dock_desc": "显示、隐藏或切换程序坞的自动隐藏",
+    "sfx_desc": "静音或取消静音界面音效",
+    "firstlaunch_desc": "触发或重置首次启动设置"
   },
   "daemon": {
     "already_running": "守护进程已在运行。正在退出...",

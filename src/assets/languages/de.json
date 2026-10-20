@@ -1647,7 +1647,15 @@
     "state_off": "aus",
     "error_unknown_theme": "Fehler: Unbekanntes Design '{NAME}'.",
     "error_no_wallpapers": "Fehler: Keine Hintergrundbilder im Hintergrundbild-Verzeichnis gefunden.",
-    "error_file_not_found": "Fehler: Datei nicht gefunden: {PATH}"
+    "error_file_not_found": "Fehler: Datei nicht gefunden: {PATH}",
+    "dnd_desc": "Nicht stören ein-, ausschalten oder umschalten",
+    "notif_desc": "Benachrichtigungen löschen oder das Benachrichtigungszentrum umschalten",
+    "bar_desc": "Automatisches Ausblenden der Leiste umschalten, Leiste verschieben oder neu laden",
+    "idle_desc": "Eine Leerlaufaktion jetzt ausführen (dim, dpms, lock, suspend)",
+    "caffeine_desc": "System wach halten, indem Leerlaufaktionen pausiert werden",
+    "dock_desc": "Dock anzeigen, ausblenden oder automatisches Ausblenden umschalten",
+    "sfx_desc": "Oberflächen-Soundeffekte stummschalten oder wieder einschalten",
+    "firstlaunch_desc": "Die Ersteinrichtung auslösen oder zurücksetzen"
   },
   "daemon": {
     "already_running": "Daemon läuft bereits. Beenden...",

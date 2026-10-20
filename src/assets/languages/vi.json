@@ -1600,7 +1600,15 @@
     "state_off": "tắt",
     "error_unknown_theme": "Lỗi: không rõ chủ đề '{NAME}'.",
     "error_no_wallpapers": "Lỗi: không tìm thấy hình nền trong thư mục hình nền.",
-    "error_file_not_found": "Lỗi: không tìm thấy tệp: {PATH}"
+    "error_file_not_found": "Lỗi: không tìm thấy tệp: {PATH}",
+    "dnd_desc": "Bật, tắt hoặc chuyển đổi Không làm phiền",
+    "notif_desc": "Xóa thông báo hoặc bật/tắt trung tâm thông báo",
+    "bar_desc": "Bật/tắt tự động ẩn thanh, di chuyển hoặc tải lại thanh",
+    "idle_desc": "Chạy ngay một hành động khi nhàn rỗi (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Giữ hệ thống luôn thức bằng cách tạm dừng các hành động khi nhàn rỗi",
+    "dock_desc": "Hiện, ẩn hoặc bật/tắt tự động ẩn dock",
+    "sfx_desc": "Tắt hoặc bật hiệu ứng âm thanh của giao diện",
+    "firstlaunch_desc": "Kích hoạt hoặc đặt lại thiết lập lần khởi chạy đầu tiên"
   },
   "daemon": {
     "already_running": "Daemon đang chạy rồi. Đang thoát...",

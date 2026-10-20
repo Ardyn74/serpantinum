@@ -669,7 +669,15 @@
     "state_off": "wyłączone",
     "error_unknown_theme": "Błąd: nieznany motyw '{NAME}'.",
     "error_no_wallpapers": "Błąd: nie znaleziono tapet w katalogu tapet.",
-    "error_file_not_found": "Błąd: nie znaleziono pliku: {PATH}"
+    "error_file_not_found": "Błąd: nie znaleziono pliku: {PATH}",
+    "dnd_desc": "Włącz, wyłącz lub przełącz tryb Nie przeszkadzać",
+    "notif_desc": "Wyczyść powiadomienia lub przełącz centrum powiadomień",
+    "bar_desc": "Przełącz automatyczne ukrywanie paska, przesuń go lub przeładuj",
+    "idle_desc": "Uruchom teraz akcję bezczynności (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Utrzymaj system w stanie aktywnym, wstrzymując akcje bezczynności",
+    "dock_desc": "Pokaż, ukryj lub przełącz automatyczne ukrywanie docka",
+    "sfx_desc": "Wycisz lub włącz efekty dźwiękowe interfejsu",
+    "firstlaunch_desc": "Uruchom lub zresetuj konfigurację pierwszego uruchomienia"
   },
   "daemon": {
     "already_running": "Demon jest już uruchomiony. Kończenie pracy...",

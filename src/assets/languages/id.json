@@ -1600,7 +1600,15 @@
     "state_off": "nonaktif",
     "error_unknown_theme": "Kesalahan: tema tidak dikenal '{NAME}'.",
     "error_no_wallpapers": "Kesalahan: tidak ada wallpaper di direktori wallpaper.",
-    "error_file_not_found": "Kesalahan: berkas tidak ditemukan: {PATH}"
+    "error_file_not_found": "Kesalahan: berkas tidak ditemukan: {PATH}",
+    "dnd_desc": "Aktifkan, nonaktifkan, atau alihkan Jangan ganggu",
+    "notif_desc": "Hapus notifikasi atau alihkan pusat notifikasi",
+    "bar_desc": "Alihkan sembunyi otomatis bilah, pindahkan, atau muat ulang bilah",
+    "idle_desc": "Jalankan tindakan siaga sekarang (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Jaga sistem tetap aktif dengan menjeda tindakan siaga",
+    "dock_desc": "Tampilkan, sembunyikan, atau alihkan sembunyi otomatis dock",
+    "sfx_desc": "Bisukan atau aktifkan efek suara antarmuka",
+    "firstlaunch_desc": "Jalankan atau atur ulang penyiapan peluncuran pertama"
   },
   "daemon": {
     "already_running": "Daemon sudah berjalan. Keluar...",

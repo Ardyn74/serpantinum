@@ -94,6 +94,14 @@ show_help() {
     echo "  guide [action] [tab]         $(t "cli.guide_desc")"
     echo "  calendar [action]            $(t "cli.calendar_desc")"
     echo "  lock-redactor [action]       $(t "cli.lock_redactor_desc")"
+    echo "  dnd [action]                 $(t "cli.dnd_desc")"
+    echo "  notif <action>               $(t "cli.notif_desc")"
+    echo "  bar <action> [value]         $(t "cli.bar_desc")"
+    echo "  idle trigger <action>        $(t "cli.idle_desc")"
+    echo "  caffeine [action]            $(t "cli.caffeine_desc")"
+    echo "  dock [action]                $(t "cli.dock_desc")"
+    echo "  sfx mute [action]            $(t "cli.sfx_desc")"
+    echo "  firstlaunch <action>         $(t "cli.firstlaunch_desc")"
     echo "  wallpaper <action> [args]    $(t "cli.wallpaper_desc")"
     echo "  theme <action> [args]        $(t "cli.theme_desc")"
     echo "  config <action> [args]       $(t "cli.config_desc")"
@@ -358,6 +366,100 @@ cli_config() {
         *)
             cli_usage "config <get <key> [fallback]|set <key> <value>|dump|path|edit>"
             ;;
+    esac
+}
+
+cli_switch() {
+    local path="$1"
+    local action="${2:-toggle}"
+    local default="$3"
+    local label="$4"
+    local current new
+    current="$(cli_cfg_get "$path" "$default")"
+
+    case "$action" in
+        on) new=true ;;
+        off) new=false ;;
+        toggle) [ "$current" = "true" ] && new=false || new=true ;;
+        status) new="$current" ;;
+        *) cli_usage "$label <on|off|toggle|status>" ;;
+    esac
+
+    if [[ "$action" != "status" ]]; then
+        cli_cfg_set "$path" "$new"
+    fi
+
+    [ "$new" = "true" ] && echo "$(t "cli.state_on")" || echo "$(t "cli.state_off")"
+}
+
+cli_notif() {
+    case "${1:-}" in
+        clear) cli_ipc main clearNotifications ;;
+        toggle|open|close) cli_applet notifications "$1" ;;
+        *) cli_usage "notif <clear|toggle|open|close>" ;;
+    esac
+}
+
+cli_bar() {
+    case "${1:-}" in
+        autohide)
+            cli_switch bar.autohide "$2" false "bar autohide"
+            ;;
+        position)
+            case "${2:-}" in
+                top|bottom|left|right) cli_cfg_set bar.position "$2" ;;
+                *) cli_usage "bar position <top|bottom|left|right>" ;;
+            esac
+            ;;
+        reload)
+            cli_ipc topbar forceReload
+            ;;
+        *)
+            cli_usage "bar <autohide [on|off|toggle|status]|position <top|bottom|left|right>|reload>"
+            ;;
+    esac
+}
+
+cli_idle() {
+    case "${1:-}" in
+        trigger)
+            case "${2:-}" in
+                dim|dpms|lock|suspend) cli_ipc idle trigger "$2" ;;
+                *) cli_usage "idle trigger <dim|dpms|lock|suspend>" ;;
+            esac
+            ;;
+        *)
+            cli_usage "idle trigger <dim|dpms|lock|suspend>"
+            ;;
+    esac
+}
+
+cli_caffeine() {
+    cli_switch idle.manualInhibit "$1" false caffeine
+    if [[ "${1:-toggle}" != "status" && "$(cli_cfg_get idle.manualInhibit false)" != "true" ]]; then
+        cli_cfg_apply '.idle = ((.idle // {}) + {caffeineStartTime: 0, caffeineEndTime: 0})'
+    fi
+}
+
+cli_dock() {
+    case "${1:-toggle}" in
+        autohide) cli_switch dock.autohide "$2" false "dock autohide" ;;
+        on|off|toggle|status) cli_switch dock.enabled "$1" true dock ;;
+        *) cli_usage "dock <on|off|toggle|status|autohide [on|off|toggle|status]>" ;;
+    esac
+}
+
+cli_sfx() {
+    case "${1:-}" in
+        mute) cli_switch general.muteSfx "$2" false "sfx mute" ;;
+        *) cli_usage "sfx mute [on|off|toggle|status]" ;;
+    esac
+}
+
+cli_firstlaunch() {
+    case "${1:-}" in
+        trigger|reset) cli_ipc firstlaunch "$1" ;;
+        *) cli_usage "firstlaunch <trigger|reset>" ;;
     esac
 }
 
@@ -645,6 +747,46 @@ case "$1" in
     lock-redactor)
         shift
         cli_lock_redactor "$@"
+        exit $?
+        ;;
+    dnd)
+        shift
+        cli_switch notifications.dnd "$1" false dnd
+        exit $?
+        ;;
+    notif)
+        shift
+        cli_notif "$@"
+        exit $?
+        ;;
+    bar)
+        shift
+        cli_bar "$@"
+        exit $?
+        ;;
+    idle)
+        shift
+        cli_idle "$@"
+        exit $?
+        ;;
+    caffeine)
+        shift
+        cli_caffeine "$@"
+        exit $?
+        ;;
+    dock)
+        shift
+        cli_dock "$@"
+        exit $?
+        ;;
+    sfx)
+        shift
+        cli_sfx "$@"
+        exit $?
+        ;;
+    firstlaunch)
+        shift
+        cli_firstlaunch "$@"
         exit $?
         ;;
     wallpaper)

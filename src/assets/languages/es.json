@@ -1644,7 +1644,15 @@
     "state_off": "desactivado",
     "error_unknown_theme": "Error: tema desconocido '{NAME}'.",
     "error_no_wallpapers": "Error: no se encontraron fondos de pantalla en el directorio de fondos.",
-    "error_file_not_found": "Error: archivo no encontrado: {PATH}"
+    "error_file_not_found": "Error: archivo no encontrado: {PATH}",
+    "dnd_desc": "Activar, desactivar o alternar No molestar",
+    "notif_desc": "Borrar notificaciones o alternar el centro de notificaciones",
+    "bar_desc": "Alternar el autoocultado de la barra, moverla o recargarla",
+    "idle_desc": "Ejecutar ahora una acción de inactividad (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Mantener el sistema activo pausando las acciones de inactividad",
+    "dock_desc": "Mostrar, ocultar o alternar el autoocultado del dock",
+    "sfx_desc": "Silenciar o reactivar los efectos de sonido de la interfaz",
+    "firstlaunch_desc": "Iniciar o restablecer la configuración del primer inicio"
   },
   "daemon": {
     "already_running": "El demonio ya está en ejecución. Saliendo...",

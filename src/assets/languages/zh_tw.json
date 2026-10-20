@@ -1600,7 +1600,15 @@
     "state_off": "關",
     "error_unknown_theme": "錯誤：未知主題「{NAME}」。",
     "error_no_wallpapers": "錯誤：桌布目錄中找不到桌布。",
-    "error_file_not_found": "錯誤：找不到檔案：{PATH}"
+    "error_file_not_found": "錯誤：找不到檔案：{PATH}",
+    "dnd_desc": "開啟、關閉或切換勿擾模式",
+    "notif_desc": "清除通知或切換通知中心",
+    "bar_desc": "切換列的自動隱藏、移動列或重新載入列",
+    "idle_desc": "立即執行閒置動作 (dim, dpms, lock, suspend)",
+    "caffeine_desc": "暫停閒置動作以保持系統喚醒",
+    "dock_desc": "顯示、隱藏或切換 Dock 的自動隱藏",
+    "sfx_desc": "靜音或取消靜音介面音效",
+    "firstlaunch_desc": "觸發或重設首次啟動設定"
   },
   "daemon": {
     "already_running": "常駐程式已在執行中。正在結束...",

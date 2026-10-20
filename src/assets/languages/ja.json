@@ -666,7 +666,15 @@
     "state_off": "オフ",
     "error_unknown_theme": "エラー: 不明なテーマ '{NAME}' です。",
     "error_no_wallpapers": "エラー: 壁紙ディレクトリに壁紙が見つかりません。",
-    "error_file_not_found": "エラー: ファイルが見つかりません: {PATH}"
+    "error_file_not_found": "エラー: ファイルが見つかりません: {PATH}",
+    "dnd_desc": "おやすみモードをオン、オフ、または切り替える",
+    "notif_desc": "通知を消去、または通知センターを切り替える",
+    "bar_desc": "バーの自動非表示の切り替え、バーの移動、再読み込み",
+    "idle_desc": "アイドル時のアクションを今すぐ実行 (dim, dpms, lock, suspend)",
+    "caffeine_desc": "アイドル時のアクションを一時停止してシステムを起動状態に保つ",
+    "dock_desc": "Dock の表示、非表示、自動非表示の切り替え",
+    "sfx_desc": "インターフェースの効果音をミュートまたはミュート解除",
+    "firstlaunch_desc": "初回起動のセットアップを実行またはリセット"
   },
   "daemon": {
     "already_running": "デーモンは既に実行中です。終了します...",

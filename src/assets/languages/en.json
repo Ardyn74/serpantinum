@@ -1619,7 +1619,15 @@
     "state_off": "off",
     "error_unknown_theme": "Error: unknown theme '{NAME}'.",
     "error_no_wallpapers": "Error: no wallpapers found in the wallpaper directory.",
-    "error_file_not_found": "Error: file not found: {PATH}"
+    "error_file_not_found": "Error: file not found: {PATH}",
+    "dnd_desc": "Turn do not disturb on, off or toggle it",
+    "notif_desc": "Clear notifications or toggle the notification center",
+    "bar_desc": "Toggle bar autohide, move the bar or reload it",
+    "idle_desc": "Run an idle action now (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Keep the system awake by pausing idle actions",
+    "dock_desc": "Show, hide or toggle autohide of the dock",
+    "sfx_desc": "Mute or unmute interface sound effects",
+    "firstlaunch_desc": "Trigger or reset the first launch setup"
   },
   "daemon": {
     "already_running": "Daemon is already running. Exiting...",

@@ -1599,7 +1599,15 @@
     "state_off": "disattivo",
     "error_unknown_theme": "Errore: tema sconosciuto '{NAME}'.",
     "error_no_wallpapers": "Errore: nessuno sfondo trovato nella cartella degli sfondi.",
-    "error_file_not_found": "Errore: file non trovato: {PATH}"
+    "error_file_not_found": "Errore: file non trovato: {PATH}",
+    "dnd_desc": "Attiva, disattiva o commuta Non disturbare",
+    "notif_desc": "Cancella le notifiche o commuta il centro notifiche",
+    "bar_desc": "Commuta l'occultamento automatico della barra, spostala o ricaricala",
+    "idle_desc": "Esegui subito un'azione di inattività (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Mantieni il sistema attivo sospendendo le azioni di inattività",
+    "dock_desc": "Mostra, nascondi o commuta l'occultamento automatico del dock",
+    "sfx_desc": "Disattiva o riattiva gli effetti sonori dell'interfaccia",
+    "firstlaunch_desc": "Avvia o reimposta la configurazione del primo avvio"
   },
   "daemon": {
     "already_running": "Il demone è già in esecuzione. Uscita...",

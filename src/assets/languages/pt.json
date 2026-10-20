@@ -1600,7 +1600,15 @@
     "state_off": "desativado",
     "error_unknown_theme": "Erro: tema desconhecido '{NAME}'.",
     "error_no_wallpapers": "Erro: nenhum papel de parede encontrado no diretório de papéis de parede.",
-    "error_file_not_found": "Erro: arquivo não encontrado: {PATH}"
+    "error_file_not_found": "Erro: arquivo não encontrado: {PATH}",
+    "dnd_desc": "Ativar, desativar ou alternar Não perturbe",
+    "notif_desc": "Limpar notificações ou alternar a central de notificações",
+    "bar_desc": "Alternar a ocultação automática da barra, movê-la ou recarregá-la",
+    "idle_desc": "Executar agora uma ação de inatividade (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Manter o sistema ativo pausando as ações de inatividade",
+    "dock_desc": "Mostrar, ocultar ou alternar a ocultação automática do dock",
+    "sfx_desc": "Silenciar ou reativar os efeitos sonoros da interface",
+    "firstlaunch_desc": "Iniciar ou redefinir a configuração do primeiro início"
   },
   "daemon": {
     "already_running": "O daemon já está em execução. Saindo...",

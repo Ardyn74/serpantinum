@@ -1600,7 +1600,15 @@
     "state_off": "kapalı",
     "error_unknown_theme": "Hata: bilinmeyen tema '{NAME}'.",
     "error_no_wallpapers": "Hata: duvar kağıdı dizininde duvar kağıdı bulunamadı.",
-    "error_file_not_found": "Hata: dosya bulunamadı: {PATH}"
+    "error_file_not_found": "Hata: dosya bulunamadı: {PATH}",
+    "dnd_desc": "Rahatsız etmeyin modunu aç, kapat veya değiştir",
+    "notif_desc": "Bildirimleri temizle veya bildirim merkezini aç/kapat",
+    "bar_desc": "Çubuğun otomatik gizlenmesini değiştir, çubuğu taşı veya yeniden yükle",
+    "idle_desc": "Boşta eylemini şimdi çalıştır (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Boşta eylemlerini duraklatarak sistemi uyanık tut",
+    "dock_desc": "Dock'u göster, gizle veya otomatik gizlemesini değiştir",
+    "sfx_desc": "Arayüz ses efektlerini sessize al veya sesini aç",
+    "firstlaunch_desc": "İlk açılış kurulumunu başlat veya sıfırla"
   },
   "daemon": {
     "already_running": "Arka plan programı zaten çalışıyor. Çıkılıyor...",

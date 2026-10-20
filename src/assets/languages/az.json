@@ -1594,7 +1594,15 @@
     "state_off": "deaktiv",
     "error_unknown_theme": "Xəta: naməlum mövzu '{NAME}'.",
     "error_no_wallpapers": "Xəta: divar kağızı qovluğunda divar kağızı tapılmadı.",
-    "error_file_not_found": "Xəta: fayl tapılmadı: {PATH}"
+    "error_file_not_found": "Xəta: fayl tapılmadı: {PATH}",
+    "dnd_desc": "Narahat etməyin rejimini aç, söndür və ya dəyiş",
+    "notif_desc": "Bildirişləri təmizlə və ya bildiriş mərkəzini dəyiş",
+    "bar_desc": "Panelin avtomatik gizlənməsini dəyiş, paneli köçür və ya yenidən yüklə",
+    "idle_desc": "Boşdayanma əməliyyatını indi icra et (dim, dpms, lock, suspend)",
+    "caffeine_desc": "Boşdayanma əməliyyatlarını dayandıraraq sistemi oyaq saxla",
+    "dock_desc": "Dok-u göstər, gizlət və ya avtomatik gizlənməsini dəyiş",
+    "sfx_desc": "İnterfeys səs effektlərini səssizləşdir və ya səsləndir",
+    "firstlaunch_desc": "İlk işə salma quraşdırmasını başlat və ya sıfırla"
   },
   "daemon": {
     "already_running": "Arxa plan xidməti artıq işləyir. Çıxılır...",
