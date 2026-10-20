@@ -1593,7 +1593,14 @@
     "check_updates_desc": "检查是否有新版本可用",
     "error_unknown_language": "错误：未知语言 '{CODE}'。",
     "update_available": "有可用更新：{LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum 已是最新版本 ({VERSION})。"
+    "up_to_date": "Serpantinum 已是最新版本 ({VERSION})。",
+    "wallpaper_desc": "设置、查询、随机切换或逐张切换壁纸",
+    "theme_desc": "列出、应用并重新生成颜色主题",
+    "state_on": "开",
+    "state_off": "关",
+    "error_unknown_theme": "错误：未知主题“{NAME}”。",
+    "error_no_wallpapers": "错误：壁纸目录中未找到壁纸。",
+    "error_file_not_found": "错误：未找到文件：{PATH}"
   },
   "daemon": {
     "already_running": "守护进程已在运行。正在退出...",

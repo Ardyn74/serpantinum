@@ -1637,7 +1637,14 @@
     "check_updates_desc": "Comprobar si hay una versión más reciente disponible",
     "error_unknown_language": "Error: idioma desconocido '{CODE}'.",
     "update_available": "Actualización disponible: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum está actualizado ({VERSION})."
+    "up_to_date": "Serpantinum está actualizado ({VERSION}).",
+    "wallpaper_desc": "Establecer, consultar, mezclar o recorrer fondos de pantalla",
+    "theme_desc": "Listar, aplicar y regenerar temas de color",
+    "state_on": "activado",
+    "state_off": "desactivado",
+    "error_unknown_theme": "Error: tema desconocido '{NAME}'.",
+    "error_no_wallpapers": "Error: no se encontraron fondos de pantalla en el directorio de fondos.",
+    "error_file_not_found": "Error: archivo no encontrado: {PATH}"
   },
   "daemon": {
     "already_running": "El demonio ya está en ejecución. Saliendo...",

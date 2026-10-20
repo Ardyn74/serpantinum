@@ -105,7 +105,14 @@
     "check_updates_desc": "التحقق من توفر إصدار أحدث",
     "error_unknown_language": "خطأ: اللغة '{CODE}' غير معروفة.",
     "update_available": "يتوفر تحديث: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum محدّث ({VERSION})."
+    "up_to_date": "Serpantinum محدّث ({VERSION}).",
+    "wallpaper_desc": "تعيين الخلفيات أو الاستعلام عنها أو تبديلها عشوائيا أو التنقل بينها",
+    "theme_desc": "عرض السمات اللونية وتطبيقها وإعادة إنشائها",
+    "state_on": "مفعل",
+    "state_off": "معطل",
+    "error_unknown_theme": "خطأ: سمة غير معروفة '{NAME}'.",
+    "error_no_wallpapers": "خطأ: لم يتم العثور على خلفيات في مجلد الخلفيات.",
+    "error_file_not_found": "خطأ: الملف غير موجود: {PATH}"
   },
   "clipboard": {
     "clear": "مسح",

@@ -1593,7 +1593,14 @@
     "check_updates_desc": "بررسی وجود نسخه جدیدتر",
     "error_unknown_language": "خطا: زبان ناشناخته '{CODE}'.",
     "update_available": "به‌روزرسانی موجود است: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum به‌روز است ({VERSION})."
+    "up_to_date": "Serpantinum به‌روز است ({VERSION}).",
+    "wallpaper_desc": "تنظیم، بررسی، درهم‌سازی یا پیمایش تصاویر پس‌زمینه",
+    "theme_desc": "فهرست، اعمال و بازسازی پوسته‌های رنگی",
+    "state_on": "روشن",
+    "state_off": "خاموش",
+    "error_unknown_theme": "خطا: پوسته ناشناخته '{NAME}'.",
+    "error_no_wallpapers": "خطا: هیچ تصویر پس‌زمینه‌ای در پوشه تصاویر پس‌زمینه یافت نشد.",
+    "error_file_not_found": "خطا: فایل یافت نشد: {PATH}"
   },
   "daemon": {
     "already_running": "دیمن در حال حاضر در حال اجرا است. در حال خروج...",

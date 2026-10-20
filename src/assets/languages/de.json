@@ -1640,7 +1640,14 @@
     "check_updates_desc": "Prüfen, ob eine neuere Version verfügbar ist",
     "error_unknown_language": "Fehler: Unbekannte Sprache '{CODE}'.",
     "update_available": "Update verfügbar: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum ist auf dem neuesten Stand ({VERSION})."
+    "up_to_date": "Serpantinum ist auf dem neuesten Stand ({VERSION}).",
+    "wallpaper_desc": "Hintergrundbilder setzen, abfragen, mischen oder durchschalten",
+    "theme_desc": "Farbthemen auflisten, anwenden und neu generieren",
+    "state_on": "an",
+    "state_off": "aus",
+    "error_unknown_theme": "Fehler: Unbekanntes Design '{NAME}'.",
+    "error_no_wallpapers": "Fehler: Keine Hintergrundbilder im Hintergrundbild-Verzeichnis gefunden.",
+    "error_file_not_found": "Fehler: Datei nicht gefunden: {PATH}"
   },
   "daemon": {
     "already_running": "Daemon läuft bereits. Beenden...",

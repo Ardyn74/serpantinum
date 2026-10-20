@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Periksa apakah versi yang lebih baru tersedia",
     "error_unknown_language": "Kesalahan: bahasa '{CODE}' tidak dikenal.",
     "update_available": "Pembaruan tersedia: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum sudah yang terbaru ({VERSION})."
+    "up_to_date": "Serpantinum sudah yang terbaru ({VERSION}).",
+    "wallpaper_desc": "Atur, cek, acak, atau ganti wallpaper",
+    "theme_desc": "Daftar, terapkan, dan buat ulang tema warna",
+    "state_on": "aktif",
+    "state_off": "nonaktif",
+    "error_unknown_theme": "Kesalahan: tema tidak dikenal '{NAME}'.",
+    "error_no_wallpapers": "Kesalahan: tidak ada wallpaper di direktori wallpaper.",
+    "error_file_not_found": "Kesalahan: berkas tidak ditemukan: {PATH}"
   },
   "daemon": {
     "already_running": "Daemon sudah berjalan. Keluar...",

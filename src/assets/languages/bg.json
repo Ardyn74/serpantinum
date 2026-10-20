@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Проверка дали има по-нова версия",
     "error_unknown_language": "Грешка: непознат език '{CODE}'.",
     "update_available": "Налична е актуализация: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum е актуален ({VERSION})."
+    "up_to_date": "Serpantinum е актуален ({VERSION}).",
+    "wallpaper_desc": "Задаване, проверка, разбъркване или превключване на тапети",
+    "theme_desc": "Списък, прилагане и прегенериране на цветови теми",
+    "state_on": "вкл.",
+    "state_off": "изкл.",
+    "error_unknown_theme": "Грешка: непозната тема '{NAME}'.",
+    "error_no_wallpapers": "Грешка: в директорията с тапети не са намерени тапети.",
+    "error_file_not_found": "Грешка: файлът не е намерен: {PATH}"
   },
   "daemon": {
     "already_running": "Демонът вече работи. Изход...",

@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Ստուգել՝ արդյոք հասանելի է ավելի նոր տարբերակ",
     "error_unknown_language": "Սխալ՝ անհայտ լեզու '{CODE}'։",
     "update_available": "Հասանելի է թարմացում՝ {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum-ը թարմ է ({VERSION})։"
+    "up_to_date": "Serpantinum-ը թարմ է ({VERSION})։",
+    "wallpaper_desc": "Սահմանել, ստուգել, խառնել կամ փոխել պաստառները",
+    "theme_desc": "Ցուցակագրել, կիրառել և վերագեներացնել գունային թեմաները",
+    "state_on": "միացված",
+    "state_off": "անջատված",
+    "error_unknown_theme": "Սխալ․ անհայտ թեմա '{NAME}'։",
+    "error_no_wallpapers": "Սխալ․ պաստառների թղթապանակում պաստառներ չեն գտնվել։",
+    "error_file_not_found": "Սխալ․ ֆայլը չի գտնվել՝ {PATH}"
   },
   "daemon": {
     "already_running": "Սպասարկիչն արդեն աշխատում է։ Դուրս է գալիս...",

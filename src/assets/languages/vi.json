@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Kiểm tra xem có phiên bản mới hơn không",
     "error_unknown_language": "Lỗi: ngôn ngữ '{CODE}' không xác định.",
     "update_available": "Có bản cập nhật: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum đã được cập nhật ({VERSION})."
+    "up_to_date": "Serpantinum đã được cập nhật ({VERSION}).",
+    "wallpaper_desc": "Đặt, truy vấn, xáo trộn hoặc chuyển hình nền",
+    "theme_desc": "Liệt kê, áp dụng và tạo lại các chủ đề màu",
+    "state_on": "bật",
+    "state_off": "tắt",
+    "error_unknown_theme": "Lỗi: không rõ chủ đề '{NAME}'.",
+    "error_no_wallpapers": "Lỗi: không tìm thấy hình nền trong thư mục hình nền.",
+    "error_file_not_found": "Lỗi: không tìm thấy tệp: {PATH}"
   },
   "daemon": {
     "already_running": "Daemon đang chạy rồi. Đang thoát...",

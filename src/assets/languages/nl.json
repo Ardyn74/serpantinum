@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Controleren of er een nieuwere versie beschikbaar is",
     "error_unknown_language": "Fout: onbekende taal '{CODE}'.",
     "update_available": "Update beschikbaar: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum is up-to-date ({VERSION})."
+    "up_to_date": "Serpantinum is up-to-date ({VERSION}).",
+    "wallpaper_desc": "Achtergronden instellen, opvragen, schudden of doorlopen",
+    "theme_desc": "Kleurthema's weergeven, toepassen en opnieuw genereren",
+    "state_on": "aan",
+    "state_off": "uit",
+    "error_unknown_theme": "Fout: onbekend thema '{NAME}'.",
+    "error_no_wallpapers": "Fout: geen achtergronden gevonden in de achtergrondmap.",
+    "error_file_not_found": "Fout: bestand niet gevonden: {PATH}"
   },
   "daemon": {
     "already_running": "Daemon draait al. Afsluiten...",

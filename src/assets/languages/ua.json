@@ -1616,7 +1616,14 @@
     "check_updates_desc": "Перевірка наявності новішої версії",
     "error_unknown_language": "Помилка: невідома мова '{CODE}'.",
     "update_available": "Доступне оновлення: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum актуальний ({VERSION})."
+    "up_to_date": "Serpantinum актуальний ({VERSION}).",
+    "wallpaper_desc": "Встановити, дізнатися, перемішати або перемикати шпалери",
+    "theme_desc": "Список, застосування та перегенерація кольорових тем",
+    "state_on": "увімк.",
+    "state_off": "вимк.",
+    "error_unknown_theme": "Помилка: невідома тема '{NAME}'.",
+    "error_no_wallpapers": "Помилка: у каталозі шпалер не знайдено шпалер.",
+    "error_file_not_found": "Помилка: файл не знайдено: {PATH}"
   },
   "daemon": {
     "already_running": "Службу вже запущено. Вихід...",

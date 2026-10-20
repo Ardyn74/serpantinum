@@ -662,7 +662,14 @@
     "check_updates_desc": "Sprawdź, czy dostępna jest nowsza wersja",
     "error_unknown_language": "Błąd: nieznany język '{CODE}'.",
     "update_available": "Dostępna aktualizacja: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum jest aktualny ({VERSION})."
+    "up_to_date": "Serpantinum jest aktualny ({VERSION}).",
+    "wallpaper_desc": "Ustaw, sprawdź, wymieszaj lub przełączaj tapety",
+    "theme_desc": "Wyświetl, zastosuj i wygeneruj ponownie motywy kolorystyczne",
+    "state_on": "włączone",
+    "state_off": "wyłączone",
+    "error_unknown_theme": "Błąd: nieznany motyw '{NAME}'.",
+    "error_no_wallpapers": "Błąd: nie znaleziono tapet w katalogu tapet.",
+    "error_file_not_found": "Błąd: nie znaleziono pliku: {PATH}"
   },
   "daemon": {
     "already_running": "Demon jest już uruchomiony. Kończenie pracy...",

@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Daha yeni bir sürüm olup olmadığını denetle",
     "error_unknown_language": "Hata: bilinmeyen dil '{CODE}'.",
     "update_available": "Güncelleme mevcut: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum güncel ({VERSION})."
+    "up_to_date": "Serpantinum güncel ({VERSION}).",
+    "wallpaper_desc": "Duvar kağıtlarını ayarla, sorgula, karıştır veya değiştir",
+    "theme_desc": "Renk temalarını listele, uygula ve yeniden oluştur",
+    "state_on": "açık",
+    "state_off": "kapalı",
+    "error_unknown_theme": "Hata: bilinmeyen tema '{NAME}'.",
+    "error_no_wallpapers": "Hata: duvar kağıdı dizininde duvar kağıdı bulunamadı.",
+    "error_file_not_found": "Hata: dosya bulunamadı: {PATH}"
   },
   "daemon": {
     "already_running": "Arka plan programı zaten çalışıyor. Çıkılıyor...",

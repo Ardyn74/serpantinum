@@ -1641,7 +1641,14 @@
     "check_updates_desc": "Проверка наличия более новой версии",
     "error_unknown_language": "Ошибка: неизвестный язык '{CODE}'.",
     "update_available": "Доступно обновление: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum актуален ({VERSION})."
+    "up_to_date": "Serpantinum актуален ({VERSION}).",
+    "wallpaper_desc": "Установить, узнать, перемешать или переключать обои",
+    "theme_desc": "Список, применение и перегенерация цветовых тем",
+    "state_on": "вкл.",
+    "state_off": "выкл.",
+    "error_unknown_theme": "Ошибка: неизвестная тема '{NAME}'.",
+    "error_no_wallpapers": "Ошибка: в каталоге обоев не найдено обоев.",
+    "error_file_not_found": "Ошибка: файл не найден: {PATH}"
   },
   "daemon": {
     "already_running": "Служба уже запущена. Выход...",

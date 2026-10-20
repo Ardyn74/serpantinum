@@ -1593,7 +1593,14 @@
     "check_updates_desc": "Verificar se há uma versão mais recente disponível",
     "error_unknown_language": "Erro: idioma desconhecido '{CODE}'.",
     "update_available": "Atualização disponível: {LOCAL} -> {REMOTE}",
-    "up_to_date": "O Serpantinum está atualizado ({VERSION})."
+    "up_to_date": "O Serpantinum está atualizado ({VERSION}).",
+    "wallpaper_desc": "Definir, consultar, embaralhar ou percorrer papéis de parede",
+    "theme_desc": "Listar, aplicar e regenerar temas de cores",
+    "state_on": "ativado",
+    "state_off": "desativado",
+    "error_unknown_theme": "Erro: tema desconhecido '{NAME}'.",
+    "error_no_wallpapers": "Erro: nenhum papel de parede encontrado no diretório de papéis de parede.",
+    "error_file_not_found": "Erro: arquivo não encontrado: {PATH}"
   },
   "daemon": {
     "already_running": "O daemon já está em execução. Saindo...",

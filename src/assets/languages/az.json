@@ -1587,7 +1587,14 @@
     "check_updates_desc": "Daha yeni versiyanın olub-olmadığını yoxla",
     "error_unknown_language": "Xəta: naməlum dil '{CODE}'.",
     "update_available": "Yeniləmə mövcuddur: {LOCAL} -> {REMOTE}",
-    "up_to_date": "Serpantinum aktualdır ({VERSION})."
+    "up_to_date": "Serpantinum aktualdır ({VERSION}).",
+    "wallpaper_desc": "Divar kağızlarını təyin et, sorğula, qarışdır və ya keçid et",
+    "theme_desc": "Rəng mövzularını siyahıla, tətbiq et və yenidən yarat",
+    "state_on": "aktiv",
+    "state_off": "deaktiv",
+    "error_unknown_theme": "Xəta: naməlum mövzu '{NAME}'.",
+    "error_no_wallpapers": "Xəta: divar kağızı qovluğunda divar kağızı tapılmadı.",
+    "error_file_not_found": "Xəta: fayl tapılmadı: {PATH}"
   },
   "daemon": {
     "already_running": "Arxa plan xidməti artıq işləyir. Çıxılır...",
