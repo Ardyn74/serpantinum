@@ -88,6 +88,7 @@ show_help() {
     echo "  msg <action|workspace> ...  $(t "cli.msg_desc")"
     echo "  ipc ...                      $(t "cli.ipc_desc")"
     echo "  kill                         $(t "cli.kill_desc")"
+    echo "  restart                      $(t "cli.restart_desc")"
     echo ""
     echo "$(t "cli.script_commands")"
     echo "  exit                         $(t "cli.scripts.exit")"
@@ -118,6 +119,7 @@ show_help() {
     echo "  serpantinum msg toggle clipboard"
     echo "  serpantinum weather --current-temp"
     echo "  serpantinum kill"
+    echo "  serpantinum restart"
     echo ""
 }
 
@@ -213,8 +215,8 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-if [[ "$1" == "kill" ]]; then
-    pid=""
+stop_daemon() {
+    local pid=""
     if [ -f "/tmp/serpantinumd.pid" ]; then
         pid="$(cat "/tmp/serpantinumd.pid" 2>/dev/null)"
     fi
@@ -236,7 +238,18 @@ if [[ "$1" == "kill" ]]; then
 
     rm -f "/tmp/serpantinumd.pid" 2>/dev/null
     rm -f "/tmp/serpantinumd.lock" 2>/dev/null
+}
+
+if [[ "$1" == "kill" ]]; then
+    stop_daemon
     echo "$(t "cli.daemon_stopped")"
+    exit 0
+fi
+
+if [[ "$1" == "restart" ]]; then
+    stop_daemon
+    ensure_daemon
+    echo "$(t "cli.daemon_restarted")"
     exit 0
 fi
 

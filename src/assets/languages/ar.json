@@ -32,6 +32,7 @@
   "cli": {
     "commands": "الأوامر:",
     "daemon_stopped": "تم إيقاف خدمة خلفية Serpantinum.",
+    "daemon_restarted": "تمت إعادة تشغيل خدمة خلفية Serpantinum.",
     "description": "واجهة سطح مكتب عصرية لمديري نوافذ Wayland.",
     "error_missing_qml": "خطأ: لم يتم تحديد هدف للتشغيل.",
     "error_qml_not_found": "ملف QML غير موجود: '{NAME}' في '{DIR}'",
@@ -46,6 +47,7 @@
       "usage": "الاستخدام: serpantinum ipc call <هدف> <دالة> [وسائط...]"
     },
     "kill_desc": "إيقاف خدمة الخلفية قيد التشغيل بشكل نظيف",
+    "restart_desc": "إعادة تشغيل خدمة الخلفية",
     "launch_desc": "تشغيل مكونات مستقلة (start، widgetredactor)",
     "launch_help": {
       "available_targets": "الأهداف المتاحة:",
