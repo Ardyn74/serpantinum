@@ -1729,6 +1729,12 @@
     "keep_clipboard_sub": "If disabled — original clipboard content is restored after paste"
   },
   "datetime": {
-    "full_date": "dddd, MMMM dd"
+    "full_date": "dddd, MMMM dd",
+    "just_now": "Just now",
+    "minutes_ago": "{mins} min ago",
+    "yesterday": "Yesterday {time}"
+  },
+  "common": {
+    "select": "Select..."
   }
 }
