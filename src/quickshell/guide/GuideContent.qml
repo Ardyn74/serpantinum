@@ -12,15 +12,14 @@ Item {
     property alias searchResults: resultsList
 
     readonly property real searchHeaderHeight: popup.s(64)
-    readonly property real bodyMaxWidth: popup.s(960)
 
     Item {
         id: body
         anchors.top: parent.top
         anchors.topMargin: popup.s(4)
         anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: Math.min(parent.width, contentArea.bodyMaxWidth)
+        anchors.left: parent.left
+        anchors.right: parent.right
     Repeater {
         id: contentRepeater
         model: popup.tabsModel
@@ -245,8 +244,10 @@ Item {
             popup: contentArea.popup
             anchors.top: header.bottom
             anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: Math.min(parent.width, contentArea.bodyMaxWidth) - popup.s(32)
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: popup.s(16)
+            anchors.rightMargin: popup.s(16)
             anchors.bottomMargin: popup.s(8)
         }
     }
