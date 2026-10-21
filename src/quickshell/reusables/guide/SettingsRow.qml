@@ -410,8 +410,6 @@ Rectangle {
     property color dividerColor: Qt.alpha(ThemeBackend.surface1, 0.3)
 
     property bool clickable: false
-    property bool animateHeight: false
-    property int animationDuration: 250
 
     signal clicked()
     signal rightClicked()
@@ -446,10 +444,6 @@ Rectangle {
 
     Behavior on color { ColorAnimation { duration: 180 } }
     Behavior on border.color { ColorAnimation { duration: 180 } }
-    Behavior on implicitHeight {
-        enabled: root.animateHeight && !(root.effectiveRootObj && root.effectiveRootObj.resizing)
-        NumberAnimation { duration: root.animationDuration; easing.type: Easing.OutCubic }
-    }
 
     GlassFill {
         id: rowGlass

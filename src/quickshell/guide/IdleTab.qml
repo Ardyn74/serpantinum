@@ -523,10 +523,11 @@ GuideTab {
                 clip: true
                 visible: actionCard.isCardOpen || implicitHeight > 0
                 opacity: actionCard.isCardOpen ? 1.0 : 0.0
-                implicitHeight: actionCard.isCardOpen ? expandedInnerCol.implicitHeight : 0
+                property real openProgress: actionCard.isCardOpen ? 1 : 0
+                implicitHeight: expandedInnerCol.implicitHeight * openProgress
 
                 Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-                Behavior on implicitHeight { enabled: !rootObj.resizing; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                Behavior on openProgress { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
                 ColumnLayout {
                     id: expandedInnerCol

@@ -33,16 +33,6 @@ Item {
     property real introSidebar: 0.0
     property real introContent: 0.0
     property real introTabs: 0.0
-    property bool resizing: false
-    onWidthChanged: {
-        resizing = true;
-        resizeSettleTimer.restart();
-    }
-    Timer {
-        id: resizeSettleTimer
-        interval: 180
-        onTriggered: root.resizing = false
-    }
     property var tutorialSections: []
 
     property bool searchActive: false

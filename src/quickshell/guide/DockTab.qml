@@ -203,11 +203,10 @@ GuideTab {
                 clip: true
 
                 readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || dockAppsCard.tempVisible
-                visible: implicitHeight > 0.01
-
-                implicitHeight: shouldBeOpen ? dockAppsCard.implicitHeight : 0
-                Behavior on implicitHeight {
-                    enabled: !rootObj.resizing
+                property real openProgress: shouldBeOpen ? 1 : 0
+                visible: openProgress > 0.001
+                implicitHeight: dockAppsCard.implicitHeight * openProgress
+                Behavior on openProgress {
                     NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                 }
 
@@ -576,10 +575,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || positionRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? positionRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: positionRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -660,10 +659,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || onTopRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? onTopRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: onTopRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -722,10 +721,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || floatingRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? floatingRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: floatingRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -784,10 +783,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || backgroundRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? backgroundRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: backgroundRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -846,10 +845,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || exclusiveRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? exclusiveRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: exclusiveRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -910,10 +909,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || elementSizeRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? elementSizeRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: elementSizeRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -990,10 +989,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || overrideBoundsRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? overrideBoundsRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: overrideBoundsRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1052,10 +1051,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || scrollingGroup.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? scrollingGroup.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: scrollingGroup.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1182,10 +1181,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || hoverScaleRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? hoverScaleRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: hoverScaleRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1262,10 +1261,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || cascadeScaleRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? cascadeScaleRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: cascadeScaleRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1326,10 +1325,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || autohideGroup.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? autohideGroup.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: autohideGroup.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1456,10 +1455,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || smartAutohideRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? smartAutohideRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: smartAutohideRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1520,10 +1519,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || focusRunningRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? focusRunningRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: focusRunningRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1560,10 +1559,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || showIndicatorsRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? showIndicatorsRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: showIndicatorsRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1600,10 +1599,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || showRunningAppsRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? showRunningAppsRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: showRunningAppsRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
@@ -1640,10 +1639,10 @@ GuideTab {
                     Layout.fillWidth: true
                     clip: true
                     readonly property bool shouldBeOpen: dockTabRoot.currentEnabled || runningScopeRow.tempVisible
-                    visible: implicitHeight > 0.01
-                    implicitHeight: shouldBeOpen ? runningScopeRow.implicitHeight : 0
-                    Behavior on implicitHeight {
-                        enabled: !rootObj.resizing
+                    property real openProgress: shouldBeOpen ? 1 : 0
+                    visible: openProgress > 0.001
+                    implicitHeight: runningScopeRow.implicitHeight * openProgress
+                    Behavior on openProgress {
                         NumberAnimation { duration: 250; easing.type: Easing.InOutCubic }
                     }
 
