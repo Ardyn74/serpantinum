@@ -283,11 +283,26 @@ ocr_pick_languages() {
         }'
 }
 
+ocr_run() {
+    local img="$1" base="$2" lang="$3" sum chars
+    local lang_arg=()
+    [ -n "$lang" ] && lang_arg=(-l "$lang")
+    OCR_CONF=0
+    OCR_CHARS=0
+    rm -f "$base.txt" "$base.tsv"
+    tesseract "$img" "$base" "${lang_arg[@]}" -c tessedit_create_txt=1 -c tessedit_create_tsv=1 2>/dev/null
+    [ -s "$base.tsv" ] || return
+    read -r _ sum chars _ < <(ocr_score_tsv "$lang" < "$base.tsv")
+    OCR_CHARS="${chars:-0}"
+    [ "$OCR_CHARS" -gt 0 ] && OCR_CONF=$((sum / chars))
+    rm -f "$base.tsv"
+}
+
 ocr_recognize() {
-    local img="$1" langs=() fast base scores use ui sum chars lang threshold=88
+    local img="$1" base="$2" langs=() fast scores use ui lang threshold=88
     mapfile -t langs < <(ocr_candidate_languages)
     if [ "${#langs[@]}" -le 1 ]; then
-        tesseract "$img" stdout ${langs:+-l "$langs"} 2>/dev/null
+        ocr_run "$img" "$base" "${langs[0]}"
         return
     fi
 
@@ -297,23 +312,21 @@ ocr_recognize() {
     for lang in deu spa fra ita por nld pol tur aze ind vie; do
         [ "$lang" != "$ui" ] && printf '%s\n' "${langs[@]}" | grep -qx "$lang" && threshold=95
     done
-    base="${img%.png}_fast"
-    tesseract "$img" "$base" -l "$fast" -c tessedit_create_txt=1 -c tessedit_create_tsv=1 2>/dev/null
-    read -r _ sum chars _ < <(ocr_score_tsv "$fast" < "$base.tsv")
-    if [ "${chars:-0}" -ge 3 ] && [ $((sum / chars)) -ge "$threshold" ]; then
-        cat "$base.txt"
-        rm -f "$base.txt" "$base.tsv"
-        return
-    fi
-    rm -f "$base.txt" "$base.tsv"
+    ocr_run "$img" "$base" "$fast"
+    [ "$OCR_CHARS" -ge 3 ] && [ "$OCR_CONF" -ge "$threshold" ] && return
 
     scores=$(printf '%s\n' "${langs[@]}" | xargs -P "$(nproc)" -I{} bash -c 'ocr_score_language "$0" "$1"' "$img" {})
     use="$(ocr_pick_languages "${langs[*]}" <<< "$scores")"
-    [ -z "$use" ] && return
+    if [ -z "$use" ]; then
+        OCR_CONF=0
+        OCR_CHARS=0
+        rm -f "$base.txt"
+        return
+    fi
     if [[ "+$use+" != *"+eng+"* ]] && printf '%s\n' "${langs[@]}" | grep -qx eng; then
         use="$use+eng"
     fi
-    tesseract "$img" stdout -l "$use" 2>/dev/null
+    ocr_run "$img" "$base" "$use"
 }
 
 get_active_monitor() {
@@ -463,16 +476,25 @@ if [ "$OCR_MODE" = true ]; then
     capture_region "$TMP_IMG"
     [ -n "$SOURCE_IMG" ] && rm -f "$SOURCE_IMG"
 
-    OCR_TEXT="$(ocr_recognize "$TMP_IMG")"
-    rm -f "$TMP_IMG"
+    OCR_BASE="$QS_RUN_SCREENSHOT/ocr_out_$$"
+    ocr_recognize "$TMP_IMG" "$OCR_BASE"
+    OCR_TEXT="$(cat "$OCR_BASE.txt" 2>/dev/null)"
+    rm -f "$TMP_IMG" "$OCR_BASE".*
 
+    notif_action="$(t "screenshot.notifications.ocr_open_settings")"
+    notif_hint="$(t "screenshot.notifications.ocr_language_hint")"
     if [ -n "$(printf '%s' "$OCR_TEXT" | tr -d '[:space:]')" ]; then
         printf '%s' "$OCR_TEXT" | wl-copy
-        notif_body=$(printf '%s' "${OCR_TEXT:0:200}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
-        notify-send -a "$notif_app" "$(t "screenshot.notifications.ocr_copied_title")" "$notif_body"
+        notif_preview=$(printf '%s' "${OCR_TEXT:0:200}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+        if [ "$OCR_CONF" -lt 65 ]; then
+            ACTION=$(notify-send -a "$notif_app" -A "default=$notif_action" "$(t "screenshot.notifications.ocr_uncertain_title")" "$notif_hint"$'\n'"$notif_preview")
+        else
+            notify-send -a "$notif_app" "$(t "screenshot.notifications.ocr_copied_title")" "$notif_preview"
+        fi
     else
-        notify-send -a "$notif_app" "$(t "screenshot.notifications.ocr_empty_title")" "$(t "screenshot.notifications.ocr_empty_body")"
+        ACTION=$(notify-send -a "$notif_app" -A "default=$notif_action" "$(t "screenshot.notifications.ocr_empty_title")" "$(t "screenshot.notifications.ocr_empty_body") $notif_hint")
     fi
+    [ "$ACTION" = "default" ] && bash "$SCRIPT_DIR/qs_manager.sh" open guide screenshot
     exit 0
 fi
 
