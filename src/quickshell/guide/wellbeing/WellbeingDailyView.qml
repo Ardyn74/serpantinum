@@ -21,6 +21,27 @@ Flickable {
     transform: Translate { x: rootObj.s(-40) * dailyViewWrapper.focusAway }
     scale: 0.95 + (0.05 * (1.0 - dailyViewWrapper.focusAway))
 
+    Behavior on contentY {
+        id: contentYBehavior
+        enabled: false
+        NumberAnimation { duration: 550; easing.type: Easing.OutExpo }
+    }
+
+    Connections {
+        target: dailyViewWrapper.tab
+        function onSelectedAppClassChanged() {
+            contentYBehavior.enabled = true;
+            dailyViewWrapper.contentY = 0;
+            contentYReset.restart();
+        }
+    }
+
+    Timer {
+        id: contentYReset
+        interval: 600
+        onTriggered: contentYBehavior.enabled = false
+    }
+
     ScrollBar.vertical: ScrollBar {
         active: dailyViewWrapper.moving
         width: rootObj.s(4)

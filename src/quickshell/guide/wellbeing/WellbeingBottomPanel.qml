@@ -296,7 +296,7 @@ Item {
                             }
 
                             Behavior on fill {
-                                enabled: bottomPanel.tab.introAppBars === 1.0
+                                enabled: bottomPanel.tab.introAppBars === 1.0 && !bottomPanel.tab.hourlyCleared
                                 NumberAnimation { duration: 600; easing.type: Easing.OutQuint }
                             }
                             Behavior on color { ColorAnimation { duration: 400 } }

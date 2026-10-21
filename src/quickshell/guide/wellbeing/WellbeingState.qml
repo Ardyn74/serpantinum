@@ -66,7 +66,10 @@ GuideTab {
     property var hourlyData: new Array(48).fill(0)
     property real maxHourlyTotal: 1
 
+    property bool hourlyCleared: false
+
     function resetHourly() {
+        tabRoot.hourlyCleared = true;
         tabRoot.hourlyData = new Array(48).fill(0);
         tabRoot.maxHourlyTotal = 1;
     }
@@ -239,6 +242,7 @@ GuideTab {
             syncMonthModel();
         }
 
+        tabRoot.hourlyCleared = false;
         tabRoot.hourlyData = data.hourly || new Array(48).fill(0);
         let currentMaxHour = 1;
         for(let i=0; i<48; i++) {

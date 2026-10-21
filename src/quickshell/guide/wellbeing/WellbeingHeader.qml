@@ -123,10 +123,9 @@ RowLayout {
     }
 
     ClickButton {
-        visible: header.showNav && !header.compact
-        opacity: header.tab.isTodaySelected ? 0.0 : 1.0
-        enabled: !header.tab.isTodaySelected
-        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        readonly property bool shown: header.showNav && !header.compact && !header.tab.isTodaySelected
+        visible: shown
+        enabled: shown
         Layout.alignment: Qt.AlignVCenter
         Layout.preferredHeight: rootObj.s(30)
         horizontalPadding: rootObj.s(12)
