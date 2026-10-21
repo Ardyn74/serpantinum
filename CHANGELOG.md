@@ -1,5 +1,6 @@
 ### 2.3.0
 
+- fix(settings): keep the standalone settings window at full opacity without blur or glass
 - fix(lock): center the default lock screen layout when no fingerprint reader is available
 - fix(settings): disable blur and liquid glass in the standalone settings window
 - fix(settings): make the window transparent and call the OSD test through a reachable IPC function
