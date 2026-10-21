@@ -281,3 +281,7 @@ pm_remove_pkg() {
 pm_remove_conflicting_pkg() {
     true
 }
+
+pm_upgrade_quickshell() {
+    sudo dnf upgrade -y quickshell
+}

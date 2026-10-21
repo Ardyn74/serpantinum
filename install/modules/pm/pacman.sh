@@ -54,6 +54,14 @@ pm_install_pkg() {
     fi
 }
 
+pm_upgrade_quickshell() {
+    local pkg
+    for pkg in quickshell-git quickshell-bin; do
+        pm_is_installed "$pkg" && sudo pacman -Rdd --noconfirm "$pkg" >/dev/null 2>&1
+    done
+    sudo pacman -Syu --noconfirm --needed quickshell
+}
+
 pm_remove_pkg() {
     sudo pacman -Rns --noconfirm "$1" >/dev/null 2>&1 || true
 }

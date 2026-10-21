@@ -1794,7 +1794,9 @@
       "installing_title": "Установка системных пакетов и зависимостей...",
       "installing_pkg": "Установка {pkg}...",
       "install_ok": "Успешно установлен {pkg}",
-      "install_failed": "Не удалось установить {pkg}"
+      "install_failed": "Не удалось установить {pkg}",
+      "quickshell_outdated": "Quickshell {version} слишком старый, нужна версия {minimum} или новее. Обновляем...",
+      "quickshell_still_old": "Quickshell всё ещё старше {minimum}. Обновите его вручную, иначе настройки не откроются."
     },
     "deploy": {
       "configuring_sddm": "Настройка дисплейного менеджера SDDM...",

@@ -1769,7 +1769,9 @@
       "installing_title": "Встановлення системних пакетів і залежностей...",
       "installing_pkg": "Встановлення {pkg}...",
       "install_ok": "Успішно встановлено {pkg}",
-      "install_failed": "Не вдалося встановити {pkg}"
+      "install_failed": "Не вдалося встановити {pkg}",
+      "quickshell_outdated": "Quickshell {version} занадто старий, потрібна версія {minimum} або новіша. Оновлюємо...",
+      "quickshell_still_old": "Quickshell усе ще старіший за {minimum}. Оновіть його вручну, інакше налаштування не відкриються."
     },
     "deploy": {
       "configuring_sddm": "Налаштування дисплейного менеджера SDDM...",
