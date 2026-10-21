@@ -1297,6 +1297,11 @@ PanelWindow {
 
                 AnimWrap {
                     isShown: !root.isVideoMode; contentWidth: s(36)
+                    IconButton { size: s(36); cornerRadius: ThemeBackend.borderRadius; buttonIcon: "󱄽"; iconFontSize: s(18); accentColor: ThemeBackend.surface0; textColor: ThemeBackend.text; onClicked: root.performOcr() }
+                }
+
+                AnimWrap {
+                    isShown: !root.isVideoMode; contentWidth: s(36)
                     IconButton { size: s(36); cornerRadius: ThemeBackend.borderRadius; buttonIcon: root.isMaximized ? "" : ""; iconFontSize: s(18); accentColor: ThemeBackend.surface0; textColor: ThemeBackend.text; onClicked: root.toggleMaximize() }
                 }
 
@@ -1620,6 +1625,23 @@ PanelWindow {
         Quickshell.execDetached(["bash", "-c", cmd]);
         qrWaitTimer.start();
     }   
+
+    function performOcr() {
+        let cmd = `bash ${Caching.serpantinumDir}/scripts/screenshot.sh --geometry "${root.geometryString}" --ocr`;
+        let useFrozen = root.frozenSourceArgs() !== "";
+        if (useFrozen) {
+            cmd += root.frozenSourceArgs();
+            root.freezeImg = "";
+        }
+        root.animateChanges = false;
+        if (useFrozen) {
+            Quickshell.execDetached(["bash", "-c", cmd]);
+        } else {
+            captureTimer.pendingCmd = cmd;
+            captureTimer.start();
+        }
+        root.deactivate();
+    }
 
     Timer {
         id: captureTimer
