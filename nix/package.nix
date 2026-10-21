@@ -49,6 +49,7 @@
 , wl-gammarelay-rs
 , wmctrl
 , xdg-desktop-portal-gtk
+, tesseract
 , zbar
 , quickshell
 , libpulseaudio
@@ -105,6 +106,7 @@ let
     wl-gammarelay-rs
     wmctrl
     xdg-desktop-portal-gtk
+    tesseract
     zbar
     quickshell
   ];
