@@ -1306,7 +1306,10 @@
       "recording_started_title": "Տեսագրումը սկսված է",
       "recording_started_body": "Դադարեցնելու համար կրկին սեղմեք էկրանակադրի ստեղնաշարային դյուրանցումը։",
       "screenshot_saved_title": "Էկրանակադրը պահպանված է",
-      "screenshot_saved_body": "Ֆայլ՝ {file}\nՊանակ՝ {folder}"
+      "screenshot_saved_body": "Ֆայլ՝ {file}\nՊանակ՝ {folder}",
+      "ocr_copied_title": "Տեքստը պատճենվեց",
+      "ocr_empty_title": "Տեքստ չի գտնվել",
+      "ocr_empty_body": "Ընտրված տարածքում տեքստ չհաջողվեց ճանաչել"
     }
   },
   "start": {

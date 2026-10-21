@@ -1309,7 +1309,10 @@
       "recording_started_title": "Enregistrement démarré",
       "recording_started_body": "Appuyez à nouveau sur votre raccourci de capture pour arrêter.",
       "screenshot_saved_title": "Capture d'écran enregistrée",
-      "screenshot_saved_body": "Fichier : {file}\nDossier : {folder}"
+      "screenshot_saved_body": "Fichier : {file}\nDossier : {folder}",
+      "ocr_copied_title": "Texte copié",
+      "ocr_empty_title": "Aucun texte trouvé",
+      "ocr_empty_body": "Aucun texte n'a pu être reconnu dans la zone sélectionnée"
     }
   },
   "start": {

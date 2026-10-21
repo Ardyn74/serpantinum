@@ -1329,7 +1329,10 @@
       "recording_started_title": "Запис розпочато",
       "recording_started_body": "Натисніть комбінацію клавіш знімка екрана ще раз, щоб зупинити.",
       "screenshot_saved_title": "Знімок екрана збережено",
-      "screenshot_saved_body": "Файл: {file}\nТека: {folder}"
+      "screenshot_saved_body": "Файл: {file}\nТека: {folder}",
+      "ocr_copied_title": "Текст скопійовано",
+      "ocr_empty_title": "Текст не знайдено",
+      "ocr_empty_body": "Не вдалося розпізнати текст у вибраній області"
     }
   },
   "start": {

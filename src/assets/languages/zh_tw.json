@@ -1309,7 +1309,10 @@
       "recording_started_title": "錄影已開始",
       "recording_started_body": "再次按螢幕擷圖快速鍵即可停止。",
       "screenshot_saved_title": "螢幕擷圖已儲存",
-      "screenshot_saved_body": "檔案：{file}\n資料夾：{folder}"
+      "screenshot_saved_body": "檔案：{file}\n資料夾：{folder}",
+      "ocr_copied_title": "文字已複製",
+      "ocr_empty_title": "找不到文字",
+      "ocr_empty_body": "無法辨識所選區域中的文字"
     }
   },
   "start": {

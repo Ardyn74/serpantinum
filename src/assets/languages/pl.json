@@ -374,7 +374,10 @@
       "recording_started_title": "Rozpoczęto nagrywanie",
       "recording_started_body": "Naciśnij ponownie skrót zrzutu ekranu, aby zatrzymać.",
       "screenshot_saved_title": "Zrzut ekranu zapisany",
-      "screenshot_saved_body": "Plik: {file}\nFolder: {folder}"
+      "screenshot_saved_body": "Plik: {file}\nFolder: {folder}",
+      "ocr_copied_title": "Skopiowano tekst",
+      "ocr_empty_title": "Nie znaleziono tekstu",
+      "ocr_empty_body": "Nie udało się rozpoznać tekstu w zaznaczonym obszarze"
     }
   },
   "start": {

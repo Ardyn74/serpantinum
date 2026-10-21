@@ -1524,7 +1524,10 @@
       "screenshot_app_name": "لقطة شاشة",
       "screenshot_saved_body": "الملف: {file}\nالمجلد: {folder}",
       "screenshot_saved_title": "تم حفظ لقطة الشاشة",
-      "system_app_name": "نظام لقطات الشاشة"
+      "system_app_name": "نظام لقطات الشاشة",
+      "ocr_copied_title": "تم نسخ النص",
+      "ocr_empty_title": "لم يتم العثور على نص",
+      "ocr_empty_body": "تعذر التعرف على أي نص في المنطقة المحددة"
     },
     "qr_not_found": "لم يتم العثور على رمز QR.",
     "qr_timeout": "انتهت مهلة الفحص أو فشل.",

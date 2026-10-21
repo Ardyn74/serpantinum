@@ -1350,7 +1350,10 @@
       "recording_started_title": "Grabación iniciada",
       "recording_started_body": "Presiona el atajo de captura de pantalla nuevamente para detener.",
       "screenshot_saved_title": "Captura guardada",
-      "screenshot_saved_body": "Archivo: {file}\nCarpeta: {folder}"
+      "screenshot_saved_body": "Archivo: {file}\nCarpeta: {folder}",
+      "ocr_copied_title": "Texto copiado",
+      "ocr_empty_title": "No se encontró texto",
+      "ocr_empty_body": "No se pudo reconocer texto en el área seleccionada"
     }
   },
   "start": {

@@ -1353,7 +1353,10 @@
       "recording_started_title": "Aufnahme gestartet",
       "recording_started_body": "Screenshot-Tastenkombination erneut drücken zum Beenden.",
       "screenshot_saved_title": "Screenshot gespeichert",
-      "screenshot_saved_body": "Datei: {file}\nOrdner: {folder}"
+      "screenshot_saved_body": "Datei: {file}\nOrdner: {folder}",
+      "ocr_copied_title": "Text kopiert",
+      "ocr_empty_title": "Kein Text gefunden",
+      "ocr_empty_body": "Im ausgewählten Bereich wurde kein Text erkannt"
     }
   },
   "start": {

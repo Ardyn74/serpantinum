@@ -1300,7 +1300,10 @@
       "recording_started_title": "Video çəkilişi başladı",
       "recording_started_body": "Dayandırmaq üçün ekran şəkli qısayolunu yenidən basın.",
       "screenshot_saved_title": "Ekran şəkli saxlanıldı",
-      "screenshot_saved_body": "Fayl: {file}\nQovluq: {folder}"
+      "screenshot_saved_body": "Fayl: {file}\nQovluq: {folder}",
+      "ocr_copied_title": "Mətn kopyalandı",
+      "ocr_empty_title": "Mətn tapılmadı",
+      "ocr_empty_body": "Seçilmiş sahədə mətn tanına bilmədi"
     }
   },
   "start": {

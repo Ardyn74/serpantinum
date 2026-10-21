@@ -1309,7 +1309,10 @@
       "recording_started_title": "Kayıt başladı",
       "recording_started_body": "Durdurmak için ekran görüntüsü kısayolunuza tekrar basın.",
       "screenshot_saved_title": "Ekran görüntüsü kaydedildi",
-      "screenshot_saved_body": "Dosya: {file}\nKlasör: {folder}"
+      "screenshot_saved_body": "Dosya: {file}\nKlasör: {folder}",
+      "ocr_copied_title": "Metin kopyalandı",
+      "ocr_empty_title": "Metin bulunamadı",
+      "ocr_empty_body": "Seçilen alanda metin tanınamadı"
     }
   },
   "start": {

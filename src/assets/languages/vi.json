@@ -1306,7 +1306,10 @@
       "recording_started_title": "Đã bắt đầu ghi hình",
       "recording_started_body": "Nhấn phím tắt chụp màn hình một lần nữa để dừng.",
       "screenshot_saved_title": "Đã lưu ảnh chụp màn hình",
-      "screenshot_saved_body": "Tệp: {file}\nThư mục: {folder}"
+      "screenshot_saved_body": "Tệp: {file}\nThư mục: {folder}",
+      "ocr_copied_title": "Đã sao chép văn bản",
+      "ocr_empty_title": "Không tìm thấy văn bản",
+      "ocr_empty_body": "Không thể nhận dạng văn bản trong vùng đã chọn"
     }
   },
   "start": {

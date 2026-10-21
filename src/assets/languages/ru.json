@@ -1353,7 +1353,10 @@
       "recording_started_title": "Запись начата",
       "recording_started_body": "Нажмите комбинацию клавиш снимка экрана ещё раз, чтобы остановить.",
       "screenshot_saved_title": "Снимок экрана сохранён",
-      "screenshot_saved_body": "Файл: {file}\nПапка: {folder}"
+      "screenshot_saved_body": "Файл: {file}\nПапка: {folder}",
+      "ocr_copied_title": "Текст скопирован",
+      "ocr_empty_title": "Текст не найден",
+      "ocr_empty_body": "Не удалось распознать текст в выбранной области"
     }
   },
   "start": {

@@ -1309,7 +1309,10 @@
       "recording_started_title": "录屏已开始",
       "recording_started_body": "再次按下截图快捷键即可停止。",
       "screenshot_saved_title": "截图已保存",
-      "screenshot_saved_body": "文件：{file}\n文件夹：{folder}"
+      "screenshot_saved_body": "文件：{file}\n文件夹：{folder}",
+      "ocr_copied_title": "文本已复制",
+      "ocr_empty_title": "未找到文本",
+      "ocr_empty_body": "无法识别所选区域中的文本"
     }
   },
   "start": {

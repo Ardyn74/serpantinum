@@ -1309,7 +1309,10 @@
       "recording_started_title": "Opname gestart",
       "recording_started_body": "Druk nogmaals op uw schermafbeeldingsneltoets om te stoppen.",
       "screenshot_saved_title": "Schermafbeelding opgeslagen",
-      "screenshot_saved_body": "Bestand: {file}\nMap: {folder}"
+      "screenshot_saved_body": "Bestand: {file}\nMap: {folder}",
+      "ocr_copied_title": "Tekst gekopieerd",
+      "ocr_empty_title": "Geen tekst gevonden",
+      "ocr_empty_body": "Er kon geen tekst worden herkend in het geselecteerde gebied"
     }
   },
   "start": {

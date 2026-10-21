@@ -1309,7 +1309,10 @@
       "recording_started_title": "Записът започна",
       "recording_started_body": "Натиснете отново прекия път за екранна снимка, за да спрете.",
       "screenshot_saved_title": "Екранната снимка е запазена",
-      "screenshot_saved_body": "Файл: {file}\nПапка: {folder}"
+      "screenshot_saved_body": "Файл: {file}\nПапка: {folder}",
+      "ocr_copied_title": "Текстът е копиран",
+      "ocr_empty_title": "Не е намерен текст",
+      "ocr_empty_body": "Не може да се разпознае текст в избраната област"
     }
   },
   "start": {

@@ -1305,7 +1305,10 @@
       "recording_started_title": "Registrazione iniziata",
       "recording_started_body": "Premi di nuovo la scorciatoia dello screenshot per interrompere.",
       "screenshot_saved_title": "Screenshot salvato",
-      "screenshot_saved_body": "File: {file}\nCartella: {folder}"
+      "screenshot_saved_body": "File: {file}\nCartella: {folder}",
+      "ocr_copied_title": "Testo copiato",
+      "ocr_empty_title": "Nessun testo trovato",
+      "ocr_empty_body": "Impossibile riconoscere testo nell'area selezionata"
     }
   },
   "start": {

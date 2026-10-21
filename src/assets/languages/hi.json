@@ -1309,7 +1309,10 @@
       "recording_started_title": "रिकॉर्डिंग शुरू हुई",
       "recording_started_body": "रोकने के लिए अपना स्क्रीनशॉट शॉर्टकट फिर से दबाएं।",
       "screenshot_saved_title": "स्क्रीनशॉट सहेजा गया",
-      "screenshot_saved_body": "फ़ाइल: {file}\nफ़ोल्डर: {folder}"
+      "screenshot_saved_body": "फ़ाइल: {file}\nफ़ोल्डर: {folder}",
+      "ocr_copied_title": "टेक्स्ट कॉपी किया गया",
+      "ocr_empty_title": "कोई टेक्स्ट नहीं मिला",
+      "ocr_empty_body": "चयनित क्षेत्र में कोई टेक्स्ट पहचाना नहीं जा सका"
     }
   },
   "start": {

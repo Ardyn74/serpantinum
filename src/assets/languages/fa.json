@@ -1309,7 +1309,10 @@
       "recording_started_title": "ضبط آغاز شد",
       "recording_started_body": "برای توقف، کلید میانبر نماگرفت خود را دوباره فشار دهید.",
       "screenshot_saved_title": "نماگرفت ذخیره شد",
-      "screenshot_saved_body": "پرونده: {file}\nپوشه: {folder}"
+      "screenshot_saved_body": "پرونده: {file}\nپوشه: {folder}",
+      "ocr_copied_title": "متن کپی شد",
+      "ocr_empty_title": "متنی پیدا نشد",
+      "ocr_empty_body": "متنی در ناحیه انتخاب‌شده تشخیص داده نشد"
     }
   },
   "start": {

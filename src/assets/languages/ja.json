@@ -371,7 +371,10 @@
       "recording_started_title": "録画を開始しました",
       "recording_started_body": "停止するにはもう一度スクリーンショットのショートカットを押してください。",
       "screenshot_saved_title": "スクリーンショットを保存しました",
-      "screenshot_saved_body": "ファイル: {file}\nフォルダ: {folder}"
+      "screenshot_saved_body": "ファイル: {file}\nフォルダ: {folder}",
+      "ocr_copied_title": "テキストをコピーしました",
+      "ocr_empty_title": "テキストが見つかりません",
+      "ocr_empty_body": "選択した範囲でテキストを認識できませんでした"
     }
   },
   "start": {
