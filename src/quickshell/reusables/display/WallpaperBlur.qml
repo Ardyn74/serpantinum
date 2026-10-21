@@ -44,7 +44,6 @@ Item {
     property int frame: 0
 
     property var screenOverride: null
-    property point windowOffset: Qt.point(NaN, NaN)
     property bool useSnapshot: false
     property Item inheritedOwner: null
     readonly property var inheritedScreen: inheritedOwner ? inheritedOwner.glassScreen : null
@@ -131,10 +130,7 @@ Item {
         if (!scr) return;
         let wx = 0;
         let wy = 0;
-        if (isFinite(root.windowOffset.x) && isFinite(root.windowOffset.y)) {
-            wx = root.windowOffset.x;
-            wy = root.windowOffset.y;
-        } else if (w && w.anchors && !root.effectiveScreenOverride) {
+        if (w && w.anchors && !root.effectiveScreenOverride) {
             const a = w.anchors;
             const m = w.margins;
             if (a.left) wx = m.left;

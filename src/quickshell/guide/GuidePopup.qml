@@ -16,7 +16,6 @@ Item {
 
     readonly property bool isGuidePopup: true
     property bool standalone: false
-    property point windowOffset: Qt.point(NaN, NaN)
     readonly property bool compact: width < s(780)
 
     signal requestLoad(int order)
@@ -1026,7 +1025,6 @@ Item {
 
             WallpaperBlur {
                 z: -1
-                windowOffset: root.windowOffset
                 anchors.fill: parent
                 topLeftRadius: parent.topLeftRadius
                 topRightRadius: parent.topRightRadius
