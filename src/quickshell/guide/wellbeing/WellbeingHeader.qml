@@ -94,19 +94,44 @@ RowLayout {
         onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? -7 : -1)
     }
 
-    Text {
+    Item {
         visible: header.showNav
         Layout.fillWidth: true
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        font.family: ThemeBackend.fontFamily
-        font.weight: Font.DemiBold
-        font.pixelSize: rootObj.s(15)
-        color: header.tab.textMain
-        text: (header.tab.isWeekView && !header.inApp)
-            ? (header.tab.weekRangeStr !== "" ? header.tab.weekRangeStr : I18n.t("guide.wellbeing.week_overview"))
-            : header.tab.getFancyDate(header.tab.activeDate)
+        Layout.fillHeight: true
+
+        Text {
+            anchors.centerIn: parent
+            width: Math.max(0, parent.width - 2 * (todayButton.width + rootObj.s(8)))
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.family: ThemeBackend.fontFamily
+            font.weight: Font.DemiBold
+            font.pixelSize: rootObj.s(15)
+            color: header.tab.textMain
+            text: (header.tab.isWeekView && !header.inApp)
+                ? (header.tab.weekRangeStr !== "" ? header.tab.weekRangeStr : I18n.t("guide.wellbeing.week_overview"))
+                : header.tab.getFancyDate(header.tab.activeDate)
+        }
+
+        ClickButton {
+            id: todayButton
+            readonly property bool shown: !header.compact && !header.tab.isTodaySelected
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            opacity: shown ? 1.0 : 0.0
+            visible: opacity > 0
+            enabled: shown
+            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+            height: rootObj.s(30)
+            horizontalPadding: rootObj.s(12)
+            cornerRadius: ThemeBackend.borderRadius
+            textFontSize: rootObj.s(12)
+            accentColor: ThemeBackend.surface0
+            textColor: ThemeBackend.text
+            buttonText: I18n.t("guide.wellbeing.today")
+            onClicked: header.tab.goToToday()
+        }
     }
 
     IconButton {
@@ -120,21 +145,6 @@ RowLayout {
         accentColor: ThemeBackend.surface0
         textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
         onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? 7 : 1)
-    }
-
-    ClickButton {
-        readonly property bool shown: header.showNav && !header.compact && !header.tab.isTodaySelected
-        visible: shown
-        enabled: shown
-        Layout.alignment: Qt.AlignVCenter
-        Layout.preferredHeight: rootObj.s(30)
-        horizontalPadding: rootObj.s(12)
-        cornerRadius: ThemeBackend.borderRadius
-        textFontSize: rootObj.s(12)
-        accentColor: ThemeBackend.surface0
-        textColor: ThemeBackend.text
-        buttonText: I18n.t("guide.wellbeing.today")
-        onClicked: header.tab.goToToday()
     }
 
     IconButton {
