@@ -1,5 +1,6 @@
 ### 2.3.0
 
+- fix(settings): make the window transparent and call the OSD test through a reachable IPC function
 - fix(installer): upgrade quickshell older than 0.3.0 during install and update
 - fix(osd): ignore phantom Caps/Num Lock LED changes on Hyprland
 - Merge PR #477: Ukrainian About button shows the translator's fork
