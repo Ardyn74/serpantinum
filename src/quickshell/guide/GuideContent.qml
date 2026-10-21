@@ -48,8 +48,7 @@ Item {
                 property int tabIndex: tabContentWrapper.parentTabIndex
                 property int subTabIndex: -1
 
-                function ensureLoaded(background) {
-                    asynchronous = background === true;
+                function ensureLoaded() {
                     if (status === Loader.Null && tabData.file) {
                         setSource(tabData.file, {
                             "rootObj": popup,
@@ -72,7 +71,7 @@ Item {
                 }
 
                 Component.onCompleted: {
-                    if (popup.currentTab === tabContentWrapper.parentTabIndex) ensureLoaded();
+                    if (popup.standalone || popup.currentTab === tabContentWrapper.parentTabIndex) ensureLoaded();
                 }
 
                 Connections {
@@ -81,7 +80,7 @@ Item {
                         if (popup.currentTab === tabContentWrapper.parentTabIndex && !tabContentWrapper.hasSubtabs) singleTabLoader.ensureLoaded();
                     }
                     function onRequestLoad(order) {
-                        if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, -1)) singleTabLoader.ensureLoaded(true);
+                        if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, -1)) singleTabLoader.ensureLoaded();
                     }
                 }
 
@@ -123,8 +122,7 @@ Item {
                         NumberAnimation { duration: 240; easing.type: Easing.OutCubic }
                     }
 
-                    function ensureLoaded(background) {
-                        asynchronous = background === true;
+                    function ensureLoaded() {
                         if (status === Loader.Null && subData.file) {
                             setSource(subData.file, {
                                 "rootObj": popup,
@@ -153,7 +151,7 @@ Item {
                     }
 
                     Component.onCompleted: {
-                        if (isSubCurrent) ensureLoaded();
+                        if (popup.standalone || isSubCurrent) ensureLoaded();
                     }
 
                     Connections {
@@ -165,7 +163,7 @@ Item {
                             if (popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
                         }
                         function onRequestLoad(order) {
-                            if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, subIndex)) subTabLoader.ensureLoaded(true);
+                            if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, subIndex)) subTabLoader.ensureLoaded();
                         }
                     }
 
