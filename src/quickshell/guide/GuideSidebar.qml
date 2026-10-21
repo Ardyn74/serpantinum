@@ -437,13 +437,15 @@ Rectangle {
                                     opacity: sidebar.compactness
                                     text: "󰅀"
                                     font.family: ThemeBackend.iconFont
-                                    font.pixelSize: popup.s(10)
-                                    color: tabHeaderItem.isDirectActive ? ThemeBackend.crust : ThemeBackend.subtext0
-                                    anchors.right: parent.right
+                                    font.pixelSize: popup.s(9)
+                                    color: tabHeaderItem.isDirectActive
+                                        ? (activeGlass.active ? ThemeBackend.text : ThemeBackend.crust)
+                                        : (tabHeaderMa.containsMouse ? ThemeBackend.text : ThemeBackend.subtext0)
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                     anchors.bottom: parent.bottom
-                                    anchors.rightMargin: popup.s(3)
-                                    anchors.bottomMargin: popup.s(2)
+                                    anchors.bottomMargin: -popup.s(1)
                                     rotation: tabDelegate.expandProgress * 180 - 180
+                                    Behavior on color { ColorAnimation { duration: 150 } }
                                 }
 
                                 MouseArea {
@@ -451,9 +453,6 @@ Rectangle {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    ToolTip.visible: popup.compact && containsMouse
-                                    ToolTip.delay: 400
-                                    ToolTip.text: I18n.t("guide.tabs." + (tabDelegate.modelData.key || tabDelegate.modelData.id).toLowerCase(), tabDelegate.modelData.name || tabDelegate.modelData.id)
                                     onClicked: {
                                         if (tabDelegate.hasSubtabs) {
                                             if (popup.expandedTab === tabDelegate.tabIndex) {
@@ -610,9 +609,6 @@ Rectangle {
                                                     anchors.fill: parent
                                                     hoverEnabled: true
                                                     cursorShape: Qt.PointingHandCursor
-                                                    ToolTip.visible: popup.compact && containsMouse
-                                                    ToolTip.delay: 400
-                                                    ToolTip.text: I18n.t("guide.tabs." + (subtabItem.modelData.key || subtabItem.modelData.id).toLowerCase(), subtabItem.modelData.name || subtabItem.modelData.id)
                                                     onClicked: {
                                                         popup.currentTab = parentIndex;
                                                         popup.expandedTab = parentIndex;
