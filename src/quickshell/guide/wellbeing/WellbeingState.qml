@@ -66,6 +66,13 @@ GuideTab {
     property var hourlyData: new Array(48).fill(0)
     property real maxHourlyTotal: 1
 
+    function resetHourly() {
+        tabRoot.hourlyData = new Array(48).fill(0);
+        tabRoot.maxHourlyTotal = 1;
+    }
+    onSelectedAppClassChanged: resetHourly()
+    onActiveDateChanged: resetHourly()
+
     property var allKnownApps: []
 
     property real animatedTotalSeconds: 0

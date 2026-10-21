@@ -79,53 +79,48 @@ RowLayout {
         text: header.tab.isSettingsView ? I18n.t("guide.wellbeing.settings.title") : header.tab.selectedAppName
     }
 
-    Item { Layout.fillWidth: true }
+    Item { Layout.fillWidth: true; visible: !header.showNav }
 
-    RowLayout {
+    IconButton {
         visible: header.showNav
-        Layout.alignment: Qt.AlignVCenter
-        spacing: rootObj.s(10)
-
-        IconButton {
-            Layout.preferredWidth: rootObj.s(30)
-            Layout.preferredHeight: rootObj.s(30)
-            size: rootObj.s(30)
-            cornerRadius: ThemeBackend.borderRadius
-            buttonIcon: "󰅁"
-            iconFontSize: rootObj.s(15)
-            accentColor: ThemeBackend.surface0
-            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
-            onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? -7 : -1)
-        }
-
-        Text {
-            Layout.preferredWidth: (header.tab.isWeekView && !header.inApp) ? rootObj.s(200) : rootObj.s(140)
-            elide: Text.ElideRight
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            font.family: ThemeBackend.fontFamily
-            font.weight: Font.DemiBold
-            font.pixelSize: rootObj.s(15)
-            color: header.tab.textMain
-            text: (header.tab.isWeekView && !header.inApp)
-                ? (header.tab.weekRangeStr !== "" ? header.tab.weekRangeStr : I18n.t("guide.wellbeing.week_overview"))
-                : header.tab.getFancyDate(header.tab.activeDate)
-        }
-
-        IconButton {
-            Layout.preferredWidth: rootObj.s(30)
-            Layout.preferredHeight: rootObj.s(30)
-            size: rootObj.s(30)
-            cornerRadius: ThemeBackend.borderRadius
-            buttonIcon: "󰅂"
-            iconFontSize: rootObj.s(15)
-            accentColor: ThemeBackend.surface0
-            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
-            onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? 7 : 1)
-        }
+        Layout.preferredWidth: rootObj.s(30)
+        Layout.preferredHeight: rootObj.s(30)
+        size: rootObj.s(30)
+        cornerRadius: ThemeBackend.borderRadius
+        buttonIcon: "󰅁"
+        iconFontSize: rootObj.s(15)
+        accentColor: ThemeBackend.surface0
+        textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
+        onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? -7 : -1)
     }
 
-    Item { Layout.fillWidth: true }
+    Text {
+        visible: header.showNav
+        Layout.fillWidth: true
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.family: ThemeBackend.fontFamily
+        font.weight: Font.DemiBold
+        font.pixelSize: rootObj.s(15)
+        color: header.tab.textMain
+        text: (header.tab.isWeekView && !header.inApp)
+            ? (header.tab.weekRangeStr !== "" ? header.tab.weekRangeStr : I18n.t("guide.wellbeing.week_overview"))
+            : header.tab.getFancyDate(header.tab.activeDate)
+    }
+
+    IconButton {
+        visible: header.showNav
+        Layout.preferredWidth: rootObj.s(30)
+        Layout.preferredHeight: rootObj.s(30)
+        size: rootObj.s(30)
+        cornerRadius: ThemeBackend.borderRadius
+        buttonIcon: "󰅂"
+        iconFontSize: rootObj.s(15)
+        accentColor: ThemeBackend.surface0
+        textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
+        onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? 7 : 1)
+    }
 
     ClickButton {
         visible: header.showNav && !header.compact
