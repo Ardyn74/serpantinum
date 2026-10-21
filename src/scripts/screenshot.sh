@@ -227,7 +227,7 @@ print(sys.argv[1], int(total), chars, good, native)' "$1"
 }
 
 ocr_score_language() {
-    OMP_THREAD_LIMIT=1 tesseract "$1" stdout -l "$2" tsv 2>/dev/null | ocr_score_tsv "$2"
+    OMP_THREAD_LIMIT=1 tesseract "$1" stdout -l "$2" -c tessedit_create_tsv=1 2>/dev/null | ocr_score_tsv "$2"
 }
 export -f ocr_score_tsv ocr_score_language
 
@@ -284,7 +284,7 @@ ocr_pick_languages() {
 }
 
 ocr_recognize() {
-    local img="$1" langs=() fast base scores use ui sum chars
+    local img="$1" langs=() fast base scores use ui sum chars lang threshold=88
     mapfile -t langs < <(ocr_candidate_languages)
     if [ "${#langs[@]}" -le 1 ]; then
         tesseract "$img" stdout ${langs:+-l "$langs"} 2>/dev/null
@@ -294,10 +294,13 @@ ocr_recognize() {
     fast="eng"
     ui="$(ocr_ui_language)"
     [ -n "$ui" ] && [ "$ui" != "eng" ] && printf '%s\n' "${langs[@]}" | grep -qx "$ui" && fast="$ui+eng"
+    for lang in deu spa fra ita por nld pol tur aze ind vie; do
+        [ "$lang" != "$ui" ] && printf '%s\n' "${langs[@]}" | grep -qx "$lang" && threshold=95
+    done
     base="${img%.png}_fast"
-    tesseract "$img" "$base" -l "$fast" txt tsv 2>/dev/null
+    tesseract "$img" "$base" -l "$fast" -c tessedit_create_txt=1 -c tessedit_create_tsv=1 2>/dev/null
     read -r _ sum chars _ < <(ocr_score_tsv "$fast" < "$base.tsv")
-    if [ "${chars:-0}" -ge 3 ] && [ $((sum / chars)) -ge 88 ]; then
+    if [ "${chars:-0}" -ge 3 ] && [ $((sum / chars)) -ge "$threshold" ]; then
         cat "$base.txt"
         rm -f "$base.txt" "$base.tsv"
         return
@@ -446,6 +449,16 @@ fi
 
 if [ "$OCR_MODE" = true ]; then
     notif_app="$(t "screenshot.notifications.screenshot_app_name")"
+    source "$SCRIPT_DIR/ocr_langs.sh"
+    ocr_use_user_data
+    if ! tesseract --list-langs 2>/dev/null | tail -n +2 | grep -qx eng; then
+        ocr_install eng && ocr_use_user_data
+    fi
+    if ! tesseract --list-langs 2>/dev/null | tail -n +2 | grep -qvx osd; then
+        notify-send -u critical -a "$notif_app" "$(t "screenshot.notifications.ocr_missing_title")" "$(t "screenshot.notifications.ocr_missing_body")"
+        [ -n "$SOURCE_IMG" ] && rm -f "$SOURCE_IMG"
+        exit 1
+    fi
     TMP_IMG="$QS_RUN_SCREENSHOT/ocr_temp_$$.png"
     capture_region "$TMP_IMG"
     [ -n "$SOURCE_IMG" ] && rm -f "$SOURCE_IMG"
