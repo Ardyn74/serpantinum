@@ -80,40 +80,23 @@ GuideTab {
                             width: rootObj.s(160)
                             height: width
 
-                            Item {
-                                id: aboutLogoMask
+                            Image {
+                                id: aboutLogo
                                 anchors.fill: parent
+                                source: "file://" + (typeof Caching !== "undefined" && Caching.serpantinumDir ? Caching.serpantinumDir : (rootObj && rootObj.appPaths ? rootObj.appPaths.serpantinumDir : "")) + "/assets/logo.svg"
+                                sourceSize: Qt.size(512, 512)
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true
+                                antialiasing: true
                                 visible: false
-                                layer.enabled: true
-
-                                Image {
-                                    anchors.fill: parent
-                                    source: "file://" + (typeof Caching !== "undefined" && Caching.serpantinumDir ? Caching.serpantinumDir : (rootObj && rootObj.appPaths ? rootObj.appPaths.serpantinumDir : "")) + "/assets/logo.svg"
-                                    sourceSize: Qt.size(512, 512)
-                                    fillMode: Image.PreserveAspectFit
-                                    smooth: true
-                                    antialiasing: true
-                                }
-                            }
-
-                            Item {
-                                id: aboutLogoColor
-                                anchors.fill: parent
-                                visible: false
-                                layer.enabled: true
-                                layer.smooth: true
-
-                                Rectangle {
-                                    anchors.fill: parent
-                                    color: ThemeBackend.mauve
-                                }
                             }
 
                             MultiEffect {
                                 anchors.fill: parent
-                                source: aboutLogoColor
-                                maskEnabled: true
-                                maskSource: aboutLogoMask
+                                source: aboutLogo
+                                brightness: 1.0
+                                colorization: 1.0
+                                colorizationColor: ThemeBackend.mauve
                                 autoPaddingEnabled: false
                             }
                         }
