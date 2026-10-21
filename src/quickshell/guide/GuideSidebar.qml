@@ -16,7 +16,7 @@ Rectangle {
     x: I18n.rtl ? (parent.width - width) : 0
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    readonly property real targetWidth: popup.searchActive ? popup.s(340) : popup.s(260)
+    readonly property real targetWidth: popup.searchActive ? Math.min(popup.s(340), popup.width * 0.8) : (popup.compact ? popup.s(76) : popup.s(260))
     width: targetWidth
     
     topLeftRadius: !I18n.rtl ? ThemeBackend.clampedBorderRadius : 0
@@ -70,7 +70,7 @@ Rectangle {
                 color: ThemeBackend.text
                 opacity: popup.searchActive ? 0.0 : 1.0
                 scale: popup.searchActive ? 0.92 : 1.0
-                visible: opacity > 0.001
+                visible: opacity > 0.001 && !popup.compact
 
                 Behavior on opacity {
                     NumberAnimation {
@@ -91,7 +91,7 @@ Rectangle {
                 property real openProgress: popup.searchActive ? 1.0 : 0.0
                 Behavior on openProgress { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
 
-                x: I18n.rtl ? 0 : (parent.width - width)
+                x: popup.compact ? (parent.width - width) / 2 : (I18n.rtl ? 0 : (parent.width - width))
                 anchors.verticalCenter: parent.verticalCenter
                 width: popup.s(36) + (parent.width - popup.s(36)) * openProgress
                 height: popup.s(36)
@@ -255,7 +255,7 @@ Rectangle {
                     property Item activeGroupItem: (popup.currentTab >= 0 && tabsRepeater && popup.currentTab < tabsRepeater.count) ? tabsRepeater.itemAt(popup.currentTab) : null
                     property bool isSubActive: popup.currentTab === popup.expandedTab && popup.expandedTab !== -1
 
-                    property real targetX: isSubActive ? (I18n.rtl ? 0 : popup.s(26)) : 0
+                    property real targetX: isSubActive && !popup.compact ? (I18n.rtl ? 0 : popup.s(26)) : 0
                     property real targetY: {
                         let baseY = activeGroupItem ? activeGroupItem.y : (popup.currentTab * (popup.s(44) + popup.s(4)));
                         if (isSubActive) {
@@ -263,7 +263,7 @@ Rectangle {
                         }
                         return baseY;
                     }
-                    property real targetW: isSubActive ? (tabsCol.width - popup.s(26)) : tabsCol.width
+                    property real targetW: isSubActive && !popup.compact ? (tabsCol.width - popup.s(26)) : tabsCol.width
                     property real targetH: isSubActive ? popup.s(36) : popup.s(44)
 
                     x: targetX
@@ -373,8 +373,8 @@ Rectangle {
                                 RowLayout {
                                     layoutDirection: I18n.layoutDirection
                                     anchors.fill: parent
-                                    anchors.leftMargin: I18n.rtl ? popup.s(14) : (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0))
-                                    anchors.rightMargin: I18n.rtl ? (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)) : popup.s(14)
+                                    anchors.leftMargin: popup.compact ? popup.s(6) : (I18n.rtl ? popup.s(14) : (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)))
+                                    anchors.rightMargin: popup.compact ? popup.s(6) : (I18n.rtl ? (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)) : popup.s(14))
                                     spacing: popup.s(10)
 
                                     Behavior on anchors.leftMargin { NumberAnimation { duration: 400; easing.type: Easing.OutQuint } }
@@ -394,6 +394,7 @@ Rectangle {
                                     }
 
                                     Text {
+                                        visible: !popup.compact
                                         text: I18n.t("guide.tabs." + (tabDelegate.modelData.key || tabDelegate.modelData.id).toLowerCase(), tabDelegate.modelData.name || tabDelegate.modelData.id)
                                         font.family: ThemeBackend.fontFamily
                                         font.weight: tabHeaderItem.isDirectActive ? Font.Bold : Font.Medium
@@ -409,7 +410,7 @@ Rectangle {
                                     }
 
                                     Text {
-                                        visible: tabDelegate.hasSubtabs
+                                        visible: tabDelegate.hasSubtabs && !popup.compact
                                         text: "󰅀"
                                         font.family: ThemeBackend.iconFont
                                         font.pixelSize: popup.s(14)
@@ -428,6 +429,9 @@ Rectangle {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
+                                    ToolTip.visible: popup.compact && containsMouse
+                                    ToolTip.delay: 400
+                                    ToolTip.text: I18n.t("guide.tabs." + (tabDelegate.modelData.key || tabDelegate.modelData.id).toLowerCase(), tabDelegate.modelData.name || tabDelegate.modelData.id)
                                     onClicked: {
                                         if (tabDelegate.hasSubtabs) {
                                             if (popup.expandedTab === tabDelegate.tabIndex) {
@@ -465,6 +469,7 @@ Rectangle {
                                     spacing: popup.s(6)
 
                                     Item {
+                                        visible: !popup.compact
                                         Layout.preferredWidth: popup.s(20)
                                         Layout.fillHeight: true
 
@@ -531,8 +536,8 @@ Rectangle {
                                                 RowLayout {
                                                     layoutDirection: I18n.layoutDirection
                                                     anchors.fill: parent
-                                                    anchors.leftMargin: I18n.rtl ? popup.s(10) : (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0))
-                                                    anchors.rightMargin: I18n.rtl ? (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)) : popup.s(10)
+                                                    anchors.leftMargin: popup.compact ? popup.s(6) : (I18n.rtl ? popup.s(10) : (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)))
+                                                    anchors.rightMargin: popup.compact ? popup.s(6) : (I18n.rtl ? (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)) : popup.s(10))
                                                     spacing: popup.s(8)
 
                                                     Behavior on anchors.leftMargin { NumberAnimation { duration: 300; easing.type: Easing.OutQuint } }
@@ -552,6 +557,7 @@ Rectangle {
                                                     }
 
                                                     Text {
+                                                        visible: !popup.compact
                                                         text: I18n.t("guide.tabs." + (subtabItem.modelData.key || subtabItem.modelData.id).toLowerCase(), subtabItem.modelData.name || subtabItem.modelData.id)
                                                         font.family: ThemeBackend.fontFamily
                                                         font.weight: subtabItem.isSubActive ? Font.Bold : Font.Medium
@@ -570,6 +576,9 @@ Rectangle {
                                                     anchors.fill: parent
                                                     hoverEnabled: true
                                                     cursorShape: Qt.PointingHandCursor
+                                                    ToolTip.visible: popup.compact && containsMouse
+                                                    ToolTip.delay: 400
+                                                    ToolTip.text: I18n.t("guide.tabs." + (subtabItem.modelData.key || subtabItem.modelData.id).toLowerCase(), subtabItem.modelData.name || subtabItem.modelData.id)
                                                     onClicked: {
                                                         popup.currentTab = parentIndex;
                                                         popup.expandedTab = parentIndex;

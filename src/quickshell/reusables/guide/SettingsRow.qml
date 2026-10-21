@@ -404,6 +404,8 @@ Rectangle {
     property Component customLeftContent: null
 
     property bool fillControlWidth: false
+    property real stackBelowWidth: 560
+    readonly property bool stacked: !root.fillControlWidth && root.width < root.s(root.stackBelowWidth)
     property bool showDivider: false
     property color dividerColor: Qt.alpha(ThemeBackend.surface1, 0.3)
 
@@ -490,11 +492,13 @@ Rectangle {
         opacity: root.dimmed ? 0.4 : 1.0
         Behavior on opacity { NumberAnimation { duration: 180 } }
 
-        RowLayout {
+        GridLayout {
             id: mainRow
             layoutDirection: I18n.layoutDirection
             Layout.fillWidth: true
-            spacing: root.spacing
+            columnSpacing: root.spacing
+            rowSpacing: root.controlSpacing
+            columns: (iconBtn.visible ? 1 : 0) + (root.stacked ? 1 : 2)
 
             IconButton {
                 id: iconBtn
@@ -583,7 +587,8 @@ Rectangle {
             RowLayout {
                 id: controlRow
                 enabled: !root.dimmed
-                Layout.fillWidth: root.fillControlWidth
+                Layout.fillWidth: root.fillControlWidth || root.stacked
+                Layout.columnSpan: root.stacked ? mainRow.columns : 1
                 Layout.alignment: root.fillControlWidth ? Qt.AlignVCenter : ((I18n.rtl ? Qt.AlignLeft : Qt.AlignRight) | Qt.AlignVCenter)
                 spacing: root.controlSpacing
             }

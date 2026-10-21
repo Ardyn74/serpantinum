@@ -847,26 +847,28 @@ GuideTab {
                         }
 
                         ColumnLayout {
+                            Layout.fillWidth: true
+                            Layout.minimumWidth: 0
                             Layout.alignment: Qt.AlignVCenter
                             spacing: rootObj.s(2)
 
                             Text {
+                                Layout.fillWidth: true
                                 text: I18n.t("guide.idle.actions_header.title", "Idle Timeout Objects")
                                 font.family: ThemeBackend.fontFamily
                                 font.pixelSize: rootObj.s(14)
                                 color: ThemeBackend.text
+                                elide: Text.ElideRight
                             }
 
                             Text {
+                                Layout.fillWidth: true
                                 text: I18n.t("guide.idle.actions_header.desc", "Configure timeouts, built-in triggers, and custom commands")
                                 font.family: ThemeBackend.fontFamily
                                 font.pixelSize: rootObj.s(11)
                                 color: ThemeBackend.subtext0
+                                elide: Text.ElideRight
                             }
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
                         }
 
                         IconButton {

@@ -38,7 +38,7 @@ ShellRoot {
         color: ThemeBackend.base
         implicitWidth: Math.round(1200 * app.uiScale)
         implicitHeight: Math.round(750 * app.uiScale)
-        minimumSize: Qt.size(Math.round(960 * app.uiScale), Math.round(600 * app.uiScale))
+        minimumSize: Qt.size(Math.round(480 * app.uiScale), Math.round(400 * app.uiScale))
         visible: true
 
         onVisibleChanged: if (!visible) Qt.quit()

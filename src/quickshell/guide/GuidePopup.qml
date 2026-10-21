@@ -16,6 +16,7 @@ Item {
 
     readonly property bool isGuidePopup: true
     property bool standalone: false
+    readonly property bool compact: width < s(780)
 
     signal requestLoad(int order)
     signal exitRequested()

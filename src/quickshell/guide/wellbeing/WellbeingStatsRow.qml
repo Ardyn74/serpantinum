@@ -3,22 +3,26 @@ import QtQuick.Layouts
 import "../../"
 import "../../reusables"
 
-RowLayout {
+GridLayout {
     id: stats
     required property var tab
     readonly property var rootObj: tab.rootObj
+    readonly property bool stackedCards: width < rootObj.s(820)
+    readonly property real cardHeight: rootObj.s(64)
+    columns: stackedCards ? 1 : 3
     Layout.fillWidth: true
-    Layout.preferredHeight: rootObj.s(64)
-    Layout.maximumHeight: rootObj.s(64)
-    Layout.minimumHeight: rootObj.s(64)
-    spacing: rootObj.s(6)
+    Layout.preferredHeight: stackedCards ? cardHeight * 3 + rootObj.s(6) * 2 : cardHeight
+    Layout.maximumHeight: Layout.preferredHeight
+    Layout.minimumHeight: Layout.preferredHeight
+    rowSpacing: rootObj.s(6)
+    columnSpacing: rootObj.s(6)
 
     opacity: stats.tab.introStats
     transform: Translate { y: rootObj.s(30) * (1 - stats.tab.introStats) }
 
     Rectangle {
         Layout.fillWidth: true
-        Layout.fillHeight: true
+        Layout.preferredHeight: stats.cardHeight
         Layout.preferredWidth: rootObj.s(190)
         radius: ThemeBackend.borderRadius
         color: gf1.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
@@ -89,8 +93,8 @@ RowLayout {
     }
 
     Rectangle {
+        Layout.preferredHeight: stats.cardHeight
         Layout.fillWidth: true
-        Layout.fillHeight: true
         Layout.preferredWidth: rootObj.s(260)
         radius: ThemeBackend.borderRadius
         color: gf2.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.5)
@@ -117,7 +121,7 @@ RowLayout {
 
     Rectangle {
         Layout.fillWidth: true
-        Layout.fillHeight: true
+        Layout.preferredHeight: stats.cardHeight
         Layout.preferredWidth: rootObj.s(190)
         radius: ThemeBackend.borderRadius
         color: gf3.active ? "transparent" : Qt.alpha(ThemeBackend.surface0, 0.4)
