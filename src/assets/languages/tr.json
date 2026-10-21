@@ -43,7 +43,8 @@
       "bar_general": "Genel",
       "bar_modules": "Modüller",
       "bar_side_modules": "Yan modüller",
-      "display_lockscreen": "Kilit ekranı"
+      "display_lockscreen": "Kilit ekranı",
+      "screenshot": "Ekran görüntüsü"
     },
     "launcher": {
       "position": {
@@ -935,6 +936,21 @@
       "placeholder": "Ayarlarda ara...",
       "prompt": "Ayarlarda aramak için yazın...",
       "no_results": "Ayar bulunamadı"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "OCR dilleri",
+        "desc": "Metin tanıma, yüklediğiniz diller arasından dili otomatik olarak algılar",
+        "search": "Dil ara...",
+        "install": "Yükle",
+        "installing": "Yükleniyor...",
+        "remove": "Kaldır",
+        "removing": "Kaldırılıyor...",
+        "installed": "Yüklü",
+        "failed": "İndirme başarısız. Bağlantınızı kontrol edin.",
+        "offline": "Dil listesine ulaşılamıyor. Yalnızca yüklü diller gösteriliyor.",
+        "loading": "Diller yükleniyor..."
+      }
     }
   },
   "sysnotif": {
@@ -1312,7 +1328,9 @@
       "screenshot_saved_body": "Dosya: {file}\nKlasör: {folder}",
       "ocr_copied_title": "Metin kopyalandı",
       "ocr_empty_title": "Metin bulunamadı",
-      "ocr_empty_body": "Seçilen alanda metin tanınamadı"
+      "ocr_empty_body": "Seçilen alanda metin tanınamadı",
+      "ocr_missing_title": "OCR dil verisi eksik",
+      "ocr_missing_body": "Bir dil yüklemek için ekran görüntüsü ayarlarını açın."
     }
   },
   "start": {

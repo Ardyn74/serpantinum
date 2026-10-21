@@ -43,7 +43,8 @@
       "bar_general": "Umum",
       "bar_modules": "Modul",
       "bar_side_modules": "Modul samping",
-      "display_lockscreen": "Layar kunci"
+      "display_lockscreen": "Layar kunci",
+      "screenshot": "Tangkapan layar"
     },
     "launcher": {
       "position": {
@@ -935,6 +936,21 @@
       "placeholder": "Cari pengaturan...",
       "prompt": "Ketik untuk mencari pengaturan...",
       "no_results": "Pengaturan tidak ditemukan"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "Bahasa OCR",
+        "desc": "Pengenalan teks mendeteksi bahasa secara otomatis dari bahasa yang Anda pasang",
+        "search": "Cari bahasa...",
+        "install": "Pasang",
+        "installing": "Memasang...",
+        "remove": "Hapus",
+        "removing": "Menghapus...",
+        "installed": "Terpasang",
+        "failed": "Unduhan gagal. Periksa koneksi Anda.",
+        "offline": "Tidak dapat menjangkau daftar bahasa. Hanya menampilkan bahasa yang terpasang.",
+        "loading": "Memuat bahasa..."
+      }
     }
   },
   "sysnotif": {
@@ -1312,7 +1328,9 @@
       "screenshot_saved_body": "Berkas: {file}\nFolder: {folder}",
       "ocr_copied_title": "Teks disalin",
       "ocr_empty_title": "Teks tidak ditemukan",
-      "ocr_empty_body": "Tidak dapat mengenali teks di area yang dipilih"
+      "ocr_empty_body": "Tidak dapat mengenali teks di area yang dipilih",
+      "ocr_missing_title": "Data bahasa OCR tidak ada",
+      "ocr_missing_body": "Buka pengaturan tangkapan layar untuk memasang bahasa."
     }
   },
   "start": {

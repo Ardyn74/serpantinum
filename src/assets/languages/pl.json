@@ -377,7 +377,9 @@
       "screenshot_saved_body": "Plik: {file}\nFolder: {folder}",
       "ocr_copied_title": "Skopiowano tekst",
       "ocr_empty_title": "Nie znaleziono tekstu",
-      "ocr_empty_body": "Nie udało się rozpoznać tekstu w zaznaczonym obszarze"
+      "ocr_empty_body": "Nie udało się rozpoznać tekstu w zaznaczonym obszarze",
+      "ocr_missing_title": "Brak danych języka OCR",
+      "ocr_missing_body": "Otwórz ustawienia zrzutów ekranu, aby zainstalować język."
     }
   },
   "start": {
@@ -865,7 +867,8 @@
       "bar_general": "Ogólne",
       "bar_modules": "Moduły",
       "bar_side_modules": "Moduły boczne",
-      "display_lockscreen": "Ekran blokady"
+      "display_lockscreen": "Ekran blokady",
+      "screenshot": "Zrzut ekranu"
     },
     "launcher": {
       "position": {
@@ -1757,6 +1760,21 @@
       "placeholder": "Szukaj w ustawieniach...",
       "prompt": "Wpisz, aby wyszukać w ustawieniach...",
       "no_results": "Nie znaleziono ustawień"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "Języki OCR",
+        "desc": "Rozpoznawanie tekstu automatycznie wykrywa język spośród zainstalowanych",
+        "search": "Szukaj języków...",
+        "install": "Zainstaluj",
+        "installing": "Instalowanie...",
+        "remove": "Usuń",
+        "removing": "Usuwanie...",
+        "installed": "Zainstalowano",
+        "failed": "Pobieranie nie powiodło się. Sprawdź połączenie.",
+        "offline": "Nie można połączyć się z listą języków. Wyświetlane są tylko zainstalowane języki.",
+        "loading": "Ładowanie języków..."
+      }
     }
   }
 }

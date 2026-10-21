@@ -44,7 +44,8 @@
       "bar_general": "General",
       "bar_modules": "Módulos",
       "bar_side_modules": "Módulos laterales",
-      "display_lockscreen": "Pantalla de bloqueo"
+      "display_lockscreen": "Pantalla de bloqueo",
+      "screenshot": "Captura de pantalla"
     },
     "launcher": {
       "position": {
@@ -979,6 +980,21 @@
       "placeholder": "Buscar ajustes...",
       "prompt": "Escribe para buscar ajustes...",
       "no_results": "No se encontraron ajustes"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "Idiomas de OCR",
+        "desc": "El reconocimiento de texto detecta el idioma automáticamente entre los que instales",
+        "search": "Buscar idiomas...",
+        "install": "Instalar",
+        "installing": "Instalando...",
+        "remove": "Quitar",
+        "removing": "Quitando...",
+        "installed": "Instalado",
+        "failed": "Falló la descarga. Comprueba tu conexión.",
+        "offline": "No se puede acceder a la lista de idiomas. Solo se muestran los idiomas instalados.",
+        "loading": "Cargando idiomas..."
+      }
     }
   },
   "sysnotif": {
@@ -1353,7 +1369,9 @@
       "screenshot_saved_body": "Archivo: {file}\nCarpeta: {folder}",
       "ocr_copied_title": "Texto copiado",
       "ocr_empty_title": "No se encontró texto",
-      "ocr_empty_body": "No se pudo reconocer texto en el área seleccionada"
+      "ocr_empty_body": "No se pudo reconocer texto en el área seleccionada",
+      "ocr_missing_title": "Faltan datos de idioma para OCR",
+      "ocr_missing_body": "Abre los ajustes de captura de pantalla para instalar un idioma."
     }
   },
   "start": {

@@ -374,7 +374,9 @@
       "screenshot_saved_body": "ファイル: {file}\nフォルダ: {folder}",
       "ocr_copied_title": "テキストをコピーしました",
       "ocr_empty_title": "テキストが見つかりません",
-      "ocr_empty_body": "選択した範囲でテキストを認識できませんでした"
+      "ocr_empty_body": "選択した範囲でテキストを認識できませんでした",
+      "ocr_missing_title": "OCR の言語データがありません",
+      "ocr_missing_body": "スクリーンショット設定を開いて言語をインストールしてください。"
     }
   },
   "start": {
@@ -865,7 +867,8 @@
       "bar_general": "一般",
       "bar_modules": "モジュール",
       "bar_side_modules": "サイドモジュール",
-      "display_lockscreen": "ロック画面"
+      "display_lockscreen": "ロック画面",
+      "screenshot": "スクリーンショット"
     },
     "launcher": {
       "position": {
@@ -1757,6 +1760,21 @@
       "placeholder": "設定を検索...",
       "prompt": "入力して設定を検索...",
       "no_results": "設定が見つかりませんでした"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "OCR の言語",
+        "desc": "テキスト認識は、インストールした言語から自動的に言語を検出します",
+        "search": "言語を検索...",
+        "install": "インストール",
+        "installing": "インストール中...",
+        "remove": "削除",
+        "removing": "削除中...",
+        "installed": "インストール済み",
+        "failed": "ダウンロードに失敗しました。接続を確認してください。",
+        "offline": "言語リストに接続できません。インストール済みの言語のみ表示しています。",
+        "loading": "言語を読み込み中..."
+      }
     }
   }
 }

@@ -43,7 +43,8 @@
       "bar_general": "通用",
       "bar_modules": "模块",
       "bar_side_modules": "侧边模块",
-      "display_lockscreen": "锁屏"
+      "display_lockscreen": "锁屏",
+      "screenshot": "截图"
     },
     "launcher": {
       "position": {
@@ -935,6 +936,21 @@
       "placeholder": "搜索设置...",
       "prompt": "输入以搜索设置...",
       "no_results": "未找到相关设置"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "OCR 语言",
+        "desc": "文本识别会从你安装的语言中自动检测语言",
+        "search": "搜索语言...",
+        "install": "安装",
+        "installing": "正在安装...",
+        "remove": "移除",
+        "removing": "正在移除...",
+        "installed": "已安装",
+        "failed": "下载失败。请检查网络连接。",
+        "offline": "无法访问语言列表。仅显示已安装的语言。",
+        "loading": "正在加载语言..."
+      }
     }
   },
   "sysnotif": {
@@ -1312,7 +1328,9 @@
       "screenshot_saved_body": "文件：{file}\n文件夹：{folder}",
       "ocr_copied_title": "文本已复制",
       "ocr_empty_title": "未找到文本",
-      "ocr_empty_body": "无法识别所选区域中的文本"
+      "ocr_empty_body": "无法识别所选区域中的文本",
+      "ocr_missing_title": "缺少 OCR 语言数据",
+      "ocr_missing_body": "打开截图设置以安装语言。"
     }
   },
   "start": {

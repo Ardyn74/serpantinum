@@ -43,7 +43,8 @@
       "bar_general": "Chung",
       "bar_modules": "Mô-đun",
       "bar_side_modules": "Mô-đun bên cạnh",
-      "display_lockscreen": "Màn hình khóa"
+      "display_lockscreen": "Màn hình khóa",
+      "screenshot": "Ảnh chụp màn hình"
     },
     "launcher": {
       "position": {
@@ -935,6 +936,21 @@
       "placeholder": "Tìm kiếm cài đặt...",
       "prompt": "Nhập để tìm kiếm cài đặt...",
       "no_results": "Không tìm thấy cài đặt"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "Ngôn ngữ OCR",
+        "desc": "Nhận dạng văn bản tự động phát hiện ngôn ngữ trong số các ngôn ngữ bạn đã cài",
+        "search": "Tìm ngôn ngữ...",
+        "install": "Cài đặt",
+        "installing": "Đang cài đặt...",
+        "remove": "Gỡ bỏ",
+        "removing": "Đang gỡ bỏ...",
+        "installed": "Đã cài đặt",
+        "failed": "Tải xuống thất bại. Hãy kiểm tra kết nối của bạn.",
+        "offline": "Không thể truy cập danh sách ngôn ngữ. Chỉ hiển thị các ngôn ngữ đã cài.",
+        "loading": "Đang tải ngôn ngữ..."
+      }
     }
   },
   "sysnotif": {
@@ -1309,7 +1325,9 @@
       "screenshot_saved_body": "Tệp: {file}\nThư mục: {folder}",
       "ocr_copied_title": "Đã sao chép văn bản",
       "ocr_empty_title": "Không tìm thấy văn bản",
-      "ocr_empty_body": "Không thể nhận dạng văn bản trong vùng đã chọn"
+      "ocr_empty_body": "Không thể nhận dạng văn bản trong vùng đã chọn",
+      "ocr_missing_title": "Thiếu dữ liệu ngôn ngữ OCR",
+      "ocr_missing_body": "Mở cài đặt ảnh chụp màn hình để cài đặt một ngôn ngữ."
     }
   },
   "start": {

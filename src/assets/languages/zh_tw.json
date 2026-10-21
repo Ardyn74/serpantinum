@@ -43,7 +43,8 @@
       "bar_general": "一般",
       "bar_modules": "模組",
       "bar_side_modules": "側邊模組",
-      "display_lockscreen": "鎖定畫面"
+      "display_lockscreen": "鎖定畫面",
+      "screenshot": "螢幕截圖"
     },
     "launcher": {
       "position": {
@@ -935,6 +936,21 @@
       "placeholder": "搜尋設定...",
       "prompt": "輸入以搜尋設定...",
       "no_results": "找不到相關設定"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "OCR 語言",
+        "desc": "文字辨識會從你安裝的語言中自動偵測語言",
+        "search": "搜尋語言...",
+        "install": "安裝",
+        "installing": "正在安裝...",
+        "remove": "移除",
+        "removing": "正在移除...",
+        "installed": "已安裝",
+        "failed": "下載失敗。請檢查網路連線。",
+        "offline": "無法存取語言清單。僅顯示已安裝的語言。",
+        "loading": "正在載入語言..."
+      }
     }
   },
   "sysnotif": {
@@ -1312,7 +1328,9 @@
       "screenshot_saved_body": "檔案：{file}\n資料夾：{folder}",
       "ocr_copied_title": "文字已複製",
       "ocr_empty_title": "找不到文字",
-      "ocr_empty_body": "無法辨識所選區域中的文字"
+      "ocr_empty_body": "無法辨識所選區域中的文字",
+      "ocr_missing_title": "缺少 OCR 語言資料",
+      "ocr_missing_body": "開啟螢幕截圖設定以安裝語言。"
     }
   },
   "start": {

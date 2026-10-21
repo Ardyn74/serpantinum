@@ -43,7 +43,8 @@
       "bar_general": "Generale",
       "bar_modules": "Moduli",
       "bar_side_modules": "Moduli laterali",
-      "display_lockscreen": "Schermata di blocco"
+      "display_lockscreen": "Schermata di blocco",
+      "screenshot": "Screenshot"
     },
     "launcher": {
       "position": {
@@ -934,6 +935,21 @@
       "placeholder": "Cerca impostazioni...",
       "prompt": "Digita per cercare impostazioni...",
       "no_results": "Nessuna impostazione trovata"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "Lingue OCR",
+        "desc": "Il riconoscimento del testo rileva automaticamente la lingua tra quelle installate",
+        "search": "Cerca lingue...",
+        "install": "Installa",
+        "installing": "Installazione...",
+        "remove": "Rimuovi",
+        "removing": "Rimozione...",
+        "installed": "Installata",
+        "failed": "Download non riuscito. Controlla la connessione.",
+        "offline": "Impossibile raggiungere l'elenco delle lingue. Vengono mostrate solo le lingue installate.",
+        "loading": "Caricamento delle lingue..."
+      }
     }
   },
   "sysnotif": {
@@ -1308,7 +1324,9 @@
       "screenshot_saved_body": "File: {file}\nCartella: {folder}",
       "ocr_copied_title": "Testo copiato",
       "ocr_empty_title": "Nessun testo trovato",
-      "ocr_empty_body": "Impossibile riconoscere testo nell'area selezionata"
+      "ocr_empty_body": "Impossibile riconoscere testo nell'area selezionata",
+      "ocr_missing_title": "Dati della lingua OCR mancanti",
+      "ocr_missing_body": "Apri le impostazioni degli screenshot per installare una lingua."
     }
   },
   "start": {

@@ -43,7 +43,8 @@
       "bar_general": "Ümumi",
       "bar_modules": "Modullar",
       "bar_side_modules": "Yan modullar",
-      "display_lockscreen": "Kilid ekranı"
+      "display_lockscreen": "Kilid ekranı",
+      "screenshot": "Ekran görüntüsü"
     },
     "launcher": {
       "position": {
@@ -929,6 +930,21 @@
       "placeholder": "Tənzimləmələri axtarın...",
       "prompt": "Axtarmaq üçün yazın...",
       "no_results": "Tənzimləmə tapılmadı"
+    },
+    "screenshot": {
+      "ocr": {
+        "title": "OCR dilləri",
+        "desc": "Mətn tanıma quraşdırdığınız dillər arasından dili avtomatik aşkar edir",
+        "search": "Dil axtar...",
+        "install": "Quraşdır",
+        "installing": "Quraşdırılır...",
+        "remove": "Sil",
+        "removing": "Silinir...",
+        "installed": "Quraşdırılıb",
+        "failed": "Yükləmə uğursuz oldu. Bağlantını yoxlayın.",
+        "offline": "Dil siyahısına çatmaq mümkün deyil. Yalnız quraşdırılmış dillər göstərilir.",
+        "loading": "Dillər yüklənir..."
+      }
     }
   },
   "sysnotif": {
@@ -1303,7 +1319,9 @@
       "screenshot_saved_body": "Fayl: {file}\nQovluq: {folder}",
       "ocr_copied_title": "Mətn kopyalandı",
       "ocr_empty_title": "Mətn tapılmadı",
-      "ocr_empty_body": "Seçilmiş sahədə mətn tanına bilmədi"
+      "ocr_empty_body": "Seçilmiş sahədə mətn tanına bilmədi",
+      "ocr_missing_title": "OCR dil məlumatları çatışmır",
+      "ocr_missing_body": "Dil quraşdırmaq üçün ekran görüntüsü ayarlarını açın."
     }
   },
   "start": {
