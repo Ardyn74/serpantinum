@@ -337,7 +337,19 @@ Item {
     readonly property var filteredSearchResults: {
         let q = searchQuery.trim().toLowerCase();
         if (q === "") return [];
-        return searchIndex.filter(item => searchHaystack(item).indexOf(q) !== -1);
+        let hits = [];
+        for (let i = 0; i < searchIndex.length; i++) {
+            let item = searchIndex[i];
+            if (searchHaystack(item).indexOf(q) === -1) continue;
+            let title = String(resolveI18nText(item.title)).toLowerCase();
+            let at = title.indexOf(q);
+            hits.push({ item: item, rank: title === q ? 0 : (at === 0 ? 1 : (at > 0 ? 2 : 3)) });
+        }
+        if (hits.length > 60) {
+            hits.sort((a, b) => a.rank - b.rank);
+            hits = hits.slice(0, 60);
+        }
+        return hits.map(h => h.item);
     }
 
     readonly property var groupedSearchResults: {
@@ -583,7 +595,6 @@ Item {
 
     readonly property var currentTabModel: tabsModel[currentTab] || null
     readonly property bool hasSubTabs: !!(currentTabModel && currentTabModel.subtabs && currentTabModel.subtabs.length > 0)
-    readonly property string currentTitle: currentTabModel ? I18n.t("guide.tabs." + (currentTabModel.key || currentTabModel.id).toLowerCase(), currentTabModel.name || currentTabModel.id) : ""
 
     StackView.onStatusChanged: {
         if (StackView.status === StackView.Active) {

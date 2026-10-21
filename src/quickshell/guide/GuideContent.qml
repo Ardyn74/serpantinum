@@ -11,107 +11,16 @@ Item {
     property alias searchInput: searchField
     property alias searchResults: resultsList
 
-    readonly property real headerHeight: popup.s(64)
+    readonly property real searchHeaderHeight: popup.s(64)
     readonly property real bodyMaxWidth: popup.s(960)
 
     Item {
-        id: header
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: contentArea.headerHeight
-
-        RowLayout {
-            layoutDirection: I18n.layoutDirection
-            anchors.fill: parent
-            anchors.leftMargin: popup.s(20)
-            anchors.rightMargin: popup.s(20)
-            spacing: popup.s(16)
-
-            Text {
-                visible: !popup.searchActive
-                text: popup.currentTitle
-                font.family: ThemeBackend.fontFamily
-                font.pixelSize: popup.s(20)
-                font.weight: Font.DemiBold
-                color: ThemeBackend.text
-                elide: Text.ElideRight
-                Layout.alignment: Qt.AlignVCenter
-                Layout.maximumWidth: popup.compact ? popup.s(160) : popup.s(300)
-            }
-
-            Item { Layout.fillWidth: true; visible: !popup.searchActive }
-
-            Input {
-                id: searchField
-                visible: popup.searchActive
-                Layout.alignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-                Layout.preferredHeight: popup.s(38)
-                implicitHeight: popup.s(38)
-                placeholderText: I18n.t("guide.search.placeholder", "Search settings...")
-                showClearButton: true
-                fontPixelSize: popup.s(12)
-                baseColor: Qt.alpha(ThemeBackend.surface0, 0.6)
-                accentColor: ThemeBackend.mauve
-                textColor: ThemeBackend.text
-                subTextColor: ThemeBackend.subtext0
-                borderColor: Qt.alpha(ThemeBackend.surface2, 0.4)
-                cornerRadius: ThemeBackend.borderRadius
-
-                onHasFocusChanged: {
-                    if (hasFocus && !popup.searchActive) popup.openSearch();
-                }
-                onTextEdited: (txt) => {
-                    if (!popup.searchActive) popup.openSearch();
-                    popup.searchQuery = txt;
-                    popup.searchSelectedIndex = 0;
-                }
-                onCleared: {
-                    popup.searchQuery = "";
-                    popup.searchSelectedIndex = 0;
-                }
-
-                Keys.onEscapePressed: (event) => {
-                    if (popup.searchQuery !== "") {
-                        searchField.text = "";
-                        popup.searchQuery = "";
-                    } else {
-                        popup.closeSearch();
-                    }
-                    event.accepted = true;
-                }
-                Keys.onDownPressed: (event) => { popup.navigateSearch(1); event.accepted = true; }
-                Keys.onUpPressed: (event) => { popup.navigateSearch(-1); event.accepted = true; }
-                Keys.onReturnPressed: (event) => { popup.activateSelectedSearch(); event.accepted = true; }
-                Keys.onEnterPressed: (event) => { popup.activateSelectedSearch(); event.accepted = true; }
-            }
-        }
-    }
-
-    Item {
         id: body
-        anchors.top: header.bottom
+        anchors.top: parent.top
+        anchors.topMargin: popup.s(4)
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: Math.min(parent.width, contentArea.bodyMaxWidth)
-
-        Rectangle {
-            anchors.fill: parent
-            color: ThemeBackend.base
-            visible: popup.searchActive
-            z: 2
-
-            GuideSearchResults {
-                id: resultsList
-                popup: contentArea.popup
-                anchors.fill: parent
-                anchors.leftMargin: popup.s(16)
-                anchors.rightMargin: popup.s(16)
-                anchors.bottomMargin: popup.s(8)
-            }
-        }
-
     Repeater {
         id: contentRepeater
         model: popup.tabsModel
@@ -271,5 +180,74 @@ Item {
             }
         }
     }
+    }
+
+    Rectangle {
+        id: searchOverlay
+        anchors.fill: parent
+        color: ThemeBackend.base
+        visible: popup.searchActive
+        z: 10
+
+        Item {
+            id: header
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: contentArea.searchHeaderHeight
+
+            Input {
+                id: searchField
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: popup.s(20)
+                anchors.rightMargin: popup.s(20)
+                implicitHeight: popup.s(38)
+                height: popup.s(38)
+                placeholderText: I18n.t("guide.search.placeholder", "Search settings...")
+                showClearButton: true
+                fontPixelSize: popup.s(12)
+                baseColor: Qt.alpha(ThemeBackend.surface0, 0.6)
+                accentColor: ThemeBackend.mauve
+                textColor: ThemeBackend.text
+                subTextColor: ThemeBackend.subtext0
+                borderColor: Qt.alpha(ThemeBackend.surface2, 0.4)
+                cornerRadius: ThemeBackend.borderRadius
+
+                onTextEdited: (txt) => {
+                    popup.searchQuery = txt;
+                    popup.searchSelectedIndex = 0;
+                }
+                onCleared: {
+                    popup.searchQuery = "";
+                    popup.searchSelectedIndex = 0;
+                }
+
+                Keys.onEscapePressed: (event) => {
+                    if (popup.searchQuery !== "") {
+                        searchField.text = "";
+                        popup.searchQuery = "";
+                    } else {
+                        popup.closeSearch();
+                    }
+                    event.accepted = true;
+                }
+                Keys.onDownPressed: (event) => { popup.navigateSearch(1); event.accepted = true; }
+                Keys.onUpPressed: (event) => { popup.navigateSearch(-1); event.accepted = true; }
+                Keys.onReturnPressed: (event) => { popup.activateSelectedSearch(); event.accepted = true; }
+                Keys.onEnterPressed: (event) => { popup.activateSelectedSearch(); event.accepted = true; }
+            }
+        }
+
+        GuideSearchResults {
+            id: resultsList
+            popup: contentArea.popup
+            anchors.top: header.bottom
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: Math.min(parent.width, contentArea.bodyMaxWidth) - popup.s(32)
+            anchors.bottomMargin: popup.s(8)
+        }
     }
 }

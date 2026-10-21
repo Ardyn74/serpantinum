@@ -94,6 +94,49 @@ Rectangle {
             clip: true
             boundsBehavior: Flickable.StopAtBounds
 
+            Rectangle {
+                id: activeHighlight
+                z: -1
+                radius: ThemeBackend.borderRadius
+                color: activeGlass.active ? "transparent" : ThemeBackend.mauve
+                visible: activeDelegate !== null
+                property bool ready: false
+                Timer { interval: 500; running: true; onTriggered: activeHighlight.ready = true }
+
+                GlassFill {
+                    id: activeGlass
+                    anchors.fill: parent
+                    radius: parent.radius
+                    tintColor: ThemeBackend.mauve
+                    tintAmount: 0.5
+                    press: 0.3 + 0.7 * activeHighlight.lift
+                }
+
+                readonly property bool isMoving: Math.abs(x - targetX) > 0.5 || Math.abs(y - targetY) > 0.5 || Math.abs(width - targetW) > 0.5
+                property real lift: (activeGlass.active && isMoving) ? 1.0 : 0.0
+                Behavior on lift { NumberAnimation { duration: 80; easing.type: Easing.OutCubic } }
+                scale: 1.0 + 0.04 * lift
+
+                readonly property Item activeDelegate: { void tabsRepeater.count; return (sidebar.curTab >= 0) ? tabsRepeater.itemAt(sidebar.curTab) : null; }
+                readonly property bool isSub: sidebar.curTab === sidebar.expTab && sidebar.expTab !== -1
+                readonly property real baseY: activeDelegate ? activeDelegate.y + activeDelegate.sepH : 0
+                readonly property real subIndent: popup.compact ? 0 : popup.s(26)
+                readonly property real targetX: isSub ? subIndent : 0
+                readonly property real targetY: isSub ? baseY + sidebar.headerH + popup.s(4) + sidebar.curSub * (sidebar.subH + sidebar.gap) : baseY
+                readonly property real targetW: isSub ? tabsCol.width - subIndent : tabsCol.width
+                readonly property real targetH: isSub ? sidebar.subH : sidebar.headerH
+
+                x: targetX
+                y: targetY
+                width: targetW
+                height: targetH
+
+                Behavior on x { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
+                Behavior on y { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
+                Behavior on width { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
+                Behavior on height { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
+            }
+
             ColumnLayout {
                 id: tabsCol
                 width: tabsFlickable.width
@@ -111,6 +154,7 @@ Rectangle {
                         readonly property bool hasSubtabs: Boolean(modelData.subtabs && modelData.subtabs.length > 0)
                         readonly property bool isExpanded: hasSubtabs && sidebar.expTab === tabIndex
                         readonly property real fullSubtabsHeight: hasSubtabs ? (modelData.subtabs.length * sidebar.subH + (modelData.subtabs.length - 1) * sidebar.gap + popup.s(8)) : 0
+                        readonly property real sepH: modelData.separatorBefore ? popup.s(14) + 1 : 0
                         property real expandProgress: isExpanded ? 1.0 : 0.0
                         Behavior on expandProgress { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
 
@@ -135,18 +179,9 @@ Rectangle {
                             radius: ThemeBackend.borderRadius
                             property bool active: false
                             Component.onCompleted: active = Qt.binding(() => tabDelegate.hasSubtabs ? (sidebar.curTab === tabDelegate.tabIndex && !tabDelegate.isExpanded) : (sidebar.curTab === tabDelegate.tabIndex))
-                            color: (active && !headerGlass.active) ? ThemeBackend.mauve : (!active && headerMa.containsMouse && !headerHoverGlass.active ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent")
+                            color: (!active && headerMa.containsMouse && !headerHoverGlass.active) ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                             Behavior on color { ColorAnimation { duration: 90 } }
 
-                            GlassFill {
-                                id: headerGlass
-                                anchors.fill: parent
-                                radius: parent.radius
-                                allowed: header.active
-                                tintColor: ThemeBackend.mauve
-                                tintAmount: 0.5
-                                press: 0.3
-                            }
 
                             GlassFill {
                                 id: headerHoverGlass
@@ -185,7 +220,7 @@ Rectangle {
                                     font.weight: header.active ? Font.Bold : Font.Medium
                                     font.pixelSize: popup.s(13)
                                     color: header.active
-                                        ? (headerGlass.active ? ThemeBackend.text : ThemeBackend.crust)
+                                        ? (activeGlass.active ? ThemeBackend.text : ThemeBackend.crust)
                                         : (headerMa.containsMouse ? ThemeBackend.text : ThemeBackend.subtext0)
                                     Layout.fillWidth: true
                                     Layout.alignment: Qt.AlignVCenter
@@ -200,7 +235,7 @@ Rectangle {
                                     font.family: ThemeBackend.iconFont
                                     font.pixelSize: popup.s(14)
                                     color: header.active
-                                        ? (headerGlass.active ? ThemeBackend.text : ThemeBackend.crust)
+                                        ? (activeGlass.active ? ThemeBackend.text : ThemeBackend.crust)
                                         : (headerMa.containsMouse ? ThemeBackend.text : ThemeBackend.subtext0)
                                     Layout.alignment: Qt.AlignVCenter
                                     rotation: tabDelegate.expandProgress * 180 - 180
@@ -293,18 +328,9 @@ Rectangle {
                                             readonly property int parentIndex: tabDelegate.tabIndex
                                             property bool isCurrent: false
                                             Component.onCompleted: isCurrent = Qt.binding(() => sidebar.curTab === parentIndex && sidebar.expTab === parentIndex && sidebar.curSub === subIndex)
-                                            color: (isCurrent && !subGlass.active) ? ThemeBackend.mauve : (!isCurrent && subMa.containsMouse && !subHoverGlass.active ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent")
+                                            color: (!isCurrent && subMa.containsMouse && !subHoverGlass.active) ? Qt.alpha(ThemeBackend.surface1, 0.5) : "transparent"
                                             Behavior on color { ColorAnimation { duration: 90 } }
 
-                                            GlassFill {
-                                                id: subGlass
-                                                anchors.fill: parent
-                                                radius: parent.radius
-                                                allowed: sub.isCurrent
-                                                tintColor: ThemeBackend.mauve
-                                                tintAmount: 0.5
-                                                press: 0.3
-                                            }
 
                                             GlassFill {
                                                 id: subHoverGlass
@@ -342,7 +368,7 @@ Rectangle {
                                                     font.family: ThemeBackend.fontFamily
                                                     font.weight: sub.isCurrent ? Font.Bold : Font.Medium
                                                     font.pixelSize: popup.s(12)
-                                                    color: sub.isCurrent ? (subGlass.active ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.subtext0
+                                                    color: sub.isCurrent ? (activeGlass.active ? ThemeBackend.text : ThemeBackend.crust) : ThemeBackend.subtext0
                                                     Layout.fillWidth: true
                                                     Layout.alignment: Qt.AlignVCenter
                                                     horizontalAlignment: I18n.textAlignment
