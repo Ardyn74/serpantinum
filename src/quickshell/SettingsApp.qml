@@ -1,3 +1,4 @@
+//@ pragma AppId serpantinum-settings
 //@ pragma Env SERPANTINUM_STANDALONE=1
 import QtQuick
 import Quickshell
