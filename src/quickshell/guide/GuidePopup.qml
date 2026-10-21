@@ -1021,11 +1021,10 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: root.standalone ? 0 : ThemeBackend.clampedBorderRadius
-            color: root.standalone ? ThemeBackend.base : Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
+            color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
 
             WallpaperBlur {
                 z: -1
-                visible: !root.standalone
                 anchors.fill: parent
                 topLeftRadius: parent.topLeftRadius
                 topRightRadius: parent.topRightRadius

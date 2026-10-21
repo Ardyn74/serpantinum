@@ -41,7 +41,7 @@ ShellRoot {
         id: window
 
         title: I18n.t("widgets.guide.name", "Settings")
-        color: ThemeBackend.base
+        color: "transparent"
         implicitWidth: Math.round(1200 * app.uiScale)
         implicitHeight: Math.round(750 * app.uiScale)
         minimumSize: Qt.size(Math.round(480 * app.uiScale), Math.round(400 * app.uiScale))

@@ -230,6 +230,10 @@ Item {
         function show(kind: string): void {
             controller.show(kind);
         }
+
+        function display(kind: string): void {
+            controller.show(kind);
+        }
     }
 
     function hide() {
