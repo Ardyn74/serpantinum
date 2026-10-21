@@ -55,11 +55,17 @@ pm_install_pkg() {
 }
 
 pm_upgrade_quickshell() {
-    local pkg
-    for pkg in quickshell-git quickshell-bin; do
-        pm_is_installed "$pkg" && sudo pacman -Rdd --noconfirm "$pkg" >/dev/null 2>&1
+    if sudo pacman -Syu --noconfirm --needed --ask=4 quickshell && quickshell_is_current; then
+        return 0
+    fi
+
+    local helper
+    for helper in yay paru; do
+        command -v "$helper" &>/dev/null || continue
+        "$helper" -S --noconfirm --needed --ask=4 quickshell-git && quickshell_is_current && return 0
+        break
     done
-    sudo pacman -Syu --noconfirm --needed quickshell
+    return 0
 }
 
 pm_remove_pkg() {

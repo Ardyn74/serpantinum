@@ -218,7 +218,7 @@ ensure_quickshell_version() {
     quickshell_is_current && return 0
 
     echo -e "\n\e[33m  $(t "installer.deps.quickshell_outdated" "version=$(quickshell_version)" "minimum=$MIN_QUICKSHELL_VERSION")\e[0m"
-    declare -f pm_upgrade_quickshell >/dev/null && pm_upgrade_quickshell
+    if declare -f pm_upgrade_quickshell >/dev/null; then pm_upgrade_quickshell || true; fi
     hash -r
 
     if ! quickshell_is_current; then
