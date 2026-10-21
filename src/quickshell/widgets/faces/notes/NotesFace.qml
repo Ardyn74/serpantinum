@@ -514,12 +514,11 @@ Item {
                             anchors.fill: parent
                             spacing: Scaler.s(8)
 
-                            IconButton {
+                            CloseButton {
                                 size: Scaler.s(32)
                                 cornerRadius: Scaler.s(8)
                                 iconFont: root.nerdFont
                                 iconFontSize: Scaler.s(15)
-                                buttonIcon: "󰅖"
                                 textColor: ThemeBackend.text
                                 accentColor: ThemeBackend.surface2
                                 bgOpacity: ThemeBackend.elementOpacity

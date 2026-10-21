@@ -399,13 +399,12 @@ Item {
                             onClicked: root.togglePinSelectedNotes()
                         }
 
-                        IconButton {
+                        CloseButton {
                             visible: root.selectedCount > 0
                             size: root.s(32)
                             cornerRadius: root.s(8)
                             iconFont: root.nerdFont
                             iconFontSize: root.s(15)
-                            buttonIcon: "󰅖"
                             textColor: ThemeBackend.subtext0
                             accentColor: ThemeBackend.surface0
                             bgOpacity: ThemeBackend.elementOpacity
@@ -760,13 +759,12 @@ Item {
                                 anchors.fill: parent
                                 spacing: root.s(8)
 
-                                IconButton {
+                                CloseButton {
                                     id: closeBtn
                                     size: root.s(32)
                                     cornerRadius: root.s(8)
                                     iconFont: root.nerdFont
                                     iconFontSize: root.s(15)
-                                    buttonIcon: "󰅖"
                                     textColor: ThemeBackend.text
                                     accentColor: ThemeBackend.surface2
                                     bgOpacity: ThemeBackend.elementOpacity

@@ -118,13 +118,12 @@ Flickable {
         }
     }
 
-    component RemoveButton: IconButton {
+    component RemoveButton: CloseButton {
         required property var view
         Layout.preferredWidth: view.rootObj.s(32)
         Layout.preferredHeight: view.rootObj.s(32)
         size: view.rootObj.s(32)
         cornerRadius: ThemeBackend.borderRadius
-        buttonIcon: "󰅖"
         iconFontSize: view.rootObj.s(15)
         accentColor: ThemeBackend.surface1
         textColor: isHoveredOrHighlighted ? ThemeBackend.red : ThemeBackend.subtext0

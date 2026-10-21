@@ -257,11 +257,10 @@ Popup {
                 font.weight: Font.Bold
                 Layout.fillWidth: true
             }
-            IconButton {
+            CloseButton {
                 Layout.preferredWidth: pickerRoot.toolbarHeight
                 Layout.preferredHeight: pickerRoot.toolbarHeight
                 cornerRadius: pickerRoot.crSmall
-                buttonIcon: "󰅖"
                 iconFontSize: Scaler.s(14)
                 accentColor: ThemeBackend.surface1
                 textColor: ThemeBackend.text

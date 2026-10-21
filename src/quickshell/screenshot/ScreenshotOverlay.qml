@@ -1307,9 +1307,9 @@ PanelWindow {
 
                 Item {
                     width: s(36); height: parent.height
-                    IconButton { 
+                    CloseButton { 
                         anchors.verticalCenter: parent.verticalCenter
-                        size: s(36); cornerRadius: ThemeBackend.borderRadius; buttonIcon: "󰅖"; iconFontSize: s(18); accentColor: ThemeBackend.red; textColor: ThemeBackend.crust; onClicked: root.deactivate() 
+                        size: s(36); cornerRadius: ThemeBackend.borderRadius; iconFontSize: s(18); accentColor: ThemeBackend.red; textColor: ThemeBackend.crust; onClicked: root.deactivate() 
                     }
                 }
             }
@@ -1502,7 +1502,7 @@ PanelWindow {
                     }
 
                     Rectangle { width: s(2); Layout.fillHeight: true; Layout.topMargin: s(10); Layout.bottomMargin: s(10); color: ThemeBackend.surface0; radius: s(1) }
-                    IconButton { size: s(36); cornerRadius: ThemeBackend.borderRadius; buttonIcon: "󰅖"; iconFontSize: s(18); accentColor: ThemeBackend.red; textColor: ThemeBackend.crust; onClicked: root.showQrPopup = false }
+                    CloseButton { size: s(36); cornerRadius: ThemeBackend.borderRadius; iconFontSize: s(18); accentColor: ThemeBackend.red; textColor: ThemeBackend.crust; onClicked: root.showQrPopup = false }
                 }
             }
         }
