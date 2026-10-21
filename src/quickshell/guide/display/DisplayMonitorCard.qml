@@ -43,7 +43,7 @@ Rectangle {
     implicitHeight: appeared ? targetHeight : 0
     opacity: appeared ? 1.0 : 0.0
 
-    Behavior on implicitHeight { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+    Behavior on implicitHeight { enabled: !rootObj.resizing; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
     Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
     Behavior on color { ColorAnimation { duration: 250 } }
     Behavior on border.color { ColorAnimation { duration: 250 } }
@@ -215,7 +215,7 @@ Rectangle {
                     implicitHeight: isOpen ? tempInnerBox.implicitHeight : 0
 
                     Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-                    Behavior on implicitHeight { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                    Behavior on implicitHeight { enabled: !rootObj.resizing; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
                     SettingsRow {
                         id: tempInnerBox

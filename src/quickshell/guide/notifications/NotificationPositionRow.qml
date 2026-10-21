@@ -134,7 +134,7 @@ SettingsRow {
             implicitHeight: isOpen ? selectorBox.implicitHeight : 0
 
             Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-            Behavior on implicitHeight { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+            Behavior on implicitHeight { enabled: !rootObj.resizing; NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
             Rectangle {
                 id: selectorBox

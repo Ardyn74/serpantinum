@@ -447,7 +447,7 @@ Rectangle {
     Behavior on color { ColorAnimation { duration: 180 } }
     Behavior on border.color { ColorAnimation { duration: 180 } }
     Behavior on implicitHeight {
-        enabled: root.animateHeight
+        enabled: root.animateHeight && !(root.effectiveRootObj && root.effectiveRootObj.resizing)
         NumberAnimation { duration: root.animationDuration; easing.type: Easing.OutCubic }
     }
 
