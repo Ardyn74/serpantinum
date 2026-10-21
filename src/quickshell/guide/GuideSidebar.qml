@@ -112,7 +112,7 @@ Rectangle {
                     press: 0.3 + 0.7 * activeHighlight.lift
                 }
 
-                readonly property bool isMoving: Math.abs(x - targetX) > 0.5 || Math.abs(y - targetY) > 0.5 || Math.abs(width - targetW) > 0.5
+                readonly property bool isMoving: Math.abs(y - targetY) > 0.5 || Math.abs(subMix - (isSub ? 1 : 0)) > 0.01
                 property real lift: (activeGlass.active && isMoving) ? 1.0 : 0.0
                 Behavior on lift { NumberAnimation { duration: 80; easing.type: Easing.OutCubic } }
                 scale: 1.0 + 0.04 * lift
@@ -121,9 +121,11 @@ Rectangle {
                 readonly property bool isSub: sidebar.curTab === sidebar.expTab && sidebar.expTab !== -1
                 readonly property real baseY: activeDelegate ? activeDelegate.y + activeDelegate.sepH : 0
                 readonly property real subIndent: popup.compact ? 0 : popup.s(26)
-                readonly property real targetX: isSub ? subIndent : 0
+                property real subMix: isSub ? 1.0 : 0.0
+                Behavior on subMix { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
+                readonly property real targetX: subIndent * subMix
                 readonly property real targetY: isSub ? baseY + sidebar.headerH + popup.s(4) + sidebar.curSub * (sidebar.subH + sidebar.gap) : baseY
-                readonly property real targetW: isSub ? tabsCol.width - subIndent : tabsCol.width
+                readonly property real targetW: tabsCol.width - subIndent * subMix
                 readonly property real targetH: isSub ? sidebar.subH : sidebar.headerH
 
                 x: targetX
@@ -131,9 +133,7 @@ Rectangle {
                 width: targetW
                 height: targetH
 
-                Behavior on x { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
                 Behavior on y { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
-                Behavior on width { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
                 Behavior on height { enabled: activeHighlight.ready; NumberAnimation { duration: 90; easing.type: Easing.OutCubic } }
             }
 
