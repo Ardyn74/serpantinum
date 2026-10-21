@@ -782,7 +782,11 @@
         "overall_limit_desc": "Notify me when total screen time reaches this amount",
         "add_app": "Add app",
         "no_limits": "No app limits set",
-        "no_excluded": "No excluded apps"
+        "no_excluded": "No excluded apps",
+        "picker_search": "Search apps...",
+        "picker_empty": "No matching applications",
+        "picker_apply": "Apply",
+        "picker_cancel": "Cancel"
       },
       "day": "Day",
       "week": "Week",
@@ -795,7 +799,19 @@
       "peak_hour": "Peak hour",
       "week_total": "Week total",
       "less": "Less",
-      "more": "More"
+      "more": "More",
+      "notify": {
+        "title": "Digital wellbeing",
+        "overall_reached": "Your overall daily limit is reached",
+        "app_reached": "Your daily limit for {app} is reached"
+      },
+      "limit_overlay": {
+        "title": "Daily limit reached",
+        "description": "You have reached your daily limit for {app}.",
+        "usage": "Used today: {time}",
+        "hold": "Hold to continue using {app}",
+        "hint": "You will not be reminded about this app again today"
+      }
     },
     "update_available": "Update available",
     "osd": {

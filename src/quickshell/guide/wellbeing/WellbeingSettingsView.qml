@@ -11,11 +11,8 @@ Flickable {
     id: sv
     required property var tab
     readonly property var rootObj: tab.rootObj
-    readonly property int defaultAppLimitMinutes: 60
 
     readonly property var limitedClasses: Object.keys(tab.appLimits)
-    readonly property var limitCandidates: tab.allKnownApps.filter(function(a) { return tab.appLimits[a.class] === undefined; })
-    readonly property var excludeCandidates: tab.allKnownApps.filter(function(a) { return tab.excludedApps.indexOf(a.class) === -1; })
 
     anchors.fill: parent
     contentWidth: width
@@ -97,25 +94,14 @@ Flickable {
         fontPixelSize: view.rootObj.s(11)
     }
 
-    component AppPicker: Dropdown {
+    component AddButton: IconButton {
         required property var view
-        id: picker
-        property var candidates: []
-        signal picked(string appClass)
-        implicitWidth: view.rootObj.s(180)
-        implicitHeight: view.rootObj.s(32)
-        enabled: candidates.length > 0
-        options: candidates.map(function(a) { return a.name; })
-        currentIndex: -1
-        placeholderText: I18n.t("guide.wellbeing.settings.add_app")
+        size: view.rootObj.s(32)
+        cornerRadius: ThemeBackend.borderRadius
+        buttonIcon: "󰐕"
+        iconFontSize: view.rootObj.s(15)
         accentColor: ThemeBackend.mauve
-        baseColor: ThemeBackend.surface0
-        borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
-        fontPixelSize: view.rootObj.s(11)
-        onSelected: function(index, value) {
-            if (index >= 0 && index < candidates.length) picked(candidates[index].class);
-            currentIndex = -1;
-        }
+        textColor: ThemeBackend.crust
     }
 
     component RemoveButton: CloseButton {
@@ -129,15 +115,20 @@ Flickable {
         textColor: isHoveredOrHighlighted ? ThemeBackend.red : ThemeBackend.subtext0
     }
 
-    component EmptyHint: Text {
+    component EmptyHint: Item {
         required property var view
+        property alias text: hintText.text
         Layout.fillWidth: true
-        Layout.margins: view.rootObj.s(14)
-        Layout.topMargin: view.rootObj.s(2)
-        font.family: ThemeBackend.fontFamily
-        font.pixelSize: view.rootObj.s(12)
-        color: ThemeBackend.subtext0
-        wrapMode: Text.WordWrap
+        Layout.preferredHeight: view.rootObj.s(40)
+        Layout.margins: view.rootObj.s(12)
+
+        Text {
+            id: hintText
+            anchors.centerIn: parent
+            font.family: ThemeBackend.fontFamily
+            font.pixelSize: view.rootObj.s(12)
+            color: ThemeBackend.subtext0
+        }
     }
 
     ColumnLayout {
@@ -170,11 +161,7 @@ Flickable {
                 title: I18n.t("guide.wellbeing.settings.app_limits")
                 description: I18n.t("guide.wellbeing.settings.app_limits_desc")
 
-                AppPicker {
-                    view: sv
-                    candidates: sv.limitCandidates
-                    onPicked: function(appClass) { sv.tab.setAppLimit(appClass, sv.defaultAppLimitMinutes * 60); }
-                }
+                AddButton { view: sv; onClicked: sv.tab.openAppPicker("limit") }
             }
 
             EmptyHint {
@@ -193,7 +180,7 @@ Flickable {
                     customLeftContent: Component { AppLabel { view: sv; appClass: limitRow.modelData } }
 
                     LimitStepper {
-                    view: sv
+                        view: sv
                         from: 5
                         to: 1440
                         value: Math.round((Number(sv.tab.appLimits[limitRow.modelData]) || 0) / 60)
@@ -215,11 +202,7 @@ Flickable {
                 title: I18n.t("guide.wellbeing.settings.excluded_apps")
                 description: I18n.t("guide.wellbeing.settings.excluded_apps_desc")
 
-                AppPicker {
-                    view: sv
-                    candidates: sv.excludeCandidates
-                    onPicked: function(appClass) { sv.tab.setAppExcluded(appClass, true); }
-                }
+                AddButton { view: sv; onClicked: sv.tab.openAppPicker("exclude") }
             }
 
             EmptyHint {

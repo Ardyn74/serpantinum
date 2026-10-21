@@ -477,6 +477,49 @@ GuideTab {
         updateWellbeingSetting("excludedApps", list);
     }
 
+    property string appPickerMode: ""
+
+    function openAppPicker(mode) { appPickerMode = mode; }
+    function closeAppPicker() { appPickerMode = ""; }
+
+    function isAppTaken(appClass, mode) {
+        let key = String(appClass).toLowerCase();
+        if (mode === "limit") return Object.keys(appLimits).some(function(c) { return c.toLowerCase() === key; });
+        return excludedApps.some(function(c) { return String(c).toLowerCase() === key; });
+    }
+
+    function applyPickedApp(appClass) {
+        if (appPickerMode === "limit") setAppLimit(appClass, 3600);
+        else if (appPickerMode === "exclude") setAppExcluded(appClass, true);
+        closeAppPicker();
+    }
+
+    function installedAppList() {
+        let seen = {};
+        let list = [];
+        function add(cls, name, icon, comment) {
+            let key = String(cls).toLowerCase();
+            if (!cls || seen[key]) return;
+            seen[key] = true;
+            list.push({ class: cls, name: name || cls, icon: icon || "", comment: comment || "" });
+        }
+        for (let i = 0; i < allKnownApps.length; i++) {
+            let a = allKnownApps[i];
+            add(a.class, a.name, a.icon, a.class);
+        }
+        if (typeof DesktopEntries !== "undefined" && DesktopEntries.applications && DesktopEntries.applications.values) {
+            let entries = DesktopEntries.applications.values;
+            for (let i = 0; i < entries.length; i++) {
+                let e = entries[i];
+                if (e.noDisplay) continue;
+                let cls = e.startupClass || String(e.id || "").replace(/\.desktop$/, "");
+                add(cls, e.name, e.icon, e.comment);
+            }
+        }
+        list.sort(function(a, b) { return (a.name || "").localeCompare(b.name || ""); });
+        return list;
+    }
+
     function iconSource(ic) {
         if (!ic) return "";
         if (ic.startsWith("file://") || ic.startsWith("image://") || ic.startsWith("http://") || ic.startsWith("https://")) return ic;

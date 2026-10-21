@@ -26,4 +26,6 @@ WellbeingState {
             WellbeingSettingsView { tab: tabRoot }
         }
     }
+
+    WellbeingAppPicker { tab: tabRoot }
 }
