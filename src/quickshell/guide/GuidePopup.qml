@@ -878,7 +878,7 @@ Item {
                 }
             } else if (root.focusInContent()) {
                 root.forceActiveFocus();
-            } else {
+            } else if (!root.standalone) {
                 root.closePopup();
             }
             event.accepted = true;
