@@ -1617,10 +1617,7 @@
       },
       "limit_overlay": {
         "title": "Osiągnięto dzienny limit",
-        "description": "Osiągnięto dzienny limit dla {app}.",
-        "usage": "Dzisiaj użyto: {time}",
-        "hold": "Przytrzymaj, aby dalej używać {app}",
-        "hint": "Dziś nie przypomnimy już o tej aplikacji"
+        "hold": "Przytrzymaj, aby kontynuować"
       }
     },
     "update_available": "Dostępna aktualizacja",

@@ -790,10 +790,7 @@
       },
       "limit_overlay": {
         "title": "Tageslimit erreicht",
-        "description": "Du hast dein Tageslimit für {app} erreicht.",
-        "usage": "Heute genutzt: {time}",
-        "hold": "Gedrückt halten, um {app} weiter zu nutzen",
-        "hint": "Heute wirst du für diese App nicht mehr erinnert"
+        "hold": "Gedrückt halten zum Fortfahren"
       }
     },
     "update_available": "Update verfügbar",

@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "Daglimiet bereikt",
-        "description": "Je hebt je daglimiet voor {app} bereikt.",
-        "usage": "Vandaag gebruikt: {time}",
-        "hold": "Houd ingedrukt om {app} te blijven gebruiken",
-        "hint": "Je wordt vandaag niet meer herinnerd aan deze app"
+        "hold": "Houd ingedrukt om door te gaan"
       }
     },
     "update_available": "Update beschikbaar",

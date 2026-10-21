@@ -108,7 +108,7 @@ Scope {
             Rectangle {
                 id: card
                 anchors.centerIn: parent
-                width: 440
+                width: 360
                 implicitHeight: cardColumn.implicitHeight + 56
                 height: implicitHeight
                 radius: ThemeBackend.borderRadius <= 16 ? ThemeBackend.borderRadius * 1.5 : 24
@@ -175,21 +175,10 @@ Scope {
                     Text {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WordWrap
-                        text: I18n.t("guide.wellbeing.limit_overlay.description", { "app": overlayScope.displayName })
+                        text: overlayScope.displayName + "  ·  " + overlayScope.formatUsed(overlayScope.usedSeconds)
                         font.family: ThemeBackend.fontFamily
                         font.pixelSize: 14
                         color: ThemeBackend.subtext0
-                    }
-
-                    Text {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignHCenter
-                        text: I18n.t("guide.wellbeing.limit_overlay.usage", { "time": overlayScope.formatUsed(overlayScope.usedSeconds) })
-                        font.family: ThemeBackend.fontFamily
-                        font.pixelSize: 13
-                        font.bold: true
-                        color: ThemeBackend.mauve
                     }
 
                     FillButton {
@@ -199,22 +188,12 @@ Scope {
                         implicitHeight: 52
                         cornerRadius: ThemeBackend.borderRadius
                         buttonIcon: "󰁔"
-                        buttonText: I18n.t("guide.wellbeing.limit_overlay.hold", { "app": overlayScope.displayName })
+                        buttonText: I18n.t("guide.wellbeing.limit_overlay.hold", "Hold to continue")
                         textFontSize: 14
                         iconFontSize: 18
                         fillDuration: 3000
                         accentColor: ThemeBackend.mauve
                         onTriggered: overlayScope.shown = false
-                    }
-
-                    Text {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WordWrap
-                        text: I18n.t("guide.wellbeing.limit_overlay.hint", "You will not be reminded about this app again today")
-                        font.family: ThemeBackend.fontFamily
-                        font.pixelSize: 11
-                        color: ThemeBackend.subtext0
                     }
                 }
             }

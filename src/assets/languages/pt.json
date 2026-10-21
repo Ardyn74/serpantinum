@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "Limite diário atingido",
-        "description": "Atingiu o limite diário de {app}.",
-        "usage": "Usado hoje: {time}",
-        "hold": "Mantenha premido para continuar a usar {app}",
-        "hint": "Hoje não voltará a ser avisado sobre esta aplicação"
+        "hold": "Mantenha premido para continuar"
       }
     },
     "update_available": "Atualização disponível",

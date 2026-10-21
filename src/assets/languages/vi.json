@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "Đã đạt giới hạn hằng ngày",
-        "description": "Bạn đã đạt giới hạn hằng ngày của {app}.",
-        "usage": "Đã dùng hôm nay: {time}",
-        "hold": "Nhấn giữ để tiếp tục dùng {app}",
-        "hint": "Hôm nay bạn sẽ không được nhắc về ứng dụng này nữa"
+        "hold": "Nhấn giữ để tiếp tục"
       }
     },
     "update_available": "Có bản cập nhật mới",

@@ -788,10 +788,7 @@
       },
       "limit_overlay": {
         "title": "Limite giornaliero raggiunto",
-        "description": "Hai raggiunto il limite giornaliero per {app}.",
-        "usage": "Usato oggi: {time}",
-        "hold": "Tieni premuto per continuare a usare {app}",
-        "hint": "Oggi non riceverai altri promemoria per questa app"
+        "hold": "Tieni premuto per continuare"
       }
     },
     "update_available": "Aggiornamento disponibile",

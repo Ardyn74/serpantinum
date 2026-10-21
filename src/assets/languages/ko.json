@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "일일 한도 도달",
-        "description": "{app}의 일일 한도에 도달했습니다.",
-        "usage": "오늘 사용: {time}",
-        "hold": "{app}을(를) 계속 사용하려면 길게 누르세요",
-        "hint": "오늘은 이 앱에 대해 다시 알리지 않습니다"
+        "hold": "길게 눌러 계속"
       }
     },
     "update_available": "업데이트 있음",

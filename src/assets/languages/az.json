@@ -787,10 +787,7 @@
       },
       "limit_overlay": {
         "title": "Gündəlik limitə çatıldı",
-        "description": "{app} üçün gündəlik limitinizə çatdınız.",
-        "usage": "Bu gün istifadə olunub: {time}",
-        "hold": "{app} tətbiqindən istifadəni davam etdirmək üçün basılı saxlayın",
-        "hint": "Bu tətbiq barədə bu gün sizə bir daha xatırlatma göndərilməyəcək"
+        "hold": "Davam etmək üçün basılı saxlayın"
       }
     },
     "update_available": "Yeniləmə mövcuddur",

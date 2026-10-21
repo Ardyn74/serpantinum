@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "已達到每日上限",
-        "description": "你已達到 {app} 的每日上限。",
-        "usage": "今日已使用：{time}",
-        "hold": "長按以繼續使用 {app}",
-        "hint": "今天不會再提醒你此應用程式的上限"
+        "hold": "長按以繼續"
       }
     },
     "update_available": "有可用更新",

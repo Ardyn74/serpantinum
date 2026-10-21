@@ -807,10 +807,7 @@
       },
       "limit_overlay": {
         "title": "Daily limit reached",
-        "description": "You have reached your daily limit for {app}.",
-        "usage": "Used today: {time}",
-        "hold": "Hold to continue using {app}",
-        "hint": "You will not be reminded about this app again today"
+        "hold": "Hold to continue"
       }
     },
     "update_available": "Update available",

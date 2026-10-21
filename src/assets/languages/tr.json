@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "Günlük sınıra ulaşıldı",
-        "description": "{app} için günlük sınırınıza ulaştınız.",
-        "usage": "Bugün kullanılan: {time}",
-        "hold": "{app} uygulamasını kullanmaya devam etmek için basılı tutun",
-        "hint": "Bu uygulama için bugün tekrar hatırlatılmayacak"
+        "hold": "Devam etmek için basılı tutun"
       }
     },
     "update_available": "Güncelleme mevcut",

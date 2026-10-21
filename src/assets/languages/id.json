@@ -789,10 +789,7 @@
       },
       "limit_overlay": {
         "title": "Batas harian tercapai",
-        "description": "Anda telah mencapai batas harian untuk {app}.",
-        "usage": "Digunakan hari ini: {time}",
-        "hold": "Tahan untuk terus menggunakan {app}",
-        "hint": "Anda tidak akan diingatkan lagi tentang aplikasi ini hari ini"
+        "hold": "Tahan untuk melanjutkan"
       }
     },
     "update_available": "Pembaruan tersedia",
