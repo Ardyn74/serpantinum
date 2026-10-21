@@ -26,7 +26,6 @@ Item {
             anchors.fill: parent
             anchors.leftMargin: popup.s(20)
             anchors.rightMargin: popup.s(20)
-            anchors.topMargin: popup.s(8)
             spacing: popup.s(16)
 
             Text {
@@ -51,7 +50,6 @@ Item {
                 Layout.preferredHeight: popup.s(38)
                 implicitHeight: popup.s(38)
                 placeholderText: I18n.t("guide.search.placeholder", "Search settings...")
-                leadingIcon: "󰍉"
                 showClearButton: true
                 fontPixelSize: popup.s(12)
                 baseColor: Qt.alpha(ThemeBackend.surface0, 0.6)
