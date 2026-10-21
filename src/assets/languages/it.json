@@ -71,7 +71,11 @@
         "title": "Ordinamento intelligente delle app nell'avviatore",
         "desc": "Ordina le app in base all'uso e al tempo di utilizzo"
       },
-      "test": "Apri Avviatore"
+      "test": "Apri Avviatore",
+      "search": {
+        "title": "Motore di ricerca web",
+        "desc": "Motore usato quando la ricerca inizia con ?"
+      }
     },
     "notifications": {
       "dnd": {
@@ -965,7 +969,9 @@
     "tab_files": "File",
     "placeholder_files": "Cerca file o inserisci percorso...",
     "tab_emojis": "Emoji",
-    "placeholder_emojis": "Cerca emoji o inserisci parola chiave..."
+    "placeholder_emojis": "Cerca emoji o inserisci parola chiave...",
+    "search_run": "Cerca con {provider}",
+    "search_hint": "Digita per cercare con {provider}"
   },
   "calendar": {
     "loading": "Caricamento...",
@@ -1245,7 +1251,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normale",
-        "advanced": "Avanzata"
+        "advanced": "Avanzata",
+        "converter": "Convertitore"
       },
       "clear": "AC",
       "error": {
@@ -1253,6 +1260,20 @@
         "div0": "Impossibile dividere per zero",
         "domain": "Input non valido",
         "paste": "Incolla non valido"
+      },
+      "converter": {
+        "currency": "Valuta",
+        "length": "Lunghezza",
+        "mass": "Massa",
+        "temperature": "Temperatura",
+        "volume": "Volume",
+        "area": "Area",
+        "speed": "Velocità",
+        "time": "Tempo",
+        "data": "Dati",
+        "updated": "Tassi aggiornati {time}",
+        "updating": "Aggiornamento dei tassi...",
+        "offline": "Tassi non disponibili"
       }
     },
     "tabs": {
@@ -1459,7 +1480,8 @@
       "usage": "Utilizzo",
       "battery": "Batteria",
       "github": "Github",
-      "time": "Ora"
+      "time": "Ora",
+      "notes": "Note"
     },
     "variants": {
       "digital": "Digitale",
@@ -1514,6 +1536,9 @@
       "left": "Sinistra",
       "center": "Centro",
       "right": "Destra"
+    },
+    "notes": {
+      "empty": "Ancora nessuna nota"
     }
   },
   "cli": {

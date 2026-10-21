@@ -71,7 +71,11 @@
         "title": "Pengurutan cerdas untuk item di peluncur",
         "desc": "Urutkan aplikasi berdasarkan penggunaan dan jumlah waktu yang dihabiskan di dalamnya"
       },
-      "test": "Buka peluncur"
+      "test": "Buka peluncur",
+      "search": {
+        "title": "Penyedia pencarian web",
+        "desc": "Mesin pencari yang digunakan saat kueri diawali ?"
+      }
     },
     "notifications": {
       "dnd": {
@@ -966,7 +970,9 @@
     "tab_files": "Berkas",
     "placeholder_files": "Cari berkas atau masukkan jalur...",
     "tab_emojis": "Emoji",
-    "placeholder_emojis": "Cari emoji berdasarkan nama atau kata kunci..."
+    "placeholder_emojis": "Cari emoji berdasarkan nama atau kata kunci...",
+    "search_run": "Cari dengan {provider}",
+    "search_hint": "Ketik untuk mencari dengan {provider}"
   },
   "calendar": {
     "loading": "Memuat...",
@@ -1249,7 +1255,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normal",
-        "advanced": "Lanjutan"
+        "advanced": "Lanjutan",
+        "converter": "Konverter"
       },
       "clear": "AC",
       "error": {
@@ -1257,6 +1264,20 @@
         "div0": "Tidak dapat membagi dengan nol",
         "domain": "Masukan tidak valid",
         "paste": "Tempel tidak valid"
+      },
+      "converter": {
+        "currency": "Mata uang",
+        "length": "Panjang",
+        "mass": "Massa",
+        "temperature": "Suhu",
+        "volume": "Volume",
+        "area": "Luas",
+        "speed": "Kecepatan",
+        "time": "Waktu",
+        "data": "Data",
+        "updated": "Kurs diperbarui {time}",
+        "updating": "Memperbarui kurs...",
+        "offline": "Kurs tidak tersedia"
       }
     },
     "tabs": {
@@ -1463,7 +1484,8 @@
       "usage": "Penggunaan",
       "battery": "Baterai",
       "github": "Github",
-      "time": "Waktu"
+      "time": "Waktu",
+      "notes": "Catatan"
     },
     "variants": {
       "digital": "Digital",
@@ -1515,6 +1537,9 @@
       "left": "Kiri",
       "center": "Tengah",
       "right": "Kanan"
+    },
+    "notes": {
+      "empty": "Belum ada catatan"
     }
   },
   "cli": {

@@ -71,7 +71,11 @@
         "title": "Tri intelligent des éléments dans le lanceur",
         "desc": "Trier les applications selon l'utilisation et le temps passé"
       },
-      "test": "Ouvrir le lanceur"
+      "test": "Ouvrir le lanceur",
+      "search": {
+        "title": "Moteur de recherche web",
+        "desc": "Moteur utilisé lorsque la requête commence par ?"
+      }
     },
     "notifications": {
       "dnd": {
@@ -966,7 +970,9 @@
     "tab_files": "Fichiers",
     "placeholder_files": "Rechercher des fichiers ou entrer un chemin...",
     "tab_emojis": "Émojis",
-    "placeholder_emojis": "Rechercher des émojis par nom ou mot-clé..."
+    "placeholder_emojis": "Rechercher des émojis par nom ou mot-clé...",
+    "search_run": "Rechercher avec {provider}",
+    "search_hint": "Saisissez pour rechercher avec {provider}"
   },
   "calendar": {
     "loading": "Chargement...",
@@ -1249,7 +1255,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normal",
-        "advanced": "Avancé"
+        "advanced": "Avancé",
+        "converter": "Convertisseur"
       },
       "clear": "AC",
       "error": {
@@ -1257,6 +1264,20 @@
         "div0": "Division par zéro impossible",
         "domain": "Entrée invalide",
         "paste": "Collage invalide"
+      },
+      "converter": {
+        "currency": "Devise",
+        "length": "Longueur",
+        "mass": "Masse",
+        "temperature": "Température",
+        "volume": "Volume",
+        "area": "Surface",
+        "speed": "Vitesse",
+        "time": "Temps",
+        "data": "Données",
+        "updated": "Taux mis à jour {time}",
+        "updating": "Mise à jour des taux...",
+        "offline": "Taux indisponibles"
       }
     },
     "tabs": {
@@ -1463,7 +1484,8 @@
       "usage": "Utilisation",
       "battery": "Batterie",
       "github": "Github",
-      "time": "Heure"
+      "time": "Heure",
+      "notes": "Notes"
     },
     "variants": {
       "digital": "Numérique",
@@ -1515,6 +1537,9 @@
       "left": "Gauche",
       "center": "Centre",
       "right": "Droite"
+    },
+    "notes": {
+      "empty": "Aucune note pour l'instant"
     }
   },
   "cli": {

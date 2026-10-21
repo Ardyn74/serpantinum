@@ -32,7 +32,9 @@
     "tab_files": "ファイル",
     "placeholder_files": "ファイルを検索またはパスを入力...",
     "tab_emojis": "絵文字",
-    "placeholder_emojis": "名前やキーワードで絵文字を検索..."
+    "placeholder_emojis": "名前やキーワードで絵文字を検索...",
+    "search_run": "{provider} で検索",
+    "search_hint": "入力して {provider} で検索"
   },
   "calendar": {
     "loading": "読み込み中...",
@@ -315,7 +317,8 @@
       "inv": "逆",
       "mode": {
         "normal": "標準",
-        "advanced": "高度"
+        "advanced": "高度",
+        "converter": "変換"
       },
       "clear": "AC",
       "error": {
@@ -323,6 +326,20 @@
         "div0": "0で割ることはできません",
         "domain": "無効な入力です",
         "paste": "無効な貼り付け"
+      },
+      "converter": {
+        "currency": "通貨",
+        "length": "長さ",
+        "mass": "質量",
+        "temperature": "温度",
+        "volume": "体積",
+        "area": "面積",
+        "speed": "速度",
+        "time": "時間",
+        "data": "データ",
+        "updated": "レート更新 {time}",
+        "updating": "レートを更新中...",
+        "offline": "レートを取得できません"
       }
     },
     "tabs": {
@@ -529,7 +546,8 @@
       "usage": "リソース使用率",
       "battery": "バッテリー",
       "github": "GitHub",
-      "time": "時刻"
+      "time": "時刻",
+      "notes": "メモ"
     },
     "variants": {
       "digital": "デジタル",
@@ -581,6 +599,9 @@
       "left": "左揃え",
       "center": "中央揃え",
       "right": "右揃え"
+    },
+    "notes": {
+      "empty": "メモはまだありません"
     }
   },
   "cli": {
@@ -869,7 +890,11 @@
         "title": "ランチャー項目のスマートソート",
         "desc": "アプリの使用頻度と滞在時間に基づいて並び替えます"
       },
-      "test": "ランチャーを開く"
+      "test": "ランチャーを開く",
+      "search": {
+        "title": "ウェブ検索プロバイダー",
+        "desc": "? で始まるクエリに使用する検索エンジン"
+      }
     },
     "notifications": {
       "dnd": {

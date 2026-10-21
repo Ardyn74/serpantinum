@@ -71,7 +71,11 @@
         "title": "Slimme sortering van items in starter",
         "desc": "Sorteer apps op basis van gebruik en doorgebrachte tijd"
       },
-      "test": "Starter openen"
+      "test": "Starter openen",
+      "search": {
+        "title": "Webzoekmachine",
+        "desc": "Zoekmachine voor zoekopdrachten die met ? beginnen"
+      }
     },
     "notifications": {
       "dnd": {
@@ -966,7 +970,9 @@
     "tab_files": "Bestanden",
     "placeholder_files": "Bestanden zoeken of pad invoeren...",
     "tab_emojis": "Emoji's",
-    "placeholder_emojis": "Zoek emoji's op naam of trefwoord..."
+    "placeholder_emojis": "Zoek emoji's op naam of trefwoord...",
+    "search_run": "Zoeken met {provider}",
+    "search_hint": "Typ om te zoeken met {provider}"
   },
   "calendar": {
     "loading": "Laden...",
@@ -1249,7 +1255,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normaal",
-        "advanced": "Geavanceerd"
+        "advanced": "Geavanceerd",
+        "converter": "Omzetter"
       },
       "clear": "AC",
       "error": {
@@ -1257,6 +1264,20 @@
         "div0": "Delen door nul is niet mogelijk",
         "domain": "Ongeldige invoer",
         "paste": "Ongeldig plakken"
+      },
+      "converter": {
+        "currency": "Valuta",
+        "length": "Lengte",
+        "mass": "Massa",
+        "temperature": "Temperatuur",
+        "volume": "Volume",
+        "area": "Oppervlakte",
+        "speed": "Snelheid",
+        "time": "Tijd",
+        "data": "Gegevens",
+        "updated": "Koersen bijgewerkt {time}",
+        "updating": "Koersen bijwerken...",
+        "offline": "Koersen niet beschikbaar"
       }
     },
     "tabs": {
@@ -1463,7 +1484,8 @@
       "usage": "Gebruik",
       "battery": "Batterij",
       "github": "GitHub",
-      "time": "Tijd"
+      "time": "Tijd",
+      "notes": "Notities"
     },
     "variants": {
       "digital": "Digitaal",
@@ -1515,6 +1537,9 @@
       "left": "Links",
       "center": "Midden",
       "right": "Rechts"
+    },
+    "notes": {
+      "empty": "Nog geen notities"
     }
   },
   "cli": {

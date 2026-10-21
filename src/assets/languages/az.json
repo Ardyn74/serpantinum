@@ -71,7 +71,11 @@
         "title": "Başladıcıdakı elementlərin ağıllı sıralanması",
         "desc": "Tətbiqləri istifadə tezliyinə və istifadə müddətinə görə sırala"
       },
-      "test": "Başladıcını aç"
+      "test": "Başladıcını aç",
+      "search": {
+        "title": "Veb axtarış provayderi",
+        "desc": "? ilə başlayan sorğular üçün istifadə olunan axtarış sistemi"
+      }
     },
     "notifications": {
       "dnd": {
@@ -960,7 +964,9 @@
     "tab_files": "Fayllar",
     "placeholder_files": "Faylları axtarın və ya yol daxil edin...",
     "tab_emojis": "Emojilər",
-    "placeholder_emojis": "Emojiləri axtarın və ya açar söz daxil edin..."
+    "placeholder_emojis": "Emojiləri axtarın və ya açar söz daxil edin...",
+    "search_run": "{provider} ilə axtar",
+    "search_hint": "{provider} ilə axtarmaq üçün yazın"
   },
   "calendar": {
     "loading": "Yüklənir...",
@@ -1240,7 +1246,8 @@
       "inv": "Tərs",
       "mode": {
         "normal": "Adi",
-        "advanced": "Qabaqcıl"
+        "advanced": "Qabaqcıl",
+        "converter": "Çevirici"
       },
       "clear": "AC",
       "error": {
@@ -1248,6 +1255,20 @@
         "div0": "Sıfıra bölmək olmaz",
         "domain": "Yanlış giriş",
         "paste": "Yanlış yapışdırma"
+      },
+      "converter": {
+        "currency": "Valyuta",
+        "length": "Uzunluq",
+        "mass": "Kütlə",
+        "temperature": "Temperatur",
+        "volume": "Həcm",
+        "area": "Sahə",
+        "speed": "Sürət",
+        "time": "Vaxt",
+        "data": "Məlumat",
+        "updated": "Məzənnələr yeniləndi {time}",
+        "updating": "Məzənnələr yenilənir...",
+        "offline": "Məzənnələr əlçatan deyil"
       }
     },
     "tabs": {
@@ -1454,7 +1475,8 @@
       "usage": "İstifadə",
       "battery": "Batareya",
       "github": "Github",
-      "time": "Vaxt"
+      "time": "Vaxt",
+      "notes": "Qeydlər"
     },
     "variants": {
       "digital": "Rəqəmsal",
@@ -1509,6 +1531,9 @@
       "left": "Sol",
       "center": "Mərkəz",
       "right": "Sağ"
+    },
+    "notes": {
+      "empty": "Hələ qeyd yoxdur"
     }
   },
   "cli": {

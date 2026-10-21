@@ -71,7 +71,11 @@
         "title": "런처 항목 스마트 정렬",
         "desc": "사용 빈도와 사용 시간을 기준으로 앱을 정렬합니다"
       },
-      "test": "런처 열기"
+      "test": "런처 열기",
+      "search": {
+        "title": "웹 검색 제공자",
+        "desc": "?로 시작하는 쿼리에 사용할 검색 엔진"
+      }
     },
     "notifications": {
       "dnd": {
@@ -966,7 +970,9 @@
     "tab_files": "파일",
     "placeholder_files": "파일 검색 또는 경로 입력...",
     "tab_emojis": "이모지",
-    "placeholder_emojis": "이모지 검색 또는 키워드 입력..."
+    "placeholder_emojis": "이모지 검색 또는 키워드 입력...",
+    "search_run": "{provider}에서 검색",
+    "search_hint": "입력하여 {provider}에서 검색"
   },
   "calendar": {
     "loading": "불러오는 중...",
@@ -1246,7 +1252,8 @@
       "inv": "역",
       "mode": {
         "normal": "일반",
-        "advanced": "고급"
+        "advanced": "고급",
+        "converter": "변환기"
       },
       "clear": "AC",
       "error": {
@@ -1254,6 +1261,20 @@
         "div0": "0으로 나눌 수 없습니다",
         "domain": "잘못된 입력",
         "paste": "잘못된 붙여넣기"
+      },
+      "converter": {
+        "currency": "통화",
+        "length": "길이",
+        "mass": "질량",
+        "temperature": "온도",
+        "volume": "부피",
+        "area": "면적",
+        "speed": "속도",
+        "time": "시간",
+        "data": "데이터",
+        "updated": "환율 업데이트됨 {time}",
+        "updating": "환율 업데이트 중...",
+        "offline": "환율을 사용할 수 없음"
       }
     },
     "tabs": {
@@ -1460,7 +1481,8 @@
       "usage": "사용량",
       "battery": "배터리",
       "github": "Github",
-      "time": "시간"
+      "time": "시간",
+      "notes": "메모"
     },
     "variants": {
       "digital": "디지털",
@@ -1515,6 +1537,9 @@
       "left": "왼쪽",
       "center": "가운데",
       "right": "오른쪽"
+    },
+    "notes": {
+      "empty": "아직 메모가 없습니다"
     }
   },
   "cli": {

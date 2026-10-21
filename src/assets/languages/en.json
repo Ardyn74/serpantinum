@@ -71,7 +71,11 @@
         "title": "Smart sorting of items in launcher",
         "desc": "Sort apps based on usage and amount of time spent in them"
       },
-      "test": "Open launcher"
+      "test": "Open launcher",
+      "search": {
+        "title": "Web search provider",
+        "desc": "Search engine used when a query starts with ?"
+      }
     },
     "notifications": {
       "dnd": {
@@ -974,7 +978,9 @@
     "tab_files": "Files",
     "placeholder_files": "Search files or enter path...",
     "tab_emojis": "Emojis",
-    "placeholder_emojis": "Search emojis by name or keyword..."
+    "placeholder_emojis": "Search emojis by name or keyword...",
+    "search_run": "Search {provider}",
+    "search_hint": "Type to search with {provider}"
   },
   "calendar": {
     "loading": "Loading...",
@@ -1259,7 +1265,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normal",
-        "advanced": "Advanced"
+        "advanced": "Advanced",
+        "converter": "Converter"
       },
       "clear": "AC",
       "error": {
@@ -1267,6 +1274,20 @@
         "div0": "Can't divide by zero",
         "domain": "Invalid input",
         "paste": "Invalid paste"
+      },
+      "converter": {
+        "currency": "Currency",
+        "length": "Length",
+        "mass": "Mass",
+        "temperature": "Temperature",
+        "volume": "Volume",
+        "area": "Area",
+        "speed": "Speed",
+        "time": "Time",
+        "data": "Data",
+        "updated": "Rates updated {time}",
+        "updating": "Updating rates...",
+        "offline": "Rates unavailable"
       }
     },
     "tabs": {
@@ -1473,7 +1494,8 @@
       "usage": "Usage",
       "battery": "Battery",
       "github": "Github",
-      "time": "Time"
+      "time": "Time",
+      "notes": "Notes"
     },
     "variants": {
       "digital": "Digital",
@@ -1534,6 +1556,9 @@
     "style": {
       "wave": "Wave",
       "circle": "Circle"
+    },
+    "notes": {
+      "empty": "No notes yet"
     }
   },
   "cli": {

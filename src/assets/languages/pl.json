@@ -35,7 +35,9 @@
     "tab_files": "Pliki",
     "placeholder_files": "Szukaj plików lub wpisz ścieżkę...",
     "tab_emojis": "Emoji",
-    "placeholder_emojis": "Szukaj emoji według nazwy lub słowa kluczowego..."
+    "placeholder_emojis": "Szukaj emoji według nazwy lub słowa kluczowego...",
+    "search_run": "Szukaj w {provider}",
+    "search_hint": "Wpisz, aby szukać w {provider}"
   },
   "calendar": {
     "loading": "Ładowanie...",
@@ -318,7 +320,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Zwykły",
-        "advanced": "Zaawansowany"
+        "advanced": "Zaawansowany",
+        "converter": "Konwerter"
       },
       "clear": "AC",
       "error": {
@@ -326,6 +329,20 @@
         "div0": "Nie można dzielić przez zero",
         "domain": "Nieprawidłowe dane",
         "paste": "Nieprawidłowe wklejanie"
+      },
+      "converter": {
+        "currency": "Waluta",
+        "length": "Długość",
+        "mass": "Masa",
+        "temperature": "Temperatura",
+        "volume": "Objętość",
+        "area": "Powierzchnia",
+        "speed": "Prędkość",
+        "time": "Czas",
+        "data": "Dane",
+        "updated": "Kursy zaktualizowano {time}",
+        "updating": "Aktualizowanie kursów...",
+        "offline": "Kursy niedostępne"
       }
     },
     "tabs": {
@@ -532,7 +549,8 @@
       "usage": "Użycie zasobów",
       "battery": "Bateria",
       "github": "GitHub",
-      "time": "Czas"
+      "time": "Czas",
+      "notes": "Notatki"
     },
     "variants": {
       "digital": "Cyfrowy",
@@ -584,6 +602,9 @@
       "left": "Do lewej",
       "center": "Środek",
       "right": "Do prawej"
+    },
+    "notes": {
+      "empty": "Brak notatek"
     }
   },
   "cli": {
@@ -869,7 +890,11 @@
         "title": "Inteligentne sortowanie elementów w aktywatorze",
         "desc": "Sortuj aplikacje według częstotliwości używania i spędzonego w nich czasu"
       },
-      "test": "Otwórz aktywator"
+      "test": "Otwórz aktywator",
+      "search": {
+        "title": "Wyszukiwarka internetowa",
+        "desc": "Wyszukiwarka używana, gdy zapytanie zaczyna się od ?"
+      }
     },
     "notifications": {
       "dnd": {

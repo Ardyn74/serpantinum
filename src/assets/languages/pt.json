@@ -71,7 +71,11 @@
         "title": "Ordenação inteligente no lançador",
         "desc": "Ordena apps por uso e tempo gasto neles"
       },
-      "test": "Abrir lançador"
+      "test": "Abrir lançador",
+      "search": {
+        "title": "Mecanismo de busca na web",
+        "desc": "Mecanismo usado quando a consulta começa com ?"
+      }
     },
     "notifications": {
       "dnd": {
@@ -966,7 +970,9 @@
     "tab_files": "Arquivos",
     "placeholder_files": "Buscar arquivos ou digitar caminho...",
     "tab_emojis": "Emojis",
-    "placeholder_emojis": "Buscar emojis ou digitar palavra-chave..."
+    "placeholder_emojis": "Buscar emojis ou digitar palavra-chave...",
+    "search_run": "Pesquisar com {provider}",
+    "search_hint": "Digite para pesquisar com {provider}"
   },
   "calendar": {
     "loading": "Carregando...",
@@ -1246,7 +1252,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normal",
-        "advanced": "Avançada"
+        "advanced": "Avançada",
+        "converter": "Conversor"
       },
       "clear": "AC",
       "error": {
@@ -1254,6 +1261,20 @@
         "div0": "Não é possível dividir por zero",
         "domain": "Entrada inválida",
         "paste": "Colagem inválida"
+      },
+      "converter": {
+        "currency": "Moeda",
+        "length": "Comprimento",
+        "mass": "Massa",
+        "temperature": "Temperatura",
+        "volume": "Volume",
+        "area": "Área",
+        "speed": "Velocidade",
+        "time": "Tempo",
+        "data": "Dados",
+        "updated": "Taxas atualizadas {time}",
+        "updating": "Atualizando taxas...",
+        "offline": "Taxas indisponíveis"
       }
     },
     "tabs": {
@@ -1460,7 +1481,8 @@
       "usage": "Uso",
       "battery": "Bateria",
       "github": "Github",
-      "time": "Hora"
+      "time": "Hora",
+      "notes": "Notas"
     },
     "variants": {
       "digital": "Digital",
@@ -1515,6 +1537,9 @@
       "left": "Esquerda",
       "center": "Centro",
       "right": "Direita"
+    },
+    "notes": {
+      "empty": "Ainda não há notas"
     }
   },
   "cli": {

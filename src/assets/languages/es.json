@@ -72,7 +72,11 @@
         "title": "Ordenación inteligente de elementos en el lanzador",
         "desc": "Ordenar aplicaciones según su uso y el tiempo que se pasa en ellas"
       },
-      "test": "Abrir lanzador"
+      "test": "Abrir lanzador",
+      "search": {
+        "title": "Proveedor de búsqueda web",
+        "desc": "Buscador usado cuando la consulta empieza con ?"
+      }
     },
     "notifications": {
       "dnd": {
@@ -1010,7 +1014,9 @@
     "tab_files": "Archivos",
     "placeholder_files": "Buscar archivos o escribir ruta...",
     "tab_emojis": "Emojis",
-    "placeholder_emojis": "Buscar emojis o escribir palabra clave..."
+    "placeholder_emojis": "Buscar emojis o escribir palabra clave...",
+    "search_run": "Buscar en {provider}",
+    "search_hint": "Escribe para buscar con {provider}"
   },
   "calendar": {
     "loading": "Cargando...",
@@ -1290,7 +1296,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normal",
-        "advanced": "Avanzado"
+        "advanced": "Avanzado",
+        "converter": "Conversor"
       },
       "clear": "AC",
       "error": {
@@ -1298,6 +1305,20 @@
         "div0": "No se puede dividir entre cero",
         "domain": "Entrada no válida",
         "paste": "Pegado no válido"
+      },
+      "converter": {
+        "currency": "Moneda",
+        "length": "Longitud",
+        "mass": "Masa",
+        "temperature": "Temperatura",
+        "volume": "Volumen",
+        "area": "Área",
+        "speed": "Velocidad",
+        "time": "Tiempo",
+        "data": "Datos",
+        "updated": "Tasas actualizadas {time}",
+        "updating": "Actualizando tasas...",
+        "offline": "Tasas no disponibles"
       }
     },
     "tabs": {
@@ -1504,7 +1525,8 @@
       "usage": "Uso",
       "battery": "Batería",
       "github": "Github",
-      "time": "Hora"
+      "time": "Hora",
+      "notes": "Notas"
     },
     "variants": {
       "digital": "Digital",
@@ -1559,6 +1581,9 @@
       "left": "Izquierda",
       "center": "Centro",
       "right": "Derecha"
+    },
+    "notes": {
+      "empty": "Aún no hay notas"
     }
   },
   "cli": {

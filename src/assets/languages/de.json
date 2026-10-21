@@ -72,7 +72,11 @@
         "title": "Intelligente Sortierung von Elementen im Launcher",
         "desc": "Apps basierend auf ihrer Nutzungshäufigkeit und der darin verbrachten Zeit sortieren"
       },
-      "test": "Launcher öffnen"
+      "test": "Launcher öffnen",
+      "search": {
+        "title": "Websuchanbieter",
+        "desc": "Suchmaschine für Anfragen, die mit ? beginnen"
+      }
     },
     "notifications": {
       "dnd": {
@@ -1010,7 +1014,9 @@
     "tab_files": "Dateien",
     "placeholder_files": "Dateien suchen oder Pfad eingeben...",
     "tab_emojis": "Emojis",
-    "placeholder_emojis": "Emojis suchen oder Stichwort eingeben..."
+    "placeholder_emojis": "Emojis suchen oder Stichwort eingeben...",
+    "search_run": "{provider} durchsuchen",
+    "search_hint": "Tippen, um mit {provider} zu suchen"
   },
   "calendar": {
     "loading": "Laden...",
@@ -1293,7 +1299,8 @@
       "inv": "Inv",
       "mode": {
         "normal": "Normal",
-        "advanced": "Erweitert"
+        "advanced": "Erweitert",
+        "converter": "Umrechner"
       },
       "clear": "AC",
       "error": {
@@ -1301,6 +1308,20 @@
         "div0": "Division durch null nicht möglich",
         "domain": "Ungültige Eingabe",
         "paste": "Ungültiges Einfügen"
+      },
+      "converter": {
+        "currency": "Währung",
+        "length": "Länge",
+        "mass": "Masse",
+        "temperature": "Temperatur",
+        "volume": "Volumen",
+        "area": "Fläche",
+        "speed": "Geschwindigkeit",
+        "time": "Zeit",
+        "data": "Daten",
+        "updated": "Kurse aktualisiert {time}",
+        "updating": "Kurse werden aktualisiert...",
+        "offline": "Kurse nicht verfügbar"
       }
     },
     "tabs": {
@@ -1507,7 +1528,8 @@
       "usage": "Auslastung",
       "battery": "Akku",
       "github": "GitHub",
-      "time": "Zeit"
+      "time": "Zeit",
+      "notes": "Notizen"
     },
     "variants": {
       "digital": "Digital",
@@ -1562,6 +1584,9 @@
       "left": "Links",
       "center": "Mitte",
       "right": "Rechts"
+    },
+    "notes": {
+      "empty": "Noch keine Notizen"
     }
   },
   "cli": {
