@@ -3,6 +3,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Hyprland
 import "."
 import "guide"
 
@@ -37,6 +38,34 @@ ShellRoot {
         }
     }
 
+    property point windowOffset: Qt.point(NaN, NaN)
+
+    function syncWindowOffset() {
+        let toplevels = Hyprland.toplevels.values;
+        for (let i = 0; i < toplevels.length; i++) {
+            let o = toplevels[i].lastIpcObject;
+            if (!o || o["class"] !== "serpantinum-settings" || !o.at) continue;
+            let monitors = Hyprland.monitors.values;
+            for (let j = 0; j < monitors.length; j++) {
+                if (monitors[j].id === o.monitor) {
+                    app.windowOffset = Qt.point(o.at[0] - monitors[j].x, o.at[1] - monitors[j].y);
+                    return;
+                }
+            }
+        }
+    }
+
+    Timer {
+        interval: 33
+        repeat: true
+        running: window.visible && ThemeBackend.glassActive && Boolean(Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE"))
+        onTriggered: {
+            app.syncWindowOffset();
+            Hyprland.refreshToplevels();
+            Hyprland.refreshMonitors();
+        }
+    }
+
     FloatingWindow {
         id: window
 
@@ -53,6 +82,7 @@ ShellRoot {
             id: popup
             anchors.fill: parent
             standalone: true
+            windowOffset: app.windowOffset
             visible: window.visible
             onExitRequested: Qt.quit()
         }
