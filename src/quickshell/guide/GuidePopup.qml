@@ -25,14 +25,10 @@ Item {
     property var appPaths: Caching
     property int currentTab: 0
     property int currentSubTab: 0
-    property int expandedTab: -1
 
     property int chargingSoundHandle: -1
 
     property real introBase: 0.0
-    property real introSidebar: 0.0
-    property real introContent: 0.0
-    property real introTabs: 0.0
     property var tutorialSections: []
 
     property bool searchActive: false
@@ -337,110 +333,32 @@ Item {
         }
     }
 
-    readonly property var filteredSearchResults: {
+    readonly property var flatSearchResults: {
         let q = searchQuery.trim().toLowerCase();
         if (q === "") return [];
-        return searchIndex.filter(item => searchHaystack(item).indexOf(q) !== -1);
+        let scored = [];
+        for (let i = 0; i < searchIndex.length; i++) {
+            let item = searchIndex[i];
+            if (searchHaystack(item).indexOf(q) === -1) continue;
+            let title = resolveI18nText(item.title).toLowerCase();
+            let rank = title === q ? 0 : (title.indexOf(q) === 0 ? 1 : (title.indexOf(q) !== -1 ? 2 : 3));
+            let loc = resolveIndices(item.tab, item.subtab);
+            scored.push({ item: item, rank: rank, order: loc.tabIndex * 100 + Math.max(0, loc.subIndex) });
+        }
+        scored.sort((x, y) => x.rank - y.rank || x.order - y.order);
+        return scored.map(e => e.item);
     }
 
-    readonly property var groupedSearchResults: {
-        let results = filteredSearchResults;
-        if (results.length === 0) return [];
-
-        let tabGroupsMap = {};
-
-        for (let i = 0; i < results.length; i++) {
-            let item = results[i];
-            let tKey = String(item.tab || "").trim();
-            let sKey = String(item.subtab || "").trim();
-            let indices = resolveIndices(tKey, sKey);
-            let tIdx = indices.tabIndex !== -1 ? indices.tabIndex : 9999;
-            let sIdx = indices.subIndex;
-
-            if (!tabGroupsMap[tIdx]) {
-                let isKnown = tIdx >= 0 && tIdx < tabsModel.length;
-                let tModel = isKnown ? tabsModel[tIdx] : null;
-                tabGroupsMap[tIdx] = {
-                    tabKey: isKnown ? (tModel.key || tModel.id) : tKey,
-                    tabIndex: tIdx,
-                    title: isKnown ? resolveTabTitle(tModel.key || tModel.id) : I18n.t("guide.tabs.general", "General"),
-                    icon: isKnown ? (tModel.icon || "󰒓") : "󰒓",
-                    directItems: [],
-                    subgroupsMap: {}
-                };
-            }
-
-            let tg = tabGroupsMap[tIdx];
-            let isKnown = tIdx >= 0 && tIdx < tabsModel.length;
-            let tModel = isKnown ? tabsModel[tIdx] : null;
-
-            if (sIdx >= 0 && isKnown && tModel && tModel.subtabs && sIdx < tModel.subtabs.length) {
-                let stModel = tModel.subtabs[sIdx];
-                if (!tg.subgroupsMap[sIdx]) {
-                    tg.subgroupsMap[sIdx] = {
-                        subKey: stModel.key || stModel.id,
-                        subIndex: sIdx,
-                        title: resolveSubtabTitle(tModel.key || tModel.id, stModel.key || stModel.id),
-                        icon: stModel.icon || "󰒓",
-                        items: []
-                    };
-                }
-                tg.subgroupsMap[sIdx].items.push(item);
-            } else {
-                tg.directItems.push(item);
-            }
-        }
-
-        let sortedGroups = Object.values(tabGroupsMap).map(tg => {
-            let subList = Object.values(tg.subgroupsMap);
-            subList.sort((a, b) => a.subIndex - b.subIndex);
-            return {
-                tabKey: tg.tabKey,
-                tabIndex: tg.tabIndex,
-                title: tg.title,
-                icon: tg.icon,
-                directItems: tg.directItems,
-                subgroups: subList
-            };
-        });
-
-        sortedGroups.sort((a, b) => a.tabIndex - b.tabIndex);
-        return sortedGroups;
-    }
-
-    readonly property var flatSearchResults: {
-        let groups = groupedSearchResults;
-        if (!groups || groups.length === 0) return [];
-        let list = [];
-        for (let i = 0; i < groups.length; i++) {
-            let tg = groups[i];
-            if (tg.directItems && tg.directItems.length > 0) {
-                for (let d = 0; d < tg.directItems.length; d++) {
-                    list.push(tg.directItems[d]);
-                }
-            }
-            if (tg.subgroups && tg.subgroups.length > 0) {
-                for (let s = 0; s < tg.subgroups.length; s++) {
-                    let sg = tg.subgroups[s];
-                    if (sg.items && sg.items.length > 0) {
-                        for (let k = 0; k < sg.items.length; k++) {
-                            list.push(sg.items[k]);
-                        }
-                    }
-                }
-            }
-        }
-        return list;
+    function breadcrumb(item) {
+        let tab = resolveTabTitle(item.tab);
+        let sub = item.subtab ? resolveSubtabTitle(item.tab, item.subtab) : "";
+        return (sub !== "" && sub !== tab) ? tab + "  ›  " + sub : tab;
     }
 
     function navigateSearch(dir) {
         let count = flatSearchResults.length;
         if (count === 0) return;
-        if (searchSelectedIndex === -1) {
-            searchSelectedIndex = dir > 0 ? 0 : count - 1;
-        } else {
-            searchSelectedIndex = (searchSelectedIndex + dir + count) % count;
-        }
+        searchSelectedIndex = Math.max(0, Math.min(count - 1, searchSelectedIndex + dir));
     }
 
     function activateSelectedSearch() {
@@ -454,43 +372,16 @@ Item {
         }
     }
 
-    function ensureSearchItemVisible(itemObj) {
-        if (!itemObj || !sidebar.searchResults) return;
-        try {
-            let mapped = itemObj.mapToItem(sidebar.searchResults.column, 0, 0);
-            let itemY = mapped.y;
-            let itemH = itemObj.height;
-            let viewTop = sidebar.searchResults.contentY;
-            let viewHeight = sidebar.searchResults.height;
-            let viewBottom = viewTop + viewHeight;
-
-            if (itemY < viewTop) {
-                sidebar.searchResults.contentY = Math.max(0, itemY - root.s(8));
-            } else if (itemY + itemH > viewBottom) {
-                let maxScroll = Math.max(0, sidebar.searchResults.contentHeight - viewHeight);
-                sidebar.searchResults.contentY = Math.min(maxScroll, itemY + itemH - viewHeight + root.s(8));
-            }
-        } catch(e) {}
-    }
-
     function ensureTabVisible(idx) {
         if (!sidebar.tabsView || idx < 0 || !sidebar.tabsItems || idx >= sidebar.tabsItems.count) return;
-        try {
-            let item = sidebar.tabsItems.itemAt(idx);
-            if (!item) return;
-            let itemY = item.y;
-            let itemH = item.height;
-            let viewTop = sidebar.tabsView.contentY;
-            let viewHeight = sidebar.tabsView.height;
-            let viewBottom = viewTop + viewHeight;
-
-            if (itemY < viewTop) {
-                sidebar.tabsView.contentY = Math.max(0, itemY - root.s(8));
-            } else if (itemY + itemH > viewBottom) {
-                let maxScroll = Math.max(0, sidebar.tabsView.contentHeight - viewHeight);
-                sidebar.tabsView.contentY = Math.min(maxScroll, itemY + itemH - viewHeight + root.s(8));
-            }
-        } catch(e) {}
+        let item = sidebar.tabsItems.itemAt(idx);
+        if (!item) return;
+        let view = sidebar.tabsView;
+        if (item.y < view.contentY) {
+            view.contentY = Math.max(0, item.y - s(8));
+        } else if (item.y + item.height > view.contentY + view.height) {
+            view.contentY = Math.min(Math.max(0, view.contentHeight - view.height), item.y + item.height - view.height + s(8));
+        }
     }
 
     function triggerHighlight(settingId) {
@@ -503,7 +394,7 @@ Item {
         rebuildSearchIndex();
         searchClearTimer.stop();
         searchActive = true;
-        searchSelectedIndex = -1;
+        searchSelectedIndex = 0;
         searchFocusTimer.restart();
         if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
             searchLoadTimer.interval = 280;
@@ -560,14 +451,13 @@ Item {
     }
 
     property var tabsModel: [
-        { id: "Welcome", key: "welcome", name: "Welcome", icon: "󰋜", file: "WelcomeTab.qml" },
         { id: "General", key: "general", name: "General", icon: "󰒓", file: "general/GeneralTab.qml" },
-        { 
-            id: "Display", 
-            key: "display", 
-            name: "Display", 
-            icon: "󰃠", 
-            file: "display/DisplayMainTab.qml", 
+        {
+            id: "Display",
+            key: "display",
+            name: "Display",
+            icon: "󰃠",
+            file: "display/DisplayMainTab.qml",
             subtabs: [
                 { id: "DisplayGeneral", key: "display_general", name: "Display", icon: "󰍹", file: "display/DisplayMainTab.qml" },
                 { id: "DisplayWidgets", key: "display_widgets", name: "Widgets", icon: "󰕰", file: "display/DisplayWidgetsTab.qml" },
@@ -575,26 +465,31 @@ Item {
             ]
         },
         { id: "Theme", key: "theme", name: "Theme", icon: "󰏘", file: "theme/ThemeTab.qml" },
-        { 
-            id: "Bar", 
-            key: "bar", 
-            name: "Bar", 
-            icon: "󰖲", 
-            file: "bar/BarGeneralTab.qml", 
+        {
+            id: "Bar",
+            key: "bar",
+            name: "Bar",
+            icon: "󰖲",
+            separatorBefore: true,
+            file: "bar/BarGeneralTab.qml",
             subtabs: [
                 { id: "BarGeneral", key: "bar_general", name: "General", icon: "󰍜", file: "bar/BarGeneralTab.qml" },
                 { id: "BarModules", key: "bar_modules", name: "Modules", icon: "󰐱", file: "bar/BarModulesTab.qml" }
             ]
         },
-        { id: "Launcher", key: "launcher", name: "Launcher", icon: "󰵆", file: "LauncherTab.qml" },
         { id: "Dock", key: "dock", name: "Dock", icon: "󰮯", file: "DockTab.qml" },
+        { id: "Launcher", key: "launcher", name: "Launcher", icon: "󰵆", file: "LauncherTab.qml" },
         { id: "On-Screen Display", key: "osd", name: "On-Screen Display", icon: "󰕾", file: "OnScreenDisplayTab.qml" },
         { id: "Notifications", key: "notifications", name: "Notifications", icon: "󰂚", file: "notifications/NotificationsTab.qml" },
         { id: "Screenshot", key: "screenshot", name: "Screenshot", icon: "󰹑", file: "screenshot/ScreenshotTab.qml" },
-        { id: "Wellbeing", key: "wellbeing", name: "Wellbeing", icon: "󰄉", file: "wellbeing/DigitalWellbeingTab.qml" },        
+        { id: "Wellbeing", key: "wellbeing", name: "Wellbeing", icon: "󰄉", separatorBefore: true, file: "wellbeing/DigitalWellbeingTab.qml" },
         { id: "Idle", key: "idle", name: "Idle", icon: "󰒲", file: "IdleTab.qml" },
-        { id: "About", key: "about", name: "About", icon: "󰋽", file: "AboutTab.qml" }
+        { id: "About", key: "about", name: "About", icon: "󰋽", separatorBefore: true, file: "AboutTab.qml" }
     ]
+
+    readonly property var currentTabModel: tabsModel[currentTab] || null
+    readonly property bool hasSubTabs: !!(currentTabModel && currentTabModel.subtabs && currentTabModel.subtabs.length > 0)
+    readonly property string currentTitle: currentTabModel ? I18n.t("guide.tabs." + (currentTabModel.key || currentTabModel.id).toLowerCase(), currentTabModel.name || currentTabModel.id) : ""
 
     StackView.onStatusChanged: {
         if (StackView.status === StackView.Active) {
@@ -627,90 +522,16 @@ Item {
         return Scaler.s(val);
     }
 
-    function getTabProgress(idx) {
-        if (introTabs >= 1.0) return 1.0;
-        if (introTabs <= 0.0) return 0.0;
-        let start = idx * 0.04;
-        let p = Math.min(1.0, Math.max(0.0, (introTabs - start) / 0.42));
-        if (p <= 0.0) return 0.0;
-        if (p >= 1.0) return 1.0;
-        let c1 = 0.85;
-        let c3 = c1 + 1;
-        return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
-    }
-
-    function getTabOpacity(idx) {
-        if (introTabs >= 1.0) return 1.0;
-        if (introTabs <= 0.0) return 0.0;
-        let start = idx * 0.04;
-        let p = Math.min(1.0, Math.max(0.0, (introTabs - start) / 0.28));
-        return p;
-    }
-
     function gotoTab(tabName, subTabName) {
         if (tabName === undefined || tabName === null || tabName === "") return;
-        let num = parseInt(tabName);
-        if (!isNaN(num) && num >= 0 && num < tabsModel.length) {
-            currentTab = num;
-            expandedTab = (tabsModel[num].subtabs && tabsModel[num].subtabs.length > 0) ? num : -1;
-            if (subTabName !== undefined && subTabName !== null && subTabName !== "") {
-                let sNum = parseInt(subTabName);
-                currentSubTab = !isNaN(sNum) ? sNum : 0;
-            } else {
-                currentSubTab = 0;
-            }
-            return;
-        }
-        let lower = String(tabName).toLowerCase().replace(/^guide\.tabs\./, "");
-        for (let i = 0; i < tabsModel.length; i++) {
-            let t = tabsModel[i];
-            if ((t.id && t.id.toLowerCase() === lower) || 
-                (t.name && t.name.toLowerCase() === lower) || 
-                (t.key && t.key.toLowerCase() === lower)) {
-                currentTab = i;
-                expandedTab = (t.subtabs && t.subtabs.length > 0) ? i : -1;
-                if (subTabName !== undefined && subTabName !== null && subTabName !== "") {
-                    let sLower = String(subTabName).toLowerCase().replace(/^guide\.tabs\./, "");
-                    let sNum = parseInt(subTabName);
-                    if (!isNaN(sNum) && t.subtabs && sNum >= 0 && sNum < t.subtabs.length) {
-                        currentSubTab = sNum;
-                    } else if (t.subtabs) {
-                        let sIdx = t.subtabs.findIndex(st => 
-                            (st.id && st.id.toLowerCase() === sLower) || 
-                            (st.name && st.name.toLowerCase() === sLower) || 
-                            (st.key && st.key.toLowerCase() === sLower)
-                        );
-                        currentSubTab = sIdx !== -1 ? sIdx : 0;
-                    } else {
-                        currentSubTab = 0;
-                    }
-                } else {
-                    currentSubTab = 0;
-                }
-                return;
-            }
-
-            if (t.subtabs && Array.isArray(t.subtabs)) {
-                let sIdx = t.subtabs.findIndex(st => 
-                    (st.id && st.id.toLowerCase() === lower) || 
-                    (st.name && st.name.toLowerCase() === lower) || 
-                    (st.key && st.key.toLowerCase() === lower)
-                );
-                if (sIdx !== -1) {
-                    currentTab = i;
-                    expandedTab = i;
-                    currentSubTab = sIdx;
-                    return;
-                }
-            }
-        }
+        let r = resolveIndices(tabName, subTabName);
+        if (r.tabIndex < 0) return;
+        currentTab = r.tabIndex;
+        currentSubTab = Math.max(0, r.subIndex);
     }
 
     function resetAndPlayIntro() {
         introBase = 0.0;
-        introSidebar = 0.0;
-        introContent = 0.0;
-        introTabs = 0.0;
         startupSequence.restart();
         Updater.checkUpdate();
         if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
@@ -720,41 +541,70 @@ Item {
     }
 
     function nextTab() {
-        let parentTab = tabsModel[currentTab];
-        if (parentTab && parentTab.subtabs && parentTab.subtabs.length > 0 && expandedTab === currentTab) {
-            if (currentSubTab < parentTab.subtabs.length - 1) {
-                currentSubTab++;
-                return;
-            }
-        }
         currentTab = (currentTab + 1) % tabsModel.length;
-        let nextParent = tabsModel[currentTab];
-        if (nextParent && nextParent.subtabs && nextParent.subtabs.length > 0) {
-            expandedTab = currentTab;
-            currentSubTab = 0;
-        } else {
-            expandedTab = -1;
-            currentSubTab = 0;
-        }
+        currentSubTab = 0;
     }
 
     function prevTab() {
-        let parentTab = tabsModel[currentTab];
-        if (parentTab && parentTab.subtabs && parentTab.subtabs.length > 0 && expandedTab === currentTab) {
-            if (currentSubTab > 0) {
-                currentSubTab--;
+        currentTab = (currentTab - 1 + tabsModel.length) % tabsModel.length;
+        currentSubTab = 0;
+    }
+
+    function nextSubTab(dir) {
+        if (!hasSubTabs) return;
+        let n = currentTabModel.subtabs.length;
+        currentSubTab = Math.max(0, Math.min(n - 1, currentSubTab + dir));
+    }
+
+    function focusInContent() {
+        let f = root.Window.window ? root.Window.window.activeFocusItem : null;
+        return !!f && f !== root;
+    }
+
+    function moveFocus(forward) {
+        let next = root.Window.window.activeFocusItem.nextItemInFocusChain(forward);
+        if (next && next !== root) next.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason);
+    }
+
+    function scrollIntoView(item) {
+        if (!item) return;
+        let p = item.parent;
+        while (p) {
+            if (p.contentY !== undefined && p.contentItem !== undefined && p.contentHeight !== undefined) {
+                let y = item.mapToItem(p.contentItem, 0, 0).y;
+                let margin = s(24);
+                if (y < p.contentY + margin) {
+                    p.contentY = Math.max(0, y - margin);
+                } else if (y + item.height > p.contentY + p.height - margin) {
+                    p.contentY = Math.min(Math.max(0, p.contentHeight - p.height), y + item.height - p.height + margin);
+                }
                 return;
             }
+            p = p.parent;
         }
-        currentTab = (currentTab - 1 + tabsModel.length) % tabsModel.length;
-        let prevParent = tabsModel[currentTab];
-        if (prevParent && prevParent.subtabs && prevParent.subtabs.length > 0) {
-            expandedTab = currentTab;
-            currentSubTab = prevParent.subtabs.length - 1;
-        } else {
-            expandedTab = -1;
-            currentSubTab = 0;
+    }
+
+    function activeFlickable() {
+        let queue = [contentArea];
+        while (queue.length > 0) {
+            let it = queue.shift();
+            if (it.visible === false) continue;
+            if (it !== contentArea && it.contentY !== undefined && it.contentHeight !== undefined && it.contentItem !== undefined) return it;
+            for (let i = 0; i < it.children.length; i++) queue.push(it.children[i]);
         }
+        return null;
+    }
+
+    function scrollPage(kind) {
+        let f = activeFlickable();
+        if (!f) return;
+        let maxY = Math.max(0, f.contentHeight - f.height);
+        let y = f.contentY;
+        if (kind === "down") y += f.height * 0.9;
+        else if (kind === "up") y -= f.height * 0.9;
+        else if (kind === "home") y = 0;
+        else if (kind === "end") y = maxY;
+        f.contentY = Math.max(0, Math.min(maxY, y));
     }
 
     Timer {
@@ -769,8 +619,8 @@ Item {
         interval: 40
         repeat: false
         onTriggered: {
-            if (sidebar.searchInput) {
-                sidebar.searchInput.forceInputFocus();
+            if (contentArea.searchInput) {
+                contentArea.searchInput.forceInputFocus();
             }
         }
     }
@@ -788,7 +638,7 @@ Item {
         repeat: false
         onTriggered: {
             searchQuery = "";
-            if (sidebar.searchInput) sidebar.searchInput.text = "";
+            if (contentArea.searchInput) contentArea.searchInput.text = "";
         }
     }
 
@@ -829,13 +679,10 @@ Item {
             rebuildSearchIndex();
             pendingHighlightItem = null;
             introBase = 0.0;
-            introSidebar = 0.0;
-            introContent = 0.0;
-            introTabs = 0.0;
             searchActive = false;
             searchQuery = "";
             searchSelectedIndex = -1;
-            if (sidebar.searchInput) sidebar.searchInput.text = "";
+            if (contentArea.searchInput) contentArea.searchInput.text = "";
             if (root.chargingSoundHandle !== -1 && typeof Sounds !== "undefined") {
                 Sounds.stopSfx(root.chargingSoundHandle);
                 root.chargingSoundHandle = -1;
@@ -856,78 +703,86 @@ Item {
     }
 
     Shortcut {
-        sequences: [StandardKey.Find]
+        sequences: [StandardKey.Find, "Ctrl+K"]
         onActivated: root.openSearch()
     }
 
-    Keys.onEscapePressed: (event) => {
-        if (root.searchActive) {
-            root.closeSearch();
-            event.accepted = true;
-            return;
-        }
-        closePopup();
-        event.accepted = true;
+    Shortcut {
+        sequences: ["Ctrl+PgDown", "Ctrl+Tab"]
+        onActivated: root.nextTab()
     }
-    Keys.onDownPressed: (event) => {
-        if (root.searchActive) {
-            root.navigateSearch(1);
-            event.accepted = true;
-        } else {
-            root.nextTab();
-            event.accepted = true;
-        }
+
+    Shortcut {
+        sequences: ["Ctrl+PgUp", "Ctrl+Shift+Tab"]
+        onActivated: root.prevTab()
     }
-    Keys.onUpPressed: (event) => {
-        if (root.searchActive) {
-            root.navigateSearch(-1);
-            event.accepted = true;
-        } else {
-            root.prevTab();
-            event.accepted = true;
+
+    Shortcut {
+        sequences: [StandardKey.Close, "Ctrl+Q"]
+        onActivated: root.closePopup()
+    }
+
+    Connections {
+        target: root.Window.window
+        function onActiveFocusItemChanged() {
+            let f = root.Window.window.activeFocusItem;
+            if (f && f !== root) root.scrollIntoView(f);
         }
     }
-    Keys.onLeftPressed: (event) => {
-        if (!root.searchActive) {
-            root.prevTab();
+
+    Keys.onPressed: (event) => {
+        let plain = !(event.modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier));
+        if (event.key === Qt.Key_Escape) {
+            if (root.searchActive) {
+                if (root.searchQuery !== "") {
+                    root.searchQuery = "";
+                    if (contentArea.searchInput) contentArea.searchInput.text = "";
+                } else {
+                    root.closeSearch();
+                }
+            } else if (root.focusInContent()) {
+                root.forceActiveFocus();
+            } else {
+                root.closePopup();
+            }
             event.accepted = true;
-        }
-    }
-    Keys.onRightPressed: (event) => {
-        if (!root.searchActive) {
-            root.nextTab();
+        } else if (event.key === Qt.Key_Down || event.key === Qt.Key_Up) {
+            let dir = event.key === Qt.Key_Down ? 1 : -1;
+            if (root.searchActive) root.navigateSearch(dir);
+            else if (root.focusInContent()) root.moveFocus(dir > 0);
+            else if (dir > 0) root.nextTab();
+            else root.prevTab();
             event.accepted = true;
-        }
-    }
-    Keys.onReturnPressed: (event) => {
-        if (root.searchActive) {
+        } else if ((event.key === Qt.Key_Left || event.key === Qt.Key_Right) && plain) {
+            let dir = (event.key === Qt.Key_Right) !== I18n.rtl ? 1 : -1;
+            if (!root.searchActive && !root.focusInContent()) root.nextSubTab(dir);
+            event.accepted = !root.searchActive;
+        } else if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && root.searchActive) {
             root.activateSelectedSearch();
             event.accepted = true;
-        }
-    }
-    Keys.onEnterPressed: (event) => {
-        if (root.searchActive) {
-            root.activateSelectedSearch();
+        } else if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
+            let forward = event.key === Qt.Key_Tab;
+            if (root.searchActive) root.navigateSearch(forward ? 1 : -1);
+            else if (root.focusInContent()) root.moveFocus(forward);
+            else if (root.Window.window) {
+                let next = root.nextItemInFocusChain(forward);
+                if (next && next !== root) next.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason);
+            }
+            event.accepted = true;
+        } else if (!root.searchActive && !root.focusInContent()) {
+            if (event.key === Qt.Key_PageDown || event.key === Qt.Key_Space) root.scrollPage("down");
+            else if (event.key === Qt.Key_PageUp) root.scrollPage("up");
+            else if (event.key === Qt.Key_Home) root.scrollPage("home");
+            else if (event.key === Qt.Key_End) root.scrollPage("end");
+            else if (event.key === Qt.Key_Slash || (plain && event.text.length === 1 && event.text >= " " && event.text !== " ")) {
+                root.openSearch();
+                if (event.key !== Qt.Key_Slash && contentArea.searchInput) {
+                    contentArea.searchInput.text = event.text;
+                    root.searchQuery = event.text;
+                }
+            } else return;
             event.accepted = true;
         }
-    }
-    Keys.onTabPressed: (event) => {
-        if (root.searchActive) {
-            root.navigateSearch(1);
-            event.accepted = true;
-            return;
-        }
-        nextTab();
-        event.accepted = true;
-    }
-    Keys.onBacktabPressed: (event) => {
-        if (root.searchActive) {
-            root.navigateSearch(-1);
-            event.accepted = true;
-            return;
-        }
-        prevTab();
-        event.accepted = true;
     }
 
     Timer {
@@ -935,7 +790,10 @@ Item {
         interval: 350
         repeat: false
         onTriggered: {
-            Quickshell.execDetached(["bash", "-c", "echo '" + root.currentTab + ":" + root.currentSubTab + "' > '" + Caching.getCacheDir("guide") + "/last_tab.txt'"]);
+            let t = root.currentTabModel;
+            let st = root.hasSubTabs ? root.currentTabModel.subtabs[root.currentSubTab] : null;
+            let val = t ? (t.key + (st ? ":" + st.key : "")) : "";
+            if (val !== "") Quickshell.execDetached(["bash", "-c", "echo '" + val + "' > '" + Caching.getCacheDir("guide") + "/last_tab.txt'"]);
         }
     }
 
@@ -982,50 +840,14 @@ Item {
         }
     }
 
-    ParallelAnimation {
+    NumberAnimation {
         id: startupSequence
-        running: false
-        NumberAnimation {
-            target: root
-            property: "introBase"
-            from: 0.0
-            to: 1.0
-            duration: 650
-            easing.type: Easing.OutExpo
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 60 }
-            NumberAnimation {
-                target: root
-                property: "introSidebar"
-                from: 0.0
-                to: 1.0
-                duration: 400
-                easing.type: Easing.OutCubic
-            }
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 100 }
-            NumberAnimation {
-                target: root
-                property: "introTabs"
-                from: 0.0
-                to: 1.0
-                duration: 550
-                easing.type: Easing.Linear
-            }
-        }
-        SequentialAnimation {
-            PauseAnimation { duration: 180 }
-            NumberAnimation {
-                target: root
-                property: "introContent"
-                from: 0.0
-                to: 1.0
-                duration: 650
-                easing.type: Easing.OutCubic
-            }
-        }
+        target: root
+        property: "introBase"
+        from: 0.0
+        to: 1.0
+        duration: 160
+        easing.type: Easing.OutCubic
     }
 
     SequentialAnimation {
@@ -1039,35 +861,12 @@ Item {
                 }
             }
         }
-        ParallelAnimation {
-            NumberAnimation {
-                target: root
-                property: "introContent"
-                to: 0.0
-                duration: 150
-                easing.type: Easing.InExpo
-            }
-            NumberAnimation {
-                target: root
-                property: "introSidebar"
-                to: 0.0
-                duration: 150
-                easing.type: Easing.InExpo
-            }
-            NumberAnimation {
-                target: root
-                property: "introTabs"
-                to: 0.0
-                duration: 120
-                easing.type: Easing.InQuad
-            }
-        }
         NumberAnimation {
             target: root
             property: "introBase"
             to: 0.0
-            duration: 200
-            easing.type: Easing.InQuart
+            duration: 110
+            easing.type: Easing.InQuad
         }
         ScriptAction {
             script: {
@@ -1085,7 +884,6 @@ Item {
     Item {
         anchors.fill: parent
         opacity: introBase
-        scale: 0.95 + (0.05 * introBase)
 
         Rectangle {
             anchors.fill: parent
@@ -1110,10 +908,9 @@ Item {
             GuideContent {
                 id: contentArea
                 popup: root
-                x: I18n.rtl ? 1 : (sidebar.width + 1)
-                y: 4
-                width: Math.max(0, parent.width - sidebar.width - 2)
-                height: Math.max(0, parent.height - 8)
+                x: I18n.rtl ? 0 : sidebar.width
+                width: Math.max(0, parent.width - sidebar.width)
+                height: parent.height
             }
         }
     }

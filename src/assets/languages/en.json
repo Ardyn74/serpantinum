@@ -959,7 +959,8 @@
     "search": {
       "placeholder": "Search settings...",
       "prompt": "Type to search settings...",
-      "no_results": "No settings found"
+      "no_results": "No settings found",
+      "results": "Search results"
     },
     "screenshot": {
       "ocr": {

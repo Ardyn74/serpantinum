@@ -386,8 +386,8 @@ Rectangle {
     property int iconSize: 32
     property int iconFontSize: 16
     property real iconCornerRadius: ThemeBackend.borderRadius
-    property color iconAccentColor: ThemeBackend.surface0
-    property color iconTextColor: "#ffffff"
+    property color iconAccentColor: "transparent"
+    property color iconTextColor: ThemeBackend.subtext0
     property bool iconInteractive: false
 
     property string title: ""
@@ -567,8 +567,9 @@ Rectangle {
                     font.pixelSize: root.s(root.descriptionPixelSize)
                     color: root.dimmed ? ThemeBackend.subtext0 : root.descriptionColor
                     horizontalAlignment: I18n.textAlignment
-                    elide: root.wrapText ? Text.ElideNone : Text.ElideRight
-                    wrapMode: root.wrapText ? Text.WordWrap : Text.NoWrap
+                    elide: Text.ElideRight
+                    maximumLineCount: root.wrapText ? 99 : 2
+                    wrapMode: Text.WordWrap
                     visible: text !== ""
                 }
             }

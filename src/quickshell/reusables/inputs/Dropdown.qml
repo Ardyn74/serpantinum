@@ -9,6 +9,14 @@ import "../"
 
 Item {
     id: root
+
+    activeFocusOnTab: root.enabled
+    Keys.onPressed: (event) => {
+        if (event.key === Qt.Key_Space || event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+            if (!root.isOpen) root.openPopup();
+            event.accepted = true;
+        }
+    }
     implicitWidth: 160
     implicitHeight: 32
 
@@ -943,5 +951,16 @@ Item {
                 }
             }
         }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        anchors.margins: -2
+        radius: (typeof root.cornerRadius === "number" ? root.cornerRadius : 10) + 2
+        color: "transparent"
+        border.width: 2
+        border.color: Qt.alpha(ThemeBackend.mauve, 0.8)
+        visible: root.activeFocus
+        z: 100
     }
 }
