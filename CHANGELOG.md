@@ -1,5 +1,8 @@
 ### 2.3.0
 
+- feat(wellbeing): add app picker dialog, localized limit notifications and app limit overlay
+- feat(wellbeing): translate limit strings and use delete buttons for app rows
+- style(wellbeing): make the limit overlay more minimal
 - fix(settings): keep the standalone settings window at full opacity without blur or glass
 - fix(lock): center the default lock screen layout when no fingerprint reader is available
 - fix(settings): disable blur and liquid glass in the standalone settings window
