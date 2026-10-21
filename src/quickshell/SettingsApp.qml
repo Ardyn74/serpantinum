@@ -3,6 +3,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland
 import "."
 import "guide"
 
@@ -14,6 +15,8 @@ ShellRoot {
         let v = general ? Number(general.uiScale) : NaN;
         return (isNaN(v) || v <= 0) ? 1.0 : v;
     }
+
+    readonly property int toplevelCount: ToplevelManager.toplevels.values.length
 
     Connections {
         target: Quickshell
@@ -30,6 +33,16 @@ ShellRoot {
 
         function close(): void {
             popup.closePopup();
+        }
+
+        function focus(): void {
+            let list = ToplevelManager.toplevels.values;
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].appId === "serpantinum-settings") {
+                    list[i].activate();
+                    return;
+                }
+            }
         }
 
         function ping(): string {
