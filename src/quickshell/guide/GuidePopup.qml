@@ -898,11 +898,8 @@ Item {
         } else if (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab) {
             let forward = event.key === Qt.Key_Tab;
             if (root.searchActive) root.navigateSearch(forward ? 1 : -1);
-            else if (root.focusInContent()) root.moveFocus(forward);
-            else if (root.Window.window) {
-                let next = root.nextItemInFocusChain(forward);
-                if (next && next !== root) next.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason);
-            }
+            else if (forward) root.nextTab();
+            else root.prevTab();
             event.accepted = true;
         } else if (!root.searchActive && !root.focusInContent()) {
             if (event.key === Qt.Key_PageDown || event.key === Qt.Key_Space) root.scrollPage("down");
