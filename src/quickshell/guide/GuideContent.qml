@@ -25,7 +25,8 @@ Item {
         model: popup.tabsModel
         delegate: Item {
             id: tabContentWrapper
-            anchors.fill: parent
+            x: 0
+            y: 0
 
             property int parentTabIndex: index
             property int tabIndex: parentTabIndex
@@ -40,6 +41,20 @@ Item {
 
             Behavior on opacity {
                 NumberAnimation { duration: 140; easing.type: Easing.OutCubic }
+            }
+
+            Binding {
+                target: tabContentWrapper
+                property: "width"
+                value: body.width
+                when: tabContentWrapper.visible
+            }
+
+            Binding {
+                target: tabContentWrapper
+                property: "height"
+                value: body.height
+                when: tabContentWrapper.visible
             }
 
             Loader {
