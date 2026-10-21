@@ -25,6 +25,7 @@ Item {
     property var appPaths: Caching
     property int currentTab: 0
     property int currentSubTab: 0
+    property int expandedTab: -1
 
     property int chargingSoundHandle: -1
 
@@ -333,26 +334,100 @@ Item {
         }
     }
 
-    readonly property var flatSearchResults: {
+    readonly property var filteredSearchResults: {
         let q = searchQuery.trim().toLowerCase();
         if (q === "") return [];
-        let scored = [];
-        for (let i = 0; i < searchIndex.length; i++) {
-            let item = searchIndex[i];
-            if (searchHaystack(item).indexOf(q) === -1) continue;
-            let title = resolveI18nText(item.title).toLowerCase();
-            let rank = title === q ? 0 : (title.indexOf(q) === 0 ? 1 : (title.indexOf(q) !== -1 ? 2 : 3));
-            let loc = resolveIndices(item.tab, item.subtab);
-            scored.push({ item: item, rank: rank, order: loc.tabIndex * 100 + Math.max(0, loc.subIndex) });
-        }
-        scored.sort((x, y) => x.rank - y.rank || x.order - y.order);
-        return scored.map(e => e.item);
+        return searchIndex.filter(item => searchHaystack(item).indexOf(q) !== -1);
     }
 
-    function breadcrumb(item) {
-        let tab = resolveTabTitle(item.tab);
-        let sub = item.subtab ? resolveSubtabTitle(item.tab, item.subtab) : "";
-        return (sub !== "" && sub !== tab) ? tab + "  ›  " + sub : tab;
+    readonly property var groupedSearchResults: {
+        let results = filteredSearchResults;
+        if (results.length === 0) return [];
+
+        let tabGroupsMap = {};
+
+        for (let i = 0; i < results.length; i++) {
+            let item = results[i];
+            let tKey = String(item.tab || "").trim();
+            let sKey = String(item.subtab || "").trim();
+            let indices = resolveIndices(tKey, sKey);
+            let tIdx = indices.tabIndex !== -1 ? indices.tabIndex : 9999;
+            let sIdx = indices.subIndex;
+
+            if (!tabGroupsMap[tIdx]) {
+                let isKnown = tIdx >= 0 && tIdx < tabsModel.length;
+                let tModel = isKnown ? tabsModel[tIdx] : null;
+                tabGroupsMap[tIdx] = {
+                    tabKey: isKnown ? (tModel.key || tModel.id) : tKey,
+                    tabIndex: tIdx,
+                    title: isKnown ? resolveTabTitle(tModel.key || tModel.id) : I18n.t("guide.tabs.general", "General"),
+                    icon: isKnown ? (tModel.icon || "󰒓") : "󰒓",
+                    directItems: [],
+                    subgroupsMap: {}
+                };
+            }
+
+            let tg = tabGroupsMap[tIdx];
+            let isKnown = tIdx >= 0 && tIdx < tabsModel.length;
+            let tModel = isKnown ? tabsModel[tIdx] : null;
+
+            if (sIdx >= 0 && isKnown && tModel && tModel.subtabs && sIdx < tModel.subtabs.length) {
+                let stModel = tModel.subtabs[sIdx];
+                if (!tg.subgroupsMap[sIdx]) {
+                    tg.subgroupsMap[sIdx] = {
+                        subKey: stModel.key || stModel.id,
+                        subIndex: sIdx,
+                        title: resolveSubtabTitle(tModel.key || tModel.id, stModel.key || stModel.id),
+                        icon: stModel.icon || "󰒓",
+                        items: []
+                    };
+                }
+                tg.subgroupsMap[sIdx].items.push(item);
+            } else {
+                tg.directItems.push(item);
+            }
+        }
+
+        let sortedGroups = Object.values(tabGroupsMap).map(tg => {
+            let subList = Object.values(tg.subgroupsMap);
+            subList.sort((a, b) => a.subIndex - b.subIndex);
+            return {
+                tabKey: tg.tabKey,
+                tabIndex: tg.tabIndex,
+                title: tg.title,
+                icon: tg.icon,
+                directItems: tg.directItems,
+                subgroups: subList
+            };
+        });
+
+        sortedGroups.sort((a, b) => a.tabIndex - b.tabIndex);
+        return sortedGroups;
+    }
+
+    readonly property var flatSearchResults: {
+        let groups = groupedSearchResults;
+        if (!groups || groups.length === 0) return [];
+        let list = [];
+        for (let i = 0; i < groups.length; i++) {
+            let tg = groups[i];
+            if (tg.directItems && tg.directItems.length > 0) {
+                for (let d = 0; d < tg.directItems.length; d++) {
+                    list.push(tg.directItems[d]);
+                }
+            }
+            if (tg.subgroups && tg.subgroups.length > 0) {
+                for (let s = 0; s < tg.subgroups.length; s++) {
+                    let sg = tg.subgroups[s];
+                    if (sg.items && sg.items.length > 0) {
+                        for (let k = 0; k < sg.items.length; k++) {
+                            list.push(sg.items[k]);
+                        }
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     function navigateSearch(dir) {
@@ -370,6 +445,25 @@ Item {
         if (item) {
             selectSearchResult(item);
         }
+    }
+
+    function ensureSearchItemVisible(itemObj) {
+        if (!itemObj || !contentArea.searchResults) return;
+        try {
+            let mapped = itemObj.mapToItem(contentArea.searchResults.column, 0, 0);
+            let itemY = mapped.y;
+            let itemH = itemObj.height;
+            let viewTop = contentArea.searchResults.contentY;
+            let viewHeight = contentArea.searchResults.height;
+            let viewBottom = viewTop + viewHeight;
+
+            if (itemY < viewTop) {
+                contentArea.searchResults.contentY = Math.max(0, itemY - root.s(8));
+            } else if (itemY + itemH > viewBottom) {
+                let maxScroll = Math.max(0, contentArea.searchResults.contentHeight - viewHeight);
+                contentArea.searchResults.contentY = Math.min(maxScroll, itemY + itemH - viewHeight + root.s(8));
+            }
+        } catch(e) {}
     }
 
     function ensureTabVisible(idx) {
@@ -525,8 +619,16 @@ Item {
     function gotoTab(tabName, subTabName) {
         if (tabName === undefined || tabName === null || tabName === "") return;
         let r = resolveIndices(tabName, subTabName);
+        let num = parseInt(tabName);
+        if (r.tabIndex < 0 && !isNaN(num) && num >= 0 && num < tabsModel.length) {
+            let t = tabsModel[num];
+            let sNum = parseInt(subTabName);
+            r = { tabIndex: num, subIndex: (!isNaN(sNum) && t.subtabs && sNum >= 0 && sNum < t.subtabs.length) ? sNum : 0 };
+        }
         if (r.tabIndex < 0) return;
         currentTab = r.tabIndex;
+        let t = tabsModel[r.tabIndex];
+        expandedTab = (t.subtabs && t.subtabs.length > 0) ? r.tabIndex : -1;
         currentSubTab = Math.max(0, r.subIndex);
     }
 
@@ -541,19 +643,41 @@ Item {
     }
 
     function nextTab() {
+        let parentTab = tabsModel[currentTab];
+        if (parentTab && parentTab.subtabs && parentTab.subtabs.length > 0 && expandedTab === currentTab) {
+            if (currentSubTab < parentTab.subtabs.length - 1) {
+                currentSubTab++;
+                return;
+            }
+        }
         currentTab = (currentTab + 1) % tabsModel.length;
-        currentSubTab = 0;
+        let nextParent = tabsModel[currentTab];
+        if (nextParent && nextParent.subtabs && nextParent.subtabs.length > 0) {
+            expandedTab = currentTab;
+            currentSubTab = 0;
+        } else {
+            expandedTab = -1;
+            currentSubTab = 0;
+        }
     }
 
     function prevTab() {
+        let parentTab = tabsModel[currentTab];
+        if (parentTab && parentTab.subtabs && parentTab.subtabs.length > 0 && expandedTab === currentTab) {
+            if (currentSubTab > 0) {
+                currentSubTab--;
+                return;
+            }
+        }
         currentTab = (currentTab - 1 + tabsModel.length) % tabsModel.length;
-        currentSubTab = 0;
-    }
-
-    function nextSubTab(dir) {
-        if (!hasSubTabs) return;
-        let n = currentTabModel.subtabs.length;
-        currentSubTab = Math.max(0, Math.min(n - 1, currentSubTab + dir));
+        let prevParent = tabsModel[currentTab];
+        if (prevParent && prevParent.subtabs && prevParent.subtabs.length > 0) {
+            expandedTab = currentTab;
+            currentSubTab = prevParent.subtabs.length - 1;
+        } else {
+            expandedTab = -1;
+            currentSubTab = 0;
+        }
     }
 
     function focusInContent() {
@@ -755,7 +879,7 @@ Item {
             event.accepted = true;
         } else if ((event.key === Qt.Key_Left || event.key === Qt.Key_Right) && plain) {
             let dir = (event.key === Qt.Key_Right) !== I18n.rtl ? 1 : -1;
-            if (!root.searchActive && !root.focusInContent()) root.nextSubTab(dir);
+            if (!root.searchActive && !root.focusInContent()) { if (dir > 0) root.nextTab(); else root.prevTab(); }
             event.accepted = !root.searchActive;
         } else if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && root.searchActive) {
             root.activateSelectedSearch();
