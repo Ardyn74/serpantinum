@@ -15,28 +15,67 @@ GuideTab {
     readonly property string scriptPath: Caching.serpantinumDir + "/scripts/ocr_langs.sh"
 
     property bool captureOnRelease: false
-    property var languages: []
+    property var allLanguages: []
     property bool online: true
     property bool loaded: false
     property bool failed: false
+    property real lastLoadMs: 0
     property string busyCode: ""
     property string busyAction: ""
     property string search: ""
 
-    readonly property var rows: {
-        let dummy = I18n.currentLang;
+    ListModel { id: languageModel }
+
+    onSearchChanged: rebuildModel()
+
+    function rebuildModel() {
         let q = screenshotTabRoot.search.trim().toLowerCase();
-        let list = screenshotTabRoot.languages.map(l => ({
+        languageModel.clear();
+        let items = screenshotTabRoot.allLanguages;
+        for (let i = 0; i < items.length; i++) {
+            let l = items[i];
+            if (q === "" || l.name.toLowerCase().indexOf(q) !== -1 || l.code.indexOf(q) !== -1) {
+                languageModel.append({ code: l.code, name: l.name, size: l.size, installed: l.installed });
+            }
+        }
+    }
+
+    function syncInstalled() {
+        let byCode = {};
+        for (let i = 0; i < screenshotTabRoot.allLanguages.length; i++) {
+            byCode[screenshotTabRoot.allLanguages[i].code] = screenshotTabRoot.allLanguages[i];
+        }
+        for (let j = 0; j < languageModel.count; j++) {
+            let row = languageModel.get(j);
+            let l = byCode[row.code];
+            if (l && row.installed !== l.installed) languageModel.setProperty(j, "installed", l.installed);
+        }
+    }
+
+    function applyList(list) {
+        let sorted = list.map(l => ({
             code: l.code,
             size: l.size,
             installed: l.installed,
             name: OcrLanguages.name(l.code)
-        })).filter(l => q === "" || l.name.toLowerCase().indexOf(q) !== -1 || l.code.indexOf(q) !== -1);
-        list.sort((a, b) => {
-            if (a.installed !== b.installed) return a.installed ? -1 : 1;
-            return a.name.localeCompare(b.name);
-        });
-        return list;
+        }));
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+        let current = screenshotTabRoot.allLanguages;
+        let same = sorted.length === current.length && sorted.every((l, i) => l.code === current[i].code);
+        screenshotTabRoot.allLanguages = sorted;
+        if (same) screenshotTabRoot.syncInstalled();
+        else screenshotTabRoot.rebuildModel();
+    }
+
+    function markInstalled(code, value) {
+        let items = screenshotTabRoot.allLanguages.slice();
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].code === code || (value && items[i].code === "eng")) {
+                items[i] = Object.assign({}, items[i], { installed: value });
+            }
+        }
+        screenshotTabRoot.allLanguages = items;
+        screenshotTabRoot.syncInstalled();
     }
 
     function syncSettings() {
@@ -78,13 +117,13 @@ GuideTab {
             onStreamFinished: {
                 try {
                     let data = JSON.parse(listOut.text);
-                    screenshotTabRoot.languages = data.languages || [];
+                    screenshotTabRoot.applyList(data.languages || []);
                     screenshotTabRoot.online = data.online === true;
                 } catch (e) {
-                    screenshotTabRoot.languages = [];
                     screenshotTabRoot.online = false;
                 }
                 screenshotTabRoot.loaded = true;
+                screenshotTabRoot.lastLoadMs = Date.now();
             }
         }
     }
@@ -92,17 +131,19 @@ GuideTab {
     Process {
         id: opProc
         onExited: function(exitCode) {
+            let code = screenshotTabRoot.busyCode;
+            let action = screenshotTabRoot.busyAction;
             screenshotTabRoot.failed = exitCode !== 0;
             screenshotTabRoot.busyCode = "";
             screenshotTabRoot.busyAction = "";
-            screenshotTabRoot.loadLanguages();
+            if (exitCode === 0) screenshotTabRoot.markInstalled(code, action === "install");
         }
     }
 
     onVisibleChanged: {
         if (visible) {
             syncSettings();
-            loadLanguages();
+            if (!screenshotTabRoot.loaded || Date.now() - screenshotTabRoot.lastLoadMs > 60000) loadLanguages();
         }
     }
 
@@ -115,129 +156,187 @@ GuideTab {
         }
     }
 
-    Flickable {
+    ColumnLayout {
         anchors.fill: parent
-        anchors.topMargin: rootObj.s(8)
-        anchors.leftMargin: rootObj.s(8)
-        anchors.rightMargin: rootObj.s(8)
-        anchors.bottomMargin: rootObj.s(8)
-        contentHeight: settingsCol.implicitHeight
-        clip: true
-        boundsBehavior: Flickable.StopAtBounds
+        anchors.margins: rootObj.s(8)
+        spacing: rootObj.s(6)
 
-        ColumnLayout {
-            id: settingsCol
-            width: parent.width
-            spacing: rootObj.s(6)
+        SettingsBlob {
+            SettingsRow {
+                rootObj: screenshotTabRoot.rootObj
+                settingId: "screenshot_capture_on_release"
+                searchKeywords: "screenshot capture release mouse region shutter"
+                icon: "󰹑"
+                title: I18n.t("guide.general.screenshot_on_release.title", "Capture region on mouse release")
+                description: I18n.t("guide.general.screenshot_on_release.desc", "Take the screenshot as soon as you finish dragging, without clicking the shutter")
 
-            SettingsBlob {
-                SettingsRow {
-                    rootObj: screenshotTabRoot.rootObj
-                    settingId: "screenshot_capture_on_release"
-                    searchKeywords: "screenshot capture release mouse region shutter"
-                    icon: "󰹑"
-                    title: I18n.t("guide.general.screenshot_on_release.title", "Capture region on mouse release")
-                    description: I18n.t("guide.general.screenshot_on_release.desc", "Take the screenshot as soon as you finish dragging, without clicking the shutter")
+                Toggle {
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    checked: screenshotTabRoot.captureOnRelease
+                    accentColor: ThemeBackend.mauve
+                    baseColor: ThemeBackend.surface1
+                    handleColor: ThemeBackend.crust
+                    handleOffColor: ThemeBackend.text
+                    onToggled: function(c) { screenshotTabRoot.updateCaptureOnRelease(c); }
+                }
+            }
+        }
 
-                    Toggle {
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        checked: screenshotTabRoot.captureOnRelease
-                        accentColor: ThemeBackend.mauve
-                        baseColor: ThemeBackend.surface1
-                        handleColor: ThemeBackend.crust
-                        handleOffColor: ThemeBackend.text
-                        onToggled: function(c) { screenshotTabRoot.updateCaptureOnRelease(c); }
-                    }
+        SettingsBlob {
+            SettingsRow {
+                rootObj: screenshotTabRoot.rootObj
+                settingId: "screenshot_ocr_languages"
+                searchKeywords: "ocr text recognition language tesseract download install"
+                icon: "󱄽"
+                title: I18n.t("guide.screenshot.ocr.title", "OCR languages")
+                description: I18n.t("guide.screenshot.ocr.desc", "Text recognition detects the language automatically from the ones you install")
+
+                Input {
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                    implicitWidth: rootObj.s(220)
+                    implicitHeight: rootObj.s(32)
+                    text: screenshotTabRoot.search
+                    placeholderText: I18n.t("guide.screenshot.ocr.search", "Search languages...")
+                    showClearButton: true
+                    baseColor: ThemeBackend.surface0
+                    accentColor: ThemeBackend.mauve
+                    textColor: ThemeBackend.text
+                    subTextColor: ThemeBackend.subtext0
+                    borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
+                    cornerRadius: ThemeBackend.borderRadius
+                    fontPixelSize: rootObj.s(11)
+                    onTextEdited: function(newText) { screenshotTabRoot.search = newText; }
+                    onCleared: screenshotTabRoot.search = ""
                 }
             }
 
-            SettingsBlob {
-                SettingsRow {
-                    rootObj: screenshotTabRoot.rootObj
-                    settingId: "screenshot_ocr_languages"
-                    searchKeywords: "ocr text recognition language tesseract download install"
-                    icon: "󱄽"
-                    title: I18n.t("guide.screenshot.ocr.title", "OCR languages")
-                    description: I18n.t("guide.screenshot.ocr.desc", "Text recognition detects the language automatically from the ones you install")
+            Text {
+                Layout.fillWidth: true
+                Layout.margins: rootObj.s(12)
+                visible: !screenshotTabRoot.loaded || !screenshotTabRoot.online || screenshotTabRoot.failed
+                wrapMode: Text.WordWrap
+                color: (screenshotTabRoot.failed || (screenshotTabRoot.loaded && !screenshotTabRoot.online)) ? ThemeBackend.red : ThemeBackend.subtext0
+                font.family: ThemeBackend.fontFamily
+                font.pixelSize: rootObj.s(11)
+                text: screenshotTabRoot.failed
+                    ? I18n.t("guide.screenshot.ocr.failed", "Download failed. Check your connection.")
+                    : (screenshotTabRoot.loaded
+                        ? I18n.t("guide.screenshot.ocr.offline", "Can't reach the language list. Showing installed languages only.")
+                        : I18n.t("guide.screenshot.ocr.loading", "Loading languages..."))
+            }
+        }
 
-                    Input {
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        implicitWidth: rootObj.s(220)
-                        implicitHeight: rootObj.s(32)
-                        text: screenshotTabRoot.search
-                        placeholderText: I18n.t("guide.screenshot.ocr.search", "Search languages...")
-                        showClearButton: true
-                        baseColor: ThemeBackend.surface0
-                        accentColor: ThemeBackend.mauve
-                        textColor: ThemeBackend.text
-                        subTextColor: ThemeBackend.subtext0
-                        borderColor: Qt.alpha(ThemeBackend.surface2, 0.6)
-                        cornerRadius: ThemeBackend.borderRadius
-                        fontPixelSize: rootObj.s(11)
-                        onTextEdited: function(newText) { screenshotTabRoot.search = newText; }
-                        onCleared: screenshotTabRoot.search = ""
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            radius: ThemeBackend.borderRadius
+            color: Qt.alpha(ThemeBackend.surface0, 0.4)
+            clip: true
+
+            ListView {
+                id: languageList
+                anchors.fill: parent
+                anchors.margins: rootObj.s(6)
+                spacing: rootObj.s(4)
+                clip: true
+                boundsBehavior: Flickable.StopAtBounds
+                cacheBuffer: rootObj.s(200)
+                model: languageModel
+
+                HoverHandler {
+                    id: listHover
+                }
+
+                ScrollBar.vertical: ScrollBar {
+                    active: listHover.hovered
+                    width: rootObj.s(4)
+                    policy: listHover.hovered ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                    contentItem: Rectangle {
+                        implicitWidth: rootObj.s(4)
+                        radius: rootObj.s(2)
+                        color: ThemeBackend.surface2
                     }
                 }
 
-                Text {
-                    Layout.fillWidth: true
-                    Layout.margins: rootObj.s(12)
-                    visible: !screenshotTabRoot.loaded || !screenshotTabRoot.online || screenshotTabRoot.failed
-                    wrapMode: Text.WordWrap
-                    color: (screenshotTabRoot.failed || (screenshotTabRoot.loaded && !screenshotTabRoot.online)) ? ThemeBackend.red : ThemeBackend.subtext0
-                    font.family: ThemeBackend.fontFamily
-                    font.pixelSize: rootObj.s(11)
-                    text: screenshotTabRoot.failed
-                        ? I18n.t("guide.screenshot.ocr.failed", "Download failed. Check your connection.")
-                        : (screenshotTabRoot.loaded
-                            ? I18n.t("guide.screenshot.ocr.offline", "Can't reach the language list. Showing installed languages only.")
-                            : I18n.t("guide.screenshot.ocr.loading", "Loading languages..."))
-                }
+                delegate: Rectangle {
+                    id: languageRow
+                    required property string code
+                    required property string name
+                    required property real size
+                    required property bool installed
 
-                Repeater {
-                    model: screenshotTabRoot.rows
+                    readonly property bool isBusy: screenshotTabRoot.busyCode === languageRow.code
+                    readonly property bool isBase: languageRow.code === "eng" && languageRow.installed
 
-                    delegate: SettingsRow {
-                        required property var modelData
+                    width: languageList.width
+                    height: rootObj.s(48)
+                    radius: ThemeBackend.borderRadius
+                    color: Qt.alpha(ThemeBackend.surface1, 0.35)
 
-                        rootObj: screenshotTabRoot.rootObj
-                        searchable: false
-                        baseColor: Qt.alpha(ThemeBackend.surface1, 0.35)
-                        icon: "󰗊"
-                        iconSize: 28
-                        iconFontSize: 14
-                        title: modelData.name
-                        description: modelData.code + " · " + screenshotTabRoot.formatSize(modelData.size)
-                        titlePixelSize: 12
-                        descriptionPixelSize: 10
-                        verticalPadding: rootObj.s(10)
+                    RowLayout {
+                        anchors.fill: parent
+                        anchors.leftMargin: rootObj.s(12)
+                        anchors.rightMargin: rootObj.s(10)
+                        spacing: rootObj.s(10)
 
                         Text {
-                            visible: modelData.code === "eng" && modelData.installed
-                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            text: languageRow.installed ? "󰄬" : "󰗊"
+                            color: languageRow.installed ? ThemeBackend.green : ThemeBackend.subtext0
+                            font.family: ThemeBackend.iconFont
+                            font.pixelSize: rootObj.s(16)
+                            Layout.alignment: Qt.AlignVCenter
+                        }
+
+                        ColumnLayout {
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignVCenter
+                            spacing: 0
+
+                            Text {
+                                Layout.fillWidth: true
+                                text: languageRow.name
+                                elide: Text.ElideRight
+                                color: ThemeBackend.text
+                                font.family: ThemeBackend.fontFamily
+                                font.pixelSize: rootObj.s(12)
+                            }
+
+                            Text {
+                                Layout.fillWidth: true
+                                text: languageRow.code + " · " + screenshotTabRoot.formatSize(languageRow.size)
+                                elide: Text.ElideRight
+                                color: ThemeBackend.subtext0
+                                font.family: ThemeBackend.fontFamily
+                                font.pixelSize: rootObj.s(10)
+                            }
+                        }
+
+                        Text {
+                            visible: languageRow.isBase
                             text: I18n.t("guide.screenshot.ocr.installed", "Installed")
                             color: ThemeBackend.subtext0
                             font.family: ThemeBackend.fontFamily
                             font.pixelSize: rootObj.s(11)
+                            Layout.alignment: Qt.AlignVCenter
                         }
 
                         ClickButton {
-                            visible: !(modelData.code === "eng" && modelData.installed)
+                            visible: !languageRow.isBase
                             enabled: screenshotTabRoot.busyCode === ""
-                            Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                            Layout.alignment: Qt.AlignVCenter
                             implicitHeight: rootObj.s(30)
                             implicitWidth: rootObj.s(120)
                             cornerRadius: ThemeBackend.borderRadius
                             textFontSize: rootObj.s(11)
                             iconFontSize: rootObj.s(13)
-                            opacity: enabled || screenshotTabRoot.busyCode === modelData.code ? 1.0 : 0.5
-                            buttonIcon: screenshotTabRoot.busyCode === modelData.code ? "󰦖" : (modelData.installed ? "󰆴" : "󰇚")
-                            buttonText: screenshotTabRoot.busyCode === modelData.code
+                            opacity: enabled || languageRow.isBusy ? 1.0 : 0.5
+                            buttonIcon: languageRow.isBusy ? "󰦖" : (languageRow.installed ? "󰆴" : "󰇚")
+                            buttonText: languageRow.isBusy
                                 ? (screenshotTabRoot.busyAction === "install" ? I18n.t("guide.screenshot.ocr.installing", "Installing...") : I18n.t("guide.screenshot.ocr.removing", "Removing..."))
-                                : (modelData.installed ? I18n.t("guide.screenshot.ocr.remove", "Remove") : I18n.t("guide.screenshot.ocr.install", "Install"))
-                            accentColor: modelData.installed ? ThemeBackend.surface0 : ThemeBackend.mauve
-                            textColor: modelData.installed ? ThemeBackend.text : ThemeBackend.crust
-                            onClicked: screenshotTabRoot.runAction(modelData.installed ? "remove" : "install", modelData.code)
+                                : (languageRow.installed ? I18n.t("guide.screenshot.ocr.remove", "Remove") : I18n.t("guide.screenshot.ocr.install", "Install"))
+                            accentColor: languageRow.installed ? ThemeBackend.surface0 : ThemeBackend.mauve
+                            textColor: languageRow.installed ? ThemeBackend.text : ThemeBackend.crust
+                            onClicked: screenshotTabRoot.runAction(languageRow.installed ? "remove" : "install", languageRow.code)
                         }
                     }
                 }
