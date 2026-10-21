@@ -15,6 +15,12 @@ ShellRoot {
         return (isNaN(v) || v <= 0) ? 1.0 : v;
     }
 
+    Connections {
+        target: Quickshell
+        function onReloadCompleted() { Quickshell.inhibitReloadPopup() }
+        function onReloadFailed(errorString) { Quickshell.inhibitReloadPopup() }
+    }
+
     IpcHandler {
         target: "settings"
 
