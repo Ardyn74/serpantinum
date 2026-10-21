@@ -279,9 +279,10 @@ Item {
                         Rectangle {
                             anchors.bottom: parent.bottom
                             width: parent.width
-                            height: (bottomPanel && bottomPanel.tab) ? Math.max(rootObj.s(4), parent.height * (hourValue / Math.max(bottomPanel.tab.maxHourlyTotal, 1)) * bottomPanel.tab.introAppBars) : rootObj.s(4)
+                            height: Math.max(rootObj.s(4), parent.height * fill)
                             radius: rootObj.s(2)
                             readonly property real hourValue: (bottomPanel && bottomPanel.tab) ? (bottomPanel.tab.hourlyData[index] || 0) : 0
+                            property real fill: (bottomPanel && bottomPanel.tab) ? (hourValue / Math.max(bottomPanel.tab.maxHourlyTotal, 1)) * bottomPanel.tab.introAppBars : 0
                             color: hourGlass.active ? "transparent" : (hourValue > 0 ? ThemeBackend.blue : ThemeBackend.surface1)
 
                             GlassFill {
@@ -294,7 +295,7 @@ Item {
                                 tintStrength: 1.0
                             }
 
-                            Behavior on height {
+                            Behavior on fill {
                                 enabled: bottomPanel.tab.introAppBars === 1.0
                                 NumberAnimation { duration: 600; easing.type: Easing.OutQuint }
                             }
