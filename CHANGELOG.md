@@ -1,5 +1,7 @@
 ### 2.3.0
 
+- fix(lock): center the default lock screen layout when no fingerprint reader is available
+- fix(settings): disable blur and liquid glass in the standalone settings window
 - fix(settings): make the window transparent and call the OSD test through a reachable IPC function
 - fix(installer): upgrade quickshell older than 0.3.0 during install and update
 - fix(osd): ignore phantom Caps/Num Lock LED changes on Hyprland
