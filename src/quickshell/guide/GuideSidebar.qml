@@ -208,6 +208,7 @@ Rectangle {
                                     Layout.alignment: Qt.AlignVCenter
                                     cornerRadius: ThemeBackend.borderRadius
                                     buttonIcon: tabDelegate.modelData.icon || "󰒓"
+                                    bgOpacity: 2.0
                                     iconFontSize: popup.s(15)
                                     accentColor: ThemeBackend.surface0
                                     textColor: "#ffffff"
@@ -357,6 +358,7 @@ Rectangle {
                                                     Layout.alignment: Qt.AlignVCenter
                                                     cornerRadius: ThemeBackend.borderRadius
                                                     buttonIcon: sub.modelData.icon || "󰒓"
+                                                    bgOpacity: 2.0
                                                     iconFontSize: popup.s(12)
                                                     accentColor: ThemeBackend.surface0
                                                     textColor: "#ffffff"
