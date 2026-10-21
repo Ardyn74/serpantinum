@@ -1330,7 +1330,10 @@
       "ocr_empty_title": "Teks tidak ditemukan",
       "ocr_empty_body": "Tidak dapat mengenali teks di area yang dipilih",
       "ocr_missing_title": "Data bahasa OCR tidak ada",
-      "ocr_missing_body": "Buka pengaturan tangkapan layar untuk memasang bahasa."
+      "ocr_missing_body": "Buka pengaturan tangkapan layar untuk memasang bahasa.",
+      "ocr_uncertain_title": "Teks disalin, tetapi mungkin tidak akurat",
+      "ocr_language_hint": "Teks mungkin dalam bahasa yang belum terpasang. Tambahkan bahasa di pengaturan tangkapan layar.",
+      "ocr_open_settings": "Buka pengaturan"
     }
   },
   "start": {

@@ -1327,7 +1327,10 @@
       "ocr_empty_title": "Không tìm thấy văn bản",
       "ocr_empty_body": "Không thể nhận dạng văn bản trong vùng đã chọn",
       "ocr_missing_title": "Thiếu dữ liệu ngôn ngữ OCR",
-      "ocr_missing_body": "Mở cài đặt ảnh chụp màn hình để cài đặt một ngôn ngữ."
+      "ocr_missing_body": "Mở cài đặt ảnh chụp màn hình để cài đặt một ngôn ngữ.",
+      "ocr_uncertain_title": "Đã sao chép văn bản, nhưng có thể không chính xác",
+      "ocr_language_hint": "Văn bản có thể thuộc ngôn ngữ chưa được cài đặt. Hãy thêm ngôn ngữ trong cài đặt ảnh chụp màn hình.",
+      "ocr_open_settings": "Mở cài đặt"
     }
   },
   "start": {

@@ -1374,7 +1374,10 @@
       "ocr_empty_title": "Kein Text gefunden",
       "ocr_empty_body": "Im ausgewählten Bereich wurde kein Text erkannt",
       "ocr_missing_title": "OCR-Sprachdaten fehlen",
-      "ocr_missing_body": "Öffne die Screenshot-Einstellungen, um eine Sprache zu installieren."
+      "ocr_missing_body": "Öffne die Screenshot-Einstellungen, um eine Sprache zu installieren.",
+      "ocr_uncertain_title": "Text kopiert, aber möglicherweise ungenau",
+      "ocr_language_hint": "Der Text ist möglicherweise in einer nicht installierten Sprache. Füge Sprachen in den Screenshot-Einstellungen hinzu.",
+      "ocr_open_settings": "Einstellungen öffnen"
     }
   },
   "start": {

@@ -1321,7 +1321,10 @@
       "ocr_empty_title": "Mətn tapılmadı",
       "ocr_empty_body": "Seçilmiş sahədə mətn tanına bilmədi",
       "ocr_missing_title": "OCR dil məlumatları çatışmır",
-      "ocr_missing_body": "Dil quraşdırmaq üçün ekran görüntüsü ayarlarını açın."
+      "ocr_missing_body": "Dil quraşdırmaq üçün ekran görüntüsü ayarlarını açın.",
+      "ocr_uncertain_title": "Mətn kopyalandı, lakin qeyri-dəqiq ola bilər",
+      "ocr_language_hint": "Mətn quraşdırılmamış dildə ola bilər. Ekran görüntüsü ayarlarında dil əlavə edin.",
+      "ocr_open_settings": "Ayarları aç"
     }
   },
   "start": {

@@ -1371,7 +1371,10 @@
       "ocr_empty_title": "No se encontró texto",
       "ocr_empty_body": "No se pudo reconocer texto en el área seleccionada",
       "ocr_missing_title": "Faltan datos de idioma para OCR",
-      "ocr_missing_body": "Abre los ajustes de captura de pantalla para instalar un idioma."
+      "ocr_missing_body": "Abre los ajustes de captura de pantalla para instalar un idioma.",
+      "ocr_uncertain_title": "Texto copiado, pero puede ser inexacto",
+      "ocr_language_hint": "El texto puede estar en un idioma que no está instalado. Añade idiomas en los ajustes de captura de pantalla.",
+      "ocr_open_settings": "Abrir ajustes"
     }
   },
   "start": {

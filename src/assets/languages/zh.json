@@ -1330,7 +1330,10 @@
       "ocr_empty_title": "未找到文本",
       "ocr_empty_body": "无法识别所选区域中的文本",
       "ocr_missing_title": "缺少 OCR 语言数据",
-      "ocr_missing_body": "打开截图设置以安装语言。"
+      "ocr_missing_body": "打开截图设置以安装语言。",
+      "ocr_uncertain_title": "文本已复制，但可能不准确",
+      "ocr_language_hint": "文本可能使用了未安装的语言。请在截图设置中添加语言。",
+      "ocr_open_settings": "打开设置"
     }
   },
   "start": {

@@ -1330,7 +1330,10 @@
       "ocr_empty_title": "Geen tekst gevonden",
       "ocr_empty_body": "Er kon geen tekst worden herkend in het geselecteerde gebied",
       "ocr_missing_title": "OCR-taalgegevens ontbreken",
-      "ocr_missing_body": "Open de screenshotinstellingen om een taal te installeren."
+      "ocr_missing_body": "Open de screenshotinstellingen om een taal te installeren.",
+      "ocr_uncertain_title": "Tekst gekopieerd, maar mogelijk onnauwkeurig",
+      "ocr_language_hint": "De tekst staat mogelijk in een taal die niet is geïnstalleerd. Voeg talen toe in de screenshotinstellingen.",
+      "ocr_open_settings": "Instellingen openen"
     }
   },
   "start": {

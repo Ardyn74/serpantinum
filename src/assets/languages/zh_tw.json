@@ -1330,7 +1330,10 @@
       "ocr_empty_title": "找不到文字",
       "ocr_empty_body": "無法辨識所選區域中的文字",
       "ocr_missing_title": "缺少 OCR 語言資料",
-      "ocr_missing_body": "開啟螢幕截圖設定以安裝語言。"
+      "ocr_missing_body": "開啟螢幕截圖設定以安裝語言。",
+      "ocr_uncertain_title": "文字已複製，但可能不準確",
+      "ocr_language_hint": "文字可能使用了未安裝的語言。請在螢幕截圖設定中新增語言。",
+      "ocr_open_settings": "開啟設定"
     }
   },
   "start": {

@@ -1330,7 +1330,10 @@
       "ocr_empty_title": "Metin bulunamadı",
       "ocr_empty_body": "Seçilen alanda metin tanınamadı",
       "ocr_missing_title": "OCR dil verisi eksik",
-      "ocr_missing_body": "Bir dil yüklemek için ekran görüntüsü ayarlarını açın."
+      "ocr_missing_body": "Bir dil yüklemek için ekran görüntüsü ayarlarını açın.",
+      "ocr_uncertain_title": "Metin kopyalandı ancak hatalı olabilir",
+      "ocr_language_hint": "Metin yüklü olmayan bir dilde olabilir. Ekran görüntüsü ayarlarından dil ekleyin.",
+      "ocr_open_settings": "Ayarları aç"
     }
   },
   "start": {

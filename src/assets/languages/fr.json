@@ -1330,7 +1330,10 @@
       "ocr_empty_title": "Aucun texte trouvé",
       "ocr_empty_body": "Aucun texte n'a pu être reconnu dans la zone sélectionnée",
       "ocr_missing_title": "Données de langue OCR manquantes",
-      "ocr_missing_body": "Ouvrez les paramètres de capture d'écran pour installer une langue."
+      "ocr_missing_body": "Ouvrez les paramètres de capture d'écran pour installer une langue.",
+      "ocr_uncertain_title": "Texte copié, mais il peut être inexact",
+      "ocr_language_hint": "Le texte est peut-être dans une langue non installée. Ajoutez des langues dans les paramètres de capture d'écran.",
+      "ocr_open_settings": "Ouvrir les paramètres"
     }
   },
   "start": {

@@ -376,7 +376,10 @@
       "ocr_empty_title": "テキストが見つかりません",
       "ocr_empty_body": "選択した範囲でテキストを認識できませんでした",
       "ocr_missing_title": "OCR の言語データがありません",
-      "ocr_missing_body": "スクリーンショット設定を開いて言語をインストールしてください。"
+      "ocr_missing_body": "スクリーンショット設定を開いて言語をインストールしてください。",
+      "ocr_uncertain_title": "テキストをコピーしましたが、不正確な可能性があります",
+      "ocr_language_hint": "テキストがインストールされていない言語である可能性があります。スクリーンショット設定で言語を追加してください。",
+      "ocr_open_settings": "設定を開く"
     }
   },
   "start": {

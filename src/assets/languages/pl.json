@@ -379,7 +379,10 @@
       "ocr_empty_title": "Nie znaleziono tekstu",
       "ocr_empty_body": "Nie udało się rozpoznać tekstu w zaznaczonym obszarze",
       "ocr_missing_title": "Brak danych języka OCR",
-      "ocr_missing_body": "Otwórz ustawienia zrzutów ekranu, aby zainstalować język."
+      "ocr_missing_body": "Otwórz ustawienia zrzutów ekranu, aby zainstalować język.",
+      "ocr_uncertain_title": "Skopiowano tekst, ale może być niedokładny",
+      "ocr_language_hint": "Tekst może być w języku, który nie jest zainstalowany. Dodaj języki w ustawieniach zrzutów ekranu.",
+      "ocr_open_settings": "Otwórz ustawienia"
     }
   },
   "start": {
