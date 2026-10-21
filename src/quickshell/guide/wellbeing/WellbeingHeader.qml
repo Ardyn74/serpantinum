@@ -97,7 +97,8 @@ RowLayout {
     Item {
         visible: header.showNav
         Layout.fillWidth: true
-        Layout.fillHeight: true
+        Layout.preferredHeight: rootObj.s(30)
+        Layout.maximumHeight: rootObj.s(30)
 
         Text {
             anchors.centerIn: parent
