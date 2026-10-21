@@ -778,8 +778,24 @@
         "app_limits": "App usage limits",
         "app_limits_desc": "Set maximum daily allowance per application",
         "excluded_apps": "Excluded apps",
-        "excluded_apps_desc": "Exclude apps from overall tracking going forward"
-      }
+        "excluded_apps_desc": "Exclude apps from overall tracking going forward",
+        "overall_limit_desc": "Notify me when total screen time reaches this amount",
+        "add_app": "Add app",
+        "no_limits": "No app limits set",
+        "no_excluded": "No excluded apps"
+      },
+      "day": "Day",
+      "week": "Week",
+      "screen_time": "Screen time",
+      "less_than_prev": "{time} less than the day before",
+      "more_than_prev": "{time} more than the day before",
+      "same_as_prev": "Same as the day before",
+      "limit_progress": "{used} of {limit} daily limit",
+      "limit_reached": "Daily limit of {limit} reached",
+      "peak_hour": "Peak hour",
+      "week_total": "Week total",
+      "less": "Less",
+      "more": "More"
     },
     "update_available": "Update available",
     "osd": {

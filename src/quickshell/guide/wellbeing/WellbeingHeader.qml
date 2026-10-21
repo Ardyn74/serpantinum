@@ -2,145 +2,156 @@ import QtQuick
 import QtQuick.Layouts
 import "../../"
 import "../../reusables"
+import "../../reusables/buttons"
+import "../../reusables/inputs"
 
 RowLayout {
     id: header
     required property var tab
     readonly property var rootObj: tab.rootObj
+    readonly property bool inApp: header.tab.selectedAppClass !== "" && !header.tab.isSettingsView
+    readonly property bool showNav: !header.tab.isSettingsView
+    readonly property bool compact: width < rootObj.s(640)
+    readonly property color iconText: ThemeBackend.liquidGlass ? "#ffffff" : (ThemeBackend.overlay0)
+
     Layout.fillWidth: true
     Layout.preferredHeight: rootObj.s(36)
+    spacing: rootObj.s(8)
 
     opacity: header.tab.introHeader
     transform: Translate { y: rootObj.s(-20) * (1 - header.tab.introHeader) }
 
-    RowLayout {
-        Layout.alignment: Qt.AlignVCenter
-        spacing: rootObj.s(4)
-
-        IconButton {
-            Layout.preferredWidth: rootObj.s(32)
-            Layout.preferredHeight: rootObj.s(32)
-            size: rootObj.s(32)
-            cornerRadius: ThemeBackend.borderRadius
-            buttonIcon: "󰒓"
-            iconFontSize: rootObj.s(16)
-            accentColor: ThemeBackend.surface0
-            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0)
-            onClicked: header.tab.isSettingsView = !header.tab.isSettingsView
-        }
-
-        Item {
-            Layout.preferredWidth: rootObj.s(32)
-            Layout.preferredHeight: rootObj.s(32)
-
-            IconButton {
-                anchors.fill: parent
-                size: rootObj.s(32)
-                cornerRadius: ThemeBackend.borderRadius
-                buttonIcon: "󰁍"
-                iconFontSize: rootObj.s(16)
-                accentColor: ThemeBackend.surface0
-                textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0)
-                opacity: (header.tab.selectedAppClass !== "" || header.tab.isWeekView || header.tab.isSettingsView) ? 1.0 : 0.0
-                visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: 350; easing.type: Easing.OutQuint } }
-                onClicked: {
-                    if (header.tab.isSettingsView) {
-                        header.tab.isSettingsView = false;
-                    } else if (header.tab.selectedAppClass !== "") {
-                        header.tab.selectedAppClass = "";
-                        header.tab.selectedAppName = "";
-                        header.tab.selectedAppIcon = "";
-                        header.tab.requestDataUpdate();
-                    } else if (header.tab.isWeekView) {
-                        header.tab.isWeekView = false;
-                    }
-                }
-            }
-
-            IconButton {
-                anchors.fill: parent
-                size: rootObj.s(32)
-                cornerRadius: ThemeBackend.borderRadius
-                buttonIcon: "󰃭"
-                iconFontSize: rootObj.s(16)
-                accentColor: ThemeBackend.surface0
-                textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0)
-                opacity: (header.tab.selectedAppClass === "" && !header.tab.isWeekView && !header.tab.isSettingsView) ? 1.0 : 0.0
-                visible: opacity > 0
-                Behavior on opacity { NumberAnimation { duration: 350; easing.type: Easing.OutQuint } }
-                onClicked: header.tab.isWeekView = true
-            }
-        }
-
-        IconButton {
-            Layout.preferredWidth: rootObj.s(32)
-            Layout.preferredHeight: rootObj.s(32)
-            size: rootObj.s(32)
-            cornerRadius: ThemeBackend.borderRadius
-            buttonIcon: "󰅁"
-            iconFontSize: rootObj.s(16)
-            accentColor: ThemeBackend.surface0
-            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0)
-            onClicked: header.tab.changeDay(header.tab.isWeekView ? -7 : -1)
-            opacity: header.tab.isSettingsView ? 0.0 : 1.0
-            visible: opacity > 0
+    IconButton {
+        visible: header.tab.isSettingsView || header.inApp
+        Layout.preferredWidth: rootObj.s(32)
+        Layout.preferredHeight: rootObj.s(32)
+        size: rootObj.s(32)
+        cornerRadius: ThemeBackend.borderRadius
+        buttonIcon: "󰁍"
+        iconFontSize: rootObj.s(16)
+        accentColor: ThemeBackend.surface0
+        textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.subtext0)
+        onClicked: {
+            if (header.tab.isSettingsView) header.tab.isSettingsView = false;
+            else header.tab.clearSelectedApp();
         }
     }
 
+    Switch {
+        id: modeSwitch
+        visible: !header.tab.isSettingsView && !header.inApp
+        Layout.preferredWidth: rootObj.s(150)
+        Layout.preferredHeight: rootObj.s(32)
+        options: [I18n.t("guide.wellbeing.day"), I18n.t("guide.wellbeing.week")]
+        accentColor: ThemeBackend.mauve
+        textColor: ThemeBackend.subtext0
+        cornerRadius: ThemeBackend.borderRadius
+        baseColor: Qt.alpha(ThemeBackend.surface0, 0.6)
+        fontPixelSize: rootObj.s(12)
+        onToggled: function(i) { header.tab.isWeekView = i === 1; }
+
+        Binding {
+            target: modeSwitch
+            property: "currentIndex"
+            value: header.tab.isWeekView ? 1 : 0
+        }
+    }
+
+    Image {
+        visible: header.inApp && header.tab.selectedAppIcon !== ""
+        source: (header.tab.selectedAppIcon && header.tab.selectedAppIcon !== "") ? (header.tab.selectedAppIcon.startsWith("/") ? "file://" + header.tab.selectedAppIcon : "image://icon/" + header.tab.selectedAppIcon) : ""
+        sourceSize: Qt.size(rootObj.s(22), rootObj.s(22))
+        Layout.preferredWidth: rootObj.s(22)
+        Layout.preferredHeight: rootObj.s(22)
+        Layout.alignment: Qt.AlignVCenter
+        fillMode: Image.PreserveAspectFit
+    }
+
+    Text {
+        visible: header.inApp || header.tab.isSettingsView
+        Layout.alignment: Qt.AlignVCenter
+        Layout.maximumWidth: header.width * 0.4
+        elide: Text.ElideRight
+        font.family: ThemeBackend.fontFamily
+        font.weight: Font.DemiBold
+        font.pixelSize: rootObj.s(16)
+        color: header.tab.textMain
+        text: header.tab.isSettingsView ? I18n.t("guide.wellbeing.settings.title") : header.tab.selectedAppName
+    }
+
+    Item { Layout.fillWidth: true }
+
     RowLayout {
-        Layout.fillWidth: true
-        Layout.alignment: Qt.AlignHCenter
-        spacing: rootObj.s(8)
+        visible: header.showNav
+        Layout.alignment: Qt.AlignVCenter
+        spacing: rootObj.s(10)
 
-        Item { Layout.fillWidth: true }
-
-        Image {
-            property bool active: header.tab.selectedAppClass !== "" && header.tab.selectedAppIcon !== "" && !header.tab.isWeekView && !header.tab.isSettingsView
-            property real animWidth: active ? rootObj.s(20) : 0
-            Behavior on animWidth { NumberAnimation { duration: 350; easing.type: Easing.OutQuint } }
-
-            source: (header.tab.selectedAppIcon && header.tab.selectedAppIcon !== "") ? (header.tab.selectedAppIcon.startsWith("/") ? "file://" + header.tab.selectedAppIcon : "image://icon/" + header.tab.selectedAppIcon) : ""
-            sourceSize: Qt.size(rootObj.s(20), rootObj.s(20))
-            Layout.preferredWidth: animWidth
-            Layout.preferredHeight: rootObj.s(20)
-            Layout.alignment: Qt.AlignVCenter
-            Layout.rightMargin: active ? rootObj.s(6) : 0
-            opacity: animWidth / rootObj.s(20.0)
-            visible: animWidth > 0
-            fillMode: Image.PreserveAspectFit
-            clip: true
+        IconButton {
+            Layout.preferredWidth: rootObj.s(30)
+            Layout.preferredHeight: rootObj.s(30)
+            size: rootObj.s(30)
+            cornerRadius: ThemeBackend.borderRadius
+            buttonIcon: "󰅁"
+            iconFontSize: rootObj.s(15)
+            accentColor: ThemeBackend.surface0
+            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
+            onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? -7 : -1)
         }
 
         Text {
+            Layout.preferredWidth: (header.tab.isWeekView && !header.inApp) ? rootObj.s(200) : rootObj.s(140)
+            elide: Text.ElideRight
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.family: ThemeBackend.fontFamily
             font.weight: Font.DemiBold
-            font.pixelSize: rootObj.s(17)
+            font.pixelSize: rootObj.s(15)
             color: header.tab.textMain
-            text: header.tab.isSettingsView ? I18n.t("guide.wellbeing.settings.title") : (header.tab.isWeekView ? (header.tab.weekRangeStr !== "" ? header.tab.weekRangeStr : I18n.t("guide.wellbeing.week_overview")) : (header.tab.selectedAppClass !== "" ? `${header.tab.selectedAppName} - ${header.tab.getFancyDate(header.tab.activeDate)}` : header.tab.getFancyDate(header.tab.activeDate)))
+            text: (header.tab.isWeekView && !header.inApp)
+                ? (header.tab.weekRangeStr !== "" ? header.tab.weekRangeStr : I18n.t("guide.wellbeing.week_overview"))
+                : header.tab.getFancyDate(header.tab.activeDate)
         }
-
-        Item { Layout.fillWidth: true }
-    }
-
-    RowLayout {
-        Layout.alignment: Qt.AlignVCenter
-        spacing: rootObj.s(4)
 
         IconButton {
-            Layout.preferredWidth: rootObj.s(32)
-            Layout.preferredHeight: rootObj.s(32)
-            size: rootObj.s(32)
+            Layout.preferredWidth: rootObj.s(30)
+            Layout.preferredHeight: rootObj.s(30)
+            size: rootObj.s(30)
             cornerRadius: ThemeBackend.borderRadius
             buttonIcon: "󰅂"
-            iconFontSize: rootObj.s(16)
+            iconFontSize: rootObj.s(15)
             accentColor: ThemeBackend.surface0
-            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : ThemeBackend.overlay0)
-            onClicked: header.tab.changeDay(header.tab.isWeekView ? 7 : 1)
-            opacity: header.tab.isSettingsView ? 0.0 : 1.0
-            visible: opacity > 0
+            textColor: ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText)
+            onClicked: header.tab.changeDay(header.tab.isWeekView && !header.inApp ? 7 : 1)
         }
+    }
+
+    Item { Layout.fillWidth: true }
+
+    ClickButton {
+        visible: header.showNav && !header.compact
+        opacity: header.tab.isTodaySelected ? 0.0 : 1.0
+        enabled: !header.tab.isTodaySelected
+        Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+        Layout.alignment: Qt.AlignVCenter
+        Layout.preferredHeight: rootObj.s(30)
+        horizontalPadding: rootObj.s(12)
+        cornerRadius: ThemeBackend.borderRadius
+        textFontSize: rootObj.s(12)
+        accentColor: ThemeBackend.surface0
+        textColor: ThemeBackend.text
+        buttonText: I18n.t("guide.wellbeing.today")
+        onClicked: header.tab.goToToday()
+    }
+
+    IconButton {
+        Layout.preferredWidth: rootObj.s(32)
+        Layout.preferredHeight: rootObj.s(32)
+        size: rootObj.s(32)
+        cornerRadius: ThemeBackend.borderRadius
+        buttonIcon: "󰒓"
+        iconFontSize: rootObj.s(16)
+        accentColor: header.tab.isSettingsView ? ThemeBackend.mauve : ThemeBackend.surface0
+        textColor: header.tab.isSettingsView ? ThemeBackend.crust : (ThemeBackend.liquidGlass ? "#ffffff" : (isHoveredOrHighlighted ? ThemeBackend.text : header.iconText))
+        onClicked: header.tab.isSettingsView = !header.tab.isSettingsView
     }
 }

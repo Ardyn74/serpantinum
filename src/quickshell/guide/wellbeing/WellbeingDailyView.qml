@@ -1,22 +1,44 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
+import "../../"
 
-ColumnLayout {
+Flickable {
     id: dailyViewWrapper
     required property var tab
     readonly property var rootObj: tab.rootObj
+    readonly property real focusAway: Math.max(dailyViewWrapper.tab.weekViewFocus, dailyViewWrapper.tab.settingsViewFocus)
+
     anchors.fill: parent
-    spacing: rootObj.s(6)
+    contentWidth: width
+    contentHeight: dailyColumn.implicitHeight
+    clip: true
+    boundsBehavior: Flickable.StopAtBounds
+    interactive: contentHeight > height
 
-    opacity: 1.0 - Math.max(dailyViewWrapper.tab.weekViewFocus, dailyViewWrapper.tab.settingsViewFocus)
+    opacity: 1.0 - focusAway
     visible: opacity > 0
-    transform: Translate { x: rootObj.s(-40) * Math.max(dailyViewWrapper.tab.weekViewFocus, dailyViewWrapper.tab.settingsViewFocus) }
-    scale: 0.95 + (0.05 * (1.0 - Math.max(dailyViewWrapper.tab.weekViewFocus, dailyViewWrapper.tab.settingsViewFocus)))
+    transform: Translate { x: rootObj.s(-40) * dailyViewWrapper.focusAway }
+    scale: 0.95 + (0.05 * (1.0 - dailyViewWrapper.focusAway))
 
+    ScrollBar.vertical: ScrollBar {
+        active: dailyViewWrapper.moving
+        width: rootObj.s(4)
+        policy: ScrollBar.AsNeeded
+        contentItem: Rectangle { implicitWidth: rootObj.s(4); radius: rootObj.s(2); color: ThemeBackend.surface2 }
+    }
 
-    WellbeingStatsRow { tab: dailyViewWrapper.tab }
+    ColumnLayout {
+        id: dailyColumn
+        width: dailyViewWrapper.width
+        spacing: rootObj.s(8)
 
-    WellbeingMidRow { tab: dailyViewWrapper.tab }
+        WellbeingStatsRow { tab: dailyViewWrapper.tab }
 
-    WellbeingBottomPanel { tab: dailyViewWrapper.tab }
+        WellbeingMidRow { tab: dailyViewWrapper.tab }
+
+        WellbeingBottomPanel { tab: dailyViewWrapper.tab }
+
+        Item { Layout.preferredHeight: rootObj.s(4) }
+    }
 }

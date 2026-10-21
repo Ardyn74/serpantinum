@@ -53,12 +53,14 @@ GuideTab {
     property var topApps: []
     property var weekData: []
     property real maxWeekTotal: 1
+    property int weekTotalSeconds: 0
     property var monthData: []
     property real maxMonthTotal: 1
 
     property var weekAppsData: []
     property var weekHeatmapData: [[],[],[],[],[],[],[]]
     property real maxWeekHour: 1
+    property string peakHourToday: I18n.t("guide.wellbeing.not_available")
     property string peakUsageHours: I18n.t("guide.wellbeing.not_available")
 
     property var hourlyData: new Array(48).fill(0)
@@ -163,6 +165,14 @@ GuideTab {
         if (visible) activateTab();
     }
 
+    function formatHour(hour) {
+        let h = ((hour % 24) + 24) % 24;
+        let ampm = h >= 12 ? I18n.t("guide.wellbeing.pm") : I18n.t("guide.wellbeing.am");
+        let h12 = h % 12;
+        h12 = h12 ? h12 : 12;
+        return h12 + ' ' + ampm;
+    }
+
     function updateFromData(data) {
         tabRoot.selectedDateStr = data.selected_date;
         tabRoot.totalSeconds = data.total || 0;
@@ -204,15 +214,8 @@ GuideTab {
             }
         }
 
-        function formatAMPM(hour) {
-            let ampm = hour >= 12 ? I18n.t("guide.wellbeing.pm") : I18n.t("guide.wellbeing.am");
-            let h12 = hour % 12;
-            h12 = h12 ? h12 : 12;
-            return h12 + ' ' + ampm;
-        }
-
         if (max2HourVal > 0) {
-            tabRoot.peakUsageHours = formatAMPM(peakStart) + " - " + formatAMPM(peakStart + 2);
+            tabRoot.peakUsageHours = tabRoot.formatHour(peakStart) + " - " + tabRoot.formatHour(peakStart + 2);
         } else {
             tabRoot.peakUsageHours = I18n.t("guide.wellbeing.not_available");
         }
@@ -235,6 +238,18 @@ GuideTab {
             if (tabRoot.hourlyData[i] > currentMaxHour) currentMaxHour = tabRoot.hourlyData[i];
         }
         tabRoot.maxHourlyTotal = currentMaxHour;
+
+        let bestHour = -1;
+        let bestVal = 0;
+        for (let h = 0; h < 24; h++) {
+            let v = (tabRoot.hourlyData[h * 2] || 0) + (tabRoot.hourlyData[h * 2 + 1] || 0);
+            if (v > bestVal) { bestVal = v; bestHour = h; }
+        }
+        tabRoot.peakHourToday = bestHour >= 0 ? (tabRoot.formatHour(bestHour) + " - " + tabRoot.formatHour(bestHour + 1)) : I18n.t("guide.wellbeing.not_available");
+
+        let wk = 0;
+        for (let i = 0; i < tabRoot.weekData.length; i++) wk += tabRoot.weekData[i].total || 0;
+        tabRoot.weekTotalSeconds = wk;
     }
 
     function requestDataUpdate() {
@@ -310,6 +325,21 @@ GuideTab {
             tabRoot.appDate = d;
         }
         tabRoot.isFirstLoad = true;
+        tabRoot.requestDataUpdate();
+    }
+
+    function goToToday() {
+        let d = new Date();
+        if (tabRoot.selectedAppClass === "") tabRoot.globalDate = d;
+        else tabRoot.appDate = d;
+        tabRoot.isFirstLoad = true;
+        tabRoot.requestDataUpdate();
+    }
+
+    function clearSelectedApp() {
+        tabRoot.selectedAppClass = "";
+        tabRoot.selectedAppName = "";
+        tabRoot.selectedAppIcon = "";
         tabRoot.requestDataUpdate();
     }
 
@@ -411,6 +441,53 @@ GuideTab {
             }
         }
         while (monthListModel.count > tabRoot.monthData.length) monthListModel.remove(monthListModel.count - 1);
+    }
+
+    readonly property var wellbeingSettings: {
+        let s = Config.rawSettings ? Config.rawSettings["wellbeing"] : undefined;
+        return s || {};
+    }
+    readonly property int overallLimitSeconds: Number(wellbeingSettings.overallDailyLimit) || 0
+    readonly property var appLimits: wellbeingSettings.appLimits || {}
+    readonly property var excludedApps: wellbeingSettings.excludedApps || []
+    readonly property int selectedAppLimitSeconds: selectedAppClass !== "" ? (Number(appLimits[selectedAppClass]) || 0) : 0
+    readonly property int activeLimitSeconds: selectedAppClass !== "" ? selectedAppLimitSeconds : overallLimitSeconds
+
+    function updateWellbeingSetting(key, value) {
+        let current = JSON.parse(JSON.stringify((Config.rawSettings && Config.rawSettings["wellbeing"]) || {}));
+        current[key] = value;
+        Config.setSetting("wellbeing", current);
+    }
+
+    function setOverallLimit(seconds) {
+        if (seconds === overallLimitSeconds) return;
+        updateWellbeingSetting("overallDailyLimit", seconds);
+    }
+
+    function setAppLimit(appClass, seconds) {
+        let limits = JSON.parse(JSON.stringify(appLimits));
+        if (seconds > 0) limits[appClass] = seconds;
+        else delete limits[appClass];
+        updateWellbeingSetting("appLimits", limits);
+    }
+
+    function setAppExcluded(appClass, excluded) {
+        let list = excludedApps.filter(function(c) { return c !== appClass; });
+        if (excluded) list.push(appClass);
+        updateWellbeingSetting("excludedApps", list);
+    }
+
+    function iconSource(ic) {
+        if (!ic) return "";
+        if (ic.startsWith("file://") || ic.startsWith("image://") || ic.startsWith("http://") || ic.startsWith("https://")) return ic;
+        return ic.startsWith("/") ? "file://" + ic : "image://icon/" + ic;
+    }
+
+    function appInfo(appClass) {
+        for (let i = 0; i < allKnownApps.length; i++) {
+            if (allKnownApps[i].class === appClass) return allKnownApps[i];
+        }
+        return resolveApp(appClass, appClass);
     }
 
     function formatTimeLarge(secs) {
