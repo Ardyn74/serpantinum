@@ -69,5 +69,8 @@ auth        include      system-auth
 account     include      system-auth
 EOF
 
+    install -Dm644 packaging/desktop/serpantinum-settings.desktop "$pkgdir/usr/share/applications/serpantinum-settings.desktop"
+    install -Dm644 packaging/desktop/serpantinum-settings.svg "$pkgdir/usr/share/icons/hicolor/scalable/apps/serpantinum-settings.svg"
+
     install -Dm644 LICENSE.md "$pkgdir/usr/share/licenses/$pkgname/LICENSE.md"
 }
