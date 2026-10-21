@@ -638,7 +638,8 @@ PanelWindow {
                 let score = 0;
                 if (launcherWindow.smartRanking) {
                     let wmclassLower = (e.startupClass || "").toLowerCase();
-                    let baseName = e.id.toLowerCase().replace(".desktop", "");
+                    let idLower = e.id.toLowerCase();
+                    let baseName = idLower.endsWith(".desktop") ? idLower.slice(0, -8) : idLower;
                     let appNameLower = (e.name || "").toLowerCase();
 
                     let f_score = usageRanks.focus[wmclassLower] || 0;
