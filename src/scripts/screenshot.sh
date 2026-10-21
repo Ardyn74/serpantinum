@@ -494,7 +494,7 @@ if [ "$OCR_MODE" = true ]; then
     else
         ACTION=$(notify-send -a "$notif_app" -A "default=$notif_action" "$(t "screenshot.notifications.ocr_empty_title")" "$(t "screenshot.notifications.ocr_empty_body") $notif_hint")
     fi
-    [ "$ACTION" = "default" ] && bash "$SCRIPT_DIR/qs_manager.sh" open guide screenshot
+    [ "$ACTION" = "default" ] && bash "$SCRIPT_DIR/qs_manager.sh" open settings screenshot
     exit 0
 fi
 

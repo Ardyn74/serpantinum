@@ -324,7 +324,9 @@ GuideTab {
         m[monName] = formattedList;
         displayWidgetsRoot.monitorWidgetsMap = m;
 
-        WidgetSync.applyPreset(safeM, formattedList, true);
+        if (formattedList.length > 0) {
+            Quickshell.execDetached(["quickshell", "-p", Caching.mainQml, "ipc", "call", "widgets-" + safeM, "applyPreset", JSON.stringify(formattedList)]);
+        }
     }
 
     function deleteWidget(monName, widgetId) {
@@ -344,7 +346,7 @@ GuideTab {
         m[monName] = newList;
         displayWidgetsRoot.monitorWidgetsMap = m;
 
-        WidgetSync.removeWidget(safeM, targetId);
+        Quickshell.execDetached(["quickshell", "-p", Caching.mainQml, "ipc", "call", "widgets-" + safeM, "remove", targetId]);
     }
 
     function deleteCustomPreset(presetName) {

@@ -416,7 +416,7 @@ GuideTab {
                                     if (typeof Sounds !== "undefined") {
                                         Sounds.playSfx(dockTabRoot.currentEditing ? "guide/barconfig/out.wav" : "guide/barconfig/in.wav");
                                     }
-                                    Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/qs_manager.sh", "close"]);
+                                    dockTabRoot.rootObj.dismissHost();
                                 }
                             }
                         }

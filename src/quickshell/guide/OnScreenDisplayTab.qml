@@ -729,9 +729,7 @@ GuideTab {
                     textColor: ThemeBackend.crust
                     cornerRadius: ThemeBackend.borderRadius
                     onClicked: {
-                        if (typeof OsdController !== "undefined") {
-                            OsdController.show("volume");
-                        }
+                        Quickshell.execDetached(["quickshell", "-p", Caching.mainQml, "ipc", "call", "osd", "show", "volume"]);
                     }
                 }
             }

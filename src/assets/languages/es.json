@@ -1687,7 +1687,8 @@
     "error_file_not_found": "Error: archivo no encontrado: {PATH}",
     "info_desc": "Mostrar el estado actual de un ajuste (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "Cambiar un ajuste (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Ejecutar una acción puntual (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "Ejecutar una acción puntual (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "Abrir la ventana de ajustes (opcionalmente en una pestaña)"
   },
   "daemon": {
     "already_running": "El demonio ya está en ejecución. Saliendo...",

@@ -269,7 +269,7 @@ Item {
         if (root.isMatugenTheme()) {
             root.applyMatugenColors();
             let wp = themeConfig.wallpaper || Config.getSetting("wallpaper", "");
-            if (typeof Matugen !== "undefined" && typeof Matugen.generate === "function") {
+            if (!Caching.isStandalone && typeof Matugen !== "undefined" && typeof Matugen.generate === "function") {
                 Matugen.generate(wp, themeConfig.mode, themeConfig.schemeType);
             }
             root._readInProgress = false;
@@ -277,7 +277,7 @@ Item {
             root._readInProgress = false;
             if (customColors) {
                 root.applyColorObject(customColors);
-                if (typeof Matugen !== "undefined" && typeof Matugen.generateFromStatic === "function") {
+                if (!Caching.isStandalone && typeof Matugen !== "undefined" && typeof Matugen.generateFromStatic === "function") {
                     Matugen.generateFromStatic(customColors, themeConfig.mode);
                 }
             } else {

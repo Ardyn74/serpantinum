@@ -1643,7 +1643,8 @@
     "error_file_not_found": "Erreur : fichier introuvable : {PATH}",
     "info_desc": "Afficher l'état actuel d'un réglage (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "Modifier un réglage (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Exécuter une action ponctuelle (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "Exécuter une action ponctuelle (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "Ouvrir la fenêtre des paramètres (éventuellement sur un onglet)"
   },
   "daemon": {
     "already_running": "Le démon est déjà en cours d'exécution. Arrêt...",

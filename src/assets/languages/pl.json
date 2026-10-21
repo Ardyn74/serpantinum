@@ -692,7 +692,8 @@
     "error_file_not_found": "Błąd: nie znaleziono pliku: {PATH}",
     "info_desc": "Pokaż bieżący stan ustawienia (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "Zmień ustawienie (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Uruchom jednorazową akcję (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "Uruchom jednorazową akcję (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "Otwórz okno ustawień (opcjonalnie na wybranej karcie)"
   },
   "daemon": {
     "already_running": "Demon jest już uruchomiony. Kończenie pracy...",

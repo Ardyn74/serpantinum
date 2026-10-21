@@ -1643,7 +1643,8 @@
     "error_file_not_found": "خطا: فایل یافت نشد: {PATH}",
     "info_desc": "نمایش وضعیت فعلی یک تنظیم (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "تغییر یک تنظیم (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "اجرای یک عملیات یک‌باره (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "اجرای یک عملیات یک‌باره (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "باز کردن پنجره تنظیمات (در صورت نیاز روی یک زبانه مشخص)"
   },
   "daemon": {
     "already_running": "دیمن در حال حاضر در حال اجرا است. در حال خروج...",

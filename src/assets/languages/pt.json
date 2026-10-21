@@ -1643,7 +1643,8 @@
     "error_file_not_found": "Erro: arquivo não encontrado: {PATH}",
     "info_desc": "Mostrar o estado atual de uma configuração (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "Alterar uma configuração (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Executar uma ação pontual (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "Executar uma ação pontual (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "Abre a janela de configurações (opcionalmente num separador)"
   },
   "daemon": {
     "already_running": "O daemon já está em execução. Saindo...",

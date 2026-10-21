@@ -15,8 +15,10 @@ Item {
     focus: true
 
     readonly property bool isGuidePopup: true
+    property bool standalone: false
 
     signal requestLoad(int order)
+    signal exitRequested()
 
     property int activationCounter: 0
     property var appPaths: Caching
@@ -612,6 +614,14 @@ Item {
         closeSequence.restart();
     }
 
+    function dismissHost() {
+        if (standalone) {
+            exitRequested();
+        } else {
+            Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/qs_manager.sh", "close"]);
+        }
+    }
+
     function s(val) {
         return Scaler.s(val);
     }
@@ -855,11 +865,7 @@ Item {
             event.accepted = true;
             return;
         }
-        if (typeof masterWindow !== "undefined" && masterWindow.switchWidget) {
-            masterWindow.switchWidget("hidden", "");
-        } else {
-            closePopup();
-        }
+        closePopup();
         event.accepted = true;
     }
     Keys.onDownPressed: (event) => {
@@ -1069,7 +1075,7 @@ Item {
                     root.exitCallback = null;
                     cb();
                 } else {
-                    Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/qs_manager.sh", "close"]);
+                    root.dismissHost();
                 }
             }
         }
@@ -1082,11 +1088,12 @@ Item {
 
         Rectangle {
             anchors.fill: parent
-            radius: ThemeBackend.clampedBorderRadius
-            color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
+            radius: root.standalone ? 0 : ThemeBackend.clampedBorderRadius
+            color: root.standalone ? ThemeBackend.base : Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
 
             WallpaperBlur {
                 z: -1
+                visible: !root.standalone
                 anchors.fill: parent
                 topLeftRadius: parent.topLeftRadius
                 topRightRadius: parent.topRightRadius

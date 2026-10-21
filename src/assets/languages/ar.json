@@ -108,7 +108,8 @@
     "error_file_not_found": "خطأ: الملف غير موجود: {PATH}",
     "info_desc": "عرض الحالة الحالية لإعداد (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "تغيير إعداد (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "تشغيل إجراء لمرة واحدة (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "تشغيل إجراء لمرة واحدة (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "فتح نافذة الإعدادات (اختياريًا على تبويب محدد)"
   },
   "clipboard": {
     "clear": "مسح",

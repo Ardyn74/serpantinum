@@ -350,9 +350,7 @@ GuideTab {
                     textColor: ThemeBackend.crust
                     cornerRadius: ThemeBackend.borderRadius
                     onClicked: {
-                        if (typeof LauncherController !== "undefined") {
-                            LauncherController.toggle();
-                        }
+                        Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/qs_manager.sh", "toggle", "launcher"]);
                     }
                 }
             }

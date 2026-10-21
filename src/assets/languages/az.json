@@ -1637,7 +1637,8 @@
     "error_file_not_found": "Xəta: fayl tapılmadı: {PATH}",
     "info_desc": "Ayarın cari vəziyyətini göstərmək (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "Ayarı dəyişmək (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Birdəfəlik əməliyyat icra etmək (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "Birdəfəlik əməliyyat icra etmək (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "Ayarlar pəncərəsini aç (istəyə görə müəyyən tabda)"
   },
   "daemon": {
     "already_running": "Arxa plan xidməti artıq işləyir. Çıxılır...",

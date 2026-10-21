@@ -224,6 +224,14 @@ Item {
         show(k, v, scr);
     }
 
+    IpcHandler {
+        target: "osd"
+
+        function show(kind: string): void {
+            controller.show(kind);
+        }
+    }
+
     function hide() {
         hideTimer.stop();
         controller.isVisible = false;

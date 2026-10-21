@@ -1662,7 +1662,8 @@
     "error_file_not_found": "Error: file not found: {PATH}",
     "info_desc": "Show the current state of a setting (dnd, caffeine, dock, theme, wallpaper, monitors, updates...)",
     "set_desc": "Change a setting (dnd, caffeine, dock, sfx-mute, matugen, lang, theme, wallpaper)",
-    "trigger_desc": "Run a one-off action (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)"
+    "trigger_desc": "Run a one-off action (idle, notifications-clear, firstlaunch, theme-reload, theme-generate)",
+    "settings_desc": "Open the settings window, optionally on a given tab"
   },
   "daemon": {
     "already_running": "Daemon is already running. Exiting...",
