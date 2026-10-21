@@ -395,7 +395,7 @@ Rectangle {
                                         cornerRadius: ThemeBackend.borderRadius
                                         buttonIcon: tabDelegate.modelData.icon || "󰒓"
                                         iconFontSize: popup.s(16)
-                                        accentColor: ThemeBackend.surface0
+                                        accentColor: Qt.tint(ThemeBackend.surface0, Qt.alpha(ThemeBackend.mauve, 0.55 * sidebar.compactness * tabDelegate.expandProgress))
                                         textColor: "#ffffff"
                                     }
 
@@ -430,22 +430,6 @@ Rectangle {
                                         Behavior on rotation { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                                         Behavior on color { ColorAnimation { duration: 150 } }
                                     }
-                                }
-
-                                Text {
-                                    visible: tabDelegate.hasSubtabs && opacity > 0.01
-                                    opacity: sidebar.compactness
-                                    text: "󰅀"
-                                    font.family: ThemeBackend.iconFont
-                                    font.pixelSize: popup.s(9)
-                                    color: tabHeaderItem.isDirectActive
-                                        ? (activeGlass.active ? ThemeBackend.text : ThemeBackend.crust)
-                                        : (tabHeaderMa.containsMouse ? ThemeBackend.text : ThemeBackend.subtext0)
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    anchors.bottom: parent.bottom
-                                    anchors.bottomMargin: -popup.s(1)
-                                    rotation: tabDelegate.expandProgress * 180 - 180
-                                    Behavior on color { ColorAnimation { duration: 150 } }
                                 }
 
                                 MouseArea {
