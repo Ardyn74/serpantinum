@@ -311,7 +311,7 @@ Rectangle {
 
                 ColumnLayout {
                     id: tabsCol
-                    width: tabsFlickable.width - (tabsFlickable.contentHeight > tabsFlickable.height ? popup.s(6) : 0)
+                    width: tabsFlickable.width - (tabsFlickable.contentHeight > tabsFlickable.height ? popup.s(6) * (1.0 - sidebar.compactness) : 0)
                     spacing: popup.s(4)
 
                     readonly property var tabItems: tabsRepeater
@@ -379,8 +379,8 @@ Rectangle {
                                 RowLayout {
                                     layoutDirection: I18n.layoutDirection
                                     anchors.fill: parent
-                                    anchors.leftMargin: sidebar.mix(I18n.rtl ? popup.s(14) : (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)), popup.s(6))
-                                    anchors.rightMargin: sidebar.mix(I18n.rtl ? (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)) : popup.s(14), popup.s(6))
+                                    anchors.leftMargin: sidebar.mix(I18n.rtl ? popup.s(14) : (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)), (tabHeaderItem.width - popup.s(32)) / 2)
+                                    anchors.rightMargin: sidebar.mix(I18n.rtl ? (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)) : popup.s(14), (tabHeaderItem.width - popup.s(32)) / 2)
                                     spacing: popup.s(10)
 
                                     Behavior on anchors.leftMargin { NumberAnimation { duration: 400; easing.type: Easing.OutQuint } }
@@ -432,6 +432,20 @@ Rectangle {
                                     }
                                 }
 
+                                Text {
+                                    visible: tabDelegate.hasSubtabs && opacity > 0.01
+                                    opacity: sidebar.compactness
+                                    text: "󰅀"
+                                    font.family: ThemeBackend.iconFont
+                                    font.pixelSize: popup.s(10)
+                                    color: tabHeaderItem.isDirectActive ? ThemeBackend.crust : ThemeBackend.subtext0
+                                    anchors.right: parent.right
+                                    anchors.bottom: parent.bottom
+                                    anchors.rightMargin: popup.s(3)
+                                    anchors.bottomMargin: popup.s(2)
+                                    rotation: tabDelegate.expandProgress * 180 - 180
+                                }
+
                                 MouseArea {
                                     id: tabHeaderMa
                                     anchors.fill: parent
@@ -468,6 +482,16 @@ Rectangle {
                                 implicitHeight: tabDelegate.fullSubtabsHeight * tabDelegate.expandProgress
                                 opacity: Math.max(0.0, (tabDelegate.expandProgress - 0.15) / 0.85)
                                 clip: true
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.topMargin: popup.s(2)
+                                    anchors.bottomMargin: popup.s(2)
+                                    radius: ThemeBackend.borderRadius
+                                    color: Qt.alpha(ThemeBackend.surface1, 0.45)
+                                    opacity: sidebar.compactness
+                                    visible: opacity > 0.01
+                                }
 
                                 RowLayout {
                                     layoutDirection: I18n.layoutDirection
@@ -545,8 +569,8 @@ Rectangle {
                                                 RowLayout {
                                                     layoutDirection: I18n.layoutDirection
                                                     anchors.fill: parent
-                                                    anchors.leftMargin: sidebar.mix(I18n.rtl ? popup.s(10) : (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)), popup.s(6))
-                                                    anchors.rightMargin: sidebar.mix(I18n.rtl ? (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)) : popup.s(10), popup.s(6))
+                                                    anchors.leftMargin: sidebar.mix(I18n.rtl ? popup.s(10) : (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)), (subtabItem.width - popup.s(26)) / 2)
+                                                    anchors.rightMargin: sidebar.mix(I18n.rtl ? (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)) : popup.s(10), (subtabItem.width - popup.s(26)) / 2)
                                                     spacing: popup.s(8)
 
                                                     Behavior on anchors.leftMargin { NumberAnimation { duration: 300; easing.type: Easing.OutQuint } }
