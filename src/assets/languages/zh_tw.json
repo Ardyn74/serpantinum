@@ -773,7 +773,26 @@
         "app_limits": "應用程式使用限額",
         "app_limits_desc": "為每個應用程式設定每日使用時間上限",
         "excluded_apps": "已排除的應用程式",
-        "excluded_apps_desc": "日後從整體使用記錄追蹤中排除的應用程式"
+        "excluded_apps_desc": "日後從整體使用記錄追蹤中排除的應用程式",
+        "overall_limit_desc": "總螢幕使用時間達到此值時通知我",
+        "no_limits": "未設定應用程式限制",
+        "no_excluded": "沒有排除的應用程式",
+        "picker_search": "搜尋應用程式...",
+        "picker_empty": "沒有相符的應用程式",
+        "picker_apply": "套用",
+        "picker_cancel": "取消"
+      },
+      "notify": {
+        "title": "數位健康",
+        "overall_reached": "已達到每日總使用上限",
+        "app_reached": "已達到 {app} 的每日上限"
+      },
+      "limit_overlay": {
+        "title": "已達到每日上限",
+        "description": "你已達到 {app} 的每日上限。",
+        "usage": "今日已使用：{time}",
+        "hold": "長按以繼續使用 {app}",
+        "hint": "今天不會再提醒你此應用程式的上限"
       }
     },
     "update_available": "有可用更新",

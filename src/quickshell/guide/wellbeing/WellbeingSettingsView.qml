@@ -104,7 +104,7 @@ Flickable {
         textColor: ThemeBackend.crust
     }
 
-    component RemoveButton: CloseButton {
+    component RemoveButton: DeleteButton {
         required property var view
         Layout.preferredWidth: view.rootObj.s(32)
         Layout.preferredHeight: view.rootObj.s(32)
@@ -112,7 +112,6 @@ Flickable {
         cornerRadius: ThemeBackend.borderRadius
         iconFontSize: view.rootObj.s(15)
         accentColor: ThemeBackend.surface1
-        textColor: isHoveredOrHighlighted ? ThemeBackend.red : ThemeBackend.subtext0
     }
 
     component EmptyHint: Item {

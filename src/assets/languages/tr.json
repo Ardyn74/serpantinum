@@ -773,7 +773,26 @@
         "app_limits": "Uygulama kullanım sınırları",
         "app_limits_desc": "Uygulama başına günlük maksimum kullanım süresi belirleyin",
         "excluded_apps": "Hariç tutulan uygulamalar",
-        "excluded_apps_desc": "Bundan sonra uygulamaları genel takipten hariç tutun"
+        "excluded_apps_desc": "Bundan sonra uygulamaları genel takipten hariç tutun",
+        "overall_limit_desc": "Toplam ekran süresi bu değere ulaştığında bildir",
+        "no_limits": "Uygulama sınırı ayarlanmadı",
+        "no_excluded": "Hariç tutulan uygulama yok",
+        "picker_search": "Uygulama ara...",
+        "picker_empty": "Eşleşen uygulama yok",
+        "picker_apply": "Uygula",
+        "picker_cancel": "İptal"
+      },
+      "notify": {
+        "title": "Dijital refah",
+        "overall_reached": "Genel günlük sınırınıza ulaşıldı",
+        "app_reached": "{app} için günlük sınırınıza ulaşıldı"
+      },
+      "limit_overlay": {
+        "title": "Günlük sınıra ulaşıldı",
+        "description": "{app} için günlük sınırınıza ulaştınız.",
+        "usage": "Bugün kullanılan: {time}",
+        "hold": "{app} uygulamasını kullanmaya devam etmek için basılı tutun",
+        "hint": "Bu uygulama için bugün tekrar hatırlatılmayacak"
       }
     },
     "update_available": "Güncelleme mevcut",

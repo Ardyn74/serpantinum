@@ -771,7 +771,26 @@
         "app_limits": "Tətbiq istifadəsi hədləri",
         "app_limits_desc": "Hər tətbiq üçün gündəlik istifadə müddətinin yuxarı həddini təyin edin",
         "excluded_apps": "İstisna edilmiş tətbiqlər",
-        "excluded_apps_desc": "Seçilmiş tətbiqlərin bundan sonrakı istifadəsini ümumi hesablamaya daxil etmə"
+        "excluded_apps_desc": "Seçilmiş tətbiqlərin bundan sonrakı istifadəsini ümumi hesablamaya daxil etmə",
+        "overall_limit_desc": "Ümumi ekran vaxtı bu həddə çatanda mənə bildir",
+        "no_limits": "Tətbiq limiti təyin edilməyib",
+        "no_excluded": "İstisna edilmiş tətbiq yoxdur",
+        "picker_search": "Tətbiq axtar...",
+        "picker_empty": "Uyğun tətbiq yoxdur",
+        "picker_apply": "Tətbiq et",
+        "picker_cancel": "Ləğv et"
+      },
+      "notify": {
+        "title": "Rəqəmsal rifah",
+        "overall_reached": "Ümumi gündəlik limitinizə çatdınız",
+        "app_reached": "{app} üçün gündəlik limitinizə çatdınız"
+      },
+      "limit_overlay": {
+        "title": "Gündəlik limitə çatıldı",
+        "description": "{app} üçün gündəlik limitinizə çatdınız.",
+        "usage": "Bu gün istifadə olunub: {time}",
+        "hold": "{app} tətbiqindən istifadəni davam etdirmək üçün basılı saxlayın",
+        "hint": "Bu tətbiq barədə bu gün sizə bir daha xatırlatma göndərilməyəcək"
       }
     },
     "update_available": "Yeniləmə mövcuddur",

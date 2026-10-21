@@ -773,7 +773,26 @@
         "app_limits": "Giới hạn sử dụng ứng dụng",
         "app_limits_desc": "Đặt mức sử dụng tối đa hàng ngày cho mỗi ứng dụng",
         "excluded_apps": "Ứng dụng bị loại trừ",
-        "excluded_apps_desc": "Loại trừ ứng dụng khỏi việc theo dõi tổng thể từ bây giờ"
+        "excluded_apps_desc": "Loại trừ ứng dụng khỏi việc theo dõi tổng thể từ bây giờ",
+        "overall_limit_desc": "Thông báo khi tổng thời gian sử dụng màn hình đạt mức này",
+        "no_limits": "Chưa đặt giới hạn ứng dụng",
+        "no_excluded": "Không có ứng dụng bị loại trừ",
+        "picker_search": "Tìm ứng dụng...",
+        "picker_empty": "Không có ứng dụng phù hợp",
+        "picker_apply": "Áp dụng",
+        "picker_cancel": "Hủy"
+      },
+      "notify": {
+        "title": "Sức khỏe kỹ thuật số",
+        "overall_reached": "Bạn đã đạt giới hạn hằng ngày tổng thể",
+        "app_reached": "Bạn đã đạt giới hạn hằng ngày của {app}"
+      },
+      "limit_overlay": {
+        "title": "Đã đạt giới hạn hằng ngày",
+        "description": "Bạn đã đạt giới hạn hằng ngày của {app}.",
+        "usage": "Đã dùng hôm nay: {time}",
+        "hold": "Nhấn giữ để tiếp tục dùng {app}",
+        "hint": "Hôm nay bạn sẽ không được nhắc về ứng dụng này nữa"
       }
     },
     "update_available": "Có bản cập nhật mới",

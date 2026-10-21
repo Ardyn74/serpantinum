@@ -774,7 +774,26 @@
         "app_limits": "App-Nutzungslimits",
         "app_limits_desc": "Maximale Nutzungsdauer pro Anwendung und Tag festlegen",
         "excluded_apps": "Ausgenommene Apps",
-        "excluded_apps_desc": "Apps künftig von der Gesamterfassung ausschließen"
+        "excluded_apps_desc": "Apps künftig von der Gesamterfassung ausschließen",
+        "overall_limit_desc": "Benachrichtige mich, wenn die gesamte Bildschirmzeit diesen Wert erreicht",
+        "no_limits": "Keine App-Limits festgelegt",
+        "no_excluded": "Keine ausgeschlossenen Apps",
+        "picker_search": "Apps suchen...",
+        "picker_empty": "Keine passenden Apps",
+        "picker_apply": "Anwenden",
+        "picker_cancel": "Abbrechen"
+      },
+      "notify": {
+        "title": "Digitales Wohlbefinden",
+        "overall_reached": "Dein gesamtes Tageslimit ist erreicht",
+        "app_reached": "Dein Tageslimit für {app} ist erreicht"
+      },
+      "limit_overlay": {
+        "title": "Tageslimit erreicht",
+        "description": "Du hast dein Tageslimit für {app} erreicht.",
+        "usage": "Heute genutzt: {time}",
+        "hold": "Gedrückt halten, um {app} weiter zu nutzen",
+        "hint": "Heute wirst du für diese App nicht mehr erinnert"
       }
     },
     "update_available": "Update verfügbar",

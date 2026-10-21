@@ -1601,7 +1601,26 @@
         "app_limits": "Limity użycia aplikacji",
         "app_limits_desc": "Ustaw maksymalny dzienny czas dla aplikacji",
         "excluded_apps": "Wykluczone aplikacje",
-        "excluded_apps_desc": "Wyklucz aplikacje ze śledzenia"
+        "excluded_apps_desc": "Wyklucz aplikacje ze śledzenia",
+        "overall_limit_desc": "Powiadom mnie, gdy łączny czas przed ekranem osiągnie tę wartość",
+        "no_limits": "Nie ustawiono limitów aplikacji",
+        "no_excluded": "Brak wykluczonych aplikacji",
+        "picker_search": "Szukaj aplikacji...",
+        "picker_empty": "Brak pasujących aplikacji",
+        "picker_apply": "Zastosuj",
+        "picker_cancel": "Anuluj"
+      },
+      "notify": {
+        "title": "Cyfrowa równowaga",
+        "overall_reached": "Osiągnięto ogólny dzienny limit",
+        "app_reached": "Osiągnięto dzienny limit dla {app}"
+      },
+      "limit_overlay": {
+        "title": "Osiągnięto dzienny limit",
+        "description": "Osiągnięto dzienny limit dla {app}.",
+        "usage": "Dzisiaj użyto: {time}",
+        "hold": "Przytrzymaj, aby dalej używać {app}",
+        "hint": "Dziś nie przypomnimy już o tej aplikacji"
       }
     },
     "update_available": "Dostępna aktualizacja",

@@ -773,7 +773,26 @@
         "app_limits": "Batas penggunaan aplikasi",
         "app_limits_desc": "Tetapkan batas harian maksimum per aplikasi",
         "excluded_apps": "Aplikasi yang dikecualikan",
-        "excluded_apps_desc": "Kecualikan aplikasi dari pelacakan keseluruhan ke depan"
+        "excluded_apps_desc": "Kecualikan aplikasi dari pelacakan keseluruhan ke depan",
+        "overall_limit_desc": "Beri tahu saya saat total waktu layar mencapai batas ini",
+        "no_limits": "Belum ada batas aplikasi",
+        "no_excluded": "Tidak ada aplikasi yang dikecualikan",
+        "picker_search": "Cari aplikasi...",
+        "picker_empty": "Tidak ada aplikasi yang cocok",
+        "picker_apply": "Terapkan",
+        "picker_cancel": "Batal"
+      },
+      "notify": {
+        "title": "Kesejahteraan digital",
+        "overall_reached": "Batas harian total Anda telah tercapai",
+        "app_reached": "Batas harian untuk {app} telah tercapai"
+      },
+      "limit_overlay": {
+        "title": "Batas harian tercapai",
+        "description": "Anda telah mencapai batas harian untuk {app}.",
+        "usage": "Digunakan hari ini: {time}",
+        "hold": "Tahan untuk terus menggunakan {app}",
+        "hint": "Anda tidak akan diingatkan lagi tentang aplikasi ini hari ini"
       }
     },
     "update_available": "Pembaruan tersedia",

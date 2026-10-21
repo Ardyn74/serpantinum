@@ -773,7 +773,26 @@
         "app_limits": "App-gebruikslimieten",
         "app_limits_desc": "Stel maximale dagelijkse limiet per applicatie in",
         "excluded_apps": "Uitgesloten apps",
-        "excluded_apps_desc": "Sluit apps voortaan uit van algemene registratie"
+        "excluded_apps_desc": "Sluit apps voortaan uit van algemene registratie",
+        "overall_limit_desc": "Waarschuw me wanneer de totale schermtijd deze waarde bereikt",
+        "no_limits": "Geen applimieten ingesteld",
+        "no_excluded": "Geen uitgesloten apps",
+        "picker_search": "Apps zoeken...",
+        "picker_empty": "Geen overeenkomende apps",
+        "picker_apply": "Toepassen",
+        "picker_cancel": "Annuleren"
+      },
+      "notify": {
+        "title": "Digitaal welzijn",
+        "overall_reached": "Je totale daglimiet is bereikt",
+        "app_reached": "Je daglimiet voor {app} is bereikt"
+      },
+      "limit_overlay": {
+        "title": "Daglimiet bereikt",
+        "description": "Je hebt je daglimiet voor {app} bereikt.",
+        "usage": "Vandaag gebruikt: {time}",
+        "hold": "Houd ingedrukt om {app} te blijven gebruiken",
+        "hint": "Je wordt vandaag niet meer herinnerd aan deze app"
       }
     },
     "update_available": "Update beschikbaar",

@@ -772,7 +772,26 @@
         "app_limits": "Limiti utilizzo app",
         "app_limits_desc": "Imposta il tempo di utilizzo massimo per applicazione",
         "excluded_apps": "App escluse",
-        "excluded_apps_desc": "Escludi le app dal tracciamento complessivo da ora in poi"
+        "excluded_apps_desc": "Escludi le app dal tracciamento complessivo da ora in poi",
+        "overall_limit_desc": "Avvisami quando il tempo totale di utilizzo raggiunge questo valore",
+        "no_limits": "Nessun limite per le app impostato",
+        "no_excluded": "Nessuna app esclusa",
+        "picker_search": "Cerca app...",
+        "picker_empty": "Nessuna app corrispondente",
+        "picker_apply": "Applica",
+        "picker_cancel": "Annulla"
+      },
+      "notify": {
+        "title": "Benessere digitale",
+        "overall_reached": "Hai raggiunto il limite giornaliero complessivo",
+        "app_reached": "Hai raggiunto il limite giornaliero per {app}"
+      },
+      "limit_overlay": {
+        "title": "Limite giornaliero raggiunto",
+        "description": "Hai raggiunto il limite giornaliero per {app}.",
+        "usage": "Usato oggi: {time}",
+        "hold": "Tieni premuto per continuare a usare {app}",
+        "hint": "Oggi non riceverai altri promemoria per questa app"
       }
     },
     "update_available": "Aggiornamento disponibile",

@@ -1601,7 +1601,26 @@
         "app_limits": "アプリ使用制限",
         "app_limits_desc": "アプリケーションごとの1日の最大許容量を設定します",
         "excluded_apps": "除外アプリ",
-        "excluded_apps_desc": "今後の全体トラッキングからアプリを除外します"
+        "excluded_apps_desc": "今後の全体トラッキングからアプリを除外します",
+        "overall_limit_desc": "合計の画面使用時間がこの値に達したら通知する",
+        "no_limits": "アプリの制限は設定されていません",
+        "no_excluded": "除外されたアプリはありません",
+        "picker_search": "アプリを検索...",
+        "picker_empty": "一致するアプリはありません",
+        "picker_apply": "適用",
+        "picker_cancel": "キャンセル"
+      },
+      "notify": {
+        "title": "デジタルウェルビーイング",
+        "overall_reached": "1日の合計使用制限に達しました",
+        "app_reached": "{app} の1日の使用制限に達しました"
+      },
+      "limit_overlay": {
+        "title": "1日の制限に達しました",
+        "description": "{app} の1日の使用制限に達しました。",
+        "usage": "今日の使用時間: {time}",
+        "hold": "{app} を引き続き使うには長押ししてください",
+        "hint": "今日はこのアプリについて再度通知されません"
       }
     },
     "update_available": "アップデートが利用可能です",

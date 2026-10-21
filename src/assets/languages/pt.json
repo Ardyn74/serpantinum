@@ -773,7 +773,26 @@
         "app_limits": "Limites de uso por app",
         "app_limits_desc": "Define o máximo diário por aplicativo",
         "excluded_apps": "Apps excluídos",
-        "excluded_apps_desc": "Exclui apps do rastreio geral daqui pra frente"
+        "excluded_apps_desc": "Exclui apps do rastreio geral daqui pra frente",
+        "overall_limit_desc": "Avisar-me quando o tempo total de ecrã atingir este valor",
+        "no_limits": "Nenhum limite de aplicações definido",
+        "no_excluded": "Nenhuma aplicação excluída",
+        "picker_search": "Pesquisar aplicações...",
+        "picker_empty": "Nenhuma aplicação correspondente",
+        "picker_apply": "Aplicar",
+        "picker_cancel": "Cancelar"
+      },
+      "notify": {
+        "title": "Bem-estar digital",
+        "overall_reached": "O seu limite diário total foi atingido",
+        "app_reached": "O seu limite diário de {app} foi atingido"
+      },
+      "limit_overlay": {
+        "title": "Limite diário atingido",
+        "description": "Atingiu o limite diário de {app}.",
+        "usage": "Usado hoje: {time}",
+        "hold": "Mantenha premido para continuar a usar {app}",
+        "hint": "Hoje não voltará a ser avisado sobre esta aplicação"
       }
     },
     "update_available": "Atualização disponível",
