@@ -714,7 +714,7 @@ Item {
         startupSequence.restart();
         Updater.checkUpdate();
         if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
-            searchLoadTimer.interval = 1400;
+            searchLoadTimer.interval = root.standalone ? 400 : 1400;
             searchLoadTimer.restart();
         }
     }
@@ -798,7 +798,7 @@ Item {
         repeat: true
         onTriggered: {
             if (startupSequence.running || closeSequence.running) return;
-            interval = 100;
+            interval = root.standalone ? 30 : 100;
             if (root.searchLoadCursor >= root.totalTabSlots) {
                 stop();
                 return;
@@ -845,7 +845,7 @@ Item {
 
     Component.onCompleted: {
         if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
-            searchLoadTimer.interval = 300;
+            searchLoadTimer.interval = root.standalone ? 120 : 300;
             searchLoadTimer.restart();
         }
         if (visible) {

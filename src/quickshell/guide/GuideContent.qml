@@ -48,7 +48,8 @@ Item {
                 property int tabIndex: tabContentWrapper.parentTabIndex
                 property int subTabIndex: -1
 
-                function ensureLoaded() {
+                function ensureLoaded(background) {
+                    asynchronous = background === true;
                     if (status === Loader.Null && tabData.file) {
                         setSource(tabData.file, {
                             "rootObj": popup,
@@ -80,7 +81,7 @@ Item {
                         if (popup.currentTab === tabContentWrapper.parentTabIndex && !tabContentWrapper.hasSubtabs) singleTabLoader.ensureLoaded();
                     }
                     function onRequestLoad(order) {
-                        if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, -1)) singleTabLoader.ensureLoaded();
+                        if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, -1)) singleTabLoader.ensureLoaded(true);
                     }
                 }
 
@@ -122,7 +123,8 @@ Item {
                         NumberAnimation { duration: 240; easing.type: Easing.OutCubic }
                     }
 
-                    function ensureLoaded() {
+                    function ensureLoaded(background) {
+                        asynchronous = background === true;
                         if (status === Loader.Null && subData.file) {
                             setSource(subData.file, {
                                 "rootObj": popup,
@@ -163,7 +165,7 @@ Item {
                             if (popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
                         }
                         function onRequestLoad(order) {
-                            if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, subIndex)) subTabLoader.ensureLoaded();
+                            if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, subIndex)) subTabLoader.ensureLoaded(true);
                         }
                     }
 
