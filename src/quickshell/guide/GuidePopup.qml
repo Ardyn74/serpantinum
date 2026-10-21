@@ -1110,9 +1110,9 @@ Item {
             GuideContent {
                 id: contentArea
                 popup: root
-                x: I18n.rtl ? 1 : (sidebar.targetWidth + 1)
+                x: I18n.rtl ? 1 : (sidebar.width + 1)
                 y: 4
-                width: Math.max(0, parent.width - sidebar.targetWidth - 2)
+                width: Math.max(0, parent.width - sidebar.width - 2)
                 height: Math.max(0, parent.height - 8)
             }
         }

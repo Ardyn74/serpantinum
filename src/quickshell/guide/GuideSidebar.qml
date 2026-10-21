@@ -18,6 +18,12 @@ Rectangle {
     anchors.bottom: parent.bottom
     readonly property real targetWidth: popup.searchActive ? Math.min(popup.s(340), popup.width * 0.8) : (popup.compact ? popup.s(76) : popup.s(260))
     width: targetWidth
+    readonly property real compactness: Math.max(0, Math.min(1, (popup.s(260) - width) / (popup.s(260) - popup.s(76))))
+    readonly property real labelOpacity: 1.0 - Math.min(1.0, compactness * 2.5)
+
+    function mix(expanded, collapsed) {
+        return expanded + (collapsed - expanded) * compactness;
+    }
     
     topLeftRadius: !I18n.rtl ? ThemeBackend.clampedBorderRadius : 0
     bottomLeftRadius: !I18n.rtl ? ThemeBackend.clampedBorderRadius : 0
@@ -68,9 +74,9 @@ Rectangle {
                 font.pixelSize: popup.s(15)
                 font.bold: true
                 color: ThemeBackend.text
-                opacity: popup.searchActive ? 0.0 : 1.0
+                opacity: popup.searchActive ? 0.0 : 1.0 - Math.min(1.0, sidebar.compactness * 5.0)
                 scale: popup.searchActive ? 0.92 : 1.0
-                visible: opacity > 0.001 && !popup.compact
+                visible: opacity > 0.001
 
                 Behavior on opacity {
                     NumberAnimation {
@@ -91,7 +97,7 @@ Rectangle {
                 property real openProgress: popup.searchActive ? 1.0 : 0.0
                 Behavior on openProgress { NumberAnimation { duration: 240; easing.type: Easing.OutCubic } }
 
-                x: popup.compact ? (parent.width - width) / 2 : (I18n.rtl ? 0 : (parent.width - width))
+                x: sidebar.mix(I18n.rtl ? 0 : (parent.width - width), (parent.width - width) / 2)
                 anchors.verticalCenter: parent.verticalCenter
                 width: popup.s(36) + (parent.width - popup.s(36)) * openProgress
                 height: popup.s(36)
@@ -255,7 +261,7 @@ Rectangle {
                     property Item activeGroupItem: (popup.currentTab >= 0 && tabsRepeater && popup.currentTab < tabsRepeater.count) ? tabsRepeater.itemAt(popup.currentTab) : null
                     property bool isSubActive: popup.currentTab === popup.expandedTab && popup.expandedTab !== -1
 
-                    property real targetX: isSubActive && !popup.compact ? (I18n.rtl ? 0 : popup.s(26)) : 0
+                    property real targetX: isSubActive ? sidebar.mix(I18n.rtl ? 0 : popup.s(26), 0) : 0
                     property real targetY: {
                         let baseY = activeGroupItem ? activeGroupItem.y : (popup.currentTab * (popup.s(44) + popup.s(4)));
                         if (isSubActive) {
@@ -263,7 +269,7 @@ Rectangle {
                         }
                         return baseY;
                     }
-                    property real targetW: isSubActive && !popup.compact ? (tabsCol.width - popup.s(26)) : tabsCol.width
+                    property real targetW: isSubActive ? tabsCol.width - sidebar.mix(popup.s(26), 0) : tabsCol.width
                     property real targetH: isSubActive ? popup.s(36) : popup.s(44)
 
                     x: targetX
@@ -373,8 +379,8 @@ Rectangle {
                                 RowLayout {
                                     layoutDirection: I18n.layoutDirection
                                     anchors.fill: parent
-                                    anchors.leftMargin: popup.compact ? popup.s(6) : (I18n.rtl ? popup.s(14) : (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)))
-                                    anchors.rightMargin: popup.compact ? popup.s(6) : (I18n.rtl ? (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)) : popup.s(14))
+                                    anchors.leftMargin: sidebar.mix(I18n.rtl ? popup.s(14) : (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)), popup.s(6))
+                                    anchors.rightMargin: sidebar.mix(I18n.rtl ? (popup.s(10) + (tabHeaderItem.isDirectActive ? popup.s(4) : 0)) : popup.s(14), popup.s(6))
                                     spacing: popup.s(10)
 
                                     Behavior on anchors.leftMargin { NumberAnimation { duration: 400; easing.type: Easing.OutQuint } }
@@ -394,7 +400,8 @@ Rectangle {
                                     }
 
                                     Text {
-                                        visible: !popup.compact
+                                        opacity: sidebar.labelOpacity
+                                        visible: opacity > 0.01
                                         text: I18n.t("guide.tabs." + (tabDelegate.modelData.key || tabDelegate.modelData.id).toLowerCase(), tabDelegate.modelData.name || tabDelegate.modelData.id)
                                         font.family: ThemeBackend.fontFamily
                                         font.weight: tabHeaderItem.isDirectActive ? Font.Bold : Font.Medium
@@ -410,7 +417,8 @@ Rectangle {
                                     }
 
                                     Text {
-                                        visible: tabDelegate.hasSubtabs && !popup.compact
+                                        opacity: sidebar.labelOpacity
+                                        visible: tabDelegate.hasSubtabs && opacity > 0.01
                                         text: "󰅀"
                                         font.family: ThemeBackend.iconFont
                                         font.pixelSize: popup.s(14)
@@ -469,8 +477,9 @@ Rectangle {
                                     spacing: popup.s(6)
 
                                     Item {
-                                        visible: !popup.compact
-                                        Layout.preferredWidth: popup.s(20)
+                                        visible: sidebar.compactness < 0.99
+                                        opacity: sidebar.labelOpacity
+                                        Layout.preferredWidth: popup.s(20) * (1.0 - sidebar.compactness)
                                         Layout.fillHeight: true
 
                                         Rectangle {
@@ -536,8 +545,8 @@ Rectangle {
                                                 RowLayout {
                                                     layoutDirection: I18n.layoutDirection
                                                     anchors.fill: parent
-                                                    anchors.leftMargin: popup.compact ? popup.s(6) : (I18n.rtl ? popup.s(10) : (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)))
-                                                    anchors.rightMargin: popup.compact ? popup.s(6) : (I18n.rtl ? (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)) : popup.s(10))
+                                                    anchors.leftMargin: sidebar.mix(I18n.rtl ? popup.s(10) : (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)), popup.s(6))
+                                                    anchors.rightMargin: sidebar.mix(I18n.rtl ? (popup.s(8) + (subtabItem.isSubActive ? popup.s(4) : 0)) : popup.s(10), popup.s(6))
                                                     spacing: popup.s(8)
 
                                                     Behavior on anchors.leftMargin { NumberAnimation { duration: 300; easing.type: Easing.OutQuint } }
@@ -557,7 +566,8 @@ Rectangle {
                                                     }
 
                                                     Text {
-                                                        visible: !popup.compact
+                                                        opacity: sidebar.labelOpacity
+                                                        visible: opacity > 0.01
                                                         text: I18n.t("guide.tabs." + (subtabItem.modelData.key || subtabItem.modelData.id).toLowerCase(), subtabItem.modelData.name || subtabItem.modelData.id)
                                                         font.family: ThemeBackend.fontFamily
                                                         font.weight: subtabItem.isSubActive ? Font.Bold : Font.Medium
