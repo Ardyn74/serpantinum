@@ -62,6 +62,7 @@ Item {
     property int visibleCount: 0
 
     readonly property Item glassBackdrop: glass.backdrop
+    readonly property bool popupHovered: listHover.hovered
     property bool isHoveredOrHighlighted: (btnMa.containsMouse || root.action_highlight) && root.enabled
     readonly property real charSlotStep: globalCharMetrics.width + root.charSpacing
     property real scrollOffset: 0

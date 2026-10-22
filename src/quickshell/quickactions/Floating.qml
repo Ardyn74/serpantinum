@@ -42,6 +42,23 @@ Variants {
                 }
             }
 
+            readonly property bool isPopupHovered: {
+                let loader = (typeof moduleRepeater !== "undefined" && activeIndex >= 0 && activeIndex < moduleRepeater.count)
+                    ? moduleRepeater.itemAt(activeIndex)
+                    : null;
+                let mod = (loader && loader.status === Loader.Ready && loader.item) ? loader.item : null;
+                return !!(mod && mod.hasHoveredPopup !== undefined && mod.hasHoveredPopup);
+            }
+
+            onIsPopupHoveredChanged: {
+                if (isPopupHovered) {
+                    floatingWidget.useGraceTimer = false;
+                    hideTimer.stop();
+                } else {
+                    floatingWidget.kickTimer();
+                }
+            }
+
             function grabKeyboardFocus() {
                 if (!shouldHaveKeyboardFocus) return;
                 if (typeof floatingWidget.requestActivate === "function") {
@@ -430,6 +447,7 @@ Variants {
                         (typeof peekMouse !== "undefined" && (peekMouse.containsMouse || peekMouse.pressed)) ||
                         (typeof pinMouse !== "undefined" && pinMouse.containsMouse) ||
                         (typeof expandMouse !== "undefined" && expandMouse.containsMouse) ||
+                        floatingWidget.isPopupHovered ||
                         floatingWidget.hoveredBars > 0) {
                         return;
                     }

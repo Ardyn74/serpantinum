@@ -61,6 +61,7 @@ Item {
     property bool inverse: false
     property bool copiedFlash: false
     readonly property bool hasInputFocus: field.hasFocus || convInput.hasFocus
+    readonly property bool hasHoveredPopup: modeDropdown.popupHovered || convCategoryDropdown.popupHovered || convFromDropdown.popupHovered || convToDropdown.popupHovered
     property var history: []
 
     readonly property string subText: {
