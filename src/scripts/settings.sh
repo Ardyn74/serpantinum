@@ -8,6 +8,12 @@ fi
 
 source "$SCRIPT_DIR/caching.sh" 2>/dev/null || true
 
+FORCE_WINDOW=0
+if [[ "$1" == "--window" ]]; then
+    FORCE_WINDOW=1
+    shift
+fi
+
 ACTION="open"
 case "$1" in
     open|toggle|close) ACTION="$1"; shift ;;
@@ -23,6 +29,23 @@ if [[ ! -f "$SETTINGS_QML" ]]; then
     echo "settings: $SETTINGS_QML not found" >&2
     exit 1
 fi
+
+separate_window_enabled() {
+    [[ -f "$QS_SETTINGS" ]] && command -v jq >/dev/null 2>&1 || return 1
+    [[ "$(jq -r '.general.settingsSeparateWindow // false' "$QS_SETTINGS" 2>/dev/null)" == "true" ]]
+}
+
+main_ipc() {
+    if [[ -n "$MAIN_QML" ]]; then
+        quickshell -p "$MAIN_QML" ipc call main "$@" >/dev/null 2>&1
+    else
+        quickshell ipc call main "$@" >/dev/null 2>&1
+    fi
+}
+
+embedded_open() {
+    command -v jq >/dev/null 2>&1 && jq -e '.widget == "guide"' "$QS_RUN_DIR/current_widget" >/dev/null 2>&1
+}
 
 settings_ipc() {
     quickshell -p "$SETTINGS_QML" ipc call settings "$@" >/dev/null 2>&1
@@ -59,6 +82,11 @@ write_tab() {
         echo "$TAB" > "$GUIDE_MODE_FILE"
     fi
 }
+
+if [[ "$FORCE_WINDOW" != 1 ]] && { embedded_open || { ! separate_window_enabled && ! is_running; }; }; then
+    main_ipc embeddedSettings "$ACTION" "${TAB}${SUBTAB:+:$SUBTAB}"
+    exit 0
+fi
 
 if [[ "$ACTION" == "close" ]]; then
     settings_ipc close

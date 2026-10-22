@@ -31,6 +31,9 @@ Rectangle {
 
     Behavior on width { NumberAnimation { duration: 160; easing.type: Easing.OutCubic } }
 
+    opacity: popup.introSidebar
+    transform: Translate { x: (I18n.rtl ? popup.s(30) : popup.s(-30)) * (1.0 - popup.introSidebar) }
+
     GlassFill {
         id: sidebarGlass
         anchors.fill: parent
@@ -116,6 +119,8 @@ Rectangle {
                 property real lift: (activeGlass.active && isMoving) ? 1.0 : 0.0
                 Behavior on lift { NumberAnimation { duration: 80; easing.type: Easing.OutCubic } }
                 scale: 1.0 + 0.04 * lift
+                opacity: popup.getTabOpacity(sidebar.curTab)
+                transform: Translate { x: (I18n.rtl ? popup.s(24) : popup.s(-24)) * (1.0 - popup.getTabProgress(sidebar.curTab)) }
 
                 readonly property Item activeDelegate: { void tabsRepeater.count; return (sidebar.curTab >= 0) ? tabsRepeater.itemAt(sidebar.curTab) : null; }
                 readonly property bool isSub: sidebar.curTab === sidebar.expTab && sidebar.expTab !== -1
@@ -151,6 +156,8 @@ Rectangle {
                         required property int index
 
                         readonly property int tabIndex: index
+                        opacity: popup.getTabOpacity(tabIndex)
+                        transform: Translate { x: (I18n.rtl ? popup.s(24) : popup.s(-24)) * (1.0 - popup.getTabProgress(tabIndex)) }
                         readonly property bool hasSubtabs: Boolean(modelData.subtabs && modelData.subtabs.length > 0)
                         readonly property bool isExpanded: hasSubtabs && sidebar.expTab === tabIndex
                         readonly property real fullSubtabsHeight: hasSubtabs ? (modelData.subtabs.length * sidebar.subH + (modelData.subtabs.length - 1) * sidebar.gap + popup.s(8)) : 0

@@ -13,6 +13,10 @@ Item {
 
     readonly property real searchHeaderHeight: popup.s(64)
 
+    opacity: popup.introContent
+    scale: 0.95 + (0.05 * popup.introContent)
+    transform: Translate { y: popup.s(20) * (1.0 - popup.introContent) }
+
     Item {
         id: body
         anchors.top: parent.top
@@ -89,13 +93,16 @@ Item {
                 }
 
                 Component.onCompleted: {
-                    if (popup.standalone || popup.currentTab === tabContentWrapper.parentTabIndex) ensureLoaded();
+                    if (popup.standalone || (popup.visible && popup.currentTab === tabContentWrapper.parentTabIndex)) ensureLoaded();
                 }
 
                 Connections {
                     target: popup
                     function onCurrentTabChanged() {
-                        if (popup.currentTab === tabContentWrapper.parentTabIndex && !tabContentWrapper.hasSubtabs) singleTabLoader.ensureLoaded();
+                        if (popup.loadsTabs && popup.currentTab === tabContentWrapper.parentTabIndex && !tabContentWrapper.hasSubtabs) singleTabLoader.ensureLoaded();
+                    }
+                    function onVisibleChanged() {
+                        if (popup.visible && popup.currentTab === tabContentWrapper.parentTabIndex && !tabContentWrapper.hasSubtabs) singleTabLoader.ensureLoaded();
                     }
                     function onRequestLoad(order) {
                         if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, -1)) singleTabLoader.ensureLoaded();
@@ -164,16 +171,19 @@ Item {
                     }
 
                     Component.onCompleted: {
-                        if (popup.standalone || isSubCurrent) ensureLoaded();
+                        if (popup.standalone || (popup.visible && isSubCurrent)) ensureLoaded();
                     }
 
                     Connections {
                         target: popup
                         function onCurrentTabChanged() {
-                            if (popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
+                            if (popup.loadsTabs && popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
                         }
                         function onCurrentSubTabChanged() {
-                            if (popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
+                            if (popup.loadsTabs && popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
+                        }
+                        function onVisibleChanged() {
+                            if (popup.visible && popup.currentTab === tabContentWrapper.parentTabIndex && popup.currentSubTab === subIndex) subTabLoader.ensureLoaded();
                         }
                         function onRequestLoad(order) {
                             if (order === popup.tabLoadOrder(tabContentWrapper.parentTabIndex, subIndex)) subTabLoader.ensureLoaded();

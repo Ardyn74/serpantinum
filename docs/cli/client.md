@@ -52,7 +52,7 @@ Dispatches layout, workspace, and overlay actions to the shell:
   - `network wifi`: Open directly on WiFi tab.
   - `network ethernet`: Open directly on Ethernet tab.
 - `volume`: Audio mixer and device picker.
-- `settings`: Settings window (same as [`serpantinum settings`](#settings)).
+- `settings`: Settings panel or window (same as [`serpantinum settings`](#settings)).
   - `settings keybinds`: Open shortcut cheat sheet tab.
   - `settings appearance`: Open appearance and styling tab.
   - `guide` is a deprecated alias for `settings` and prints a warning.
@@ -67,14 +67,14 @@ Dispatches layout, workspace, and overlay actions to the shell:
 
 ### `settings`
 
-Opens the settings as a regular application window. It runs as its own process, so it can be moved, resized and tiled like any other window, and it is also available from your application launcher as **Serpantinum settings** (window class `serpantinum-settings`).
+Opens the settings. By default they open as a fixed-size panel inside the shell, like other popups. Enable **Make settings a separate window** in **General** (`general.settingsSeparateWindow`) to open them as a regular application window instead. The window runs as its own process, so it can be moved, resized and tiled like any other window. The settings are also available from your application launcher as **Serpantinum settings**.
 
-- `serpantinum settings`: Open the settings window, or focus it if it is already open.
+- `serpantinum settings`: Open the settings, or focus them if they are already open.
 - `serpantinum settings <tab> [subtab]`: Open directly on a tab, for example `serpantinum settings theme`.
-- `serpantinum settings toggle [tab]`: Close the window if it is open, otherwise open it.
-- `serpantinum settings close`: Close the window.
+- `serpantinum settings toggle [tab]`: Close the settings if they are open, otherwise open them.
+- `serpantinum settings close`: Close the settings.
 
-To open it floating and centered, add a window rule for the class `serpantinum-settings` in your compositor configuration.
+In separate window mode, the window class is `serpantinum-settings`. To open it floating and centered, add a window rule for the class `serpantinum-settings` in your compositor configuration.
 
 ### `launch`
 

@@ -16,6 +16,7 @@ Item {
 
     readonly property bool isGuidePopup: true
     property bool standalone: false
+    readonly property bool loadsTabs: standalone || visible
     readonly property bool compact: width < s(780)
 
     signal requestLoad(int order)
@@ -30,6 +31,9 @@ Item {
     property int chargingSoundHandle: -1
 
     property real introBase: 0.0
+    property real introSidebar: 0.0
+    property real introContent: 0.0
+    property real introTabs: 0.0
     property var tutorialSections: []
 
     property bool searchActive: false
@@ -619,6 +623,8 @@ Item {
     function dismissHost() {
         if (standalone) {
             exitRequested();
+        } else if (typeof masterWindow !== "undefined" && masterWindow.switchWidget) {
+            masterWindow.switchWidget("hidden", "");
         } else {
             Quickshell.execDetached(["bash", Caching.serpantinumDir + "/scripts/qs_manager.sh", "close"]);
         }
@@ -630,6 +636,12 @@ Item {
 
     function gotoTab(tabName, subTabName) {
         if (tabName === undefined || tabName === null || tabName === "") return;
+        tabName = String(tabName);
+        if (!subTabName && tabName.indexOf(":") !== -1) {
+            let parts = tabName.split(":");
+            tabName = parts[0];
+            subTabName = parts[1];
+        }
         let r = resolveIndices(tabName, subTabName);
         let num = parseInt(tabName);
         if (r.tabIndex < 0 && !isNaN(num) && num >= 0 && num < tabsModel.length) {
@@ -644,12 +656,41 @@ Item {
         currentSubTab = Math.max(0, r.subIndex);
     }
 
+    function getTabProgress(idx) {
+        if (introTabs >= 1.0) return 1.0;
+        if (introTabs <= 0.0) return 0.0;
+        let start = idx * 0.04;
+        let p = Math.min(1.0, Math.max(0.0, (introTabs - start) / 0.42));
+        if (p <= 0.0) return 0.0;
+        if (p >= 1.0) return 1.0;
+        let c1 = 0.85;
+        let c3 = c1 + 1;
+        return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+    }
+
+    function getTabOpacity(idx) {
+        if (introTabs >= 1.0) return 1.0;
+        if (introTabs <= 0.0) return 0.0;
+        let start = idx * 0.04;
+        return Math.min(1.0, Math.max(0.0, (introTabs - start) / 0.28));
+    }
+
     function resetAndPlayIntro() {
         introBase = 0.0;
-        startupSequence.restart();
+        if (root.standalone) {
+            introSidebar = 1.0;
+            introContent = 1.0;
+            introTabs = 1.0;
+            startupSequence.restart();
+        } else {
+            introSidebar = 0.0;
+            introContent = 0.0;
+            introTabs = 0.0;
+            shellStartupSequence.restart();
+        }
         Updater.checkUpdate();
-        if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
-            searchLoadTimer.interval = root.standalone ? 400 : 1400;
+        if (root.standalone && searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
+            searchLoadTimer.interval = 400;
             searchLoadTimer.restart();
         }
     }
@@ -808,6 +849,8 @@ Item {
         } else {
             startupSequence.stop();
             closeSequence.stop();
+            shellStartupSequence.stop();
+            searchLoadTimer.stop();
             highlightTimer.stop();
             searchClearTimer.stop();
             searchRebuildTimer.stop();
@@ -815,6 +858,9 @@ Item {
             rebuildSearchIndex();
             pendingHighlightItem = null;
             introBase = 0.0;
+            introSidebar = 0.0;
+            introContent = 0.0;
+            introTabs = 0.0;
             searchActive = false;
             searchQuery = "";
             searchSelectedIndex = -1;
@@ -827,8 +873,8 @@ Item {
     }
 
     Component.onCompleted: {
-        if (searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
-            searchLoadTimer.interval = root.standalone ? 120 : 300;
+        if (root.standalone && searchLoadCursor < totalTabSlots && !searchLoadTimer.running) {
+            searchLoadTimer.interval = 120;
             searchLoadTimer.restart();
         }
         if (visible) {
@@ -879,7 +925,7 @@ Item {
             } else if (root.focusInContent()) {
                 root.forceActiveFocus();
             } else if (!root.standalone) {
-                root.closePopup();
+                root.dismissHost();
             }
             event.accepted = true;
         } else if (event.key === Qt.Key_Down || event.key === Qt.Key_Up) {
@@ -983,6 +1029,51 @@ Item {
         easing.type: Easing.OutCubic
     }
 
+    ParallelAnimation {
+        id: shellStartupSequence
+        NumberAnimation {
+            target: root
+            property: "introBase"
+            from: 0.0
+            to: 1.0
+            duration: 380
+            easing.type: Easing.OutExpo
+        }
+        SequentialAnimation {
+            PauseAnimation { duration: 30 }
+            NumberAnimation {
+                target: root
+                property: "introSidebar"
+                from: 0.0
+                to: 1.0
+                duration: 240
+                easing.type: Easing.OutCubic
+            }
+        }
+        SequentialAnimation {
+            PauseAnimation { duration: 50 }
+            NumberAnimation {
+                target: root
+                property: "introTabs"
+                from: 0.0
+                to: 1.0
+                duration: 320
+                easing.type: Easing.Linear
+            }
+        }
+        SequentialAnimation {
+            PauseAnimation { duration: 90 }
+            NumberAnimation {
+                target: root
+                property: "introContent"
+                from: 0.0
+                to: 1.0
+                duration: 360
+                easing.type: Easing.OutCubic
+            }
+        }
+    }
+
     SequentialAnimation {
         id: closeSequence
         ScriptAction {
@@ -994,12 +1085,35 @@ Item {
                 }
             }
         }
+        ParallelAnimation {
+            NumberAnimation {
+                target: root
+                property: "introContent"
+                to: 0.0
+                duration: root.standalone ? 0 : 100
+                easing.type: Easing.InExpo
+            }
+            NumberAnimation {
+                target: root
+                property: "introSidebar"
+                to: 0.0
+                duration: root.standalone ? 0 : 100
+                easing.type: Easing.InExpo
+            }
+            NumberAnimation {
+                target: root
+                property: "introTabs"
+                to: 0.0
+                duration: root.standalone ? 0 : 80
+                easing.type: Easing.InQuad
+            }
+        }
         NumberAnimation {
             target: root
             property: "introBase"
             to: 0.0
-            duration: 110
-            easing.type: Easing.InQuad
+            duration: root.standalone ? 110 : 130
+            easing.type: root.standalone ? Easing.InQuad : Easing.InQuart
         }
         ScriptAction {
             script: {
@@ -1017,6 +1131,7 @@ Item {
     Item {
         anchors.fill: parent
         opacity: introBase
+        scale: root.standalone ? 1.0 : 0.95 + (0.05 * introBase)
 
         Rectangle {
             anchors.fill: parent
