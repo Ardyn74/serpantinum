@@ -344,7 +344,7 @@ install_desktop_entry() {
     [ -f "$src_dir/serpantinum-settings.desktop" ] || return 0
 
     mkdir -p "$apps_dir" "$icons_dir"
-    sed "s|^Exec=.*|Exec=\"$BIN_DIR/serpantinum\" settings --window|" "$src_dir/serpantinum-settings.desktop" > "$apps_dir/serpantinum-settings.desktop"
+    sed "s|^Exec=.*|Exec=\"$BIN_DIR/serpantinum\" settings|" "$src_dir/serpantinum-settings.desktop" > "$apps_dir/serpantinum-settings.desktop"
     chmod 644 "$apps_dir/serpantinum-settings.desktop"
 
     if [ -f "$src_dir/serpantinum-settings.svg" ]; then
