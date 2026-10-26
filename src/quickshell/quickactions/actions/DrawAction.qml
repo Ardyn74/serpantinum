@@ -683,7 +683,7 @@ Item {
             
             visible: root.showSizeConfig
             opacity: visible ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutExpo } }
+            Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
 
             RowLayout {
                 anchors.fill: parent
@@ -822,7 +822,7 @@ Item {
             
             visible: root.showColorPicker
             opacity: visible ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutExpo } }
+            Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutExpo } }
 
             Column {
                 anchors.centerIn: parent

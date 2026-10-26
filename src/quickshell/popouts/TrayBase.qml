@@ -198,7 +198,7 @@ PanelWindow {
     Behavior on menuHeight {
         enabled: trayMenuWindow.isVisible && menuContainer.animProgress > 0.95
         NumberAnimation {
-            duration: 220
+            duration: 250
             easing.type: Easing.OutCubic
         }
     }

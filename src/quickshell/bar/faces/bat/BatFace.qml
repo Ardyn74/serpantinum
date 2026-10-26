@@ -227,7 +227,7 @@ Item {
         anchors.centerIn: parent
         spacing: root.isVertical ? s(root.isCompact ? 2 : 3) : (root.isDesktop ? 0 : s(root.isCompact ? 5 : 6))
         opacity: root.showLayout ? 1.0 : 0.0
-        Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
         Item {
             visible: root.effectiveShowIcon
@@ -365,7 +365,7 @@ Item {
                     tintColor: parent.baseColor
                     tintAmount: 0.3
                     press: batMouseArea.pressed ? 1 : (batMouseArea.containsMouse ? 0.25 : 0)
-                    Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+                    Behavior on press { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                 }
                 clip: true
 
@@ -380,7 +380,7 @@ Item {
                     y: batPill.initAnimTrigger ? 0 : s(15)
                     Behavior on y { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
                 }
-                Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                 FluidWave {
                     id: pillWave
@@ -529,7 +529,7 @@ Item {
                     tintColor: parent.baseColor
                     tintAmount: 0.3
                     press: sideBatMouseArea.pressed ? 1 : (sideBatMouseArea.containsMouse ? 0.25 : 0)
-                    Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+                    Behavior on press { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                 }
                 property color baseBorderColor: root.isCompact ? ThemeBackend.surface2 : ThemeBackend.surface1
                 border.color: sideBatMouseArea.containsMouse ? ThemeBackend.surface2 : baseBorderColor
@@ -572,7 +572,7 @@ Item {
                     x: batBtn.initAnimTrigger ? 0 : s(15)
                     Behavior on x { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
                 }
-                Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
                 FluidWave {
                     id: sideBatWave

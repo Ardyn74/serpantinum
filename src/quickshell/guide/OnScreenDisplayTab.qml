@@ -283,8 +283,8 @@ GuideTab {
                             property real openProgress: isOpen ? 1 : 0
                             implicitHeight: selectorBox.implicitHeight * openProgress
 
-                            Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-                            Behavior on openProgress { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                            Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+                            Behavior on openProgress { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
                             Rectangle {
                                 id: selectorBox

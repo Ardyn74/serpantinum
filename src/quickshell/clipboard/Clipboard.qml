@@ -110,7 +110,7 @@ PanelWindow {
     property real animatedLauncherHeight: targetLauncherHeight
     Behavior on animatedLauncherHeight {
         NumberAnimation {
-            duration: 300
+            duration: 250
             easing.type: Easing.OutCubic
         }
     }
@@ -802,7 +802,7 @@ PanelWindow {
                         id: scrollAnim
                         target: clipList
                         property: "contentY"
-                        duration: 260
+                        duration: 250
                         easing.type: Easing.OutCubic
                     }
 
@@ -1036,7 +1036,7 @@ PanelWindow {
                             Behavior on itemExpandProgress {
                                 enabled: !clipCardMa.draggingV
                                 NumberAnimation {
-                                    duration: 300
+                                    duration: 250
                                     easing.type: Easing.OutQuart
                                     onRunningChanged: {
                                         if (!running && clipDelegateWrapper.isSelected) {
@@ -1062,7 +1062,7 @@ PanelWindow {
                                 target: clipDelegateWrapper
                                 property: "dragX"
                                 to: clipList.width * 1.2
-                                duration: 220
+                                duration: 250
                                 easing.type: Easing.OutQuad
                             }
                             Timer {
@@ -1111,7 +1111,7 @@ PanelWindow {
                                 property: "dragX"
                                 from: clipDelegateWrapper.dragX
                                 to: 0
-                                duration: 200
+                                duration: 250
                                 easing.type: Easing.OutCubic
                             }
 
@@ -1121,7 +1121,7 @@ PanelWindow {
                                 property: "dragX"
                                 from: clipDelegateWrapper.dragX
                                 to: 0
-                                duration: 200
+                                duration: 250
                                 easing.type: Easing.OutQuad
                                 onFinished: clipboardWindow.deleteClip(clipDelegateWrapper.clipIdString, index)
                             }
@@ -1175,7 +1175,7 @@ PanelWindow {
                                 }
                                 clip: true
 
-                                Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
                                 GlassFill {
                                     id: rowGlass
@@ -1235,7 +1235,7 @@ PanelWindow {
                                     z: 10
                                     visible: clipDelegateCard.isImage
 
-                                    Behavior on border.color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                    Behavior on border.color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
                                 }
 
                                 MouseArea {
@@ -1356,7 +1356,7 @@ PanelWindow {
                                     visible: (clipDelegateCard.isImage || clipDelegateWrapper.itemExpandProgress < 0.99) && opacity > 0.001
                                     opacity: clipDelegateCard.isImage ? 1.0 : Math.max(0.0, 1.0 - clipDelegateWrapper.itemExpandProgress * 2.0)
 
-                                    Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                    Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
                                     GlassFill {
                                         anchors.fill: parent
@@ -1390,7 +1390,7 @@ PanelWindow {
                                         text: model.type === "image" ? "󰋩" : "󰈙"
                                         visible: model.type !== "image" || (!model.content || clipThumbImg.status !== Image.Ready)
 
-                                        Behavior on color { ColorAnimation { duration: 180; easing.type: Easing.OutCubic } }
+                                        Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
                                     }
                                 }
 

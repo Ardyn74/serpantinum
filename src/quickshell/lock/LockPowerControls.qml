@@ -23,7 +23,7 @@ Item {
 
         opacity: screenRoot.inputActive ? 1.0 : 0.0
         visible: opacity > 0.01
-        Behavior on opacity { NumberAnimation { duration: 350; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
         WallpaperBlur {
             z: -1
@@ -95,7 +95,7 @@ Item {
         }
         Behavior on opacity {
             NumberAnimation {
-                duration: 220
+                duration: 250
                 easing.type: Easing.OutCubic
             }
         }

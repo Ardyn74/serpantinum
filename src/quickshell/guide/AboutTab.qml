@@ -13,7 +13,7 @@ GuideTab {
     property real updateTransitionProgress: Updater.updateAvailable ? 1.0 : 0.0
     Behavior on updateTransitionProgress {
         NumberAnimation {
-            duration: 450
+            duration: 400
             easing.type: Easing.OutQuint
         }
     }

@@ -161,7 +161,7 @@ Item {
             Behavior on x { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
             Behavior on y { NumberAnimation { duration: 620; easing.type: Easing.OutQuint } }
         }
-        Behavior on opacity { NumberAnimation { duration: 450; easing.type: Easing.OutCubic } }
+        Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
 
         ShaderEffect {
             id: circleGauge

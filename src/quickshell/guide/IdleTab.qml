@@ -357,7 +357,7 @@ GuideTab {
             verticalPadding: rootObj.s(10)
             spacing: rootObj.s(12)
             innerSpacing: actionCard.isCardOpen ? rootObj.s(12) : 0
-            Behavior on innerSpacing { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+            Behavior on innerSpacing { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
             bottomSpacing: 0
 
             customLeftContent: actionCard.isCustomAct ? customLeftRowComponent : null
@@ -526,8 +526,8 @@ GuideTab {
                 property real openProgress: actionCard.isCardOpen ? 1 : 0
                 implicitHeight: expandedInnerCol.implicitHeight * openProgress
 
-                Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-                Behavior on openProgress { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+                Behavior on openProgress { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
                 ColumnLayout {
                     id: expandedInnerCol

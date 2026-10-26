@@ -1524,8 +1524,8 @@ Item {
                 color: popupWindowRoot.isDisconnectHovered && popupWindowRoot.currentConn
                     ? ThemeBackend.red
                     : (popupWindowRoot.currentConn ? popupWindowRoot.activeColor : ThemeBackend.surface2)
-                Behavior on color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 300; easing.type: Easing.OutQuad } }
-                Behavior on opacity { enabled: popupWindowRoot.visible && popupWindowRoot.introState >= 1.0; NumberAnimation { duration: 300; easing.type: Easing.OutQuad } }
+                Behavior on color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 250; easing.type: Easing.OutQuad } }
+                Behavior on opacity { enabled: popupWindowRoot.visible && popupWindowRoot.introState >= 1.0; NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
                 visible: opacity > 0.005
             }
 
@@ -1537,8 +1537,8 @@ Item {
                 color: popupWindowRoot.isDisconnectHovered && popupWindowRoot.currentConn
                     ? Qt.darker(ThemeBackend.red, 1.25)
                     : (popupWindowRoot.currentConn ? popupWindowRoot.activeGradientSecondary : ThemeBackend.surface1)
-                Behavior on color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 300; easing.type: Easing.OutQuad } }
-                Behavior on opacity { enabled: popupWindowRoot.visible && popupWindowRoot.introState >= 1.0; NumberAnimation { duration: 300; easing.type: Easing.OutQuad } }
+                Behavior on color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 250; easing.type: Easing.OutQuad } }
+                Behavior on opacity { enabled: popupWindowRoot.visible && popupWindowRoot.introState >= 1.0; NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
                 visible: opacity > 0.002
             }
 
@@ -1554,7 +1554,7 @@ Item {
                 opacity: (1 - pingProg) * (popupWindowRoot.currentPower ? 0.45 : 0.18)
                 scale: 0.2 + 0.9 * pingProg
                 visible: popupWindowRoot.visible && pingProg > 0.001 && pingProg < 0.999 && opacity > 0.01
-                Behavior on border.color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 300 } }
+                Behavior on border.color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 250 } }
             }
 
             Item {

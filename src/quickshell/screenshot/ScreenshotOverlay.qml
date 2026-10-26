@@ -427,10 +427,10 @@ PanelWindow {
     property real endX: 0
     property real endY: 0
 
-    Behavior on startX { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 350; easing.type: Easing.OutExpo } }
-    Behavior on startY { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 350; easing.type: Easing.OutExpo } }
-    Behavior on endX { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 350; easing.type: Easing.OutExpo } }
-    Behavior on endY { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 350; easing.type: Easing.OutExpo } }
+    Behavior on startX { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 400; easing.type: Easing.OutExpo } }
+    Behavior on startY { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 400; easing.type: Easing.OutExpo } }
+    Behavior on endX { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 400; easing.type: Easing.OutExpo } }
+    Behavior on endY { enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing; NumberAnimation { duration: 400; easing.type: Easing.OutExpo } }
 
     property bool hasSelection: false
     property bool isSelecting: false
@@ -537,7 +537,7 @@ PanelWindow {
         opacity: (!root.isVideoMode && !root.isRefreezing && root.freezeImg !== "") ? 1.0 : 0.0
         Behavior on opacity {
             enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing
-            NumberAnimation { duration: 350; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 400; easing.type: Easing.OutCubic }
         }
         visible: opacity > 0
     }
@@ -548,7 +548,7 @@ PanelWindow {
         opacity: root.isRefreezing ? 0.0 : 1.0
         Behavior on opacity {
             enabled: root.animateChanges && !root.isSelecting && !root.isRefreezing
-            NumberAnimation { duration: 350; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 400; easing.type: Easing.OutCubic }
         }
         visible: opacity > 0
 
@@ -589,8 +589,8 @@ PanelWindow {
             shadowBlur: root.isSelecting ? s(2.0) : s(1.4)
             shadowVerticalOffset: s(4)
             z: 5
-            Behavior on shadowOpacity { enabled: root.animateChanges && !root.isRefreezing; NumberAnimation { duration: 200 } }
-            Behavior on shadowBlur { enabled: root.animateChanges && !root.isRefreezing; NumberAnimation { duration: 200 } }
+            Behavior on shadowOpacity { enabled: root.animateChanges && !root.isRefreezing; NumberAnimation { duration: 250 } }
+            Behavior on shadowBlur { enabled: root.animateChanges && !root.isRefreezing; NumberAnimation { duration: 250 } }
             visible: opacity > 0
         }
 
@@ -813,8 +813,8 @@ PanelWindow {
                 opacity: showMenu ? 1.0 : 0.0
                 clip: true
 
-                Behavior on height { NumberAnimation { duration: 300; easing.type: Easing.OutQuint } }
-                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+                Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
                 visible: opacity > 0
 
@@ -925,7 +925,7 @@ PanelWindow {
                 opacity: showMenu ? 1.0 : 0.0
                 clip: true
 
-                Behavior on height { NumberAnimation { duration: 350; easing.type: Easing.OutQuint } }
+                Behavior on height { NumberAnimation { duration: 400; easing.type: Easing.OutQuint } }
                 Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
                 visible: opacity > 0
@@ -1374,7 +1374,7 @@ PanelWindow {
                         anchors.centerIn: parent
                         color: root.isVideoMode ? ThemeBackend.red : ThemeBackend.mauve
                         Behavior on color { enabled: root.animateChanges && !root.isRefreezing; ColorAnimation { duration: 250 } }
-                        Behavior on width { enabled: root.animateChanges && !root.isRefreezing; NumberAnimation { duration: 350; easing.type: Easing.OutBack } }
+                        Behavior on width { enabled: root.animateChanges && !root.isRefreezing; NumberAnimation { duration: 400; easing.type: Easing.OutBack } }
                     }
 
                     MouseArea {

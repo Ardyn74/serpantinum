@@ -545,7 +545,7 @@ Item {
         y: contentWrapper.hideOffsetY
         Behavior on y {
             enabled: barWindow ? !barWindow.positionChanging : true
-            NumberAnimation { duration: 300; easing.type: Easing.OutQuint }
+            NumberAnimation { duration: 250; easing.type: Easing.OutQuint }
         }
     }
 
@@ -584,12 +584,12 @@ Item {
 
         Behavior on x {
             enabled: contentWrapper.layoutAnimationsEnabled
-            NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
         }
 
         Behavior on width {
             enabled: contentWrapper.layoutAnimationsEnabled
-            NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
         }
 
         Behavior on opacity {
@@ -807,12 +807,12 @@ Item {
 
             Behavior on x {
                 enabled: contentWrapper.layoutAnimationsEnabled
-                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
             }
 
             Behavior on width {
                 enabled: contentWrapper.layoutAnimationsEnabled
-                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
             }
 
             Behavior on opacity {

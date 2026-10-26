@@ -119,7 +119,7 @@ Item {
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
                         color: (itemGlass.active || !itemMouseArea.containsMouse) ? "transparent" : root.alpha(root.cSurface1, 0.4)
-                        Behavior on color { ColorAnimation { duration: 300 } }
+                        Behavior on color { ColorAnimation { duration: 250 } }
 
                         GlassFill {
                             id: itemGlass

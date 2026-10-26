@@ -197,7 +197,7 @@ RowLayout {
 
                         border.color: model.isTarget ? ThemeBackend.text : "transparent"
                         border.width: model.isTarget && !monthGlass.active ? 1 : 0
-                        Behavior on border.color { ColorAnimation { duration: 300 } }
+                        Behavior on border.color { ColorAnimation { duration: 250 } }
 
                         GlassFill {
                             id: monthGlass

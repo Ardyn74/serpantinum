@@ -541,12 +541,12 @@ Item {
 
         Behavior on y {
             enabled: contentWrapper.layoutAnimationsEnabled
-            NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
         }
 
         Behavior on height {
             enabled: contentWrapper.layoutAnimationsEnabled
-            NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+            NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
         }
 
         Behavior on opacity {
@@ -774,17 +774,17 @@ Item {
 
             Behavior on y {
                 enabled: contentWrapper.layoutAnimationsEnabled
-                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
             }
 
             Behavior on height {
                 enabled: contentWrapper.layoutAnimationsEnabled
-                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
             }
 
             Behavior on width {
                 enabled: contentWrapper.layoutAnimationsEnabled
-                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
             }
 
             Behavior on opacity {

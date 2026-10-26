@@ -70,7 +70,7 @@ Item {
                 target: root
                 property: "introContent"
                 to: 0.0
-                duration: 240
+                duration: 250
                 easing.type: Easing.InQuart
             }
         }

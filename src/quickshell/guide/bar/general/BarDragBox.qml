@@ -245,7 +245,7 @@ Rectangle {
                         color: ThemeBackend.red
                         opacity: delegateRoot.showError ? 0.15 : 0.0
                         radius: ThemeBackend.borderRadius
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                        Behavior on opacity { NumberAnimation { duration: 250 } }
                         z: 4
                     }
 

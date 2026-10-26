@@ -328,9 +328,9 @@ Item {
         color: glass.active ? "transparent" : (root.isHoveredOrHighlighted ? Qt.darker(root.baseColor, 1.14) : root.baseColor)
         opacity: root.enabled ? 1.0 : 0.5
 
-        Behavior on color { ColorAnimation { duration: 180 } }
-        Behavior on border.color { ColorAnimation { duration: 180 } }
-        Behavior on opacity { NumberAnimation { duration: 180 } }
+        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on border.color { ColorAnimation { duration: 150 } }
+        Behavior on opacity { NumberAnimation { duration: 150 } }
 
         GlassFill {
             id: glass
@@ -338,9 +338,9 @@ Item {
             radius: parent.radius
             tintColor: root.baseColor
             press: root.isEditing ? 0.55 : (root.isHoveredOrHighlighted ? 0.2 : 0)
-            Behavior on press { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            Behavior on press { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
             tintAmount: (root.isEditing ? 0.38 : (root.isHoveredOrHighlighted ? 0.3 : 0.22))
-            Behavior on tintAmount { NumberAnimation { duration: 180 } }
+            Behavior on tintAmount { NumberAnimation { duration: 150 } }
         }
 
         scale: (root.isEditing ? 1.02 : 1.0) * root.focusPop
@@ -477,13 +477,13 @@ Item {
                     property real entranceOvershoot: 3.2
                     property int exitDuration: 160
 
-                    Behavior on x { NumberAnimation { duration: 200; easing.type: Easing.OutQuad } }
+                    Behavior on x { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
 
                     add: Transition {
                         ParallelAnimation {
                             NumberAnimation { property: "scale"; from: 0.3; to: 1.0; duration: charRow.entranceDuration; easing.type: Easing.OutBack; easing.overshoot: charRow.entranceOvershoot }
                             NumberAnimation { property: "y"; from: 10; to: 0; duration: charRow.entranceDuration; easing.type: Easing.OutBack; easing.overshoot: charRow.entranceOvershoot * 0.8 }
-                            NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 140; easing.type: Easing.OutCubic }
+                            NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 150; easing.type: Easing.OutCubic }
                         }
                     }
 
@@ -496,7 +496,7 @@ Item {
                     }
 
                     displaced: Transition {
-                        NumberAnimation { properties: "x,y"; duration: 260; easing.type: Easing.OutBack; easing.overshoot: 1.6 }
+                        NumberAnimation { properties: "x,y"; duration: 250; easing.type: Easing.OutBack; easing.overshoot: 1.6 }
                     }
 
                     delegate: Item {
@@ -525,7 +525,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     x: root.scrollOffset + (innerInput.cursorPosition * root.charSlotStep)
 
-                    Behavior on x { NumberAnimation { duration: 200; easing.type: Easing.OutQuad } }
+                    Behavior on x { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
 
                     SequentialAnimation on opacity {
                         running: root.isEditing

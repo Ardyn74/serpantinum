@@ -96,7 +96,7 @@ Scope {
                 anchors.fill: parent
                 color: "black"
                 opacity: overlayScope.shown ? 0.55 : 0.0
-                Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.InOutQuad } }
+                Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
             }
 
             MouseArea {
@@ -117,7 +117,7 @@ Scope {
                 border.width: 1
                 opacity: overlayScope.shown ? 1.0 : 0.0
                 scale: overlayScope.shown ? 1.0 : 0.92
-                Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                 Behavior on scale { NumberAnimation { duration: 380; easing.type: Easing.OutBack; easing.overshoot: 1.1 } }
 
                 layer.enabled: true

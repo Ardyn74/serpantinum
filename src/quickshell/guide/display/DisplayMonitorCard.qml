@@ -44,8 +44,8 @@ Rectangle {
     implicitHeight: targetHeight * appearProgress
     opacity: appeared ? 1.0 : 0.0
 
-    Behavior on appearProgress { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-    Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+    Behavior on appearProgress { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
     Behavior on color { ColorAnimation { duration: 250 } }
     Behavior on border.color { ColorAnimation { duration: 250 } }
 
@@ -216,8 +216,8 @@ Rectangle {
                     property real openProgress: isOpen ? 1 : 0
                     implicitHeight: tempInnerBox.implicitHeight * openProgress
 
-                    Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
-                    Behavior on openProgress { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
+                    Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+                    Behavior on openProgress { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
                     SettingsRow {
                         id: tempInnerBox

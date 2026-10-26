@@ -33,7 +33,7 @@ Item {
 
     Behavior on dynamicCornerRadius {
         enabled: dockWindow.initialized && !dockWindow.positionChanging
-        NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+        NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
     }
 
     readonly property int placeholderCount: 6
@@ -413,11 +413,11 @@ Item {
 
                 Behavior on x {
                     enabled: dockWindow.initialized && dockWindow.enableScrolling && containerRoot.revealProgress >= 0.99 && !dockWindow.positionChanging
-                    NumberAnimation { duration: 240; easing.type: Easing.OutCubic }
+                    NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
                 }
                 Behavior on y {
                     enabled: dockWindow.initialized && dockWindow.enableScrolling && containerRoot.revealProgress >= 0.99 && !dockWindow.positionChanging
-                    NumberAnimation { duration: 240; easing.type: Easing.OutCubic }
+                    NumberAnimation { duration: 250; easing.type: Easing.OutCubic }
                 }
 
                 Repeater {

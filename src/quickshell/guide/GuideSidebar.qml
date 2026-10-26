@@ -163,7 +163,7 @@ Rectangle {
                         readonly property real fullSubtabsHeight: hasSubtabs ? (modelData.subtabs.length * sidebar.subH + (modelData.subtabs.length - 1) * sidebar.gap + popup.s(8)) : 0
                         readonly property real sepH: modelData.separatorBefore ? popup.s(14) + 1 : 0
                         property real expandProgress: isExpanded ? 1.0 : 0.0
-                        Behavior on expandProgress { NumberAnimation { duration: 140; easing.type: Easing.OutCubic } }
+                        Behavior on expandProgress { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
                         Layout.fillWidth: true
                         spacing: 0

@@ -52,7 +52,7 @@ Item {
                 tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                 tintAmount: 0.25
                 press: weekRowMa.pressed ? 0.8 : (weekRowMa.containsMouse ? 0.25 : 0)
-                Behavior on press { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                Behavior on press { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
             }
 
             MouseArea {
