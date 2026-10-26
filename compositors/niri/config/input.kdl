@@ -16,3 +16,10 @@ input {
         click-method "clickfinger"
     }
 }
+
+gestures {
+    hot-corners {
+        off
+    }
+}
+

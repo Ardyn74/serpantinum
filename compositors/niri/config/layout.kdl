@@ -1,5 +1,8 @@
 layout {
     gaps 4
+    center-focused-column "always"
+    always-center-single-column
+    default-column-width { proportion 0.75; }
     border {
         off
     }
@@ -7,3 +10,4 @@ layout {
         off
     }
 }
+

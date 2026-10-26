@@ -2,7 +2,7 @@
 set -e
 
 main() {
-    local slug="${REPO_SLUG:-ilyamiro/serpantinum}"
+    local slug="${REPO_SLUG:-Ardyn74/serpantinum}"
     local branch="${SERPANTINUM_BRANCH:-master}"
     local dir
     dir="$(mktemp -d)"

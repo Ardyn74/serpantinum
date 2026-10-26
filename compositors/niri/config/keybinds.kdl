@@ -18,7 +18,6 @@ binds {
     XF86PowerOff { spawn "serpantinum" "lock"; }
     Mod+L { spawn "serpantinum" "lock"; }
 
-    Mod+Space { spawn "playerctl" "play-pause"; }
     XF86AudioPause { spawn "playerctl" "play-pause"; }
     XF86AudioPlay { spawn "playerctl" "play-pause"; }
     XF86AudioPrev { spawn "playerctl" "previous"; }
@@ -30,7 +29,7 @@ binds {
 
     Mod+R { spawn "serpantinum" "reload"; }
     Mod+C { spawn "serpantinum" "msg" "toggle" "clipboard"; }
-    Mod+D { spawn "serpantinum" "msg" "toggle" "launcher"; }
+    Mod+Space { spawn "serpantinum" "msg" "toggle" "launcher"; }
     Mod+M { spawn "serpantinum" "msg" "toggle" "music"; }
     Mod+B { spawn "serpantinum" "msg" "toggle" "system"; }
     Mod+W { spawn "serpantinum" "msg" "toggle" "wallpaper"; }
@@ -50,8 +49,8 @@ binds {
     Mod+Ctrl+Up { move-column-to-workspace-up; }
     Mod+Ctrl+Down { move-column-to-workspace-down; }
 
-    Mod+Shift+Left { set-column-width "-5%"; }
-    Mod+Shift+Right { set-column-width "+5%"; }
+    Mod+minus { set-column-width "-25%"; }
+    Mod+equal { set-column-width "+25%"; }
     Mod+Shift+Up { set-window-height "-5%"; }
     Mod+Shift+Down { set-window-height "+5%"; }
 
