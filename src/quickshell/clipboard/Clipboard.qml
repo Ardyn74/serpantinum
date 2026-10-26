@@ -1227,10 +1227,11 @@ PanelWindow {
                                     id: imageSelectionBorder
                                     anchors.fill: parent
                                     radius: clipDelegateCard.radius
-                                    color: "transparent"
+                                    color: (clipDelegateWrapper.isSelected && clipDelegateCard.isImage) ? Qt.alpha(Qt.tint(ThemeBackend.mauve, Qt.alpha(ThemeBackend.text, 0.22)), 0.12) : "transparent"
                                     z: 10
                                     visible: clipDelegateCard.isImage
 
+                                    Behavior on color { ColorAnimation { duration: 150 } }
                                 }
 
                                 MouseArea {
