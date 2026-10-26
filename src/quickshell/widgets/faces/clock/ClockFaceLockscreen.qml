@@ -25,13 +25,13 @@ Item {
         if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.time && Config.rawSettings.bar.time.format !== undefined) {
             return Config.rawSettings.bar.time.format;
         }
-        return "HH:mm:ss";
+        return "hh:mm AP";
     }
-    readonly property bool is12h: root.timeFormat.includes("h") || root.timeFormat.toLowerCase().includes("ap")
-    readonly property string hourFmt: root.is12h ? (root.timeFormat.includes("hh") ? "hh" : "h") : (root.timeFormat.includes("H") && !root.timeFormat.includes("HH") ? "H" : "HH")
+    readonly property bool is12h: true
+    readonly property string hourFmt: (root.timeFormat.includes("h") && !root.timeFormat.includes("hh")) ? "h" : "hh"
     readonly property string hoursText: Qt.formatDateTime(root.currentTime, root.hourFmt)
     readonly property string minutesText: Qt.formatDateTime(root.currentTime, "mm")
-    readonly property string meridiemText: root.is12h ? Qt.formatDateTime(root.currentTime, "AP") : ""
+    readonly property string meridiemText: Qt.formatDateTime(root.currentTime, "AP")
     readonly property string dateText: Qt.formatDateTime(root.currentTime, "dddd, d MMMM").toUpperCase()
 
     Connections {
