@@ -32,13 +32,13 @@ For Arch-based distributions (including systemd, OpenRC, and other init systems)
 Use this installer:
 
 ```bash
-curl -fsSL install.serpantinum.dev | bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ardyn74/serpantinum/master/install/get.sh)"
 ```
 
-If this doesn't work, use:
+Alternatively:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/ilyamiro/serpantinum/master/install/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ardyn74/serpantinum/master/install/install.sh)"
 ```
 
 > [!NOTE]
