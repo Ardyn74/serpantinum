@@ -209,7 +209,7 @@ FacesDir=/var/lib/impasto/faces
 
 [General]
 DisplayServer=wayland
-GreeterEnvironment=QT_WAYLAND_DISABLE_WINDOWDECORATION=1,QML_XHR_ALLOW_FILE_READ=1,QT_SCALE_FACTOR=1.8,QT_SCREEN_SCALE_FACTORS=1.8
+GreeterEnvironment=QT_WAYLAND_DISABLE_WINDOWDECORATION=1,QML_XHR_ALLOW_FILE_READ=1,QT_SCALE_FACTOR=1.0,QT_SCREEN_SCALE_FACTORS=1.0
 InputMethod=
 EnableHiDPI=false
 
@@ -226,7 +226,7 @@ FacesDir=/var/lib/impasto/faces
 [General]
 DisplayServer=x11
 InputMethod=
-GreeterEnvironment=QML_XHR_ALLOW_FILE_READ=1,QT_SCALE_FACTOR=1.8,QT_SCREEN_SCALE_FACTORS=1.8
+GreeterEnvironment=QML_XHR_ALLOW_FILE_READ=1,QT_SCALE_FACTOR=1.0,QT_SCREEN_SCALE_FACTORS=1.0
 EnableHiDPI=false
 EOF
     fi
