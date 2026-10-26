@@ -8,17 +8,39 @@ import Quickshell.Wayland
 import "../reusables"
 import "../"
 
-Variants {
-    model: Quickshell.screens
+Scope {
+    id: barRoot
 
-    delegate: Component {
-        PanelWindow {
-            id: barWindowRoot
-            visible: barConfigReady && !shouldHideForRedact
+    property bool isRedacting: false
+    signal updateToggled()
 
-            property bool pendingReload: false
-            property bool startupFilesReady: false
-            property bool isRedacting: false
+    IpcHandler {
+        target: "topbar"
+        function setRedactMode(active) {
+            barRoot.isRedacting = (active === "true" || active === "1");
+        }
+        function forceReload() {
+            Quickshell.reload(true)
+        }
+        function queueReload() {
+            Quickshell.reload(true)
+        }
+        function toggleUpdate() {
+            barRoot.updateToggled()
+        }
+    }
+
+    Variants {
+        model: Quickshell.screens
+
+        delegate: Component {
+            PanelWindow {
+                id: barWindowRoot
+                visible: barConfigReady && !shouldHideForRedact
+
+                property bool pendingReload: false
+                property bool startupFilesReady: false
+                property bool isRedacting: barRoot.isRedacting
 
             property bool hideBarInRedactor: {
                 let dummy = configRevision;
@@ -151,22 +173,9 @@ Variants {
                 onTriggered: barWindowRoot.startupFilesReady = true
             }
 
-            IpcHandler {
-                target: "topbar"
-                function setRedactMode(active: string): void {
-                    barWindowRoot.isRedacting = (active === "true" || active === "1");
-                }
-                function forceReload() {
-                    Quickshell.reload(true)
-                }
-                function queueReload() {
-                    if (!barWindowRoot.isNotifOpen && !barWindowRoot.isSysOpen) {
-                        Quickshell.reload(true)
-                    } else {
-                        barWindowRoot.pendingReload = true
-                    }
-                }
-                function toggleUpdate() {
+            Connections {
+                target: barRoot
+                function onUpdateToggled() {
                     let target = null;
                     if (barWindowRoot.isVertical) target = verticalWrapper.getWidget("left");
                     else target = contentWrapper.getWidget("left");
@@ -372,4 +381,5 @@ Variants {
             }
         }
     }
+}
 }

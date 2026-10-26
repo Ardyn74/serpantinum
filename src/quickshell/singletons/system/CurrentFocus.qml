@@ -38,8 +38,6 @@ Item {
     FileView {
         id: focusWatcher
         path: (typeof Caching !== "undefined" && Caching.getRunDir && Caching.getRunDir("focustime")) ? (Caching.getRunDir("focustime") + "/focus_state.json") : ""
-        watchChanges: true
-        onFileChanged: reload()
         onLoaded: {
             root.updateFocus(text());
         }

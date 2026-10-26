@@ -8,6 +8,14 @@ DEVICE_CACHE="$QS_RUN_MUSIC/device_cache.json"
 
 mkdir -p "$TMP_DIR"
 
+if command -v magick &>/dev/null; then
+    MAGICK_CMD="magick"
+    IDENTIFY_CMD="magick identify"
+else
+    MAGICK_CMD="convert"
+    IDENTIFY_CMD="identify"
+fi
+
 PLAYER_ID="$1"
 RAW_URL="$2"
 TITLE="$3"
@@ -69,7 +77,7 @@ if [ -n "$FINAL_ART" ] && [ -f "$FINAL_ART" ] && [ -s "$FINAL_ART" ]; then
     [ -f "$TEXT_PATH" ] && [ -s "$TEXT_PATH" ] && DISPLAY_TEXT=$(cat "$TEXT_PATH")
 
     if [[ "$RAW_URL" == http* ]]; then
-        curW=$(identify -format "%w" "$FINAL_ART" 2>/dev/null)
+        curW=$($IDENTIFY_CMD -format "%w" "$FINAL_ART" 2>/dev/null)
         [[ "$curW" =~ ^[0-9]+$ ]] || curW=0
         if [ "$curW" -ge 400 ]; then
             CACHE_VALID=true
@@ -160,7 +168,7 @@ if ! $CACHE_VALID && [ -n "$trackHash" ]; then
             [ -z "$cand" ] && continue
             httpCode=$(curl -s -L --max-time 4 -o "$tempArt" -w "%{http_code}" "$cand" 2>/dev/null)
             if [[ "$httpCode" =~ ^2[0-9][0-9]$ ]] && [ -s "$tempArt" ]; then
-                dims=$(identify -format "%wx%h" "$tempArt" 2>/dev/null)
+                dims=$($IDENTIFY_CMD -format "%wx%h" "$tempArt" 2>/dev/null)
                 if [ -n "$dims" ]; then
                     if [[ "$cand" =~ ytimg\.com ]] && [ "$dims" = "120x90" ]; then
                         rm -f "$tempArt"
@@ -173,11 +181,11 @@ if ! $CACHE_VALID && [ -n "$trackHash" ]; then
             rm -f "$tempArt"
         done
     elif [ -n "$CLEAN_URL" ] && [ -f "$CLEAN_URL" ]; then
-        if identify "$CLEAN_URL" >/dev/null 2>&1; then
+        if $IDENTIFY_CMD "$CLEAN_URL" >/dev/null 2>&1; then
             cp "$CLEAN_URL" "$tempArt" 2>/dev/null && downloadOk=true
         elif command -v ffmpeg >/dev/null 2>&1; then
             ffmpeg -y -i "$CLEAN_URL" -an -vcodec copy "$tempArt" >/dev/null 2>&1
-            if [ -s "$tempArt" ] && identify "$tempArt" >/dev/null 2>&1; then
+            if [ -s "$tempArt" ] && $IDENTIFY_CMD "$tempArt" >/dev/null 2>&1; then
                 downloadOk=true
             else
                 rm -f "$tempArt"
@@ -187,7 +195,7 @@ if ! $CACHE_VALID && [ -n "$trackHash" ]; then
         if ! $downloadOk; then
             dir=$(dirname "$CLEAN_URL")
             for img in "$dir/cover.jpg" "$dir/cover.png" "$dir/folder.jpg" "$dir/front.jpg" "$dir/album.jpg" "$dir/Cover.jpg" "$dir/Folder.jpg"; do
-                if [ -f "$img" ] && identify "$img" >/dev/null 2>&1; then
+                if [ -f "$img" ] && $IDENTIFY_CMD "$img" >/dev/null 2>&1; then
                     cp "$img" "$tempArt" 2>/dev/null && downloadOk=true
                     break
                 fi
@@ -196,8 +204,8 @@ if ! $CACHE_VALID && [ -n "$trackHash" ]; then
     fi
 
     if $downloadOk && [ -s "$tempArt" ]; then
-        convert "$tempArt" -blur 0x8 "$tempBlur" 2>/dev/null
-        colors=$(convert "$tempArt" -resize 50x50 -alpha off +dither -quantize RGB -colors 3 -depth 8 -format "%c" histogram:info: 2>/dev/null | grep -E -o '#[0-9A-Fa-f]{6}' | head -n 3 | tr '\n' ' ')
+        $MAGICK_CMD "$tempArt" -blur 0x8 "$tempBlur" 2>/dev/null
+        colors=$($MAGICK_CMD "$tempArt" -resize 50x50 -alpha off +dither -quantize RGB -colors 3 -depth 8 -format "%c" histogram:info: 2>/dev/null | grep -E -o '#[0-9A-Fa-f]{6}' | head -n 3 | tr '\n' ' ')
         read -r -a color_array <<< "$colors"
 
         c1=${color_array[0]:-#cba6f7}

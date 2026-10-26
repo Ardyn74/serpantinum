@@ -32,8 +32,11 @@ Item {
 
     Connections {
         target: Config
-        function onSettingsLoaded() {
-            root.fetch();
+        function onRawSettingsChanged() {
+            let customAvatar = (Config.rawSettings && Config.rawSettings.general && Config.rawSettings.general.avatarPath) ? Config.rawSettings.general.avatarPath : "";
+            if (customAvatar) {
+                root.avatarPath = customAvatar;
+            }
         }
     }
 

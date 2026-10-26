@@ -59,7 +59,7 @@ SAVE_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
 RECORD_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}/Recordings"
 mkdir -p "$SAVE_DIR" "$RECORD_DIR"
 
-REQUIRED_CMDS=("grim" "satty" "wl-copy" "pactl" "quickshell" "zbarimg" "python3")
+REQUIRED_CMDS=("grim" "wl-copy" "quickshell" "python3")
 MISSING_CMDS=()
 for cmd in "${REQUIRED_CMDS[@]}"; do
     if ! command -v "$cmd" &> /dev/null; then
@@ -67,11 +67,22 @@ for cmd in "${REQUIRED_CMDS[@]}"; do
     fi
 done
 
+if [ "$EDIT_MODE" = true ] && ! command -v satty &> /dev/null; then
+    MISSING_CMDS+=("satty")
+fi
+
+if [ "$SCAN_QR_MODE" = true ] && ! command -v zbarimg &> /dev/null; then
+    MISSING_CMDS+=("zbarimg")
+fi
+
 if [ "$OCR_MODE" = true ] && ! command -v tesseract &> /dev/null; then
     MISSING_CMDS+=("tesseract")
 fi
 
 if [ "$RECORD_MODE" = true ]; then
+    if ! command -v pactl &> /dev/null; then
+        MISSING_CMDS+=("pactl")
+    fi
     if ! command -v "$VIDEO_BACKEND" &> /dev/null; then
         MISSING_CMDS+=("$VIDEO_BACKEND")
     fi
@@ -404,6 +415,7 @@ if [ "$SCAN_QR_MODE" = true ]; then
     rm -f "$RES_FILE" "$DEBUG_LOG"
     
     TMP_IMG="$QS_RUN_SCREENSHOT/qr_temp_$$.png"
+    trap 'rm -f "$TMP_IMG"' EXIT
     capture_region "$TMP_IMG"
     
     export XML_OUT=$(zbarimg --xml -q "$TMP_IMG" 2>>"$DEBUG_LOG")
@@ -615,21 +627,26 @@ if [ "$FULL_MODE" = true ] || [ -n "$GEOMETRY" ]; then
         exit 0
     fi
 
-    TMP_SCREENSHOT="/tmp/instant_snap_$$.png"
-    if [ -n "$GEOMETRY" ]; then
-        capture_region "$TMP_SCREENSHOT"
-    elif [ -n "$TARGET_MON" ]; then
-        grim -o "$TARGET_MON" -l 0 "$TMP_SCREENSHOT" 2>/dev/null || grim -l 0 "$TMP_SCREENSHOT"
-    else
-        grim -l 0 "$TMP_SCREENSHOT"
-    fi
-
     if [ "$EDIT_MODE" = true ]; then
+        TMP_SCREENSHOT="/tmp/instant_snap_$$.png"
+        if [ -n "$GEOMETRY" ]; then
+            capture_region "$TMP_SCREENSHOT"
+        elif [ -n "$TARGET_MON" ]; then
+            grim -o "$TARGET_MON" -l 0 "$TMP_SCREENSHOT" 2>/dev/null || grim -l 0 "$TMP_SCREENSHOT"
+        else
+            grim -l 0 "$TMP_SCREENSHOT"
+        fi
         GSK_RENDERER=gl satty --filename "$TMP_SCREENSHOT" --output-filename "$FILENAME" --init-tool brush --copy-command "wl-copy --type image/png"
+        rm -f "$TMP_SCREENSHOT"
     else
-        cp "$TMP_SCREENSHOT" "$FILENAME"
+        if [ -n "$GEOMETRY" ]; then
+            capture_region "$FILENAME"
+        elif [ -n "$TARGET_MON" ]; then
+            grim -o "$TARGET_MON" -l 0 "$FILENAME" 2>/dev/null || grim -l 0 "$FILENAME"
+        else
+            grim -l 0 "$FILENAME"
+        fi
     fi
-    rm -f "$TMP_SCREENSHOT"
     [ -n "$SOURCE_IMG" ] && rm -f "$SOURCE_IMG"
 
     if [ -s "$FILENAME" ]; then

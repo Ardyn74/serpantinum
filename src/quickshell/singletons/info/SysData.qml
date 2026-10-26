@@ -25,8 +25,6 @@ Item {
         subscribers++;
         if (subscribers === 1) {
             streamProc.running = true;
-            root.resetNet();
-            netTimer.restart();
         }
     }
 
@@ -34,7 +32,6 @@ Item {
         subscribers = Math.max(0, subscribers - 1);
         if (subscribers === 0) {
             streamProc.running = false;
-            netTimer.stop();
         }
     }
 
@@ -44,15 +41,19 @@ Item {
 
         let p = text.split("|");
         if (p.length >= 4) {
-            root.cpu = parseInt(p[0]);
-            root.ramPercent = parseInt(p[1]);
-            root.ramGb = parseFloat(p[2]);
-            root.temp = parseInt(p[3]);
+            root.cpu = parseInt(p[0]) || 0;
+            root.ramPercent = parseInt(p[1]) || 0;
+            root.ramGb = parseFloat(p[2]) || 0;
+            root.temp = parseInt(p[3]) || 0;
+        }
+        if (p.length >= 6) {
+            root.netRx = parseFloat(p[4]) || 0;
+            root.netTx = parseFloat(p[5]) || 0;
         }
         if (p.length >= 9) {
-            root.diskPercent = parseInt(p[6]);
-            root.diskGb = parseFloat(p[7]);
-            root.diskTotalGb = parseFloat(p[8]);
+            root.diskPercent = parseInt(p[6]) || 0;
+            root.diskGb = parseFloat(p[7]) || 0;
+            root.diskTotalGb = parseFloat(p[8]) || 0;
         }
     }
 
@@ -60,61 +61,6 @@ Item {
         if (!fetchProc.running) {
             fetchProc.running = true;
         }
-    }
-
-    property real lastNetRxBytes: -1
-    property real lastNetTxBytes: -1
-    property real lastNetSampleMs: 0
-    property int netInterval: root.onBattery ? 6000 : 3000
-
-    function resetNet() {
-        lastNetRxBytes = -1;
-        lastNetTxBytes = -1;
-        lastNetSampleMs = 0;
-    }
-
-    function sampleNet() {
-        netDev.reload();
-        let text = netDev.text();
-        if (!text) return;
-
-        let rx = 0, tx = 0;
-        let lines = text.split("\n");
-        for (let i = 2; i < lines.length; i++) {
-            let line = lines[i];
-            let colon = line.indexOf(":");
-            if (colon < 0) continue;
-            let iface = line.substring(0, colon).trim();
-            if (!/^(e|w)/.test(iface)) continue;
-            let f = line.substring(colon + 1).trim().split(/\s+/);
-            rx += parseFloat(f[0]) || 0;
-            tx += parseFloat(f[8]) || 0;
-        }
-
-        let now = Date.now();
-        if (root.lastNetRxBytes >= 0 && now > root.lastNetSampleMs) {
-            let dt = (now - root.lastNetSampleMs) / 1000;
-            root.netRx = rx >= root.lastNetRxBytes ? (rx - root.lastNetRxBytes) / dt : 0;
-            root.netTx = tx >= root.lastNetTxBytes ? (tx - root.lastNetTxBytes) / dt : 0;
-        }
-        root.lastNetRxBytes = rx;
-        root.lastNetTxBytes = tx;
-        root.lastNetSampleMs = now;
-    }
-
-    FileView {
-        id: netDev
-        path: "/proc/net/dev"
-        blockLoading: true
-    }
-
-    Timer {
-        id: netTimer
-        interval: root.netInterval
-        repeat: true
-        running: false
-        triggeredOnStart: true
-        onTriggered: root.sampleNet()
     }
 
     // Samples are rewritten every tick, so they live on tmpfs rather than in ~/.cache.

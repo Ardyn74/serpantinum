@@ -4,6 +4,8 @@ source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/caching.sh" 2>/dev/null || 
 source "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/config.sh" 2>/dev/null || true
 
 I18N_DIR="${I18N_DIR:-"${SERPANTINUM_DIR:-"$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"}/assets/languages"}"
+_I18N_CURRENT_LANG=""
+declare -gA _I18N_CACHE 2>/dev/null || true
 
 detect_system_language() {
     local locale="${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}"
@@ -22,16 +24,22 @@ detect_system_language() {
 }
 
 get_current_language() {
+    if [[ -n "$_I18N_CURRENT_LANG" ]]; then
+        printf '%s' "$_I18N_CURRENT_LANG"
+        return
+    fi
+
     local lang=""
     if command -v get_setting &>/dev/null; then
         lang="$(get_setting "general" '{}' | jq -r '.language // empty' 2>/dev/null)"
     fi
 
     if [[ -z "$lang" || "$lang" == "null" ]]; then
-        detect_system_language
+        _I18N_CURRENT_LANG="$(detect_system_language)"
     else
-        printf '%s' "$lang"
+        _I18N_CURRENT_LANG="$lang"
     fi
+    printf '%s' "$_I18N_CURRENT_LANG"
 }
 
 is_rtl() {
@@ -87,21 +95,26 @@ t() {
         lang="$(get_current_language)"
     fi
 
+    local cache_lookup_key="${lang}:${key}"
     local translated=""
-    local i18n_file="${I18N_DIR}/${lang}.json"
+    if [[ -n "${_I18N_CACHE[$cache_lookup_key]+_}" ]]; then
+        translated="${_I18N_CACHE[$cache_lookup_key]}"
+    else
+        local i18n_file="${I18N_DIR}/${lang}.json"
+        if [[ -f "$i18n_file" ]]; then
+            translated="$(jq -r --arg k "$key" '
+                ($k | split(".")) as $path |
+                getpath($path) | strings
+            ' "$i18n_file" 2>/dev/null)"
+        fi
 
-    if [[ -f "$i18n_file" ]]; then
-        translated="$(jq -r --arg k "$key" '
-            ($k | split(".")) as $path |
-            getpath($path) | strings
-        ' "$i18n_file" 2>/dev/null)"
-    fi
-
-    if [[ -z "$translated" && "$lang" != "en" && -f "${I18N_DIR}/en.json" ]]; then
-        translated="$(jq -r --arg k "$key" '
-            ($k | split(".")) as $path |
-            getpath($path) | strings
-        ' "${I18N_DIR}/en.json" 2>/dev/null)"
+        if [[ -z "$translated" && "$lang" != "en" && -f "${I18N_DIR}/en.json" ]]; then
+            translated="$(jq -r --arg k "$key" '
+                ($k | split(".")) as $path |
+                getpath($path) | strings
+            ' "${I18N_DIR}/en.json" 2>/dev/null)"
+        fi
+        _I18N_CACHE[$cache_lookup_key]="$translated"
     fi
 
     if [[ -z "$translated" ]]; then

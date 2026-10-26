@@ -159,20 +159,20 @@ watch_brightness() {
         local old_pid
         old_pid="$(cat "$WATCH_PIDFILE" 2>/dev/null || true)"
         if [[ "$old_pid" =~ ^[0-9]+$ ]] && [[ "$old_pid" != "$$" ]]; then
-            if tr '\0' ' ' < "/proc/$old_pid/cmdline" 2>/dev/null | grep -q "brightness.sh"; then
+            if tr '\0' ' ' < "/proc/$old_pid/cmdline" 2>/dev/null | grep -E -q "brightness\.sh|inotifywait"; then
                 kill "$old_pid" 2>/dev/null || true
                 pkill -P "$old_pid" 2>/dev/null || true
             fi
         fi
     fi
     printf '%s\n' "$$" > "$WATCH_PIDFILE"
-    trap 'rm -f "$WATCH_PIDFILE"' EXIT
+    trap 'rm -f "$WATCH_PIDFILE"; exit 0' EXIT INT TERM
 
     touch "$BRIGHTNESS_STATE"
     for path in /sys/class/backlight/*/brightness; do
         [[ -e "$path" ]] && paths+=("$path")
     done
-    exec inotifywait -m -e modify "${paths[@]}" 2>/dev/null
+    inotifywait -m -e modify "${paths[@]}" 2>/dev/null
 }
 
 case "$ACTION" in

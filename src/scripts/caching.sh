@@ -33,18 +33,8 @@ qs_ensure_cache() {
     export "QS_RUN_${WIDGET_UPPER}=$WIDGET_RUN"
 }
 
-if [ -d "$QS_DIR" ]; then
-    for dir in "$QS_DIR"/*/; do
-        [ -d "$dir" ] || continue
-        
-        dir_trimmed="${dir%/}"
-        WIDGET_NAME="${dir_trimmed##*/}"
-        
-        qs_ensure_cache "$WIDGET_NAME"
-    done
-fi
-
 qs_ensure_cache "focustime"
+qs_ensure_cache "quickactions"
 
 if [ ! -f "$QS_STATE_DIR/version" ]; then
     ver=""

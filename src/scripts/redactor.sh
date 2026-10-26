@@ -7,9 +7,9 @@ TARGET_MON="${1:-}"
 SELECTED_ID="${2:-}"
 
 if [ -n "$TARGET_MON" ] && [ -n "$SELECTED_ID" ]; then
-    quickshell -p $MAIN_QML ipc call redactor open "$TARGET_MON" "$SELECTED_ID"
+    quickshell ${MAIN_QML:+-p "$MAIN_QML"} ipc call redactor open "$TARGET_MON" "$SELECTED_ID"
 elif [ -n "$TARGET_MON" ]; then
-    quickshell -p $MAIN_QML ipc call redactor open "$TARGET_MON" ""
+    quickshell ${MAIN_QML:+-p "$MAIN_QML"} ipc call redactor open "$TARGET_MON" ""
 else
-    quickshell -p $MAIN_QML ipc call redactor activate
+    quickshell ${MAIN_QML:+-p "$MAIN_QML"} ipc call redactor activate
 fi

@@ -12,6 +12,8 @@ Item {
 
     property bool dataReady: false
     property var rawSettings: ({})
+    property var _settingsCache: ({})
+    onRawSettingsChanged: _settingsCache = ({})
     property bool isWriting: false
     property var pendingPayload: null
     property string lastWrittenContent: ""
@@ -66,7 +68,13 @@ Item {
     function getSetting(key, fallbackValue) {
         if (!rawSettings || typeof rawSettings !== "object") {
             if (fallbackValue !== null && typeof fallbackValue === "object") {
-                try { return JSON.parse(JSON.stringify(fallbackValue)); } catch (e) { return fallbackValue; }
+                let fbKey = "__fb_" + key;
+                if (_settingsCache.hasOwnProperty(fbKey)) return _settingsCache[fbKey];
+                try {
+                    let parsed = JSON.parse(JSON.stringify(fallbackValue));
+                    _settingsCache[fbKey] = parsed;
+                    return parsed;
+                } catch (e) { return fallbackValue; }
             }
             return fallbackValue;
         }
@@ -93,8 +101,14 @@ Item {
         }
 
         if (val !== null && typeof val === "object") {
+            let cacheKey = (typeof key === "string" ? key : JSON.stringify(key)) + (val === fallbackValue ? "_fb" : "");
+            if (_settingsCache.hasOwnProperty(cacheKey)) {
+                return _settingsCache[cacheKey];
+            }
             try {
-                return JSON.parse(JSON.stringify(val));
+                let parsed = JSON.parse(JSON.stringify(val));
+                _settingsCache[cacheKey] = parsed;
+                return parsed;
             } catch (e) {
                 return val;
             }

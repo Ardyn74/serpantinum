@@ -64,7 +64,6 @@ Scope {
     }
 
     Component.onCompleted: {
-        SystemInfo.fetch();
         root.updateDeInfo();
         root.updateScreenCount();
         Quickshell.execDetached(["rm", "-f", Caching.getRunDir("lock") + "/locked"]);
@@ -484,13 +483,13 @@ Scope {
 
     IpcHandler {
         target: "lock"
-        function activate(): void {
+        function activate() {
             root.lock();
         }
-        function activateStatic(): void {
+        function activateStatic() {
             root.lockStatic();
         }
-        function restartAuth(): void {
+        function restartAuth() {
             if (rootLock.locked) root.restartAuth();
         }
     }
