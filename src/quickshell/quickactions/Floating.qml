@@ -322,7 +322,6 @@ Variants {
             property int hoveredBars: 0
 
             property var tabModules: [
-                "actions/DrawAction.qml",
                 "actions/SystemUsage.qml",
                 "actions/Timer.qml",
                 "actions/Notes.qml",
@@ -333,9 +332,7 @@ Variants {
 
             function getTabInfo(index) {
                 let mod = (index >= 0 && index < tabModules.length) ? tabModules[index] : "";
-                if (mod.indexOf("Draw") !== -1) {
-                    return { name: I18n.t("quickactions.tabs.draw"), icon: "󰽉" };
-                } else if (mod.indexOf("SystemUsage") !== -1) {
+                if (mod.indexOf("SystemUsage") !== -1) {
                     return { name: I18n.t("quickactions.tabs.system"), icon: "󰍛" };
                 } else if (mod.indexOf("Timer") !== -1) {
                     return { name: I18n.t("quickactions.tabs.timer"), icon: "󰔛" };
