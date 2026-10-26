@@ -333,6 +333,23 @@ setup_pam_service() {
     sudo chmod 644 "$target" 2>/dev/null || true
 }
 
+setup_battery_charge_limit() {
+    local repo_root="$1"
+    local rule_src="$repo_root/config/udev/99-battery-charge-limit.rules"
+    local udev_dir="/etc/udev/rules.d"
+
+    [ -f "$rule_src" ] || return 0
+    [ -e /etc/NIXOS ] && return 0
+
+    if compgen -G "/sys/class/power_supply/BAT*/charge_control_end_threshold" >/dev/null 2>&1; then
+        sudo mkdir -p "$udev_dir"
+        sudo cp "$rule_src" "$udev_dir/99-battery-charge-limit.rules" 2>/dev/null || true
+        sudo chmod 644 "$udev_dir/99-battery-charge-limit.rules" 2>/dev/null || true
+        sudo udevadm control --reload 2>/dev/null || true
+        sudo udevadm trigger --subsystem-match=power_supply 2>/dev/null || true
+    fi
+}
+
 install_desktop_entry() {
     local REPO_ROOT="$1"
     local BIN_DIR="$2"
@@ -562,4 +579,5 @@ deploy_package() {
     install_desktop_entry "$REPO_ROOT" "$BIN_DIR"
 
     setup_pam_service
+    setup_battery_charge_limit "$REPO_ROOT"
 }
