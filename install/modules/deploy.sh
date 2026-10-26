@@ -177,14 +177,15 @@ setup_sddm() {
     sudo rm -rf /usr/share/sddm/themes/material-you
     sudo rm -f /etc/sddm.conf.d/*matugen*.conf
     sudo rm -f /etc/sddm.conf.d/*material-you*.conf
+    sudo mkdir -p /var/lib/impasto/faces 2>/dev/null || true
 
     if [ "$is_update" != true ] && [ -f /etc/sddm.conf ]; then
         sudo cp -a /etc/sddm.conf "/etc/sddm.conf.backup.$(date +%Y%m%d_%H%M%S)" 2>/dev/null || true
         sudo rm -f /etc/sddm.conf
     fi
 
-    local sddm_theme_src="$project_root/config/sddm/themes/material-you"
-    local sddm_theme_dest="/usr/share/sddm/themes/material-you"
+    local sddm_theme_src="$project_root/config/sddm/themes/impasto"
+    local sddm_theme_dest="/usr/share/sddm/themes/impasto"
 
     if [ -d "$sddm_theme_src" ]; then
         sudo mkdir -p "$sddm_theme_dest"
@@ -200,33 +201,38 @@ setup_sddm() {
     sudo mkdir -p /etc/sddm.conf.d
 
     if [ "$sddm_display_server" = "wayland" ]; then
-        cat <<EOF | sudo tee /etc/sddm.conf.d/10-material-you.conf > /dev/null
+        cat <<EOF | sudo tee /etc/sddm.conf.d/10-impasto.conf > /dev/null
 [Theme]
-Current=material-you
+Current=impasto
 ThemeDir=/usr/share/sddm/themes
+FacesDir=/var/lib/impasto/faces
 
 [General]
 DisplayServer=wayland
-GreeterEnvironment=QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+GreeterEnvironment=QT_WAYLAND_DISABLE_WINDOWDECORATION=1,QML_XHR_ALLOW_FILE_READ=1,QT_SCALE_FACTOR=1.8,QT_SCREEN_SCALE_FACTORS=1.8
 InputMethod=
+EnableHiDPI=false
 
 [Wayland]
 CompositorCommand=$sddm_compositor_cmd
 EOF
     else
-        cat <<EOF | sudo tee /etc/sddm.conf.d/10-material-you.conf > /dev/null
+        cat <<EOF | sudo tee /etc/sddm.conf.d/10-impasto.conf > /dev/null
 [Theme]
-Current=material-you
+Current=impasto
 ThemeDir=/usr/share/sddm/themes
+FacesDir=/var/lib/impasto/faces
 
 [General]
 DisplayServer=x11
 InputMethod=
+GreeterEnvironment=QML_XHR_ALLOW_FILE_READ=1,QT_SCALE_FACTOR=1.8,QT_SCREEN_SCALE_FACTORS=1.8
+EnableHiDPI=false
 EOF
     fi
 
     if [ "$PM_SDDM_CURSOR_FIX" = true ]; then
-        pm_configure_sddm_cursor /etc/sddm.conf.d/10-material-you.conf
+        pm_configure_sddm_cursor /etc/sddm.conf.d/10-impasto.conf
     fi
 
     if declare -f pm_enable_display_manager >/dev/null; then
