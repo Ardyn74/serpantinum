@@ -60,8 +60,6 @@ Item {
         height: Math.min(parent.height - rootObj.s(32), rootObj.s(70) + rootObj.s(48) * 6 + rootObj.s(56))
         radius: ThemeBackend.borderRadius <= 16 ? ThemeBackend.borderRadius * 1.5 : 24
         color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-        border.width: ThemeBackend.liquidGlass ? 0 : 1
-        border.color: Qt.alpha(ThemeBackend.surface1, 0.45)
         clip: true
         scale: picker.active ? 1.0 : 0.94
         Behavior on scale { NumberAnimation { duration: 280; easing.type: Easing.OutBack; easing.overshoot: 1.1 } }

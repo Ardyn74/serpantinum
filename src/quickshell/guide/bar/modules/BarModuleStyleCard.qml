@@ -44,13 +44,8 @@ Rectangle {
         Behavior on press { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
     }
 
-    border.width: ThemeBackend.liquidGlass ? 0 : 1
-    border.color: selected
-        ? Qt.alpha(ThemeBackend.surface2, 0.75)
-        : (hover.hovered ? Qt.alpha(ThemeBackend.surface2, 0.5) : Qt.alpha(ThemeBackend.surface1, 0.4))
 
     Behavior on color { ColorAnimation { duration: 150 } }
-    Behavior on border.color { ColorAnimation { duration: 150 } }
 
     scale: (mouse.pressed ? 0.985 : (hover.hovered ? 1.015 : 1.0)) * styleCard.popScale
     Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }

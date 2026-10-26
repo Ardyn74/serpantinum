@@ -49,11 +49,8 @@ Item {
                 height: rootObj.s(52)
                 radius: ThemeBackend.borderRadius
                 color: gfRow.active ? "transparent" : (rowMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.45) : Qt.alpha(ThemeBackend.surface0, 0.4))
-                border.color: rowMa.containsMouse ? Qt.alpha(ThemeBackend.surface2, 0.45) : Qt.alpha(ThemeBackend.surface1, 0.3)
-                border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                 Behavior on color { ColorAnimation { duration: 150 } }
-                Behavior on border.color { ColorAnimation { duration: 150 } }
 
                 transform: Translate { y: (index * rootObj.s(12)) * (1 - bottomPanel.tab.introBottom) }
 
@@ -227,8 +224,6 @@ Item {
             tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
             tintAmount: 0.25
         }
-        border.color: Qt.alpha(ThemeBackend.surface1, 0.3)
-        border.width: ThemeBackend.liquidGlass ? 0 : 1
 
         opacity: bottomPanel.tab.appViewFocus
         visible: opacity > 0

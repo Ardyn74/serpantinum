@@ -1296,8 +1296,6 @@ PanelWindow {
             bottomLeftRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "left")) ? 0 : container.dynamicCornerRadius
             bottomRightRadius: (flatCorners && (launcherWindow.attachEdge === "bottom" || launcherWindow.attachEdge === "right")) ? 0 : container.dynamicCornerRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            border.width: 0
-            border.color: launcherWindow.isCentered ? Qt.alpha(ThemeBackend.surface2, 0.6) : "transparent"
             clip: true
 
             WallpaperBlur {
@@ -2054,7 +2052,6 @@ PanelWindow {
                                     color: (emojiGlass.active || emojiDelegateRoot.lensHandled) ? "transparent" : (emojiDelegateRoot.isSelected
                                            ? ThemeBackend.mauve
                                            : (emojiMa.containsMouse ? Qt.alpha(ThemeBackend.surface1, 0.7) : Qt.alpha(ThemeBackend.surface0, 0.45)))
-                                    border.width: (emojiDelegateRoot.isSelected || ThemeBackend.liquidGlass) ? 0 : 1
 
                                     GlassFill {
                                         id: emojiGlass
@@ -2067,7 +2064,6 @@ PanelWindow {
                                         tintAmount: emojiDelegateRoot.isSelected ? 0 : 0.25
                                         press: emojiMa.pressed ? 0.8 : (emojiDelegateRoot.isSelected ? 0.6 : (emojiMa.containsMouse ? 0.25 : 0))
                                     }
-                                    border.color: emojiDelegateRoot.isSelected ? "transparent" : Qt.alpha(ThemeBackend.surface2, 0.3)
 
                                     Behavior on color {
                                         ColorAnimation { duration: 150; easing.type: Easing.OutCubic }

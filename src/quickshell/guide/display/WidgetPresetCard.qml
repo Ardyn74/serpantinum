@@ -161,8 +161,6 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             color: "transparent"
-            border.width: 1
-            border.color: Qt.alpha(ThemeBackend.surface2, 0.3)
         }
     }
 

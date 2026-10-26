@@ -409,7 +409,6 @@ Item {
         bottomLeftRadius: root.isLeftAnchored ? 0 : radius
         topRightRadius: root.isLeftAnchored ? radius : 0
         bottomRightRadius: root.isLeftAnchored ? radius : 0
-        border.width: 0
         clip: true
         opacity: root.introContent
 

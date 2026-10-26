@@ -623,8 +623,6 @@ Item {
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius > 0 ? Math.min(ThemeBackend.borderRadius, Scaler.s(6)) : Scaler.s(6)
                         color: "transparent"
-                        border.width: 1.5
-                        border.color: ThemeBackend.surface1
                         visible: root.isEditingUser
                         z: 10
                     }

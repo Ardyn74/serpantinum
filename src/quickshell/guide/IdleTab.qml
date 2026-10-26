@@ -414,8 +414,6 @@ GuideTab {
                     implicitHeight: rootObj.s(18)
                     radius: rootObj.s(4)
                     color: Qt.alpha(ThemeBackend.red, 0.15)
-                    border.color: Qt.alpha(ThemeBackend.red, 0.4)
-                    border.width: 1
 
                     Text {
                         id: invalidBadgeText
@@ -819,7 +817,6 @@ GuideTab {
                     tintColor: Qt.alpha(ThemeBackend.surface0, 0.4)
                     tintAmount: 0.25
                 }
-                border.width: 0
                 visible: idleTabRoot.idleEnabled
 
                 ColumnLayout {

@@ -1496,8 +1496,6 @@ Item {
             anchors.fill: parent
             radius: ThemeBackend.borderRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            border.width: 0
-            border.color: "transparent"
             clip: true
 
             WallpaperBlur {
@@ -1548,13 +1546,10 @@ Item {
                 anchors.verticalCenterOffset: -popupWindowRoot.s(65) / 2
                 width: popupWindowRoot.s(520); height: width; radius: width / 2
                 color: "transparent"
-                border.color: popupWindowRoot.activeColor
-                border.width: popupWindowRoot.s(2)
                 property real pingProg: popupWindowRoot.animWin(popupWindowRoot.introState, 0.03, 0.32)
                 opacity: (1 - pingProg) * (popupWindowRoot.currentPower ? 0.45 : 0.18)
                 scale: 0.2 + 0.9 * pingProg
                 visible: popupWindowRoot.visible && pingProg > 0.001 && pingProg < 0.999 && opacity > 0.01
-                Behavior on border.color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 250 } }
             }
 
             Item {
@@ -1576,11 +1571,7 @@ Item {
                         radius: width / 2
                         color: "transparent"
 
-                        border.color: Object.keys(popupWindowRoot.disconnectingDevices).length > 0 ? ThemeBackend.red : popupWindowRoot.activeColor
-                        border.width: Object.keys(popupWindowRoot.disconnectingDevices).length > 0 ? popupWindowRoot.s(2) : 1
 
-                        Behavior on border.color { enabled: popupWindowRoot.visible; ColorAnimation { duration: 150 } }
-                        Behavior on border.width { enabled: popupWindowRoot.visible; NumberAnimation { duration: 150 } }
 
                         property real ringIntro: popupWindowRoot.easeOut(popupWindowRoot.animWin(popupWindowRoot.introState, 0.06 + index * 0.05, 0.22 + index * 0.05))
                         scale: 0.75 + 0.25 * ringIntro

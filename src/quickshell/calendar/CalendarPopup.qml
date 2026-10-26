@@ -464,8 +464,6 @@ Item {
             anchors.fill: parent
             radius: ThemeBackend.borderRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            border.width: 0
-            border.color: "transparent"
             clip: true
 
             WallpaperBlur {
@@ -747,8 +745,6 @@ Item {
                                 anchors.fill: parent
                                 radius: Math.min(window.s(26), ThemeBackend.borderRadius * 1.75)
                                 color: hourGlass.active ? "transparent" : (isHighlighted ? window.textAccent : Qt.alpha(hrMa.containsMouse ? Qt.lighter(window.surface0, 1.12) : window.surface0, 1.0))
-                                border.color: isHighlighted ? Qt.lighter(window.textAccent, 1.1) : (hrMa.containsMouse ? Qt.alpha(window.surface2, 0.9) : Qt.alpha(window.surface1, 0.6))
-                                border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                                 GlassFill {
                                     id: hourGlass
@@ -763,7 +759,6 @@ Item {
                                 }
 
                                 Behavior on color { ColorAnimation { duration: 150 } }
-                                Behavior on border.color { ColorAnimation { duration: 150 } }
 
                                 ColumnLayout {
                                     anchors.centerIn: parent
@@ -812,8 +807,6 @@ Item {
                 height: window.s(350)
                 color: calendarGlass.active ? "transparent" : Qt.alpha(window.surface0, 0.2)
                 radius: ThemeBackend.borderRadius
-                border.color: Qt.alpha(window.surface1, 0.4)
-                border.width: 1
                 z: 10
 
                 GlassFill {

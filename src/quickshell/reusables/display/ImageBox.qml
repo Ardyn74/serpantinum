@@ -42,8 +42,6 @@ Item {
         anchors.fill: parent
         radius: root.cornerRadius
         color: glass.active ? "transparent" : root.backgroundColor
-        border.color: root.borderColor
-        border.width: root.borderWidth
         clip: true
 
         GlassFill {

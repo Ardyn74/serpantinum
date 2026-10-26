@@ -211,8 +211,6 @@ Item {
                 height: dockWindow.s(4)
                 radius: width / 2
                 color: "transparent"
-                border.width: 1
-                border.color: ThemeBackend.overlay0
             }
 
             Rectangle {

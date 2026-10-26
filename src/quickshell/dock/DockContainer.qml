@@ -297,8 +297,6 @@ Item {
             bottomLeftRadius: containerRoot.bottomLeftCorner
             bottomRightRadius: containerRoot.bottomRightCorner
             color: ThemeBackend.liquidGlass ? "transparent" : ThemeBackend.base
-            border.width: (!ThemeBackend.liquidGlass && (dockWindow.dockFloating || dockWindow.editMode || containerRoot.outerCornerProgress < 0.99)) ? 1 : 0
-            border.color: (dockWindow.dockFloating || dockWindow.editMode || containerRoot.outerCornerProgress < 0.99) ? Qt.alpha(ThemeBackend.surface1, 0.4 * (1.0 - containerRoot.outerCornerProgress * 0.5)) : "transparent"
             clip: true
 
         }

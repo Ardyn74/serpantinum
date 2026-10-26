@@ -1114,7 +1114,6 @@ Variants {
                 radius: Math.min(floatingWidget.containerRadius, Math.min(width, height) / 2)
 
                 color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-                border.width: 0
 
                 WallpaperBlur {
                     z: -1
@@ -1315,7 +1314,6 @@ Variants {
                         topRightRadius: floatingWidget.containerRadius
                         bottomRightRadius: floatingWidget.containerRadius
                         color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-                        border.width: 0
 
                         WallpaperBlur {
                             z: -1
@@ -1389,8 +1387,6 @@ Variants {
                         component EmptyBlock : Rectangle {
                             radius: Math.min(floatingWidget.s(10), Math.min(width, height) / 2)
                             color: blockGlass.active ? "transparent" : Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.05)
-                            border.width: 0
-                            border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.08)
                             clip: true
 
                             GlassFill {
@@ -1636,13 +1632,8 @@ Variants {
                                             : (pinMouse.containsMouse
                                                 ? Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, 0.25)
                                                 : "transparent"))
-                                    border.width: floatingWidget.s(2)
-                                    border.color: floatingWidget.isPinned
-                                        ? ThemeBackend.mauve
-                                        : Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.2)
 
                                     Behavior on color { ColorAnimation { duration: 250 } }
-                                    Behavior on border.color { ColorAnimation { duration: 250 } }
 
                                     MouseArea {
                                         id: pinMouse

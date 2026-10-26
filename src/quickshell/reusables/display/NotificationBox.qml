@@ -159,8 +159,6 @@ Item {
         anchors.fill: parent
         radius: root.cornerRadius
         color: "transparent"
-        border.color: root.borderColor
-        border.width: root.borderWidth
         visible: root.borderWidth > 0
     }
 

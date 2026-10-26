@@ -113,8 +113,6 @@ Scope {
                 height: implicitHeight
                 radius: ThemeBackend.borderRadius <= 16 ? ThemeBackend.borderRadius * 1.5 : 24
                 color: ThemeBackend.base
-                border.color: ThemeBackend.surface0
-                border.width: 1
                 opacity: overlayScope.shown ? 1.0 : 0.0
                 scale: overlayScope.shown ? 1.0 : 0.92
                 Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }

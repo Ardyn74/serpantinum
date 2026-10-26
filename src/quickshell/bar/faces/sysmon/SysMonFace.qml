@@ -146,7 +146,6 @@ Item {
         height: implicitHeight
         radius: width / 2
         color: "transparent"
-        border.width: 0
 
         Timer {
             running: (!activeTarget || activeTarget.moduleActive) && root.showLayout && !initAnimTrigger

@@ -89,8 +89,6 @@ Item {
             anchors.fill: parent
             radius: ThemeBackend.borderRadius
             color: dockGlass.active ? "transparent" : root.alpha(root.cSurface0, 0.85)
-            border.color: root.alpha(root.cText, 0.1)
-            border.width: 1
 
             GlassFill {
                 id: dockGlass

@@ -137,8 +137,6 @@ Item {
                 anchors.margins: -3
                 radius: parent.radius + 3
                 color: "transparent"
-                border.width: 2
-                border.color: Qt.alpha(ThemeBackend.mauve, 0.8)
                 visible: root.activeFocus
             }
 

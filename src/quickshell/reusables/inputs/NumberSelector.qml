@@ -329,7 +329,6 @@ Item {
         opacity: root.enabled ? 1.0 : 0.5
 
         Behavior on color { ColorAnimation { duration: 150 } }
-        Behavior on border.color { ColorAnimation { duration: 150 } }
         Behavior on opacity { NumberAnimation { duration: 150 } }
 
         GlassFill {
@@ -658,8 +657,6 @@ Item {
         anchors.margins: -2
         radius: (typeof root.cornerRadius === "number" ? root.cornerRadius : 10) + 2
         color: "transparent"
-        border.width: 2
-        border.color: Qt.alpha(ThemeBackend.mauve, 0.8)
         visible: root.activeFocus
         z: 100
     }

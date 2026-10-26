@@ -193,8 +193,6 @@ GuideTab {
                             tintColor: ThemeBackend.surface0
                             tintAmount: 0.25
                         }
-                        border.width: 1
-                        border.color: Qt.alpha(ThemeBackend.surface2, 0.6)
                         clip: true
                         opacity: osdTabRoot.isCustomPos ? 1.0 : 0.0
                         visible: opacity > 0.001
@@ -303,7 +301,6 @@ GuideTab {
                                     tintColor: Qt.alpha(ThemeBackend.surface1, 0.35)
                                     tintAmount: 0.25
                                 }
-                                border.width: 0
 
                                 ColumnLayout {
                                     id: selectorInnerCol
@@ -431,8 +428,6 @@ GuideTab {
                                             anchors.fill: parent
                                             radius: rootObj.s(11)
                                             color: osdPreviewGlass.active ? "transparent" : ThemeBackend.base
-                                            border.width: ThemeBackend.liquidGlass ? 0 : 1
-                                            border.color: ThemeBackend.surface0
                                             clip: true
 
                                             GlassFill {

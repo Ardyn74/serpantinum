@@ -119,9 +119,6 @@ Rectangle {
         anchors.fill: parent
         radius: ThemeBackend.borderRadius
         color: "transparent"
-        border.color: delegateContainer.isSelected ? delegateContainer.textC : "transparent"
-        border.width: delegateContainer.isSelected ? 2 : 0
-        Behavior on border.color { ColorAnimation { duration: 150 } }
     }
 
     SequentialAnimation {

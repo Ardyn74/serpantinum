@@ -236,8 +236,6 @@ Item {
         anchors.fill: parent
         radius: root.cornerRadius
         color: "transparent"
-        border.color: Qt.rgba(1, 1, 1, 0.06)
-        border.width: 1
     }
 
     Rectangle {
@@ -252,8 +250,6 @@ Item {
         x: root.vertical ? (root.width - width) / 2 : root.animPosition * (root.width - width)
         y: root.vertical ? (1.0 - root.animPosition) * (root.height - height) : (root.height - height) / 2
         color: handleGlass.active ? "transparent" : (root.isDragging ? root.handleDragColor : (root.isHoveredOrHighlighted ? root.handleHoverColor : root.handleColor))
-        border.color: root.handleBorderColor
-        border.width: 0
 
         GlassFill {
             id: handleGlass
@@ -284,7 +280,6 @@ Item {
         }
 
         Behavior on color { ColorAnimation { duration: 150 } }
-        Behavior on border.color { ColorAnimation { duration: 150 } }
         Behavior on width {
             NumberAnimation {
                 duration: 150

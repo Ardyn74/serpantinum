@@ -129,9 +129,6 @@ Item {
             color: (window.currentPower || powerGlass.active) ? "transparent" : Qt.alpha(pwrMa.containsMouse ? Qt.lighter(ThemeBackend.base, 1.6) : Qt.lighter(ThemeBackend.base, 1.3), ThemeBackend.elementOpacity)
             Behavior on color { enabled: window.visible; ColorAnimation { duration: 250 } }
     
-            border.color: window.currentPowerPending ? window.activeColor : (window.currentPower ? "transparent" : (pwrMa.containsMouse ? Qt.lighter(ThemeBackend.base, 1.45) : Qt.lighter(ThemeBackend.base, 1.25)))
-            border.width: powerGlass.active ? 0 : 1
-            Behavior on border.color { enabled: window.powerAnimAllowed && window.visible; ColorAnimation { duration: 800; easing.type: Easing.InOutQuint } }
     
             GlassFill {
                 id: powerGlass

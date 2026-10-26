@@ -136,7 +136,6 @@ Item {
                     anchors.fill: parent
                     radius: widget ? widget.s(widget.isCompact ? 8 : 10) : 10
                     color: (wsPill.isActive || pillsShapeGlass.active) ? "transparent" : Qt.alpha(wsPill.isOccupied ? ThemeBackend.surface2 : ((widget && widget.isCompact) ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
-                    border.width: 0
 
                     GlassFill {
                         id: pillsShapeGlass

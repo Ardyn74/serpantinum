@@ -195,8 +195,6 @@ Item {
             anchors.fill: parent
             radius: ThemeBackend.borderRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            border.width: 0
-            border.color: "transparent"
             clip: true
 
             WallpaperBlur {
@@ -598,9 +596,6 @@ Item {
                             property bool isHovered: cardMa.containsMouse && !isActiveNode
 
                             color: delegateGlass.active ? "transparent" : (isActiveNode ? window.tabColor : (isHovered ? ThemeBackend.surface1 : ThemeBackend.surface0))
-                            border.color: isActiveNode ? window.tabColor : ThemeBackend.surface1
-                            border.width: delegateGlass.active ? 0 : (isActiveNode ? 2 : 1)
-                            Behavior on border.color { ColorAnimation { duration: 250 } }
                             Behavior on color { ColorAnimation { duration: 250 } }
 
                             GlassFill {

@@ -660,8 +660,6 @@ PanelWindow {
             bottomLeftRadius: (clipboardWindow.attachEdge === "bottom" || clipboardWindow.attachEdge === "left") ? 0 : clipboardWindow.cornerRadius
             bottomRightRadius: (clipboardWindow.attachEdge === "bottom" || clipboardWindow.attachEdge === "right") ? 0 : clipboardWindow.cornerRadius
             color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
-            border.width: 0
-            border.color: "transparent"
             clip: true
 
             WallpaperBlur {
@@ -1230,12 +1228,9 @@ PanelWindow {
                                     anchors.fill: parent
                                     radius: clipDelegateCard.radius
                                     color: "transparent"
-                                    border.width: (clipDelegateWrapper.isSelected && clipDelegateCard.isImage) ? clipboardWindow.s(2) : 0
-                                    border.color: (clipDelegateWrapper.isSelected && clipDelegateCard.isImage) ? ThemeBackend.mauve : "transparent"
                                     z: 10
                                     visible: clipDelegateCard.isImage
 
-                                    Behavior on border.color { ColorAnimation { duration: 150; easing.type: Easing.OutCubic } }
                                 }
 
                                 MouseArea {

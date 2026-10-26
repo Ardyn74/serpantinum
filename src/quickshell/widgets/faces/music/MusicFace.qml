@@ -150,8 +150,6 @@ Item {
                 height: width
                 radius: ThemeBackend.borderRadius
                 color: Qt.alpha(ThemeBackend.surface1, ThemeBackend.elementOpacity)
-                border.width: 1
-                border.color: (root.isMediaActive && MprisController.isPlaying) ? ThemeBackend.mauve : ThemeBackend.surface1
                 visible: root.showArt
 
                 Text {

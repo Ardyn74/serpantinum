@@ -1856,8 +1856,6 @@ Item {
                         anchors.fill: parent
                         radius: delegateRoot.dynamicRadius
                         color: "transparent"
-                        border.width: 0
-                        border.color: "transparent"
                     }
                 }
             }
@@ -1871,7 +1869,7 @@ Item {
         Behavior on anchors.topMargin { NumberAnimation { duration: 650; easing.type: Easing.OutQuint } }
         Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
         anchors.horizontalCenter: parent.horizontalCenter; z: 200; height: window.s(48); width: filterRow.width + window.s(20); radius: ThemeBackend.borderRadius
-        color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity); border.width: 0; border.color: "transparent"
+        color: Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity)
 
         WallpaperBlur {
             z: -1
@@ -1887,7 +1885,7 @@ Item {
                 property real paddingLeft: window.showSpinner ? window.s(36) : window.s(12)
                 property real targetWidth: window.showNotification ? Math.min(notifTextDrawer.implicitWidth + paddingLeft + window.s(16), window.s(300)) : 0
                 width: targetWidth; visible: width > 0.1; radius: ThemeBackend.borderRadius; clip: true; anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity); border.width: 0
+                color: Qt.alpha(ThemeBackend.surface0, ThemeBackend.elementOpacity)
                 Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                 Behavior on color { ColorAnimation { duration: 250 } }
 
@@ -1920,10 +1918,9 @@ Item {
                 property real expandedWidth: window.s(34) + monitorListRow.implicitWidth + window.s(6)
                 width: visible ? (window.isMonitorSelectorOpen ? expandedWidth : window.s(34)) : 0
                 radius: ThemeBackend.borderRadius; clip: true; anchors.verticalCenter: parent ? parent.verticalCenter : undefined
-                color: Qt.alpha(window.isMonitorSelectorOpen ? ThemeBackend.surface2 : ThemeBackend.surface0, ThemeBackend.elementOpacity); border.color: window.isMonitorSelectorOpen ? ThemeBackend.text : ThemeBackend.surface1; border.width: window.isMonitorSelectorOpen ? window.s(1.5) : 1
+                color: Qt.alpha(window.isMonitorSelectorOpen ? ThemeBackend.surface2 : ThemeBackend.surface0, ThemeBackend.elementOpacity)
                 Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                 Behavior on color { ColorAnimation { duration: 250 } }
-                Behavior on border.color { ColorAnimation { duration: 250 } }
 
                 CanvasIconButton {
                     glassShadow: 0
@@ -2068,7 +2065,6 @@ Item {
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
                         color: Qt.alpha(window.currentFilter === modelData.name ? ThemeBackend.surface2 : (filterMouse.containsMouse ? ThemeBackend.surface1 : ThemeBackend.surface0), ThemeBackend.elementOpacity)
-                        border.width: 0
                         scale: window.currentFilter === modelData.name ? 1.05 : (filterMouse.containsMouse ? 1.03 : 1.0)
                         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
                         Behavior on color { ColorAnimation { duration: 250 } }
@@ -2099,7 +2095,6 @@ Item {
                         anchors.fill: parent
                         radius: ThemeBackend.borderRadius
                         color: modelData.hex
-                        border.width: 0
                         scale: window.currentFilter === modelData.name ? 1.05 : (colorMouse.containsMouse ? 1.03 : 1.0)
                         Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
 

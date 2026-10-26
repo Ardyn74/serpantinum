@@ -768,8 +768,6 @@ PanelWindow {
             Rectangle {
                 anchors.fill: parent
                 color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity) : ThemeBackend.base
-                border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.08)
-                border.width: ThemeBackend.liquidGlass ? 0 : s(1)
                 radius: ThemeBackend.borderRadius
 
                 WallpaperBlur {
@@ -806,8 +804,6 @@ PanelWindow {
                 anchors.topMargin: toolbar.fitsOutsideBottom ? s(4) : 0
 
                 color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity) : ThemeBackend.base
-                border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.08)
-                border.width: ThemeBackend.liquidGlass ? 0 : s(1)
                 radius: ThemeBackend.borderRadius
                 z: 50
                 opacity: showMenu ? 1.0 : 0.0
@@ -918,8 +914,6 @@ PanelWindow {
                 anchors.topMargin: toolbar.fitsOutsideBottom ? s(4) : 0
 
                 color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity) : ThemeBackend.base
-                border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.08)
-                border.width: ThemeBackend.liquidGlass ? 0 : s(1)
                 radius: ThemeBackend.borderRadius
                 z: 50
                 opacity: showMenu ? 1.0 : 0.0
@@ -1185,8 +1179,6 @@ PanelWindow {
                         height: s(36)
                         radius: ThemeBackend.borderRadius
                         color: backendBtnGlass.active ? "transparent" : (backendDropdown.showMenu ? ThemeBackend.surface1 : (backendMa.containsMouse ? ThemeBackend.surface1 : ThemeBackend.surface0))
-                        border.color: Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.08)
-                        border.width: backendBtnGlass.active ? 0 : s(1)
 
                         GlassFill {
                             id: backendBtnGlass
@@ -1362,9 +1354,6 @@ PanelWindow {
                         anchors.fill: parent
                         radius: width / 2
                         color: "transparent"
-                        border.color: root.isVideoMode ? Qt.alpha(ThemeBackend.red, 0.4) : Qt.alpha(ThemeBackend.surface1, 0.8)
-                        border.width: s(2)
-                        Behavior on border.color { enabled: root.animateChanges && !root.isRefreezing; ColorAnimation { duration: 250 } }
                     }
 
                     Rectangle {
@@ -1429,8 +1418,6 @@ PanelWindow {
                 height: s(52)
                 radius: ThemeBackend.borderRadius
                 color: ThemeBackend.liquidGlass ? Qt.alpha(ThemeBackend.base, ThemeBackend.elementOpacity) : ThemeBackend.base
-                border.color: model.qSuccess ? ThemeBackend.green : ThemeBackend.red
-                border.width: s(2)
 
                 WallpaperBlur {
                     z: -1

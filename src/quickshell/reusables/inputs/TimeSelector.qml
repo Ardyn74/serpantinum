@@ -269,8 +269,6 @@ Item {
         anchors.fill: parent
         radius: root.cornerRadius
         color: glass.active ? "transparent" : root.baseColor
-        border.color: root.borderColor
-        border.width: 1
         clip: true
         opacity: root.enabled ? 1.0 : 0.5
         

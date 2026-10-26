@@ -354,9 +354,6 @@ Item {
                 color: batPillGlass.active ? "transparent" : (batMouseArea.pressed ? Qt.darker(baseColor, 1.15) : (batMouseArea.containsMouse ? Qt.lighter(baseColor, 1.08) : baseColor))
                 Behavior on color { ColorAnimation { duration: 150 } }
                 property color baseBorderColor: root.isCompact ? ThemeBackend.surface2 : ThemeBackend.surface1
-                border.color: batMouseArea.containsMouse ? ThemeBackend.surface2 : baseBorderColor
-                Behavior on border.color { ColorAnimation { duration: 150 } }
-                border.width: ThemeBackend.liquidGlass ? 0 : 1
 
                 GlassFill {
                     id: batPillGlass
@@ -480,7 +477,7 @@ Item {
                     width: s(root.isCompact ? 3 : 4)
                     height: Math.round(root.pillHeight * 0.38)
                     radius: s(1.5)
-                    color: batPill.border.color
+                    color: batPill.baseBorderColor
                 }
             }
         }
@@ -506,7 +503,7 @@ Item {
                     width: Math.round(batBtn.width * 0.38)
                     height: s(root.isCompact ? 2.5 : 3)
                     radius: s(1)
-                    color: batBtn.border.color
+                    color: batBtn.baseBorderColor
                 }
             }
 
@@ -532,9 +529,6 @@ Item {
                     Behavior on press { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
                 }
                 property color baseBorderColor: root.isCompact ? ThemeBackend.surface2 : ThemeBackend.surface1
-                border.color: sideBatMouseArea.containsMouse ? ThemeBackend.surface2 : baseBorderColor
-                Behavior on border.color { ColorAnimation { duration: 150 } }
-                border.width: ThemeBackend.liquidGlass ? 0 : 1
                 clip: true
 
                 scale: sideBatMouseArea.pressed ? 0.94 : (sideBatMouseArea.containsMouse ? 1.04 : 1.0)

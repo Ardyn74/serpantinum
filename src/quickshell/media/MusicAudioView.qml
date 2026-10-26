@@ -104,8 +104,6 @@ Item {
                         height: balanceSlider.trackHeight
                         radius: height / 2
                         color: balanceTrackGlass.active ? "transparent" : Qt.alpha(ThemeBackend.surface2 || "#585b70", ThemeBackend.elementOpacity)
-                        border.width: 1
-                        border.color: Qt.rgba(1, 1, 1, 0.06)
                         clip: true
 
                         GlassFill {

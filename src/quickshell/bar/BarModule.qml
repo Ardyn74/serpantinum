@@ -93,7 +93,6 @@ Rectangle {
     }
 
     radius: ThemeBackend.borderRadius
-    border.width: 0
     color: isGrouped || pillGlass.active ? "transparent" : (isSolid ? (distinctPills ? Qt.alpha(Qt.darker(ThemeBackend.surface0, 1.15), root.barOpacity) : "transparent") : Qt.alpha(ThemeBackend.base, root.barOpacity))
     clip: true
 

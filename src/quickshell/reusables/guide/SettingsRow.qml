@@ -436,14 +436,11 @@ Rectangle {
         return base;
     }
     color: rowGlass.active ? (root.highlightFlash > 0.001 ? Qt.alpha(ThemeBackend.mauve, root.highlightFlash * 0.12) : "transparent") : stateColor
-    border.color: root.borderColor
-    border.width: root.borderWidth
     clip: true
 
     implicitHeight: contentCol.implicitHeight + root.verticalPadding * 2
 
     Behavior on color { ColorAnimation { duration: 150 } }
-    Behavior on border.color { ColorAnimation { duration: 150 } }
 
     GlassFill {
         id: rowGlass
