@@ -40,6 +40,8 @@ Item {
             font.weight: Font.DemiBold
             color: Theme.text
             opacity: 0.92
+            renderType: Text.QtRendering
+            antialiasing: true
         }
 
         Column {
@@ -56,6 +58,8 @@ Item {
                 font.letterSpacing: -Math.round(Theme.fontSizeClock * 0.04)
                 font.features: { "tnum": 1 }
                 color: Theme.text
+                renderType: Text.QtRendering
+                antialiasing: true
             }
 
             Item {
@@ -78,6 +82,8 @@ Item {
                     font.features: { "tnum": 1 }
                     color: Theme.text
                     opacity: 0.55
+                    renderType: Text.QtRendering
+                    antialiasing: true
                 }
 
                 Text {
@@ -91,6 +97,8 @@ Item {
                     font.weight: Font.Bold
                     color: Theme.text
                     opacity: 0.55
+                    renderType: Text.QtRendering
+                    antialiasing: true
                 }
             }
         }

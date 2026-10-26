@@ -47,6 +47,13 @@ QtObject {
 
     // ── TYPE ────────────────────────────────────────────────────────────────
 
+    readonly property FontLoader interDisplayLoader: FontLoader {
+        source: "../font/InterDisplay-Bold.ttf"
+    }
+    readonly property FontLoader interRegularLoader: FontLoader {
+        source: "../font/Inter-Regular.ttf"
+    }
+
     // Qt matches one family and never a list: a comma-separated stack names
     // no installed font, and the default sans is drawn instead. Qt is handed
     // the first family in the stack that exists.
@@ -63,13 +70,13 @@ QtObject {
     }
 
     readonly property string fontFamily:
-        root.fontOf("Inter, Cantarell, SF Pro Text, sans-serif")
+        interRegularLoader.name !== "" ? interRegularLoader.name : root.fontOf("Inter, Cantarell, SF Pro Text, sans-serif")
     readonly property string fontMono:
         root.fontOf("JetBrainsMono Nerd Font, monospace")
 
     // Inter's display cut, for the clock.
     readonly property string fontDisplay:
-        root.fontOf("Inter Display, Inter, Cantarell, sans-serif")
+        interDisplayLoader.name !== "" ? interDisplayLoader.name : root.fontOf("Inter Display, Inter, Cantarell, sans-serif")
 
     readonly property int fontSizeSmall: 11
     readonly property int fontSizeRegular: 13

@@ -159,6 +159,8 @@ Rectangle {
         transformOrigin: Item.Top
 
         layer.enabled: true
+        layer.smooth: true
+        layer.mipmap: true
         layer.effect: MultiEffect {
             shadowEnabled: true
             shadowBlur: 1
