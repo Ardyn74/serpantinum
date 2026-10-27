@@ -133,8 +133,6 @@ Item {
         if (!Networking || !Networking.devices) return;
         let devs = Networking.devices.values || Networking.devices;
         let count = devs.length !== undefined ? devs.length : (devs.count !== undefined ? devs.count : 0);
-        // Prefer the wired device that is actually connected (or has link), so virtual
-        // NICs like vboxnet0 don't shadow the real ethernet port.
         let bestEth = null;
         let bestRank = -1;
         for (let i = 0; i < count; i++) {
