@@ -135,6 +135,7 @@ Item {
         let count = devs.length !== undefined ? devs.length : (devs.count !== undefined ? devs.count : 0);
         let bestEth = null;
         let bestRank = -1;
+        let wifi = null;
         for (let i = 0; i < count; i++) {
             let d = devs[i] !== undefined ? devs[i] : (devs.get ? devs.get(i) : null);
             if (!d) continue;
@@ -144,10 +145,11 @@ Item {
                     bestEth = d;
                     bestRank = rank;
                 }
-            } else if (!root.wifiDevice && isWifiDevice(d)) {
-                root.wifiDevice = d;
+            } else if (!wifi && isWifiDevice(d)) {
+                wifi = d;
             }
         }
+        if (root.wifiDevice !== wifi) root.wifiDevice = wifi;
         if (root.ethDevice !== bestEth) root.ethDevice = bestEth;
     }
 
