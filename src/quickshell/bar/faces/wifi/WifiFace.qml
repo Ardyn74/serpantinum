@@ -148,7 +148,7 @@ Item {
                 root.wifiDevice = d;
             }
         }
-        if (bestEth && root.ethDevice !== bestEth) root.ethDevice = bestEth;
+        if (root.ethDevice !== bestEth) root.ethDevice = bestEth;
     }
 
     function getWifiNetworksList() {
