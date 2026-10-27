@@ -663,6 +663,7 @@ PanelWindow {
                 arr.push({
                     name: e.name,
                     description: e.comment || "",
+                    searchTerms: [e.genericName || ""].concat(e.keywords || []).join(" ").toLowerCase(),
                     desktop_id: e.id,
                     icon: e.icon || "",
                     fontIcon: "",
@@ -977,6 +978,7 @@ PanelWindow {
             let app = allApps[i];
             let nameLower = app.name ? app.name.toLowerCase() : "";
             let descLower = app.description ? app.description.toLowerCase() : "";
+            let termsLower = app.searchTerms || "";
 
             let matchQuality = 0;
             let matches = false;
@@ -995,6 +997,9 @@ PanelWindow {
                     matches = true;
                 } else if (descLower.includes(q)) {
                     matchQuality = 5000;
+                    matches = true;
+                } else if (termsLower.includes(q)) {
+                    matchQuality = 3000;
                     matches = true;
                 } else if (isSubsequence(q, nameLower)) {
                     matchQuality = 1000;
