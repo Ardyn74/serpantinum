@@ -15,8 +15,8 @@ PanelWindow {
 
     readonly property real screenWidth: (dockWindow.screen && dockWindow.screen.width > 0) ? dockWindow.screen.width : (modelData && modelData.width > 0 ? modelData.width : 0)
     readonly property real screenHeight: (dockWindow.screen && dockWindow.screen.height > 0) ? dockWindow.screen.height : (modelData && modelData.height > 0 ? modelData.height : 0)
-    readonly property real effectiveWindowWidth: screenWidth > 0 ? screenWidth : dockWindow.width
-    readonly property real effectiveWindowHeight: screenHeight > 0 ? screenHeight : dockWindow.height
+    readonly property real effectiveWindowWidth: dockWindow.width > 0 ? dockWindow.width : screenWidth
+    readonly property real effectiveWindowHeight: dockWindow.height > 0 ? dockWindow.height : screenHeight
 
     Connections {
         target: (typeof Config !== "undefined") ? Config : null

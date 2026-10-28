@@ -110,21 +110,12 @@ DockWindowApps {
         return len * 1.2;
     }
 
-    readonly property bool needsFullSurface: editMode || appPicker.opacity > 0.01 || dragSourceIndex !== -1
-    readonly property real stripThickness: Math.ceil(barOffset + s(8) + s(20) + dockContainerItem.fullThickness + hoverExpansion + s(8))
-    readonly property real frameOffsetX: dockPosition === "right" ? Math.max(0, effectiveWindowWidth - width) : 0
-    readonly property real frameOffsetY: dockPosition === "bottom" ? Math.max(0, effectiveWindowHeight - height) : 0
-    readonly property Item screenFrame: screenFrameItem
-
     anchors {
-        top: needsFullSurface || dockPosition === "top" || isVertical
-        bottom: needsFullSurface || dockPosition === "bottom" || isVertical
-        left: needsFullSurface || dockPosition === "left" || !isVertical
-        right: needsFullSurface || dockPosition === "right" || !isVertical
+        top: true
+        bottom: true
+        left: true
+        right: true
     }
-
-    implicitWidth: isVertical ? stripThickness : 0
-    implicitHeight: isVertical ? 0 : stripThickness
 
     Timer {
         id: hideTimer
@@ -292,10 +283,6 @@ DockWindowApps {
 
     mask: Region {
         Region {
-            x: dockWindowRoot.frameOffsetX
-            y: dockWindowRoot.frameOffsetY
-        }
-        Region {
             item: dockWindowRoot.editMode ? dismissArea : null
         }
         Region {
@@ -310,98 +297,90 @@ DockWindowApps {
     }
 
     Item {
-        id: screenFrameItem
-        x: -dockWindowRoot.frameOffsetX
-        y: -dockWindowRoot.frameOffsetY
+        id: dismissArea
         width: dockWindowRoot.effectiveWindowWidth
         height: dockWindowRoot.effectiveWindowHeight
+        visible: dockWindowRoot.editMode
+        z: -1
 
-        Item {
-            id: dismissArea
-            width: dockWindowRoot.effectiveWindowWidth
-            height: dockWindowRoot.effectiveWindowHeight
-            visible: dockWindowRoot.editMode
-            z: -1
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: dockWindowRoot.setEditMode(false)
-            }
-
-            Keys.onEscapePressed: function(event) {
-                dockWindowRoot.setEditMode(false);
-                event.accepted = true;
-            }
-        }
-
-        Item {
-            id: edgeTrigger
-            visible: dockWindowRoot.effectiveAutohide && !dockWindowRoot.isFullscreenActive && !dockWindowRoot.editMode
-            x: {
-                if (dockWindowRoot.isVertical) {
-                    if (dockWindowRoot.dockPosition === "right") {
-                        return dockWindowRoot.effectiveWindowWidth - width - dockWindowRoot.barOffset;
-                    }
-                    if (dockWindowRoot.dockPosition === "left") {
-                        return dockWindowRoot.barOffset;
-                    }
-                    return 0;
-                }
-                return Math.round((dockWindowRoot.effectiveWindowWidth - width) / 2);
-            }
-            y: {
-                if (!dockWindowRoot.isVertical) {
-                    if (dockWindowRoot.dockPosition === "bottom") {
-                        return dockWindowRoot.effectiveWindowHeight - height - dockWindowRoot.barOffset;
-                    }
-                    if (dockWindowRoot.dockPosition === "top") {
-                        return dockWindowRoot.barOffset;
-                    }
-                    return 0;
-                }
-                return Math.round((dockWindowRoot.effectiveWindowHeight - height) / 2);
-            }
-            width: dockWindowRoot.isVertical ? dockWindowRoot.autohideHitSize : Math.min(dockWindowRoot.effectiveWindowWidth, dockWindowRoot.dockTotalLength)
-            height: dockWindowRoot.isVertical ? Math.min(dockWindowRoot.effectiveWindowHeight, dockWindowRoot.dockTotalLength) : dockWindowRoot.autohideHitSize
-
-            HoverHandler {
-                id: edgeHover
-                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-                onHoveredChanged: dockWindowRoot.checkHideTimer()
-            }
-        }
-
-        Item {
-            id: dockMaskArea
-            readonly property real rawX: dockContainerItem.x - (dockContainerItem.isAttached && !dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius : 0) + dockTransform.x - dockWindowRoot.hoverExpansion
-            readonly property real rawY: dockContainerItem.y - (dockContainerItem.isAttached && dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius : 0) + dockTransform.y - dockWindowRoot.hoverExpansion
-            readonly property real rawW: dockContainerItem.width + (dockContainerItem.isAttached && !dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius * 2 : 0) + dockWindowRoot.hoverExpansion * 2
-            readonly property real rawH: dockContainerItem.height + (dockContainerItem.isAttached && dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius * 2 : 0) + dockWindowRoot.hoverExpansion * 2
-            readonly property real minX: (dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "left") ? dockWindowRoot.barOffset : 0
-            readonly property real maxX: dockWindowRoot.effectiveWindowWidth - ((dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "right") ? dockWindowRoot.barOffset : 0)
-            readonly property real minY: (dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "top") ? dockWindowRoot.barOffset : 0
-            readonly property real maxY: dockWindowRoot.effectiveWindowHeight - ((dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "bottom") ? dockWindowRoot.barOffset : 0)
-            x: Math.max(rawX, minX)
-            y: Math.max(rawY, minY)
-            width: Math.max(0, Math.min(rawX + rawW, maxX) - x)
-            height: Math.max(0, Math.min(rawY + rawH, maxY) - y)
-        }
-
-        Item {
-            id: dragOverlay
+        MouseArea {
             anchors.fill: parent
-            z: 999999
+            onClicked: dockWindowRoot.setEditMode(false)
         }
 
-        DockContainer {
-            id: dockContainerItem
-            dockWindow: dockWindowRoot
+        Keys.onEscapePressed: function(event) {
+            dockWindowRoot.setEditMode(false);
+            event.accepted = true;
         }
+    }
 
-        DockAppPicker {
-            id: appPicker
-            dockWindow: dockWindowRoot
-            dockContainer: dockContainerItem
+    Item {
+        id: edgeTrigger
+        visible: dockWindowRoot.effectiveAutohide && !dockWindowRoot.isFullscreenActive && !dockWindowRoot.editMode
+        x: {
+            if (dockWindowRoot.isVertical) {
+                if (dockWindowRoot.dockPosition === "right") {
+                    return dockWindowRoot.effectiveWindowWidth - width - dockWindowRoot.barOffset;
+                }
+                if (dockWindowRoot.dockPosition === "left") {
+                    return dockWindowRoot.barOffset;
+                }
+                return 0;
+            }
+            return Math.round((dockWindowRoot.effectiveWindowWidth - width) / 2);
         }
+        y: {
+            if (!dockWindowRoot.isVertical) {
+                if (dockWindowRoot.dockPosition === "bottom") {
+                    return dockWindowRoot.effectiveWindowHeight - height - dockWindowRoot.barOffset;
+                }
+                if (dockWindowRoot.dockPosition === "top") {
+                    return dockWindowRoot.barOffset;
+                }
+                return 0;
+            }
+            return Math.round((dockWindowRoot.effectiveWindowHeight - height) / 2);
+        }
+        width: dockWindowRoot.isVertical ? dockWindowRoot.autohideHitSize : Math.min(dockWindowRoot.effectiveWindowWidth, dockWindowRoot.dockTotalLength)
+        height: dockWindowRoot.isVertical ? Math.min(dockWindowRoot.effectiveWindowHeight, dockWindowRoot.dockTotalLength) : dockWindowRoot.autohideHitSize
+
+        HoverHandler {
+            id: edgeHover
+            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+            onHoveredChanged: dockWindowRoot.checkHideTimer()
+        }
+    }
+
+    Item {
+        id: dockMaskArea
+        readonly property real rawX: dockContainerItem.x - (dockContainerItem.isAttached && !dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius : 0) + dockTransform.x - dockWindowRoot.hoverExpansion
+        readonly property real rawY: dockContainerItem.y - (dockContainerItem.isAttached && dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius : 0) + dockTransform.y - dockWindowRoot.hoverExpansion
+        readonly property real rawW: dockContainerItem.width + (dockContainerItem.isAttached && !dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius * 2 : 0) + dockWindowRoot.hoverExpansion * 2
+        readonly property real rawH: dockContainerItem.height + (dockContainerItem.isAttached && dockWindowRoot.isVertical ? dockWindowRoot.outerCornerRadius * 2 : 0) + dockWindowRoot.hoverExpansion * 2
+        readonly property real minX: (dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "left") ? dockWindowRoot.barOffset : 0
+        readonly property real maxX: dockWindowRoot.effectiveWindowWidth - ((dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "right") ? dockWindowRoot.barOffset : 0)
+        readonly property real minY: (dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "top") ? dockWindowRoot.barOffset : 0
+        readonly property real maxY: dockWindowRoot.effectiveWindowHeight - ((dockWindowRoot.sameSideAsBar && dockWindowRoot.dockPosition === "bottom") ? dockWindowRoot.barOffset : 0)
+        x: Math.max(rawX, minX)
+        y: Math.max(rawY, minY)
+        width: Math.max(0, Math.min(rawX + rawW, maxX) - x)
+        height: Math.max(0, Math.min(rawY + rawH, maxY) - y)
+    }
+
+    Item {
+        id: dragOverlay
+        anchors.fill: parent
+        z: 999999
+    }
+
+    DockContainer {
+        id: dockContainerItem
+        dockWindow: dockWindowRoot
+    }
+
+    DockAppPicker {
+        id: appPicker
+        dockWindow: dockWindowRoot
+        dockContainer: dockContainerItem
     }
 }
