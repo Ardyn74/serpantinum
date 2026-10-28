@@ -177,8 +177,8 @@ Scope {
                 target: barRoot
                 function onUpdateToggled() {
                     let target = null;
-                    if (barWindowRoot.isVertical) target = verticalWrapper ? verticalWrapper.getWidget("left") : null;
-                    else target = contentWrapper ? contentWrapper.getWidget("left") : null;
+                    let layout = barWindowRoot.isVertical ? verticalLoader.item : horizontalLoader.item;
+                    if (layout) target = layout.getWidget("left");
                     if (target && typeof target.toggleUpdate === "function") {
                         target.toggleUpdate();
                     }
@@ -205,14 +205,14 @@ Scope {
             property real effectiveBarHeight: Math.round(!isVertical ? barWindowRoot.height : ((barWindowRoot.height - (autohide ? edgePadding * 2 : 0)) * (barWidthPercent / 100.0)))
             property real verticalOffset: Math.round(!isVertical ? 0 : ((barWindowRoot.height - effectiveBarHeight) / 2))
 
-            readonly property var verticalWrapper: isVertical ? barContentLoader.item : null
-            readonly property var contentWrapper: !isVertical ? barContentLoader.item : null
+            readonly property var horizontalLayout: horizontalLoader.item
+            readonly property var verticalLayout: verticalLoader.item
 
-            property real currentBarMinX: (contentWrapper && contentWrapper.dynamicMaxX > contentWrapper.dynamicMinX) ? contentWrapper.dynamicMinX : horizontalOffset
-            property real currentBarMaxX: (contentWrapper && contentWrapper.dynamicMaxX > contentWrapper.dynamicMinX) ? contentWrapper.dynamicMaxX : (horizontalOffset + effectiveBarWidth)
+            property real currentBarMinX: (horizontalLayout && horizontalLayout.dynamicMaxX > horizontalLayout.dynamicMinX) ? horizontalLayout.dynamicMinX : horizontalOffset
+            property real currentBarMaxX: (horizontalLayout && horizontalLayout.dynamicMaxX > horizontalLayout.dynamicMinX) ? horizontalLayout.dynamicMaxX : (horizontalOffset + effectiveBarWidth)
 
-            property real currentBarMinY: (verticalWrapper && verticalWrapper.dynamicMaxY > verticalWrapper.dynamicMinY) ? verticalWrapper.dynamicMinY : verticalOffset
-            property real currentBarMaxY: (verticalWrapper && verticalWrapper.dynamicMaxY > verticalWrapper.dynamicMinY) ? verticalWrapper.dynamicMaxY : (verticalOffset + effectiveBarHeight)
+            property real currentBarMinY: (verticalLayout && verticalLayout.dynamicMaxY > verticalLayout.dynamicMinY) ? verticalLayout.dynamicMinY : verticalOffset
+            property real currentBarMaxY: (verticalLayout && verticalLayout.dynamicMaxY > verticalLayout.dynamicMinY) ? verticalLayout.dynamicMaxY : (verticalOffset + effectiveBarHeight)
 
             property bool fillAttached: isFill && (isVertical
                 ? (currentBarMinY > 0.5 || currentBarMaxY < barWindowRoot.height - 0.5)
@@ -365,32 +365,34 @@ Scope {
             Timer { interval: 400; running: true; onTriggered: barWindowRoot.isDataReady = true }
 
             Loader {
-                id: barContentLoader
+                id: verticalLoader
                 anchors.fill: parent
-                sourceComponent: barWindowRoot.isVertical ? sideBarComp : topBarComp
-            }
-
-            Component {
-                id: sideBarComp
-                SideBar {
-                    id: sideBarWrapper
-                    barWindow: barWindowRoot
-                    property real hideOffsetX: {
-                        if (!barWindowRoot || barWindowRoot.isRevealed) return 0;
-                        let offset = barWindowRoot.barHeight + barWindowRoot.edgePadding + barWindowRoot.s(10);
-                        return barWindowRoot.barPosition === "right" ? offset : -offset;
-                    }
-                    transform: Translate {
-                        x: sideBarWrapper.hideOffsetX
-                        Behavior on x { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+                active: barWindowRoot.isVertical
+                sourceComponent: Component {
+                    SideBar {
+                        id: verticalWrapper
+                        barWindow: barWindowRoot
+                        property real hideOffsetX: {
+                            if (!barWindowRoot || barWindowRoot.isRevealed) return 0;
+                            let offset = barWindowRoot.barHeight + barWindowRoot.edgePadding + barWindowRoot.s(10);
+                            return barWindowRoot.barPosition === "right" ? offset : -offset;
+                        }
+                        transform: Translate {
+                            x: verticalWrapper.hideOffsetX
+                            Behavior on x { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
+                        }
                     }
                 }
             }
 
-            Component {
-                id: topBarComp
-                TopBar {
-                    barWindow: barWindowRoot
+            Loader {
+                id: horizontalLoader
+                anchors.fill: parent
+                active: !barWindowRoot.isVertical
+                sourceComponent: Component {
+                    TopBar {
+                        barWindow: barWindowRoot
+                    }
                 }
             }
         }

@@ -217,13 +217,12 @@ Item {
                                     visible: !root.hasArt
                                 }
 
-                                Image {
+                                BoundedImage {
                                     id: mediaArtImg
                                     anchors.fill: parent
                                     source: root.hasArt ? (MprisController.artUrl.startsWith("file://") || MprisController.artUrl.startsWith("http") ? MprisController.artUrl : "file://" + MprisController.artUrl) : ""
                                     fillMode: Image.PreserveAspectCrop
                                     asynchronous: true
-                                    sourceSize: Qt.size(Math.max(1, Math.round(parent.width * (Screen.devicePixelRatio || 1))), Math.max(1, Math.round(parent.height * (Screen.devicePixelRatio || 1))))
                                     visible: false
                                 }
 
@@ -403,13 +402,12 @@ Item {
                         visible: !isMediaActive || root.activeArtUrl === ""
                     }
 
-                    Image {
+                    BoundedImage {
                         id: sideArtImg
                         anchors.fill: parent
                         source: isMediaActive ? root.activeArtUrl : ""
                         fillMode: Image.PreserveAspectCrop
                         asynchronous: true
-                        sourceSize: Qt.size(Math.max(1, Math.round(parent.width * (Screen.devicePixelRatio || 1))), Math.max(1, Math.round(parent.height * (Screen.devicePixelRatio || 1))))
                         visible: false
                     }
 
