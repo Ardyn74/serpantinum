@@ -21,7 +21,11 @@ Item {
         if (typeof DateTime !== "undefined" && DateTime.hour !== undefined && String(DateTime.hour) !== "") {
             return String(DateTime.hour).padStart(2, "0");
         }
-        return String(currentTime.getHours()).padStart(2, "0");
+        let h = currentTime.getHours();
+        if (typeof DateTime !== "undefined" && DateTime.is12Hour) {
+            h = h % 12 || 12;
+        }
+        return String(h).padStart(2, "0");
     }
 
     readonly property string minutesStr: {

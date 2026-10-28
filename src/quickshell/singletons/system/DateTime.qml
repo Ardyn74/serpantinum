@@ -102,7 +102,9 @@ Item {
         let curSec = root.hasSeconds ? Qt.formatDateTime(d, secondFormat !== "" ? secondFormat : "ss") : "";
         if (root.second !== curSec) root.second = curSec;
 
-        let curTime = Qt.formatDateTime(d, timeFormat);
+        let curTime = (root.is12Hour && amPmFormat === "" && (timeFormat.indexOf("hh") !== -1 || timeFormat.indexOf("h") !== -1))
+            ? Qt.formatDateTime(d, timeFormat + " AP").replace(/\s*[A-Za-z]+$/, "")
+            : Qt.formatDateTime(d, timeFormat);
         if (root.time !== curTime) root.time = curTime;
         if (root.timeOnly !== curTime) root.timeOnly = curTime;
 
@@ -116,13 +118,19 @@ Item {
             let curMin = Qt.formatDateTime(d, minuteFormat);
             if (root.minute !== curMin) root.minute = curMin;
 
-            let curHour = Qt.formatDateTime(d, hourFormat);
+            let curHour = "";
+            if (root.is12Hour) {
+                let h12 = d.getHours() % 12 || 12;
+                curHour = (hourFormat === "h") ? String(h12) : String(h12).padStart(2, "0");
+            } else {
+                curHour = (hourFormat === "H") ? String(d.getHours()) : String(d.getHours()).padStart(2, "0");
+            }
             if (root.hour !== curHour) root.hour = curHour;
 
             let curAmPm = amPmFormat !== "" ? Qt.formatDateTime(d, amPmFormat) : "";
             if (root.amPm !== curAmPm) root.amPm = curAmPm;
 
-            let curTimeShort = Qt.formatDateTime(d, hourFormat + ":" + minuteFormat + (amPmFormat !== "" ? " " + amPmFormat : ""));
+            let curTimeShort = curHour + ":" + curMin + (curAmPm !== "" ? " " + curAmPm : "");
             if (root.timeShort !== curTimeShort) root.timeShort = curTimeShort;
         }
 

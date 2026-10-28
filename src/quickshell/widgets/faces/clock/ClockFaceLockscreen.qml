@@ -22,16 +22,33 @@ Item {
 
     property var currentTime: (typeof DateTime !== "undefined" && DateTime.now) ? DateTime.now : new Date()
     property string timeFormat: {
+        if (typeof DateTime !== "undefined" && DateTime.timeFormat !== undefined && DateTime.timeFormat !== "") {
+            return DateTime.timeFormat;
+        }
         if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.bar && Config.rawSettings.bar.time && Config.rawSettings.bar.time.format !== undefined) {
             return Config.rawSettings.bar.time.format;
         }
         return "hh:mm AP";
     }
-    readonly property bool is12h: true
-    readonly property string hourFmt: (root.timeFormat.includes("h") && !root.timeFormat.includes("hh")) ? "h" : "hh"
-    readonly property string hoursText: Qt.formatDateTime(root.currentTime, root.hourFmt)
+    readonly property bool is12h: {
+        if (typeof DateTime !== "undefined" && DateTime.is12Hour !== undefined) {
+            return DateTime.is12Hour;
+        }
+        return root.timeFormat.indexOf("AP") !== -1 || root.timeFormat.indexOf("ap") !== -1 || root.timeFormat.indexOf("a") !== -1 || root.timeFormat.indexOf("A") !== -1 || root.timeFormat.indexOf("h") !== -1;
+    }
+    readonly property string hourFmt: (root.timeFormat.indexOf("h") !== -1 && root.timeFormat.indexOf("hh") === -1) || root.timeFormat === "H:mm" || root.timeFormat === "H:mm:ss" ? "h" : "hh"
+    readonly property string hoursText: {
+        let d = root.currentTime;
+        let h = d.getHours();
+        if (root.is12h) {
+            let h12 = h % 12 || 12;
+            return (root.hourFmt === "h") ? String(h12) : String(h12).padStart(2, "0");
+        } else {
+            return (root.hourFmt === "h") ? String(h) : String(h).padStart(2, "0");
+        }
+    }
     readonly property string minutesText: Qt.formatDateTime(root.currentTime, "mm")
-    readonly property string meridiemText: Qt.formatDateTime(root.currentTime, "AP")
+    readonly property string meridiemText: root.is12h ? Qt.formatDateTime(root.currentTime, "AP") : ""
     readonly property string dateText: Qt.formatDateTime(root.currentTime, "dddd, d MMMM").toUpperCase()
 
     Connections {
