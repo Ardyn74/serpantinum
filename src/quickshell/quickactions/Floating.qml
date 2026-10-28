@@ -80,8 +80,15 @@ Variants {
                 }
             }
 
+            property bool modulesWarm: false
+
+            onIsPeekVisibleChanged: {
+                if (isPeekVisible) modulesWarm = true;
+            }
+
             onIsSidebarVisibleChanged: {
                 if (isSidebarVisible) {
+                    modulesWarm = true;
                     SysData.prewarm();
                     grabKeyboardFocus();
                     Qt.callLater(grabKeyboardFocus);
@@ -1441,9 +1448,12 @@ Variants {
                                 anchors.leftMargin: floatingWidget.s(4)
                                 anchors.rightMargin: floatingWidget.s(4)
 
+                                readonly property bool isEager: modelData.indexOf("Timer") !== -1
+
                                 visible: index === floatingWidget.activeIndex && floatingWidget.expandProgress > 0.01
+                                active: isEager || floatingWidget.modulesWarm || (isCurrentTarget && floatingWidget.isExpanded)
                                 source: modelData
-                                asynchronous: false
+                                asynchronous: !isEager
 
                                 property var scaleFunc: floatingWidget.s
                                 property var mochaColors: ThemeBackend
