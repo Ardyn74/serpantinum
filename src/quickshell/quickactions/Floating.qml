@@ -1632,8 +1632,13 @@ Variants {
                                             : (pinMouse.containsMouse
                                                 ? Qt.rgba(ThemeBackend.mauve.r, ThemeBackend.mauve.g, ThemeBackend.mauve.b, 0.25)
                                                 : "transparent"))
+                                    border.width: floatingWidget.s(2)
+                                    border.color: floatingWidget.isPinned
+                                        ? ThemeBackend.mauve
+                                        : Qt.rgba(ThemeBackend.text.r, ThemeBackend.text.g, ThemeBackend.text.b, 0.2)
 
                                     Behavior on color { ColorAnimation { duration: 250 } }
+                                    Behavior on border.color { ColorAnimation { duration: 250 } }
 
                                     MouseArea {
                                         id: pinMouse
