@@ -143,13 +143,13 @@ if [ "$COMMAND" == "stop" ]; then
 
     if [ -n "$pid" ] && is_alive "$pid"; then
         terminate_and_wait "$pid" 3
-    else
-        pkill -TERM -f "focus_daemon.py" 2>/dev/null
-        if [ -n "$MAIN_QML" ]; then
-            pkill -TERM -f "quickshell.*$MAIN_QML" 2>/dev/null
-        fi
-        sleep 0.2
     fi
+
+    pkill -TERM -f "focus_daemon.py" 2>/dev/null
+    if [ -n "$MAIN_QML" ]; then
+        pkill -TERM -f "quickshell.*$MAIN_QML" 2>/dev/null
+    fi
+    sleep 0.2
 
     pkill -KILL -f "focus_daemon.py" 2>/dev/null
     if [ -n "$MAIN_QML" ]; then
@@ -201,6 +201,11 @@ if [ "$COMMAND" == "start" ]; then
         fi
     fi
 
+    pkill -TERM -f "focus_daemon.py" 2>/dev/null
+    if [ -n "$MAIN_QML" ]; then
+        pkill -TERM -f "quickshell.*$MAIN_QML" 2>/dev/null
+    fi
+
     echo $$ > "/tmp/serpantinumd.pid"
 
     CLEANUP_DONE=false
@@ -218,9 +223,15 @@ if [ "$COMMAND" == "start" ]; then
 
         local group
         for group in "$QS_PID" "$LAUNCH_PID"; do
-            [ -n "$group" ] && kill -TERM -- "-$group" 2>/dev/null
+            if [ -n "$group" ]; then
+                kill -TERM "$group" 2>/dev/null
+                /usr/bin/kill -TERM -- "-$group" 2>/dev/null
+            fi
         done
         pkill -TERM -f "focus_daemon.py" 2>/dev/null
+        if [ -n "$MAIN_QML" ]; then
+            pkill -TERM -f "quickshell.*$MAIN_QML" 2>/dev/null
+        fi
 
         local count=0
         while [ "$count" -lt 20 ]; do
@@ -232,9 +243,15 @@ if [ "$COMMAND" == "start" ]; then
         done
 
         for group in "$QS_PID" "$LAUNCH_PID"; do
-            [ -n "$group" ] && kill -KILL -- "-$group" 2>/dev/null
+            if [ -n "$group" ]; then
+                kill -KILL "$group" 2>/dev/null
+                /usr/bin/kill -KILL -- "-$group" 2>/dev/null
+            fi
         done
         pkill -KILL -f "focus_daemon.py" 2>/dev/null
+        if [ -n "$MAIN_QML" ]; then
+            pkill -KILL -f "quickshell.*$MAIN_QML" 2>/dev/null
+        fi
 
         exec 9>&- 2>/dev/null
         rm -f "/tmp/serpantinumd.pid" 2>/dev/null
