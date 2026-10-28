@@ -34,6 +34,7 @@ Item {
             cache: true
             smooth: true
             antialiasing: true
+            allowAnimation: true
             playing: true
             visible: false
         }

@@ -5,7 +5,8 @@ Item {
 
     property url source: ""
     property int fillMode: Image.PreserveAspectFit
-    property bool animatedCandidate: /\.(gif|webp)$/i.test(String(source))
+    property bool allowAnimation: false
+    readonly property bool animatedCandidate: allowAnimation && /\.(gif|webp)$/i.test(String(source))
     property bool playing: true
     property bool asynchronous: true
     property bool cache: true
