@@ -444,7 +444,7 @@ Item {
                 }
 
                 if (mouse.button === Qt.RightButton) {
-                    let pt = dockButton.mapToItem(null, 0, 0);
+                    let pt = dockButton.mapToItem(dockWindow.screenFrame, 0, 0);
                     let globX = pt.x + (dockButton.width / 2);
                     let globY = pt.y + (dockButton.height / 2);
                     let info = dockWindow.getRunningInfoForApp(model.desktop_id);
@@ -470,7 +470,7 @@ Item {
 
                 if (mouse.button === Qt.LeftButton) {
                     if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && !DockAppMenuController.isSameApp(DockAppMenuController.desktopId, model.desktop_id)) {
-                        let pt = dockButton.mapToItem(null, 0, 0);
+                        let pt = dockButton.mapToItem(dockWindow.screenFrame, 0, 0);
                         let globX = pt.x + (dockButton.width / 2);
                         let globY = pt.y + (dockButton.height / 2);
                         let info = dockWindow.getRunningInfoForApp(model.desktop_id);

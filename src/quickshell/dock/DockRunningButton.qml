@@ -285,7 +285,7 @@ Item {
                     return;
                 }
                 if (mouse.button === Qt.RightButton) {
-                    let pt = runningDockButton.mapToItem(null, 0, 0);
+                    let pt = runningDockButton.mapToItem(dockWindow.screenFrame, 0, 0);
                     let globX = pt.x + (runningDockButton.width / 2);
                     let globY = pt.y + (runningDockButton.height / 2);
                     let info = dockWindow.getRunningInfoForApp(model.desktop_id);
@@ -310,7 +310,7 @@ Item {
                 }
                 if (mouse.button === Qt.LeftButton) {
                     if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && !DockAppMenuController.isSameApp(DockAppMenuController.desktopId, model.desktop_id)) {
-                        let pt = runningDockButton.mapToItem(null, 0, 0);
+                        let pt = runningDockButton.mapToItem(dockWindow.screenFrame, 0, 0);
                         let globX = pt.x + (runningDockButton.width / 2);
                         let globY = pt.y + (runningDockButton.height / 2);
                         let info = dockWindow.getRunningInfoForApp(model.desktop_id);
