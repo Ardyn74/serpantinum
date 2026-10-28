@@ -22,7 +22,7 @@ GuideTab {
         "groupColors": {},
         "modules": {
             "left": ["left", "workspaces", "media"],
-            "center": ["timedate", "info", "weather"],
+            "center": ["timedate", "info"],
             "right": ["tray", ["kb", "wifi", "bt", "vol", "bat"]]
         }
     }
@@ -187,7 +187,6 @@ GuideTab {
             "focus": I18n.t("guide.bar.modules.focus"),
             "timedate": I18n.t("guide.bar.modules.timedate.name"),
             "info": I18n.t("guide.bar.modules.info"),
-            "weather": I18n.t("guide.bar.modules.weather"),
             "media": I18n.t("guide.bar.modules.media"),
             "vis": I18n.t("guide.bar.modules.vis"),
             "tray": I18n.t("guide.bar.modules.tray"),
@@ -204,7 +203,6 @@ GuideTab {
             "focus": "󰈈",
             "timedate": "󰃰",
             "info": "󰋼",
-            "weather": "󰖐",
             "media": "󰎈",
             "vis": "󰝚",
             "tray": "󱊞",
@@ -221,7 +219,6 @@ GuideTab {
             "focus": ThemeBackend.teal,
             "timedate": ThemeBackend.peach,
             "info": ThemeBackend.red,
-            "weather": ThemeBackend.yellow,
             "media": ThemeBackend.green,
             "vis": ThemeBackend.mauve,
             "tray": ThemeBackend.yellow,
@@ -260,14 +257,14 @@ GuideTab {
                     var group = [];
                     for (var j = 0; j < arr[i].length; j++) {
                         if (arr[i][j] === "system") group.push("sysmon", "kb", "wifi", "bt", "vol", "bat");
-                        else if (arr[i][j] === "centerbox" || arr[i][j] === "center") group.push("timedate", "info", "weather");
+                        else if (arr[i][j] === "centerbox" || arr[i][j] === "center") group.push("timedate", "info");
                         else group.push(arr[i][j]);
                     }
                     if (group.length === 1) res.push(group[0]);
                     else if (group.length > 1) res.push(group);
                 } else {
                     if (arr[i] === "system") res.push(...["sysmon", "kb", "wifi", "bt", "vol", "bat"]);
-                    else if (arr[i] === "centerbox" || arr[i] === "center") res.push(...["timedate", "info", "weather"]);
+                    else if (arr[i] === "centerbox" || arr[i] === "center") res.push(...["timedate", "info"]);
                     else res.push(arr[i]);
                 }
             }
@@ -289,7 +286,7 @@ GuideTab {
                 if (cIdx === -1 || i < cIdx) l.push(order[i]);
                 else r.push(order[i]);
             }
-            c = ["timedate", "info", "weather"];
+            c = ["timedate", "info"];
         }
 
         function filterCenter(arr) {

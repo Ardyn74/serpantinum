@@ -176,7 +176,7 @@ jq -s --arg wp "$wallpapers" '(.[0] * .[1]) * {wallpaperDir: $wp}' \
 bash "$share/src/scripts/location.sh" --refresh
 ```
 
-The last command detects your location for the weather widget. Skip it if you prefer to set the location by hand.
+The last command detects your location for the blue light filter. Skip it if you prefer to set the location by hand.
 
 #### 5. Services
 

@@ -30,8 +30,6 @@ The `settings` attribute set mirrors `settings.json` one to one: every section a
 
       general = {
         language = "en";
-        weatherUnit = "metric";
-        weatherInterval = 30;
       };
 
       bar = {

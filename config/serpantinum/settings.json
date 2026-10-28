@@ -2,9 +2,7 @@
   "general": {
     "language": "en",
     "avatarPath": "",
-    "muteSfx": false,
-    "weatherInterval": 15,
-    "weatherUnit": "metric"
+    "muteSfx": false
   },
   "syspanel": {
     "clipExpandProgress": 0,
@@ -31,8 +29,7 @@
      "center": [
         [
           "timedate",
-          "info",
-          "weather"
+          "info"
         ]
       ],      
      "right": [

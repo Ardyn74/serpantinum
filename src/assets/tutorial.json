@@ -8,7 +8,7 @@
         "title": "Topbar overview",
         "anchor": "top-left",
         "w": "fill", "h": 40, "mt": 4, "ml": 6,
-        "say": "Welcome to Serpantinum! Up here is your topbar, giving you quick access to system status, workspaces, media controls, weather, time, and so on",
+        "say": "Welcome to Serpantinum! Up here is your topbar, giving you quick access to system status, workspaces, media controls, time, and so on",
         "sfx": "tutorial/tip.wav"
       },
       {
@@ -90,17 +90,9 @@
         "sfx": "tutorial/tip.wav"
       },
       {
-        "title": "Clock & weather",
+        "title": "Clock & date",
         "ipcTarget": "topbar", "ipcWidget": "center",
-        "say": "Right in the middle you'll find the time, date, and current weather at a glance. Clicking here opens your calendar",
-        "sfx": "tutorial/tip.wav",
-        "cooldown": 1,
-        "exec": ["sh", "-c", "sleep 1 && serpantinum open calendar"]
-      },
-      {
-        "title": "Calendar panel",
-        "ipcTarget": "main", "ipcWidget": "calendar",
-        "say": "Here's your calendar, giving you a bigger picture view of the days, weeks, and months ahead",
+        "say": "Right in the middle you'll find the time and date at a glance",
         "sfx": "tutorial/tip.wav"
       },
       {

@@ -44,4 +44,3 @@ json="$(jq -n \
 gen="$(get_setting "general" '{}')"
 updated="$(echo "$gen" | jq --argjson loc "$json" '.location = $loc')"
 set_setting "general" "$updated"
-"$(dirname "$(realpath "${BASH_SOURCE[0]}")")/weather.sh" --getdata >/dev/null 2>&1 &

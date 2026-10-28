@@ -260,7 +260,6 @@ PanelWindow {
                         width: parent.width
                         source: {
                             let app = (model.appName || "").toLowerCase();
-                            if (app === "weather") return "types/Weather.qml";
                             if (app === "screenshot" || app === "screen recorder") return "types/Screenshot.qml";
                             return "types/Default.qml";
                         }

@@ -77,7 +77,7 @@ Item {
 
     property var defaultModuleSettings: {
         "left": ["left", "workspaces", "focus"],
-        "center": ["timedate", "info", "weather", "media", "vis"],
+        "center": ["timedate", "info", "media", "vis"],
         "right": ["tray", "sysmon", "kb", "wifi", "bt", "vol", "bat"]
     }
 
@@ -120,7 +120,7 @@ Item {
                 if (cIdx === -1 || i < cIdx) l.push(order[i]);
                 else r.push(order[i]);
             }
-            c = ["timedate", "info", "weather"];
+            c = ["timedate", "info"];
         }
 
         function filterCenter(arr) {
@@ -213,7 +213,6 @@ Item {
     readonly property var trayWidget: getModuleItem("tray")
     readonly property var timeDateWidget: getModuleItem("timedate")
     readonly property var infoWidget: getModuleItem("info")
-    readonly property var weatherWidget: getModuleItem("weather")
     readonly property var sysMonWidget: getModuleItem("sysmon")
     readonly property var kbWidget: getModuleItem("kb")
     readonly property var wifiWidget: getModuleItem("wifi")
@@ -274,7 +273,6 @@ Item {
     property real wBat: (isModuleActive("bat") && batWidget) ? (batWidget.targetWidth !== undefined ? batWidget.targetWidth : batWidget.width) : 0
     property real wTimedate: (isModuleActive("timedate") && timeDateWidget) ? (timeDateWidget.targetWidth !== undefined ? timeDateWidget.targetWidth : timeDateWidget.width) : 0
     property real wInfo: (isModuleActive("info") && infoWidget) ? (infoWidget.targetWidth !== undefined ? infoWidget.targetWidth : infoWidget.width) : 0
-    property real wWeather: (isModuleActive("weather") && weatherWidget) ? (weatherWidget.targetWidth !== undefined ? weatherWidget.targetWidth : weatherWidget.width) : 0
 
     function getW(moduleId) {
         let norm = BarModuleRegistry.normalizeId(moduleId);
@@ -292,7 +290,6 @@ Item {
         if (norm === "bat") return wBat;
         if (norm === "timedate") return wTimedate;
         if (norm === "info") return wInfo;
-        if (norm === "weather") return wWeather;
         let w = getModuleItem(norm);
         return (w && isModuleActive(norm)) ? (w.targetWidth !== undefined ? w.targetWidth : w.width) : 0;
     }

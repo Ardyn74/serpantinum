@@ -225,23 +225,12 @@
       },
       "location": {
         "title": "Location",
-        "desc": "Configure location for automatic sun schedule and weather",
+        "desc": "Configure location for automatic sun schedule",
         "popup_title": "Location details",
         "autodetect": "Auto-detect",
         "latitude": "Latitude",
         "longitude": "Longitude",
         "apply": "Apply"
-      },
-      "weatherinterval": {
-        "title": "Weather polling interval",
-        "desc": "Polling frequency in minutes"
-      },
-      "weatherunit": {
-        "title": "Weather unit",
-        "desc": "Temperature scale for weather displays",
-        "celsius": "Celsius",
-        "fahrenheit": "Fahrenheit",
-        "kelvin": "Kelvin"
       },
       "copysettings": {
         "title": "Copy settings",
@@ -358,7 +347,6 @@
           }
         },
         "info": "Recording/timer",
-        "weather": "Weather",
         "notifications": "Notifications",
         "usage": "System usage",
         "clock": "Clock"
@@ -1214,10 +1202,6 @@
         "system": "System",
         "action": "Action"
       },
-      "weather": {
-        "fallback_summary": "Weather report",
-        "fallback_body": "No breakdown data provided."
-      },
       "screenshot": {
         "badge": "Screenshot",
         "fallback_summary": "Captured screen",
@@ -1458,49 +1442,6 @@
       "monochrome": "Monochrome"
     }
   },
-  "weather": {
-    "desc": {
-      "sunny": "Sunny",
-      "clear": "Clear",
-      "cloudy": "Cloudy",
-      "mist": "Mist",
-      "rainy": "Rainy",
-      "snow": "Snow",
-      "storm": "Storm",
-      "unknown": "Unknown",
-      "offline": "Offline"
-    },
-    "days": {
-      "mon": "Mon",
-      "tue": "Tue",
-      "wed": "Wed",
-      "thu": "Thu",
-      "fri": "Fri",
-      "sat": "Sat",
-      "sun": "Sun",
-      "monday": "Monday",
-      "tuesday": "Tuesday",
-      "wednesday": "Wednesday",
-      "thursday": "Thursday",
-      "friday": "Friday",
-      "saturday": "Saturday",
-      "sunday": "Sunday"
-    },
-    "months": {
-      "jan": "Jan",
-      "feb": "Feb",
-      "mar": "Mar",
-      "apr": "Apr",
-      "may": "May",
-      "jun": "Jun",
-      "jul": "Jul",
-      "aug": "Aug",
-      "sep": "Sep",
-      "oct": "Oct",
-      "nov": "Nov",
-      "dec": "Dec"
-    }
-  },
   "widgets": {
     "wallpaper": {
       "name": "Wallpaper picker",
@@ -1545,7 +1486,6 @@
     "types": {
       "clock": "Clock",
       "music": "Music",
-      "weather": "Weather",
       "image": "Image",
       "visualizer": "Visualizer",
       "user": "User",
@@ -1669,7 +1609,6 @@
       "lock": "Activate the lockscreen interface",
       "volume": "Control default audio sink/source volume and mute states",
       "reload": "Force reload quickshell desktop elements",
-      "weather": "Fetch and manage weather forecast data and caches",
       "location": "Retrieve and update geographic coordinates",
       "screenshot": "Capture screen images, record video, or parse QR codes",
       "brightness": "Adjust backlight display brightness",

@@ -199,25 +199,6 @@ Controls display backlight and external monitor brightness:
 - `serpantinum brightness backend`: Print active backend (`backlight`, `ddc`, or `none`).
 - `serpantinum brightness watch`: Watch backlight changes with inotify.
 
-### `weather`
-
-Queries weather data and manages forecast cache:
-
-- `serpantinum weather --current-temp`: Print current temperature.
-- `serpantinum weather --current-icon`: Print current weather icon glyph.
-- `serpantinum weather --current-hex`: Print current weather condition accent hex.
-- `serpantinum weather --temp`: Print today forecasted maximum temperature.
-- `serpantinum weather --icon`: Print today forecast icon glyph.
-- `serpantinum weather --hex`: Print today forecast accent hex.
-- `serpantinum weather --json`: Print complete structured forecast JSON.
-- `serpantinum weather --getdata`: Force fresh fetch from Open-Meteo API.
-- `serpantinum weather --nav next`: Advance 5-day forecast view to next day.
-- `serpantinum weather --nav prev`: Move 5-day forecast view to previous day.
-- `serpantinum weather --view-listener`: Stream active forecast view index.
-- `serpantinum weather --unit <metric|imperial|standard>`: Set temperature unit profile.
-- `serpantinum weather --location '<json>'`: Pass custom coordinates JSON.
-- `serpantinum weather --verbose` (`-v`): Print verbose debug output.
-
 ### `location`
 
 Retrieves and updates geographic coordinates:

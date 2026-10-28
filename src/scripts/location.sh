@@ -35,7 +35,6 @@ save_location() {
     local updated
     updated="$(echo "$gen" | jq --argjson loc "$loc_data" '.location = $loc')"
     set_setting "general" "$updated"
-    "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/weather.sh" --getdata >/dev/null 2>&1 &
 }
 
 try_ipapi() {

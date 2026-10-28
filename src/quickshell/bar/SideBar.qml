@@ -77,7 +77,7 @@ Item {
 
     property var defaultModuleSettings: {
         "left": ["left", "workspaces", "focus"],
-        "center": ["timedate", "info", "weather", "media", "vis"],
+        "center": ["timedate", "info", "media", "vis"],
         "right": ["tray", "sysmon", "kb", "wifi", "bt", "vol", "bat"]
     }
 
@@ -120,7 +120,7 @@ Item {
                 if (cIdx === -1 || i < cIdx) l.push(order[i]);
                 else r.push(order[i]);
             }
-            c = ["timedate", "info", "weather"];
+            c = ["timedate", "info"];
         }
 
         function filterCenter(arr) {
@@ -207,7 +207,6 @@ Item {
     readonly property var trayWidget: getModuleItem("tray")
     readonly property var timeDateWidget: getModuleItem("timedate")
     readonly property var infoWidget: getModuleItem("info")
-    readonly property var weatherWidget: getModuleItem("weather")
     readonly property var sysMonWidget: getModuleItem("sysmon")
     readonly property var kbWidget: getModuleItem("kb")
     readonly property var wifiWidget: getModuleItem("wifi")
@@ -268,7 +267,6 @@ Item {
     property real hBat: (isModuleActive("bat") && batWidget) ? (batWidget.targetHeight !== undefined ? batWidget.targetHeight : batWidget.height) : 0
     property real hTimedate: (isModuleActive("timedate") && timeDateWidget) ? (timeDateWidget.targetHeight !== undefined ? timeDateWidget.targetHeight : timeDateWidget.height) : 0
     property real hInfo: (isModuleActive("info") && infoWidget) ? (infoWidget.targetHeight !== undefined ? infoWidget.targetHeight : infoWidget.height) : 0
-    property real hWeather: (isModuleActive("weather") && weatherWidget) ? (weatherWidget.targetHeight !== undefined ? weatherWidget.targetHeight : weatherWidget.height) : 0
 
     function getH(moduleId) {
         let norm = BarModuleRegistry.normalizeId(moduleId);
@@ -286,7 +284,6 @@ Item {
         if (norm === "bat") return hBat;
         if (norm === "timedate") return hTimedate;
         if (norm === "info") return hInfo;
-        if (norm === "weather") return hWeather;
         let w = getModuleItem(norm);
         return (w && isModuleActive(norm)) ? (w.targetHeight !== undefined ? w.targetHeight : w.height) : 0;
     }
@@ -721,7 +718,7 @@ Item {
                     lastY = my;
                     lastH = mh;
 
-                    if (id === "timedate" || id === "info" || id === "weather" || id === "media") continue;
+                    if (id === "timedate" || id === "info" || id === "media") continue;
 
                     if (widget.width > groupW) {
                         groupW = widget.width;

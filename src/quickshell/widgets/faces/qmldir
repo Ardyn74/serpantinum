@@ -17,6 +17,3 @@ MusicFaceLyricsSimple 1.0 music/MusicFaceLyricsSimple.qml
 UserFace 1.0 user/UserFace.qml
 VisualizerFace 1.0 visualizer/VisualizerFace.qml
 VisualizerFaceContinuous 1.0 visualizer/VisualizerFaceContinuous.qml
-WeatherFaceCompact 1.0 weather/WeatherFaceCompact.qml
-WeatherFaceFull 1.0 weather/WeatherFaceFull.qml
-WeatherFaceRound 1.0 weather/WeatherFaceRound.qml

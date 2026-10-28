@@ -45,15 +45,6 @@
       "y": 40,
       "w": 130,
       "h": 130
-    },
-    {
-      "type": "weather",
-      "variant": "full",
-      "anchor": "bottom right",
-      "x": 40,
-      "y": 180,
-      "w": 420,
-      "h": 260
     }
   ]
 }

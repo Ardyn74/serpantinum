@@ -98,7 +98,6 @@ Rectangle {
                     if (moduleId === "focus") return I18n.t("guide.bar.modules.focus");
                     if (moduleId === "timedate") return I18n.t("guide.bar.modules.timedate.name");
                     if (moduleId === "info") return I18n.t("guide.bar.modules.info");
-                    if (moduleId === "weather") return I18n.t("guide.bar.modules.weather");
                     if (moduleId === "media") return I18n.t("guide.bar.modules.media");
                     if (moduleId === "vis") return I18n.t("guide.bar.modules.vis");
                     if (moduleId === "tray") return I18n.t("guide.bar.modules.tray");

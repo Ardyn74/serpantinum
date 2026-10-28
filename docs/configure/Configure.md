@@ -22,7 +22,7 @@ The configuration file is located at `~/.config/serpantinum/settings.json` (or `
     "style": "fill",
     "modules": {
       "left": ["left", "workspaces", "media"],
-      "center": [["timedate", "info", "weather"]],
+      "center": [["timedate", "info"]],
       "right": ["tray", ["kb", "wifi", "bt", "vol", "bat"]]
     }
   },
@@ -56,8 +56,6 @@ The configuration file is located at `~/.config/serpantinum/settings.json` (or `
 | `general.muteSfx` | `boolean` | `false` | Mutes all sound effects. |
 | `general.sfxVolume` | `number` | `100` | UI sound effects volume level (`0` to `100`). |
 | `general.screenshotCaptureOnRelease` | `boolean` | `false` | Immediately captures region when releasing mouse drag without manual shutter confirmation. |
-| `general.weatherInterval` | `number` | `15` | Weather update polling frequency in minutes (`1` to `1440`). |
-| `general.weatherUnit` | `string` | `"metric"` | Temperature unit: `"metric"`, `"imperial"`, or `"standard"`. |
 | `general.location` | `object` | `{}` | Geographic coordinates cache (`latitude`, `longitude`, `city`, `timezone`). |
 
 ### Theme
@@ -104,7 +102,7 @@ The configuration file is located at `~/.config/serpantinum/settings.json` (or `
 | `bar.workspaceCount` | `number` | `8` | Total number of persistent workspace indicators displayed. |
 | `bar.hideEmptyWorkspaces` | `boolean` | `false` | Hides workspace indicators that have no assigned windows. |
 | `bar.modules.left` | `array` | `["left", "workspaces", "media"]` | Modules positioned on the left/top section. Sub-arrays group modules into a shared pill. |
-| `bar.modules.center` | `array` | `[["timedate", "info", "weather"]]` | Modules positioned on the center section. |
+| `bar.modules.center` | `array` | `[["timedate", "info"]]` | Modules positioned on the center section. |
 | `bar.modules.right` | `array` | `["tray", ["kb", "wifi", "bt", "vol", "bat"]]` | Modules positioned on the right/bottom section. |
 | `bar.groupColors` | `object` | `{}` | Custom hex accent colors mapped to grouped module pill IDs (e.g. `{"g_sysmon": "#ffb59c"}`). |
 

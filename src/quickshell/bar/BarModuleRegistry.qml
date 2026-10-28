@@ -129,12 +129,6 @@ QtObject {
             defaultVariant: "default",
             face: "faces/info/InfoFace.qml"
         },
-        "weather": {
-            name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.weather", "Weather") : "Weather",
-            icon: "󰖐",
-            defaultVariant: "default",
-            face: "faces/weather/WeatherFace.qml"
-        },
         "sysmon": {
             name: typeof I18n !== "undefined" ? I18n.t("guide.bar.modules.sysmon", "System Monitor") : "System Monitor",
             icon: "󰍛",
@@ -353,7 +347,7 @@ QtObject {
 
     function moduleZ(moduleId) {
         let norm = normalizeId(moduleId);
-        if (norm === "timedate" || norm === "info" || norm === "weather") return 10;
+        if (norm === "timedate" || norm === "info") return 10;
         return 1;
     }
 

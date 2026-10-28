@@ -699,18 +699,6 @@ QtObject {
                 }
             ]
         },
-        "weather": {
-            name: I18n.t("widgets.types.weather"),
-            icon: String.fromCodePoint(0xF0590),
-            defaultWidth: 250,
-            defaultHeight: 120,
-            defaultVariant: "compact",
-            variants: {
-                "compact": { file: "faces/weather/WeatherFaceCompact.qml", icon: "1", label: I18n.t("widgets.variants.compact") },
-                "full":    { file: "faces/weather/WeatherFaceFull.qml",    icon: "2", label: I18n.t("widgets.variants.full") },
-                "round":   { file: "faces/weather/WeatherFaceRound.qml",   icon: "3", label: I18n.t("widgets.variants.round") }
-            }
-        },
         "image": {
             name: I18n.t("widgets.types.image"),
             icon: String.fromCodePoint(0xF02E9),

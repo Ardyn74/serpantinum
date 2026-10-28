@@ -43,7 +43,6 @@ singleton Wallpaper 1.0 singletons/theme/Wallpaper.qml
 
 singleton BlueLight 1.0 singletons/environment/BlueLight.qml
 singleton Location 1.0 singletons/environment/Location.qml
-singleton Weather 1.0 singletons/environment/Weather.qml
 
 singleton AppMatcher 1.0 singletons/system/AppMatcher.qml
 singleton Caching 1.0 singletons/system/Caching.qml

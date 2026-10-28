@@ -36,7 +36,6 @@ log_widget_launch() {
             network) app_name="$(t "widgets.network.name")" ;;
             volume) app_name="$(t "widgets.volume.name")" ;;
             settings) app_name="$(t "widgets.guide.name")" ;;
-            calendar) app_name="$(t "widgets.calendar.name")" ;;
             music) app_name="$(t "widgets.music.name")" ;;
             notifications) app_name="$(t "widgets.notifications.name")" ;;
             system) app_name="$(t "widgets.system.name")" ;;

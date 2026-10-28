@@ -15,7 +15,6 @@ QtObject {
     readonly property real defaultPanelH: 566
     readonly property var legacyPanelSize: ({ w: 1280, h: 580 })
     readonly property var legacyPanelItems: [
-        ["widget:weather", "full", 20, 20, 380, 182],
         ["widget:cpu", "default", 20, 210, 186, 170],
         ["widget:ram", "default", 214, 210, 186, 170],
         ["widget:temp", "default", 20, 388, 186, 170],
@@ -92,7 +91,6 @@ QtObject {
         let hasFingerprint = supported === undefined ? root.fingerprintSupported : supported;
         let dy = hasFingerprint ? 0 : root.noFingerprintShift;
         return [
-            root.makeEntry("widget:weather", "full", 20, 20, 380, 190),
             root.makeEntry("widget:cpu", "default", 20, 218, 186, 160),
             root.makeEntry("widget:ram", "default", 214, 218, 186, 160),
             root.makeEntry("widget:temp", "default", 20, 386, 186, 160),

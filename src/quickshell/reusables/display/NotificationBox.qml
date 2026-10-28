@@ -320,7 +320,6 @@ Item {
                             appn = displayName;
                         }
                         let app = (appn || "").toLowerCase().trim();
-                        if (app === "weather") return "weather";
                         if (app === "screenshot" || app === "screen recorder") return "screenshot";
                         if (app === "update" || app === "updater" || app === "serpantinum updater") return "update";
                         return "default";
@@ -460,7 +459,6 @@ Item {
                             let nData = memberList.length > 0 ? memberList[0] : null;
                             let appn = nData ? (nData.appName || "") : (displayName || "");
                             let app = appn.toLowerCase().trim();
-                            if (app === "weather") return "../../notifications/types/Weather.qml";
                             if (app === "screenshot" || app === "screen recorder") return "../../notifications/types/Screenshot.qml";
                             if (app === "update" || app === "updater" || app === "serpantinum updater") return "../../notifications/types/Update.qml";
                             return "../../notifications/types/Default.qml";
@@ -712,15 +710,6 @@ Item {
                                                     font.family: ThemeBackend.iconFont
                                                     font.pixelSize: root.s(22)
                                                     color: ThemeBackend.mauve
-                                                }
-
-                                                Text {
-                                                    anchors.centerIn: parent
-                                                    visible: groupWrapper.customType === "weather"
-                                                    text: "󰖕"
-                                                    font.family: ThemeBackend.iconFont
-                                                    font.pixelSize: root.s(22)
-                                                    color: ThemeBackend.peach
                                                 }
 
                                                 Text {
@@ -985,7 +974,6 @@ Item {
                                                     if (!memberData) return "";
                                                     let appn = memberData.appName || displayName || "";
                                                     let app = appn.toLowerCase().trim();
-                                                    if (app === "weather") return "../../notifications/types/Weather.qml";
                                                     if (app === "screenshot" || app === "screen recorder") return "../../notifications/types/Screenshot.qml";
                                                     if (app === "update" || app === "updater" || app === "serpantinum updater") return "../../notifications/types/Update.qml";
                                                     return "../../notifications/types/Default.qml";

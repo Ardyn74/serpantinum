@@ -22,8 +22,6 @@ let
     muteSfx = mkOpt types.bool "Mute UI sound effects.";
     sfxVolume = mkOpt (types.ints.between 0 100) "UI sound effect volume, 0-100.";
     screenshotCaptureOnRelease = mkOpt types.bool "Capture screenshot region immediately on mouse release.";
-    weatherInterval = mkOpt types.ints.positive "Minutes between weather refreshes.";
-    weatherUnit = mkOpt (types.enum [ "metric" "imperial" "standard" ]) "Units for weather display.";
     quickactions = mkOpt types.bool "Show the quick actions panel.";
     settingsSeparateWindow = mkOpt types.bool "Open settings as a standalone window instead of a panel inside the shell.";
     location = mkOption {

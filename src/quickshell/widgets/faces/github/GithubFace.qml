@@ -115,11 +115,11 @@ Item {
         if (!dateStr) return "";
         let parts = dateStr.split("-");
         if (parts.length !== 3) return dateStr;
-        let monthKeys = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
         let m = parseInt(parts[1]) - 1;
         let d = parseInt(parts[2]);
-        let monthStr = (m >= 0 && m < 12) ? I18n.t("weather.months." + monthKeys[m]) : parts[1];
-        return monthStr + " " + d;
+        let y = parseInt(parts[0]);
+        let dt = new Date(y, m, d);
+        return dt.toLocaleDateString(Qt.locale(), "MMM d");
     }
 
     function getColorForLevel(lvl) {
