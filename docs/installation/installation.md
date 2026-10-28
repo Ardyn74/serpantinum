@@ -83,7 +83,7 @@ Do not run the installer script on a system where Serpantinum is installed this 
 | Replace `quickshell-git` with `quickshell` | Done, the package conflicts with `quickshell-git` and installs `quickshell` |
 | Install `serpantinum` and `serpantinumd` | Done, in `/usr/bin` |
 | Lock screen PAM service | Done, `/etc/pam.d/serpantinum` |
-| SDDM theme files | Done, in `/usr/share/sddm/themes/material-you` |
+| SDDM theme files | Done, in `/usr/share/sddm/themes/impasto` |
 | Compositor configs | Manual, step 1 |
 | Kitty, Cava, and Fastfetch configs | Manual, step 2 |
 | Wallpapers | Manual, step 3 |
@@ -216,9 +216,9 @@ sudo pacman -S --needed sddm qt6-declarative qt6-svg
 [ -f /etc/sddm.conf ] && sudo mv /etc/sddm.conf "/etc/sddm.conf.backup.$(date +%Y%m%d_%H%M%S)"
 
 sudo mkdir -p /etc/sddm.conf.d
-sudo tee /etc/sddm.conf.d/10-material-you.conf > /dev/null <<'CONF'
+sudo tee /etc/sddm.conf.d/10-impasto.conf > /dev/null <<'CONF'
 [Theme]
-Current=material-you
+Current=impasto
 ThemeDir=/usr/share/sddm/themes
 
 [General]

@@ -59,9 +59,9 @@ package() {
     ln -s ../share/serpantinum/bin/serpantinumd "$pkgdir/usr/bin/serpantinumd"
 
     install -d "$pkgdir/usr/share/sddm/themes"
-    mv "$share/config/sddm/themes/material-you" "$pkgdir/usr/share/sddm/themes/material-you"
+    mv "$share/config/sddm/themes/impasto" "$pkgdir/usr/share/sddm/themes/impasto"
     rmdir -p --ignore-fail-on-non-empty "$share/config/sddm/themes"
-    chmod -R u=rwX,go=rX "$pkgdir/usr/share/sddm/themes/material-you"
+    chmod -R u=rwX,go=rX "$pkgdir/usr/share/sddm/themes/impasto"
 
     install -Dm644 /dev/stdin "$pkgdir/etc/pam.d/serpantinum" <<'EOF'
 -auth       sufficient   pam_fprintd.so

@@ -756,7 +756,7 @@
       "sddm_title": "=== ディスプレイマネージャー (SDDM) 設定 ===",
       "sddm_detected_active": "検出されたアクティブ/有効なディスプレイマネージャー: {dm}",
       "sddm_detected_none": "検出されたアクティブ/有効なディスプレイマネージャー: なし",
-      "sddm_opt_install": "SDDM をインストールして設定 (Material You テーマ)",
+      "sddm_opt_install": "SDDM をインストールして設定 (Impasto テーマ)",
       "sddm_opt_disable": "'{dm}' を無効化して削除",
       "sddm_opt_wayland": "Wayland バックエンドを強制",
       "sddm_prompt": " SDDM 設定 > ",
@@ -797,7 +797,7 @@
     "deploy": {
       "configuring_sddm": "SDDM ディスプレイマネージャーを設定中...",
       "disabling_dm": "-> 競合するディスプレイマネージャーを無効化中: {dm}",
-      "sddm_success": "-> SDDM Material You テーマをインストールし、サービスを有効化しました [ OK ]",
+      "sddm_success": "-> SDDM Impasto テーマをインストールし、サービスを有効化しました [ OK ]",
       "sddm_no_wayland_compositor": "ログイン画面用に対応する Wayland コンポジター（kwin_wayland/weston）が見つからないため、SDDM には X11 を使用します。",
       "sddm_no_xorg": "Xorg が見つからないため、SDDM には {compositor} を使用します。",
       "sddm_no_backend": "/usr/local/bin、/usr/bin、/bin のいずれにも Xorg と、ログイン画面用に対応する Wayland コンポジター（kwin_wayland/weston）が見つかりませんでした。",
