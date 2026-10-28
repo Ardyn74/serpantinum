@@ -143,6 +143,7 @@ Item {
                 anchors.margins: dockWindow.s(Math.round(dockWindow.dockElementSize * 0.14))
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true
+                sourceSize: Qt.size(Math.max(1, Math.round(width * (Screen.devicePixelRatio || 1))), Math.max(1, Math.round(height * (Screen.devicePixelRatio || 1))))
                 smooth: true
                 mipmap: true
                 property bool failedLoad: false

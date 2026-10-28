@@ -183,6 +183,8 @@ Item {
                         anchors.fill: parent
                         source: (root.isMediaActive && MprisController.artUrl) ? (MprisController.artUrl.startsWith("file://") || MprisController.artUrl.startsWith("http") ? MprisController.artUrl : "file://" + MprisController.artUrl) : ""
                         fillMode: Image.PreserveAspectCrop
+                        asynchronous: true
+                        sourceSize: Qt.size(Math.max(1, Math.round(parent.width * (Screen.devicePixelRatio || 1))), Math.max(1, Math.round(parent.height * (Screen.devicePixelRatio || 1))))
                         opacity: (root.isMediaActive && status === Image.Ready && MprisController.artUrl !== "") ? 1.0 : 0.0
                         Behavior on opacity { NumberAnimation { duration: 250 } }
                     }

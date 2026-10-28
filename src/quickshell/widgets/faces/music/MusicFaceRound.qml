@@ -222,6 +222,8 @@ Item {
                         anchors.fill: parent
                         source: (root.isMediaActive && MprisController.artUrl) ? (MprisController.artUrl.startsWith("file://") || MprisController.artUrl.startsWith("http") ? MprisController.artUrl : "file://" + MprisController.artUrl) : ""
                         fillMode: Image.PreserveAspectCrop
+                        asynchronous: true
+                        sourceSize: Qt.size(Math.max(1, Math.round(parent.width * (Screen.devicePixelRatio || 1))), Math.max(1, Math.round(parent.height * (Screen.devicePixelRatio || 1))))
                         visible: false
                     }
 
