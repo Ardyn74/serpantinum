@@ -1,0 +1,36 @@
+#!/bin/bash
+# MATLAB wrapper for Wayland / XWayland Satellite & VS Code integration
+LOG="$HOME/.local/state/matlab-launcher.log"
+{
+    echo "---- MATLAB launch: $(date) ----"
+    systemctl --user start matlab-satellite.service
+
+    for i in {1..20}; do
+        [ -S /tmp/.X11-unix/X12 ] && break
+        sleep 0.25
+    done
+
+    if [ ! -S /tmp/.X11-unix/X12 ]; then
+        echo "ERROR: XWayland display :12 is unavailable"
+        exit 1
+    fi
+
+    # Detect headless flags (used by VS Code language server or CLI scripts)
+    desktop_flag="-desktop"
+    for arg in "$@"; do
+        case "$arg" in
+            -nodesktop|-nodisplay|-batch)
+                desktop_flag=""
+                break
+                ;;
+        esac
+    done
+
+    # -licmode onlinelicensing avoids glibc lc_new_job segmentation fault in libmwlmgrimpl.so
+    # LD_PRELOAD avoids C++ symbol conflicts from MATLAB's bundled outdated libstdc++
+    exec env \
+        DISPLAY=:12 \
+        LD_PRELOAD=/usr/lib/libstdc++.so.6 \
+        "/home/abhay/.local/opt/MATLAB/R2026/bin/matlab" \
+        $desktop_flag -licmode onlinelicensing "$@"
+} >> "$LOG" 2>&1

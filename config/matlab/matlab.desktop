@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MATLAB R2026a
+GenericName=MATLAB
+Comment=Matrix laboratory - programming and numeric computing platform
+Exec=/home/abhay/.local/bin/matlab-launcher %F
+Icon=matlab
+Terminal=false
+Categories=Development;Education;Science;Mathematics;IDE;
+StartupNotify=true
+StartupWMClass=MATLAB
+Actions=NoSplashScreen;
+
+[Desktop Action NoSplashScreen]
+Name=Open without splash screen
+Exec=/home/abhay/.local/bin/matlab-launcher -nosplash %F
