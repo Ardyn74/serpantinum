@@ -57,7 +57,17 @@ source "$MODULES_DIR/deploy.sh"
 source "$MODULES_DIR/version.sh"
 source "$MODULES_DIR/config.sh"
 source "$MODULES_DIR/service.sh"
+source "$MODULES_DIR/apps.sh"
 source "$MODULES_DIR/ui.sh"
+
+for arg in "$@"; do
+    case "$arg" in
+        --apps) OPT_DESKTOP_APPS=true ;;
+        --no-apps) OPT_DESKTOP_APPS=false ;;
+        --sddm) OPT_SDDM=true ;;
+        --no-sddm) OPT_SDDM=false ;;
+    esac
+done
 
 TELEMETRY_ID=$(get_telemetry_id)
 ENABLE_TELEMETRY=$(get_telemetry_enabled)
@@ -90,6 +100,7 @@ fi
 install_dependencies "$INSTALL_STATE" "$IS_REINSTALL" "${SELECTED_COMPOSITORS[@]}"
 install_ski
 install_audio_daemon
+install_desktop_apps
 
 deploy_package "$PROJECT_ROOT" "$OLD_COMMIT" "$TARGET_COMMIT" "$IS_REINSTALL" "$INSTALL_STATE" "${SELECTED_COMPOSITORS[@]}"
 setup_sddm "$PROJECT_ROOT" "$INSTALL_STATE" "$IS_REINSTALL"

@@ -129,6 +129,9 @@ show_package_overview() {
         target_list+=("${sddm_pkgs[@]}")
     fi
     target_list+=("${PM_EXTRA_PKGS[@]}")
+    if [ "$OPT_DESKTOP_APPS" = true ]; then
+        target_list+=("${OFFICIAL_APPS_PKGS[@]}")
+    fi
 
     local missing_raw
     missing_raw=$(pm_missing_pkgs "${target_list[@]}")
@@ -160,160 +163,20 @@ show_package_overview() {
     printf "\e[?25l"
 }
 
-remove_compositor() {
-    local target="$1"
-    local updated=()
-    for c in "${SELECTED_COMPOSITORS[@]}"; do
-        if [[ "$c" != "$target" ]]; then
-            updated+=("$c")
-        fi
-    done
-    SELECTED_COMPOSITORS=("${updated[@]}")
-}
-
 manage_compositors_menu() {
     draw_banner
     stty -echo 2>/dev/null || true
     printf "\e[?25l"
-    printf "%s%s$(t "installer.ui.compositors_title")%s\n\n" "$BOLD" "$C_CYAN" "$RESET"
-
-    local cursor=0
-    local rendered_lines=0
+    printf "%s%sCompositor Configuration%s\n\n" "$BOLD" "$C_CYAN" "$RESET"
+    printf "  %s[✓] Niri (Wayland)%s - Active & Exclusively Supported\n\n" "$C_GREEN" "$RESET"
+    printf "  %sSerpantinum is specialized exclusively for Niri on CachyOS / Arch Linux.%s\n\n" "$DIM" "$RESET"
+    printf "  Press %s[Enter]%s or %s[Esc]%s to return.\n" "$BOLD" "$RESET" "$BOLD" "$RESET"
 
     while true; do
-        local status_hypr="$(t "installer.ui.not_installed")"
-        local status_niri="$(t "installer.ui.not_installed")"
-        local status_sway="$(t "installer.ui.not_installed")"
-        local status_mango="$(t "installer.ui.not_installed")"
-
-        if command -v hyprland &>/dev/null || pm_is_installed hyprland; then
-            status_hypr="$(t "installer.ui.installed")"
-        fi
-        if command -v niri &>/dev/null || pm_is_installed niri; then
-            status_niri="$(t "installer.ui.installed")"
-        fi
-        if command -v sway &>/dev/null || pm_is_installed sway; then
-            status_sway="$(t "installer.ui.installed")"
-        fi
-        if command -v mango &>/dev/null || pm_is_installed "$(compositor_package_name mango)"; then
-            status_mango="$(t "installer.ui.installed")"
-        fi
-
-        local S_HYPR="${DIM}[ ]${RESET}"
-        local S_NIRI="${DIM}[ ]${RESET}"
-        local S_SWAY="${DIM}[ ]${RESET}"
-        local S_MANGO="${DIM}[ ]${RESET}"
-
-        [[ " ${SELECTED_COMPOSITORS[*]} " =~ " hyprland " ]] && S_HYPR="${C_GREEN}[✓]${RESET}"
-        [[ " ${SELECTED_COMPOSITORS[*]} " =~ " niri " ]] && S_NIRI="${C_GREEN}[✓]${RESET}"
-        [[ " ${SELECTED_COMPOSITORS[*]} " =~ " sway " ]] && S_SWAY="${C_GREEN}[✓]${RESET}"
-        [[ " ${SELECTED_COMPOSITORS[*]} " =~ " mango " ]] && S_MANGO="${C_GREEN}[✓]${RESET}"
-
-        local items=(
-            "1. $S_HYPR Hyprland $status_hypr"
-            "2. $S_NIRI Niri $status_niri"
-            "3. $S_SWAY Sway $status_sway"
-            "4. $S_MANGO Mango $status_mango"
-            "5. ${BOLD}${C_GREEN}$(t "installer.ui.done")${RESET}"
-        )
-
-        if [ "$rendered_lines" -gt 0 ]; then
-            printf "\033[%dA" "$rendered_lines"
-        fi
-
-        for i in "${!items[@]}"; do
-            if [ "$i" -eq "$cursor" ]; then
-                printf "\r\033[K%s%s ▸ %s%s\n" "$BOLD" "$C_CYAN" "$RESET" "${items[$i]}"
-            else
-                printf "\r\033[K    %s\n" "${items[$i]}"
-            fi
-        done
-        rendered_lines=${#items[@]}
-
         local key
         key=$(read_key)
-
         case "$key" in
-            UP|[kK])
-                if [ "$cursor" -gt 0 ]; then
-                    cursor=$(( cursor - 1 ))
-                else
-                    cursor=$(( ${#items[@]} - 1 ))
-                fi
-                ;;
-            DOWN|[jJ])
-                if [ "$cursor" -lt $(( ${#items[@]} - 1 )) ]; then
-                    cursor=$(( cursor + 1 ))
-                else
-                    cursor=0
-                fi
-                ;;
-            "1")
-                if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " hyprland " ]]; then
-                    remove_compositor "hyprland"
-                else
-                    SELECTED_COMPOSITORS+=("hyprland")
-                fi
-                ;;
-            "2")
-                if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " niri " ]]; then
-                    remove_compositor "niri"
-                else
-                    SELECTED_COMPOSITORS+=("niri")
-                fi
-                ;;
-            "3")
-                if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " sway " ]]; then
-                    remove_compositor "sway"
-                else
-                    SELECTED_COMPOSITORS+=("sway")
-                fi
-                ;;
-            "4")
-                if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " mango " ]]; then
-                    remove_compositor "mango"
-                else
-                    SELECTED_COMPOSITORS+=("mango")
-                fi
-                ;;
-            "5"|ESC|[qQ])
-                break
-                ;;
-            ENTER|SPACE)
-                case "$cursor" in
-                    0)
-                        if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " hyprland " ]]; then
-                            remove_compositor "hyprland"
-                        else
-                            SELECTED_COMPOSITORS+=("hyprland")
-                        fi
-                        ;;
-                    1)
-                        if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " niri " ]]; then
-                            remove_compositor "niri"
-                        else
-                            SELECTED_COMPOSITORS+=("niri")
-                        fi
-                        ;;
-                    2)
-                        if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " sway " ]]; then
-                            remove_compositor "sway"
-                        else
-                            SELECTED_COMPOSITORS+=("sway")
-                        fi
-                        ;;
-                    3)
-                        if [[ " ${SELECTED_COMPOSITORS[*]} " =~ " mango " ]]; then
-                            remove_compositor "mango"
-                        else
-                            SELECTED_COMPOSITORS+=("mango")
-                        fi
-                        ;;
-                    4)
-                        break
-                        ;;
-                esac
-                ;;
+            ENTER|SPACE|ESC|[qQ]) break ;;
         esac
     done
 }
@@ -433,25 +296,31 @@ run_installer_ui() {
             local S_SDDM="${DIM}[OFF]${RESET}"
             local S_TEL="${DIM}[OFF]${RESET}"
             local S_WP="${DIM}[3 Random]${RESET}"
+            local S_APPS="${DIM}[OFF]${RESET}"
 
             [ "$OPT_SDDM" = true ] && S_SDDM="${C_GREEN}[ON]${RESET}"
             [ "$ENABLE_TELEMETRY" = true ] && S_TEL="${C_GREEN}[ON]${RESET}"
             [ "$INSTALL_FULL_WALLPAPERS" = true ] && S_WP="${C_GREEN}[Full Pack]${RESET}"
+            [ "$OPT_DESKTOP_APPS" = true ] && S_APPS="${C_GREEN}[ON]${RESET}"
+
+            local total_count=${#REQUIRED_PKGS[@]}
+            [ "$OPT_DESKTOP_APPS" = true ] && total_count=$(( total_count + ${#OFFICIAL_APPS_PKGS[@]} + ${#AUR_APPS_PKGS[@]} + 1 ))
 
             local items=()
-            items+=("1. $(t "installer.ui.menu_overview" "count=${#REQUIRED_PKGS[@]}")")
+            items+=("1. $(t "installer.ui.menu_overview" "count=$total_count")")
             items+=("2. $COMP_MENU_ITEM")
             items+=("3. $(t "installer.ui.menu_sddm") $S_SDDM")
             items+=("4. $(t "installer.ui.menu_wallpapers") $S_WP")
             items+=("5. $(t "installer.ui.menu_telemetry") $S_TEL")
+            items+=("6. Desktop Apps Suite $S_APPS")
 
             if [[ "$INSTALL_STATE" == "current" ]]; then
-                items+=("6. ${BOLD}${C_GREEN}$(t "installer.ui.menu_update")${RESET}")
-                items+=("7. ${BOLD}${C_YELLOW}$(t "installer.ui.menu_reinstall")${RESET}")
-                items+=("8. ${DIM}$(t "installer.ui.menu_exit")${RESET}")
+                items+=("7. ${BOLD}${C_GREEN}$(t "installer.ui.menu_update")${RESET}")
+                items+=("8. ${BOLD}${C_YELLOW}$(t "installer.ui.menu_reinstall")${RESET}")
+                items+=("9. ${DIM}$(t "installer.ui.menu_exit")${RESET}")
             else
-                items+=("6. ${BOLD}${C_GREEN}$(t "installer.ui.menu_install")${RESET}")
-                items+=("7. ${DIM}$(t "installer.ui.menu_exit")${RESET}")
+                items+=("7. ${BOLD}${C_GREEN}$(t "installer.ui.menu_install")${RESET}")
+                items+=("8. ${DIM}$(t "installer.ui.menu_exit")${RESET}")
             fi
 
             if [ "$rendered_lines" -gt 0 ]; then
@@ -504,6 +373,9 @@ run_installer_ui() {
                     ENABLE_TELEMETRY=$([ "$ENABLE_TELEMETRY" = true ] && echo false || echo true)
                     ;;
                 "6")
+                    OPT_DESKTOP_APPS=$([ "$OPT_DESKTOP_APPS" = true ] && echo false || echo true)
+                    ;;
+                "7")
                     if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
                         printf "\n%s[!] %s%s\n" "$C_RED" "$(t "installer.ui.error_no_compositor")" "$RESET"
                         sleep 1.5
@@ -513,7 +385,7 @@ run_installer_ui() {
                     cleanup_terminal
                     return 0
                     ;;
-                "7")
+                "8")
                     if [[ "$INSTALL_STATE" == "current" ]]; then
                         if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
                             printf "\n%s[!] %s%s\n" "$C_RED" "$(t "installer.ui.error_no_compositor")" "$RESET"
@@ -529,7 +401,7 @@ run_installer_ui() {
                         exit 0
                     fi
                     ;;
-                "8")
+                "9")
                     if [[ "$INSTALL_STATE" == "current" ]]; then
                         cleanup_terminal
                         clear
@@ -563,6 +435,9 @@ run_installer_ui() {
                             ENABLE_TELEMETRY=$([ "$ENABLE_TELEMETRY" = true ] && echo false || echo true)
                             ;;
                         *"6."*)
+                            OPT_DESKTOP_APPS=$([ "$OPT_DESKTOP_APPS" = true ] && echo false || echo true)
+                            ;;
+                        *"7."*)
                             if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
                                 printf "\n%s[!] %s%s\n" "$C_RED" "$(t "installer.ui.error_no_compositor")" "$RESET"
                                 sleep 1.5
@@ -572,7 +447,7 @@ run_installer_ui() {
                             cleanup_terminal
                             return 0
                             ;;
-                        *"7."*)
+                        *"8."*)
                             if [[ "$INSTALL_STATE" == "current" ]]; then
                                 if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
                                     printf "\n%s[!] %s%s\n" "$C_RED" "$(t "installer.ui.error_no_compositor")" "$RESET"
@@ -588,7 +463,7 @@ run_installer_ui() {
                                 exit 0
                             fi
                             ;;
-                        *"8."*)
+                        *"9."*)
                             if [[ "$INSTALL_STATE" == "current" ]]; then
                                 cleanup_terminal
                                 clear
