@@ -11,3 +11,11 @@ layout {
     }
 }
 
+window-rule {
+    match app-id=r#"^kitty$"#
+    match app-id=r#"^ski"#
+    geometry-corner-radius 10
+    clip-to-geometry true
+}
+
+
