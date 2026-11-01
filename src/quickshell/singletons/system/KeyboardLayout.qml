@@ -13,9 +13,8 @@ Singleton {
     readonly property bool active: subscribers > 0
 
     readonly property bool isNiri: NiriState.isNiri
-    readonly property bool isMango: MangoState.isMango
     readonly property bool isSway: SystemInfo.desktopEnv ? SystemInfo.desktopEnv.toLowerCase().indexOf("sway") !== -1 : false
-    readonly property string compositor: isMango ? "mango" : (isSway ? "sway" : "hyprland")
+    readonly property string compositor: isSway ? "sway" : "hyprland"
 
     function subscribe() {
         subscribers++;
@@ -59,8 +58,6 @@ Singleton {
             Quickshell.execDetached(["niri", "msg", "action", "switch-layout", "next"]);
         } else if (isSway) {
             Quickshell.execDetached(["swaymsg", "input", "type:keyboard", "xkb_switch_layout", "next"]);
-        } else if (isMango) {
-            Quickshell.execDetached(["mmsg", "dispatch", "switch_keyboard_layout"]);
         } else {
             Quickshell.execDetached(["hyprctl", "switchxkblayout", "main", "next"]);
         }
@@ -85,9 +82,7 @@ Singleton {
         command: [
             "bash",
             "-c",
-            root.isMango
-                ? "layout=$(mmsg get keyboardlayout 2>/dev/null | jq -r '.layout // empty' | head -n1); [[ -z \"$layout\" || \"$layout\" == \"null\" ]] && layout=\"US\"; echo \"${layout:0:2}\" | tr '[:lower:]' '[:upper:]'"
-                : root.isSway
+            root.isSway
                 ? "layout=$(swaymsg -t get_inputs 2>/dev/null | jq -r '[.[] | select(.type == \"keyboard\" and .xkb_active_layout_name != null)] | .[0].xkb_active_layout_name // empty' | head -n1); [[ -z \"$layout\" || \"$layout\" == \"null\" ]] && layout=\"US\"; echo \"${layout:0:2}\" | tr '[:lower:]' '[:upper:]'"
                 : "layout=$(LC_ALL=C hyprctl devices -j 2>/dev/null | jq -r '(.keyboards[] | select(.main == true) | .active_keymap) // .keyboards[0].active_keymap // empty' | head -n1); [[ -z \"$layout\" || \"$layout\" == \"null\" ]] && layout=\"US\"; echo \"${layout:0:2}\" | tr '[:lower:]' '[:upper:]'"
         ]

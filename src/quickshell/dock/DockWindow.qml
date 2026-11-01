@@ -251,9 +251,6 @@ DockWindowApps {
         if (dockWindowRoot.isSway) {
             swayPoller.running = true;
         }
-        if (dockWindowRoot.isMango) {
-            MangoState.subscribe();
-        }
         if (typeof WindowTracker !== "undefined") {
             WindowTracker.subscribe();
         }
@@ -265,9 +262,6 @@ DockWindowApps {
     Component.onDestruction: {
         if (dockWindowRoot.isNiri) {
             NiriState.unsubscribe();
-        }
-        if (dockWindowRoot.isMango) {
-            MangoState.unsubscribe();
         }
         if (typeof WindowTracker !== "undefined") {
             WindowTracker.unsubscribe();
