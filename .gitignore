@@ -2,7 +2,6 @@
 src/assets/languages/add.py
 changelog.py
 .agents/
-AGENTS.md
 .claude/
 
 __pycache__/
@@ -10,3 +9,4 @@ __pycache__/
 .omc/
 
 bin/serpantinum-audio
+*.bak
