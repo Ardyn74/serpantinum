@@ -1,6 +1,6 @@
 # MATLAB on Wayland & VS Code Integration
 
-Configuration, launcher scripts, and fixes for running MATLAB (R2026a+) seamlessly under Wayland compositors (Niri, Hyprland) with the official VS Code MATLAB extension.
+Configuration, launcher scripts, and fixes for running MATLAB (R2026a+) seamlessly under the **Niri** Wayland compositor with the official VS Code MATLAB extension.
 
 ---
 
@@ -8,7 +8,7 @@ Configuration, launcher scripts, and fixes for running MATLAB (R2026a+) seamless
 
 ### 1. Wayland & Embedded Browser (CEF) Crashes
 * **Issue:** MATLAB uses Chromium Embedded Framework (CEF) for its UI, which fails or crashes when launched directly under native Wayland or standard XWayland without rootful isolation.
-* **Fix:** A dedicated `xwayland-satellite :12` instance managed via systemd user service (`matlab-satellite.service`). The launcher starts and checks the `:12` display socket before executing MATLAB with `DISPLAY=:12`.
+* **Fix:** A dedicated `xwayland-satellite :12` instance managed via systemd user service (`matlab-satellite.service`). The launcher starts the satellite service on-demand only for GUI launches and verifies the `:12` display socket before executing MATLAB with `DISPLAY=:12`. Headless sessions omit satellite activation if not already active.
 
 ### 2. Licensing Segmentation Fault on Modern Linux (glibc 2.44+)
 * **Issue:** On modern Linux distributions (such as Arch / CachyOS with glibc 2.44+), the default FlexLM license manager crashes on launch with:
@@ -19,19 +19,23 @@ Configuration, launcher scripts, and fixes for running MATLAB (R2026a+) seamless
 
 ### 3. Outdated C++ Runtime Symbols
 * **Issue:** MATLAB bundles an older `libstdc++` in its installation directory, causing symbol lookup errors when interfacing with system graphics drivers (Mesa, NVIDIA, Vulkan).
-* **Fix:** Preload the system runtime: `LD_PRELOAD=/usr/lib/libstdc++.so.6`.
+* **Fix:** Dynamic detection and preloading of the system runtime (`LD_PRELOAD`) searching `/usr/lib/libstdc++.so.6` or `/usr/lib64/libstdc++.so.6`.
 
 ### 4. VS Code Extension Opening Unwanted GUI Windows
 * **Issue:** The official VS Code MATLAB extension starts a background language server using `-nodesktop`. However, hardcoding `-desktop` in custom launcher wrappers causes MATLAB to pop up its entire desktop GUI window instead of running invisibly.
-* **Fix:** The launcher dynamically checks arguments (`"$@"`) for headless flags (`-nodesktop`, `-nodisplay`, `-batch`). If present, `-desktop` is omitted, allowing MATLAB to run headlessly in the background as intended.
+* **Fix:** The launcher dynamically inspects arguments (`"$@"`) for headless flags (`-nodesktop`, `-nodisplay`, `-batch`, `-help`, `-h`, `-version`, `-v`). If present, `-desktop` is omitted, allowing MATLAB to run headlessly in the background as intended.
+
+### 5. Swallowed CLI & Script Output
+* **Issue:** Unconditional output redirection (`>> "$LOG" 2>&1`) in older wrappers redirected all output into a log file, breaking CLI usage (e.g. `matlab -batch "..."`, terminal help, or Language Server pipes) by returning zero terminal stdout.
+* **Fix:** The launcher detects interactive terminals (`[ -t 1 ]`) or headless execution modes and streams stdout/stderr directly, redirecting only background GUI launches to `${XDG_STATE_HOME:-$HOME/.local/state}/matlab-launcher.log`.
 
 ---
 
 ## File Structure
 
-* **`matlab-launcher`**: Smart executable wrapper handling DISPLAY socket checks, LD_PRELOAD, online licensing, and headless argument filtering.
+* **`matlab-launcher`**: Smart executable wrapper handling DISPLAY socket checks, LD_PRELOAD, online licensing, headless argument filtering, and direct CLI stdout streaming. Supports `MATLAB_BIN` environment override.
 * **`matlab-satellite.service`**: Systemd user service running `xwayland-satellite :12`.
-* **`matlab.desktop`**: XDG desktop entry for application menus and file associations (`.m`, `.mlx`, `.mat`).
+* **`matlab.desktop`**: XDG desktop entry with proper MIME types (`text/x-matlab`, `application/x-matlab-data`).
 * **`setup.sh`**: Automated installation script.
 
 ---
