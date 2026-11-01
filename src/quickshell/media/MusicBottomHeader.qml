@@ -113,6 +113,7 @@ RowLayout {
 
         Toggle {
             id: dynamicEqToggle
+            interactive: false
             anchors.verticalCenter: parent.verticalCenter
             x: I18n.rtl ? root.s(5) : parent.width - width - root.s(5)
             horizontalPadding: 0
@@ -123,10 +124,6 @@ RowLayout {
             checked: dynamicEqBtn.dynamicOn
             accentColor: ThemeBackend.mauve || "#cba6f7"
             baseColor: ThemeBackend.surface2 || "#585b70"
-            onToggled: (isChecked) => {
-                root.setAudioFlag("dyneq", isChecked);
-                checked = Qt.binding(() => dynamicEqBtn.dynamicOn);
-            }
         }
     }
 

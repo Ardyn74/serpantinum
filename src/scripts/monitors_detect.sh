@@ -40,17 +40,17 @@ detect_niri() {
     local out=""
     if [ "$VERBOSE" -eq 1 ]; then
         if command -v jq &>/dev/null; then
-            out=$(niri msg --json outputs 2>/dev/null | jq -r 'to_entries[]? | .value | "\(.name)|\(.current_mode.width // .modes[.current_mode].width)x\(.current_mode.height // .modes[.current_mode].height)|\((.current_mode.refresh_rate // .modes[.current_mode].refresh_rate // 60000) / 1000 | string | tonumber | . * 100 | round / 100)"' 2>/dev/null)
+            out=$(niri msg --json outputs 2>/dev/null | jq -r 'to_entries[]? | .value | (if (.current_mode | type) == "number" then .modes[.current_mode] else .current_mode end) as $m | select($m != null) | "\(.name)|\($m.width)x\($m.height)|\((($m.refresh_rate // 60000) / 1000 * 100 | round) / 100)"' 2>/dev/null)
         fi
         if [ -z "$out" ]; then
-            out=$(niri msg outputs 2>/dev/null | awk '/^Output /{gsub(/[" :]/, "", $2); name=$2} /Current mode:|[0-9]+x[0-9]+@[0-9.]+/{for(i=1;i<=NF;i++){if($i~/^[0-9]+x[0-9]+@[0-9.]+/){split($i,a,"@"); printf "%s|%s|%.2f\n", name, a[1], a[2]; name=""} else if($i~/^[0-9]+x[0-9]+$/ && $(i+1)=="@"){dim=$i; fps=$(i+2); gsub(/Hz/,"",fps); printf "%s|%s|%.2f\n", name, dim, fps; name=""}}}')
+            out=$(niri msg outputs 2>/dev/null | awk '/^Output /{match($0, /\(([^)]+)\)$/, m); name=m[1]} /Current mode:/{match($0, /([0-9]+x[0-9]+)[[:space:]]*@[[:space:]]*([0-9.]+)/, a); if (name && a[1]) { printf "%s|%s|%.2f\n", name, a[1], a[2]; name="" }}')
         fi
     else
         if command -v jq &>/dev/null; then
             out=$(niri msg --json outputs 2>/dev/null | jq -r 'keys[]?, .[].name?' 2>/dev/null | grep -v '^null$' | awk '!seen[$0]++ && NF')
         fi
         if [ -z "$out" ]; then
-            out=$(niri msg outputs 2>/dev/null | awk '/^Output /{gsub(/[" :]/, "", $2); print $2}')
+            out=$(niri msg outputs 2>/dev/null | awk '/^Output /{match($0, /\(([^)]+)\)$/, m); if (m[1]) print m[1]}')
         fi
     fi
     if [ -n "$out" ]; then
@@ -68,7 +68,7 @@ detect_sway() {
             out=$(swaymsg -t get_outputs -r 2>/dev/null | jq -r '.[] | select(.active) | "\(.name)|\(.current_mode.width)x\(.current_mode.height)|\((.current_mode.refresh / 1000) * 100 | round / 100)"' 2>/dev/null)
         fi
         if [ -z "$out" ]; then
-            out=$(swaymsg -t get_outputs 2>/dev/null | awk '/"name":/{gsub(/[",]/, "", $2); name=$2} /"active": true/{active=1} /"width":/{gsub(/[,]/, "", $2); w=$2} /"height":/{gsub(/[,]/, "", $2); h=$2} /"refresh":/{gsub(/[,]/, "", $2); fps=$2/1000} /^[[:space:]]*},?[[:space:]]*$/{if(active && name!="" && w!="" && h!=""){printf "%s|%s|%.2f\n", name, w, h, (fps?fps:60.00)}; name=""; w=""; h=""; fps=""; active=0}')
+            out=$(swaymsg -t get_outputs 2>/dev/null | awk '/"name":/{gsub(/[",]/, "", $2); name=$2} /"active": true/{active=1} /"width":/{gsub(/[,]/, "", $2); w=$2} /"height":/{gsub(/[,]/, "", $2); h=$2} /"refresh":/{gsub(/[,]/, "", $2); fps=$2/1000} /^[[:space:]]*},?[[:space:]]*$/{if(active && name!="" && w!="" && h!=""){printf "%s|%sx%s|%.2f\n", name, w, h, (fps?fps:60.00)}; name=""; w=""; h=""; fps=""; active=0}')
         fi
     else
         if command -v jq &>/dev/null; then

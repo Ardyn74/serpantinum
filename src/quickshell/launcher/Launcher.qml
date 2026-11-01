@@ -58,6 +58,9 @@ PanelWindow {
     }
 
     onCurrentTabIndexChanged: {
+        filterDebounceTimer.stop();
+        fileDebounceTimer.stop();
+        emojiDebounceTimer.stop();
         saveLastTab();
         if (tabSwitch.currentIndex !== currentTabIndex) {
             tabSwitch.currentIndex = currentTabIndex;
@@ -75,6 +78,7 @@ PanelWindow {
     FileView {
         id: lastTabWatcher
         path: (typeof Caching !== "undefined" && typeof Caching.getCacheDir === "function") ? (Caching.getCacheDir("launcher") + "/last_tab.txt") : ""
+        printErrors: false
         watchChanges: true
         onFileChanged: reload()
         onLoaded: {
@@ -484,7 +488,9 @@ PanelWindow {
         interval: 80
         repeat: false
         onTriggered: {
-            executeFilter(launcherWindow.pendingQuery);
+            if (launcherWindow.currentTabIndex === 0) {
+                executeFilter(launcherWindow.pendingQuery);
+            }
         }
     }
 
@@ -493,7 +499,9 @@ PanelWindow {
         interval: 80
         repeat: false
         onTriggered: {
-            executeFileSearch(launcherWindow.pendingQuery);
+            if (launcherWindow.currentTabIndex === 1) {
+                executeFileSearch(launcherWindow.pendingQuery);
+            }
         }
     }
 
@@ -502,7 +510,9 @@ PanelWindow {
         interval: 60
         repeat: false
         onTriggered: {
-            executeEmojiFilter(launcherWindow.pendingQuery);
+            if (launcherWindow.currentTabIndex === 2) {
+                executeEmojiFilter(launcherWindow.pendingQuery);
+            }
         }
     }
 

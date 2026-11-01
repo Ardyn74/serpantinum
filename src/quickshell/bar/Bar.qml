@@ -13,17 +13,18 @@ Scope {
 
     property bool isRedacting: false
     signal updateToggled()
+    signal reloadRequested()
 
     IpcHandler {
         target: "topbar"
-        function setRedactMode(active) {
+        function setRedactMode(active: string) {
             barRoot.isRedacting = (active === "true" || active === "1");
         }
         function forceReload() {
             Quickshell.reload(true)
         }
         function queueReload() {
-            Quickshell.reload(true)
+            barRoot.reloadRequested()
         }
         function toggleUpdate() {
             barRoot.updateToggled()
@@ -315,6 +316,17 @@ Scope {
                 if (!barWindowRoot.isNotifOpen && !barWindowRoot.isSysOpen && barWindowRoot.pendingReload) {
                     barWindowRoot.pendingReload = false;
                     Quickshell.reload(true);
+                }
+            }
+
+            Connections {
+                target: barRoot
+                function onReloadRequested() {
+                    if (!barWindowRoot.isNotifOpen && !barWindowRoot.isSysOpen) {
+                        Quickshell.reload(true);
+                    } else {
+                        barWindowRoot.pendingReload = true;
+                    }
                 }
             }
 

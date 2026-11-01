@@ -46,11 +46,15 @@ Singleton {
     function isSerpantinumStream(node) {
         if (!node || !node.properties) return false;
         let p = node.properties;
-        let appId = p["application.id"] || "";
-        let appName = p["application.name"] || "";
+        let nodeName = (node.name || p["node.name"] || "").toLowerCase();
+        let nodeGroup = (p["node.group"] || "").toLowerCase();
+        let appId = (p["application.id"] || "").toLowerCase();
+        let appName = (p["application.name"] || "").toLowerCase();
+        if (nodeName === "serpantinum_output" || nodeGroup === "serpantinum-audio") return true;
         if (appId === "serpantinum-sfx" || appId === "serpantinum" || appId === "org.serpantinum.sfx") return true;
-        if (appName === "serpantinum-sfx" || appName === "serpantinum") return true;
-        let mediaFile = p["media.filename"] || p["media.name"] || "";
+        if (appName === "serpantinum-sfx" || appName === "serpantinum" || appName === "serpantinum audio") return true;
+        if (appId === "serpantinum-audio-test" || appName === "serpantinum audio test") return true;
+        let mediaFile = (p["media.filename"] || p["media.name"] || "").toLowerCase();
         if (mediaFile.indexOf("assets/sounds/") !== -1) return true;
         return false;
     }
@@ -58,7 +62,7 @@ Singleton {
     readonly property var outputs: {
         let arr = [];
         for (const n of root.pipewireNodes()) {
-            if (!n.isStream && n.isSink && n.audio) arr.push(n);
+            if (!n.isStream && n.isSink && n.audio && n.name !== "serpantinum_sink") arr.push(n);
         }
         return AudioCache.updateOutputs(arr);
     }

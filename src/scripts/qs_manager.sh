@@ -115,7 +115,7 @@ PREP_LOCK="$QS_RUN_DIR/wallpaper_prep.lock"
 
 export MAGICK_THREAD_LIMIT=1
 
-QS_NETWORK_CACHE="$QS_CACHE_NETWORK"
+QS_NETWORK_CACHE="${QS_CACHE_NETWORK:-$QS_CACHE_DIR/network}"
 NETWORK_MODE_FILE="$QS_NETWORK_CACHE/mode"
 
 
@@ -223,7 +223,6 @@ if [[ "$ACTION" == "open" || "$ACTION" == "toggle" ]]; then
             [[ -n "$SUBTARGET" ]] && echo "$SUBTARGET" > "$NETWORK_MODE_FILE"
             ;;
         wallpaper)
-            handle_wallpaper_prep
             SUBTARGET=""
             ;;
     esac

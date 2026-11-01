@@ -88,15 +88,10 @@ Item {
     }
 
     property real targetOffsetY: {
-        if (dockWindow.isVertical) {
-            if (dockWindow.dockPosition === "top") return animLift;
-            if (dockWindow.dockPosition === "bottom") return -animLift;
-            return 0.0;
-        } else {
-            if (dockWindow.dockPosition === "bottom") return -animLift;
-            if (dockWindow.dockPosition === "top") return animLift;
-            return 0.0;
-        }
+        if (dockWindow.isVertical) return animSpread;
+        if (dockWindow.dockPosition === "bottom") return -animLift;
+        if (dockWindow.dockPosition === "top") return animLift;
+        return 0.0;
     }
 
     property real currentOffsetX: btnMa.drag.active ? 0 : targetOffsetX

@@ -101,6 +101,11 @@ if [ -f "$CACHE_DIR/rec_pid" ]; then
     FINAL_FILE=$(cat "$CACHE_DIR/final_file" 2>/dev/null)
     
     if [ -n "$REC_PID" ] && kill -0 "$REC_PID" 2>/dev/null; then
+        cmdline=$(tr '\0' ' ' < "/proc/$REC_PID/cmdline" 2>/dev/null || true)
+        if ! echo "$cmdline" | grep -qE '(wf-recorder|gpu-screen-recorder)'; then
+            rm -f "$CACHE_DIR/rec_pid" "$CACHE_DIR/final_file" "$CACHE_DIR/processing.lock" "$CACHE_DIR/rec_start_epoch"
+            exit 0
+        fi
         [ -f "$CACHE_DIR/processing.lock" ] && exit 0
         touch "$CACHE_DIR/processing.lock"
         

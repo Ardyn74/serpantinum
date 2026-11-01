@@ -6,12 +6,12 @@ import "../"
 MusicPlayerState {
     id: root
 
-    property var eqData: {
+    property var eqData: ({
         "b1": 0, "b2": 0, "b3": 0, "b4": 0, "b5": 0,
         "b6": 0, "b7": 0, "b8": 0, "b9": 0, "b10": 0,
         "preset": "Flat", "pending": false, "balance": 0,
         "mono": false, "swap": false, "dynamics": "off", "dyneq": false
-    }
+    })
 
     property var savedEqData: ({
         "b1": 0, "b2": 0, "b3": 0, "b4": 0, "b5": 0,
@@ -35,7 +35,7 @@ MusicPlayerState {
         var needsRestore = wasPending;
         if (!needsRestore && root.eqData) {
             for (var i = 1; i <= 10; i++) {
-                if (root.eqData["b" + i] !== root.savedEqData["b" + i]) {
+                if (Number(root.eqData["b" + i]) !== Number(root.savedEqData["b" + i])) {
                     needsRestore = true;
                     break;
                 }
@@ -47,13 +47,13 @@ MusicPlayerState {
         if (needsRestore) {
             root.lastEqUpdate = Date.now();
             if (root.savedEqData.preset && root.savedEqData.preset !== "Custom") {
-                root.execCmd(Caching.qsDir + `/media/equalizer.sh preset ${root.savedEqData.preset}`);
+                root.execCmd(Caching.qsDir + `/media/equalizer.sh preset "${root.savedEqData.preset}"`);
             } else {
+                var bandArgs = [];
                 for (var b = 1; b <= 10; b++) {
-                    if (root.savedEqData["b" + b] !== undefined) {
-                        root.execCmd(Caching.qsDir + `/media/equalizer.sh set_band ${b} ${root.savedEqData["b" + b]}`);
-                    }
+                    bandArgs.push(root.savedEqData["b" + b] !== undefined ? root.savedEqData["b" + b] : 0);
                 }
+                root.execCmd(Caching.qsDir + `/media/equalizer.sh restore_bands ` + bandArgs.join(" ") + ` Custom`);
             }
         }
     }

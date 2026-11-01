@@ -20,16 +20,31 @@ Item {
     property int textFontSize: 12
 
     property bool checked: false
+    property bool interactive: true
     property color accentColor: ThemeBackend.blue
     property color baseColor: ThemeBackend.surface0
     property color handleColor: ThemeBackend.crust
     property color handleOffColor: ThemeBackend.text
     property color textColor: ThemeBackend.text
 
-    activeFocusOnTab: root.enabled
+    function toggle() {
+        if (!root.enabled || !root.interactive) return;
+        root.checked = !root.checked;
+        btnPopAnim.start();
+        root.flashOpacity = 0.2;
+        btnFlashAnim.start();
+        if (typeof Sounds !== "undefined") {
+            Sounds.playSfx(root.toggleSound);
+        }
+        root.toggled(root.checked);
+        root.clicked();
+        root.triggered();
+    }
+
+    activeFocusOnTab: root.enabled && root.interactive
     Keys.onPressed: (event) => {
         if (event.key === Qt.Key_Space || event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-            btnMa.clicked(null);
+            root.toggle();
             event.accepted = true;
         }
     }
@@ -163,22 +178,11 @@ Item {
     MouseArea {
         id: btnMa
         anchors.fill: parent
-        hoverEnabled: root.enabled
-        enabled: root.enabled
-        cursorShape: root.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+        hoverEnabled: root.enabled && root.interactive
+        enabled: root.enabled && root.interactive
+        visible: root.interactive
+        cursorShape: (root.enabled && root.interactive) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-        onClicked: {
-            if (!root.enabled) return;
-            root.checked = !root.checked;
-            btnPopAnim.start();
-            root.flashOpacity = 0.2;
-            btnFlashAnim.start();
-            if (typeof Sounds !== "undefined") {
-                Sounds.playSfx(root.toggleSound);
-            }
-            root.toggled(root.checked);
-            root.clicked();
-            root.triggered();
-        }
+        onClicked: root.toggle()
     }
 }

@@ -1,9 +1,31 @@
 #!/bin/bash
 # MATLAB wrapper for Wayland / XWayland Satellite & VS Code integration
-LOG="$HOME/.local/state/matlab-launcher.log"
-{
-    echo "---- MATLAB launch: $(date) ----"
-    systemctl --user start matlab-satellite.service
+LOG="${XDG_STATE_HOME:-$HOME/.local/state}/matlab-launcher.log"
+mkdir -p "$(dirname "$LOG")"
+
+# Detect headless flags (used by VS Code language server or CLI scripts)
+desktop_flag="-desktop"
+is_headless=0
+for arg in "$@"; do
+    case "$arg" in
+        -nodesktop|-nodisplay|-batch|-help|-h|-version|-v)
+            desktop_flag=""
+            is_headless=1
+            break
+            ;;
+    esac
+done
+
+matlab_bin="${MATLAB_BIN:-$HOME/.local/opt/MATLAB/R2026/bin/matlab}"
+if [ ! -x "$matlab_bin" ]; then
+    echo "ERROR: MATLAB binary not found at $matlab_bin" | tee -a "$LOG" >&2
+    exit 1
+fi
+
+display_target="${DISPLAY:-:12}"
+if [ "$is_headless" -eq 0 ]; then
+    echo "---- MATLAB GUI launch: $(date) ----" >> "$LOG"
+    systemctl --user start matlab-satellite.service >> "$LOG" 2>&1
 
     for i in {1..20}; do
         [ -S /tmp/.X11-unix/X12 ] && break
@@ -11,26 +33,35 @@ LOG="$HOME/.local/state/matlab-launcher.log"
     done
 
     if [ ! -S /tmp/.X11-unix/X12 ]; then
-        echo "ERROR: XWayland display :12 is unavailable"
+        echo "ERROR: XWayland display :12 is unavailable" | tee -a "$LOG" >&2
         exit 1
     fi
+    display_target=":12"
+else
+    echo "---- MATLAB headless launch: $(date) (args: $*) ----" >> "$LOG"
+    if [ -S /tmp/.X11-unix/X12 ]; then
+        display_target=":12"
+    fi
+fi
 
-    # Detect headless flags (used by VS Code language server or CLI scripts)
-    desktop_flag="-desktop"
-    for arg in "$@"; do
-        case "$arg" in
-            -nodesktop|-nodisplay|-batch)
-                desktop_flag=""
-                break
-                ;;
-        esac
-    done
+# -licmode onlinelicensing avoids glibc lc_new_job segmentation fault in libmwlmgrimpl.so
+# LD_PRELOAD avoids C++ symbol conflicts from MATLAB's bundled outdated libstdc++
+preload_lib=""
+for candidate in /usr/lib/libstdc++.so.6 /usr/lib64/libstdc++.so.6; do
+    if [ -f "$candidate" ]; then
+        preload_lib="$candidate"
+        break
+    fi
+done
 
-    # -licmode onlinelicensing avoids glibc lc_new_job segmentation fault in libmwlmgrimpl.so
-    # LD_PRELOAD avoids C++ symbol conflicts from MATLAB's bundled outdated libstdc++
-    exec env \
-        DISPLAY=:12 \
-        LD_PRELOAD=/usr/lib/libstdc++.so.6 \
-        "/home/abhay/.local/opt/MATLAB/R2026/bin/matlab" \
-        $desktop_flag -licmode onlinelicensing "$@"
-} >> "$LOG" 2>&1
+if [ -n "$preload_lib" ]; then
+    export LD_PRELOAD="${preload_lib}${LD_PRELOAD:+:$LD_PRELOAD}"
+fi
+
+export DISPLAY="$display_target"
+
+if [ "$is_headless" -eq 1 ] || [ -t 1 ]; then
+    exec "$matlab_bin" $desktop_flag -licmode onlinelicensing "$@"
+else
+    exec "$matlab_bin" $desktop_flag -licmode onlinelicensing "$@" >> "$LOG" 2>&1
+fi

@@ -388,7 +388,13 @@ gammarelay_set_auto() {
     local pidfile="$PIDDIR/auto-$(pid_key "$output").pid"
 
     log "Starting auto-schedule loop for $output (night_temp=$temp lat=$lat lon=$lon current=$current_auto_temp)."
-    nohup bash -c "calculate_solar_temp() { $(declare -f calculate_solar_temp); calculate_solar_temp \"\$@\"; }; set_property_safe() { $(declare -f set_property_safe); set_property_safe \"\$@\"; }; output_exists() { $(declare -f output_exists); output_exists \"\$@\"; }; sanitize_output() { $(declare -f sanitize_output); sanitize_output \"\$@\"; }; object_path() { $(declare -f object_path); object_path \"\$@\"; }; UPDATE_INTERVAL=$UPDATE_INTERVAL; DAY_TEMP=$DAY_TEMP; $(declare -f gammarelay_auto_loop); gammarelay_auto_loop '$output' '$temp' '$lat' '$lon'" </dev/null >/dev/null 2>&1 200>&- 201>&- &
+    nohup bash -c '
+        '"$(declare -f log calculate_solar_temp set_property_safe output_exists sanitize_output object_path gammarelay_auto_loop)"'
+        UPDATE_INTERVAL='"$UPDATE_INTERVAL"'
+        DAY_TEMP='"$DAY_TEMP"'
+        VERBOSE=false
+        gammarelay_auto_loop "$1" "$2" "$3" "$4"
+    ' _ "$output" "$temp" "$lat" "$lon" </dev/null >/dev/null 2>&1 200>&- 201>&- &
     local loop_pid=$!
     echo "$loop_pid" > "$pidfile"
     disown "$loop_pid" 2>/dev/null || true

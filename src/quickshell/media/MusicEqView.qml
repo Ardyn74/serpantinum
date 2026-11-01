@@ -99,6 +99,13 @@ Item {
                                 stepSize: 1
                                 hoverEnabled: true
 
+                                Component.onCompleted: {
+                                    if (root.eqData && root.eqData["b" + modelData.idx] !== undefined) {
+                                        var p = Number(root.eqData["b" + modelData.idx]);
+                                        if (!isNaN(p)) eqSlider.value = p;
+                                    }
+                                }
+
                                 Connections {
                                     target: root
                                     function onEqDataChanged() {
@@ -374,20 +381,20 @@ Item {
                 property color accentColor: root.eqAccentColor
 
                 property vector4d bands0: Qt.vector4d(
-                    root.eqData.b1 !== undefined ? Number(root.eqData.b1) : 0,
-                    root.eqData.b2 !== undefined ? Number(root.eqData.b2) : 0,
-                    root.eqData.b3 !== undefined ? Number(root.eqData.b3) : 0,
-                    root.eqData.b4 !== undefined ? Number(root.eqData.b4) : 0
+                    (root.eqData && root.eqData.b1 !== undefined) ? Number(root.eqData.b1) : 0,
+                    (root.eqData && root.eqData.b2 !== undefined) ? Number(root.eqData.b2) : 0,
+                    (root.eqData && root.eqData.b3 !== undefined) ? Number(root.eqData.b3) : 0,
+                    (root.eqData && root.eqData.b4 !== undefined) ? Number(root.eqData.b4) : 0
                 )
                 property vector4d bands1: Qt.vector4d(
-                    root.eqData.b5 !== undefined ? Number(root.eqData.b5) : 0,
-                    root.eqData.b6 !== undefined ? Number(root.eqData.b6) : 0,
-                    root.eqData.b7 !== undefined ? Number(root.eqData.b7) : 0,
-                    root.eqData.b8 !== undefined ? Number(root.eqData.b8) : 0
+                    (root.eqData && root.eqData.b5 !== undefined) ? Number(root.eqData.b5) : 0,
+                    (root.eqData && root.eqData.b6 !== undefined) ? Number(root.eqData.b6) : 0,
+                    (root.eqData && root.eqData.b7 !== undefined) ? Number(root.eqData.b7) : 0,
+                    (root.eqData && root.eqData.b8 !== undefined) ? Number(root.eqData.b8) : 0
                 )
                 property vector4d bands2: Qt.vector4d(
-                    root.eqData.b9 !== undefined ? Number(root.eqData.b9) : 0,
-                    root.eqData.b10 !== undefined ? Number(root.eqData.b10) : 0,
+                    (root.eqData && root.eqData.b9 !== undefined) ? Number(root.eqData.b9) : 0,
+                    (root.eqData && root.eqData.b10 !== undefined) ? Number(root.eqData.b10) : 0,
                     root.s(10),
                     root.s(30)
                 )

@@ -6,14 +6,14 @@ if [ -z "${SERPANTINUM_DIR:-}" ]; then
 fi
 
 export QS_DIR="$SERPANTINUM_DIR/quickshell"
-export MAIN_QML="$QS_DIR/Shell.qml"
+export MAIN_QML="${MAIN_QML:-$QS_DIR/Shell.qml}"
 export IPC_SOCKET="${XDG_RUNTIME_DIR:-/tmp}/serpantinum.sock"
 
-export QS_CACHE_DIR="$HOME/.cache/serpantinum"
-export QS_STATE_DIR="$HOME/.local/state/serpantinum"
+export QS_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/serpantinum"
+export QS_STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/serpantinum"
 export QS_RUN_DIR="${XDG_RUNTIME_DIR:-/tmp}/serpantinum"
 export QS_LOG_DIR="$QS_RUN_DIR/logs"
-export QS_SETTINGS="$HOME/.config/serpantinum/settings.json"
+export QS_SETTINGS="${XDG_CONFIG_HOME:-$HOME/.config}/serpantinum/settings.json"
 
 [[ -d "$QS_LOG_DIR" && -d "$QS_CACHE_DIR" && -d "$QS_STATE_DIR" ]] || mkdir -p "$QS_CACHE_DIR" "$QS_STATE_DIR" "$QS_RUN_DIR" "$QS_LOG_DIR"
 
@@ -35,6 +35,11 @@ qs_ensure_cache() {
 
 qs_ensure_cache "focustime"
 qs_ensure_cache "quickactions"
+qs_ensure_cache "network"
+qs_ensure_cache "wallpaper"
+qs_ensure_cache "clipboard"
+qs_ensure_cache "music"
+qs_ensure_cache "screenshot"
 
 if [ -z "${SERPANTINUM_INSTALLER:-}" ] && [ ! -f "$QS_STATE_DIR/version" ]; then
     ver=""

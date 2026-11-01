@@ -103,8 +103,8 @@ def delete_item(iid, cache_dir):
         pass
 
 def get_cliphist():
-    cache_dir = os.environ.get("QS_CACHE_CLIPBOARD", os.path.expanduser("~/.cache/quickshell/clipboard"))
-    if len(sys.argv) > 3:
+    cache_dir = os.environ.get("QS_CACHE_CLIPBOARD", os.path.expanduser("~/.cache/serpantinum/clipboard"))
+    if len(sys.argv) > 2:
         cache_dir = sys.argv[-1]
         
     os.makedirs(cache_dir, exist_ok=True)

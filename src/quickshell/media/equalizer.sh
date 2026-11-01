@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
+export LC_NUMERIC=C
+
 source "$(dirname "${BASH_SOURCE[0]}")/../../scripts/caching.sh"
 qs_ensure_cache "music"
 
 STATE_FILE="$QS_RUN_MUSIC/eq_state.json"
+LOCK_FILE="$QS_RUN_MUSIC/eq_state.lock"
 SINK_NAME="serpantinum_sink"
 DAEMON_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/serpantinum/audio.state"
 TEST_FILE="$QS_RUN_MUSIC/channel_test.wav"
 TEST_PID_FILE="$QS_RUN_MUSIC/channel_test.pid"
+
+acquire_lock() {
+    exec 200>"$LOCK_FILE"
+    flock -x 200
+}
 
 declare -A PRESETS=(
     [Flat]="0 0 0 0 0 0 0 0 0 0"
@@ -40,7 +48,7 @@ seed_from_daemon() {
 
     local gains=("${fields[@]:1:10}") gain normalized=()
     for gain in "${gains[@]}"; do
-        normalized+=("$(awk -v g="$gain" 'BEGIN { printf "%g", g }')")
+        normalized+=("$(LC_NUMERIC=C awk -v g="$gain" 'BEGIN { printf "%g", g + 0 }')")
     done
 
     jq -n -c \
@@ -63,10 +71,10 @@ seed_from_daemon() {
 
 if [ ! -s "$STATE_FILE" ] && ! seed_from_daemon; then
     rm -f "$STATE_FILE.tmp.$$"
-    echo '{"b1": 0, "b2": 0, "b3": 0, "b4": 0, "b5": 0, "b6": 0, "b7": 0, "b8": 0, "b9": 0, "b10": 0, "preset": "Flat", "pending": false, "balance": 0, "mono": false, "swap": false, "dynamics": "off", "dyneq": false}' > "$STATE_FILE"
+    echo '{"b1": 0, "b2": 0, "b3": 0, "b4": 0, "b5": 0, "b6": 0, "b7": 0, "b8": 0, "b9": 0, "b10": 0, "preset": "Flat", "pending": false, "balance": 0, "mono": false, "swap": false, "dynamics": "off", "dyneq": false}' > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
 elif ! jq -e 'has("balance") and has("mono") and has("swap") and has("dynamics") and has("dyneq")' "$STATE_FILE" >/dev/null 2>&1; then
     updated=$(jq -c '.balance //= 0 | .mono //= false | .swap //= false | .dynamics //= "off" | .dyneq //= false' "$STATE_FILE") &&
-        echo "$updated" > "$STATE_FILE"
+        echo "$updated" > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
 fi
 
 audio_ctl() {
@@ -92,23 +100,24 @@ apply_eq() {
 }
 
 save_preset() {
-    balance=$(jq -r '.balance // 0' "$STATE_FILE")
-    mono=$(jq -r '.mono // false' "$STATE_FILE")
-    swap=$(jq -r '.swap // false' "$STATE_FILE")
-    dynamics=$(jq -r '.dynamics // "off"' "$STATE_FILE")
-    dyneq=$(jq -r '.dyneq // false' "$STATE_FILE")
+    local balance mono swap dynamics dyneq
+    balance=$(jq -r '.balance // 0' "$STATE_FILE" 2>/dev/null || echo 0)
+    mono=$(jq -r '.mono // false' "$STATE_FILE" 2>/dev/null || echo false)
+    swap=$(jq -r '.swap // false' "$STATE_FILE" 2>/dev/null || echo false)
+    dynamics=$(jq -r '.dynamics // "off"' "$STATE_FILE" 2>/dev/null || echo "off")
+    dyneq=$(jq -r '.dyneq // false' "$STATE_FILE" 2>/dev/null || echo false)
 
     jq -n -c \
-        --arg b1 "$1" \
-        --arg b2 "$2" \
-        --arg b3 "$3" \
-        --arg b4 "$4" \
-        --arg b5 "$5" \
-        --arg b6 "$6" \
-        --arg b7 "$7" \
-        --arg b8 "$8" \
-        --arg b9 "$9" \
-        --arg b10 "${10}" \
+        --argjson b1 "${1:-0}" \
+        --argjson b2 "${2:-0}" \
+        --argjson b3 "${3:-0}" \
+        --argjson b4 "${4:-0}" \
+        --argjson b5 "${5:-0}" \
+        --argjson b6 "${6:-0}" \
+        --argjson b7 "${7:-0}" \
+        --argjson b8 "${8:-0}" \
+        --argjson b9 "${9:-0}" \
+        --argjson b10 "${10:-0}" \
         --arg p "${11}" \
         --argjson balance "$balance" \
         --argjson mono "$mono" \
@@ -133,7 +142,7 @@ save_preset() {
             "swap": $swap,
             "dynamics": $dynamics,
             "dyneq": $dyneq
-        }' > "$STATE_FILE"
+        }' > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
 }
 
 stop_test() {
@@ -206,42 +215,51 @@ case $cmd in
         ;;
 
     "set_band")
-        tmp=$(cat "$STATE_FILE")
+        acquire_lock
+        [[ "$arg1" =~ ^([1-9]|10)$ ]] || exit 1
+        if ! [[ "$arg2" =~ ^-?[0-9]+([.][0-9]+)?$ ]]; then
+            exit 1
+        fi
 
-        updated=$(echo "$tmp" |
-            jq -c \
-                --arg val "$arg2" \
-                ".b$arg1 = \$val | .preset = \"Custom\" | .pending = true")
+        jq -c \
+            --argjson val "$arg2" \
+            ".b$arg1 = \$val | .preset = \"Custom\" | .pending = true" \
+            "$STATE_FILE" > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
+        ;;
 
-        echo "$updated" > "$STATE_FILE"
+    "restore_bands")
+        acquire_lock
+        shift
+        jq -c \
+            --argjson b1 "${1:-0}" --argjson b2 "${2:-0}" --argjson b3 "${3:-0}" --argjson b4 "${4:-0}" --argjson b5 "${5:-0}" \
+            --argjson b6 "${6:-0}" --argjson b7 "${7:-0}" --argjson b8 "${8:-0}" --argjson b9 "${9:-0}" --argjson b10 "${10:-0}" \
+            --arg p "${11:-Custom}" \
+            '.b1 = $b1 | .b2 = $b2 | .b3 = $b3 | .b4 = $b4 | .b5 = $b5 | .b6 = $b6 | .b7 = $b7 | .b8 = $b8 | .b9 = $b9 | .b10 = $b10 | .preset = $p | .pending = false' \
+            "$STATE_FILE" > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
+        apply_eq
         ;;
 
     "apply")
-        tmp=$(cat "$STATE_FILE")
-
-        updated=$(echo "$tmp" |
-            jq -c ".pending = false")
-
-        echo "$updated" > "$STATE_FILE"
-
+        acquire_lock
+        jq -c ".pending = false" "$STATE_FILE" > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
         apply_eq
         ;;
 
     "set_balance")
+        acquire_lock
         if ! [[ "$arg1" =~ ^-?([0-9]+([.][0-9]*)?|[.][0-9]+)$ ]]; then
             exit 1
         fi
 
-        updated=$(jq -c \
+        jq -c \
             --argjson val "$arg1" \
             '.balance = (if $val < -1 then -1 elif $val > 1 then 1 else $val end)' \
-            "$STATE_FILE") || exit 1
-
-        echo "$updated" > "$STATE_FILE"
+            "$STATE_FILE" > "$STATE_FILE.tmp.$$" 2>/dev/null && mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
         apply_eq
         ;;
 
     "set_dyneq")
+        acquire_lock
         [ "$arg1" = "true" ] || [ "$arg1" = "false" ] || exit 1
         jq -c --argjson val "$arg1" '.dyneq = $val' \
             "$STATE_FILE" > "$STATE_FILE.tmp.$$" || exit 1
@@ -250,6 +268,7 @@ case $cmd in
         ;;
 
     "set_mono"|"set_swap")
+        acquire_lock
         [ "$arg1" = "true" ] || [ "$arg1" = "false" ] || exit 1
         key=${cmd#set_}
         jq -c --arg key "$key" --argjson val "$arg1" '.[$key] = $val' \
@@ -259,6 +278,7 @@ case $cmd in
         ;;
 
     "set_dynamics")
+        acquire_lock
         case "$arg1" in off|balanced|night) ;; *) exit 1 ;; esac
         jq -c --arg val "$arg1" '.dynamics = $val' \
             "$STATE_FILE" > "$STATE_FILE.tmp.$$" || exit 1
@@ -267,6 +287,7 @@ case $cmd in
         ;;
 
     "reset_audio")
+        acquire_lock
         jq -c '.balance = 0 | .mono = false | .swap = false | .dynamics = "off"' \
             "$STATE_FILE" > "$STATE_FILE.tmp.$$" || exit 1
         mv -f "$STATE_FILE.tmp.$$" "$STATE_FILE"
@@ -283,6 +304,7 @@ case $cmd in
         ;;
 
     "preset")
+        acquire_lock
         [ -n "${PRESETS[$arg1]:-}" ] || exit 1
         save_preset ${PRESETS[$arg1]} "$arg1"
         apply_eq

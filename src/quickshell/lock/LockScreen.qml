@@ -381,7 +381,6 @@ FocusScope {
     }
 
     Component.onCompleted: {
-        lockScreenRoot.updateForecastData();
         lockScreenRoot.restoreFocus();
         if (freezeWallpaperView.status === Image.Ready) {
             introSequence.start();
@@ -424,8 +423,8 @@ FocusScope {
         function onResumeRevisionChanged() {
             if (rootLock.locked && !lockScreenRoot.isUnlocking) {
                 lockScreenRoot.restoreFocus();
-                if (typeof clockModule !== "undefined") {
-                    clockModule.currentTime = (typeof DateTime !== "undefined" && DateTime.now) ? DateTime.now : new Date();
+                if (typeof DateTime !== "undefined" && DateTime.updateTime) {
+                    DateTime.updateTime(true);
                 }
             }
         }

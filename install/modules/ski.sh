@@ -26,8 +26,11 @@ ski_stage_install() {
     sudo install -d "$prefix/share/dbus-1/services" || return 1
     for name in org.freedesktop.impl.portal.desktop.ski org.freedesktop.FileManager1; do
         sed "s|/usr/bin/ski|$prefix/bin/ski|" "$stage/usr/share/dbus-1/services/$name.service" \
-            | sudo tee "$prefix/share/dbus-1/services/$name.service" >/dev/null || return 1
+            | sudo install -Dm644 /dev/stdin "$prefix/share/dbus-1/services/$name.service" || return 1
     done
+    if [ -f "$HOME/.local/bin/ski" ] && [ "$prefix" != "$HOME/.local" ]; then
+        install -Dm755 "$stage/usr/bin/ski" "$HOME/.local/bin/ski" 2>/dev/null || true
+    fi
     sudo install -Dm644 "$stage/usr/share/licenses/ski/LICENSE" "$prefix/share/licenses/ski/LICENSE" || return 1
 }
 
@@ -76,8 +79,14 @@ install_ski() {
         if ! (cd "$work" && grep -F " ${archive##*/}" SHA256SUMS | sha256sum -c --quiet -); then
             echo -e "\e[31m[ FAILED ]\e[0m $(t "installer.ski.checksum_failed")"
             rm -rf "$work"
+            FAILED_PKGS+=("ski")
             return 0
         fi
+    else
+        echo -e "\e[31m[ FAILED ]\e[0m $(t "installer.ski.checksum_failed")"
+        rm -rf "$work"
+        FAILED_PKGS+=("ski")
+        return 0
     fi
 
     mkdir -p "$work/stage"
@@ -108,13 +117,13 @@ ski_set_portal_preference() {
 
     mkdir -p "$conf_dir"
     if [ ! -f "$conf" ]; then
-        printf '[preferred]\n%s=ski\n' "$key" > "$conf"
+        printf '[preferred]\ndefault=gnome;gtk;\norg.freedesktop.impl.portal.Access=gtk;\norg.freedesktop.impl.portal.Notification=gtk;\norg.freedesktop.impl.portal.Secret=gnome-keyring;\n%s=ski;\n' "$key" > "$conf"
     elif grep -q "^$key=" "$conf"; then
-        sed -i "s|^$key=.*|$key=ski|" "$conf"
+        sed -i "s|^$key=.*|$key=ski;|" "$conf"
     elif grep -q '^\[preferred\]' "$conf"; then
-        sed -i "/^\[preferred\]/a $key=ski" "$conf"
+        sed -i "/^\[preferred\]/a $key=ski;" "$conf"
     else
-        printf '\n[preferred]\n%s=ski\n' "$key" >> "$conf"
+        printf '\n[preferred]\n%s=ski;\n' "$key" >> "$conf"
     fi
 }
 

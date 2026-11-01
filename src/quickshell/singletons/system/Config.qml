@@ -65,18 +65,18 @@ Item {
         Quickshell.execDetached(["bash", "-c", cmd]);
     }
 
+    function clone(obj) {
+        if (obj === null || typeof obj !== "object") return obj;
+        try {
+            return JSON.parse(JSON.stringify(obj));
+        } catch (e) {
+            return obj;
+        }
+    }
+
     function getSetting(key, fallbackValue) {
         if (!rawSettings || typeof rawSettings !== "object") {
-            if (fallbackValue !== null && typeof fallbackValue === "object") {
-                let fbKey = "__fb_" + key;
-                if (_settingsCache.hasOwnProperty(fbKey)) return _settingsCache[fbKey];
-                try {
-                    let parsed = JSON.parse(JSON.stringify(fallbackValue));
-                    _settingsCache[fbKey] = parsed;
-                    return parsed;
-                } catch (e) { return fallbackValue; }
-            }
-            return fallbackValue;
+            return clone(fallbackValue);
         }
 
         let val = undefined;
@@ -100,18 +100,16 @@ Item {
             val = fallbackValue;
         }
 
+        if (val === fallbackValue) {
+            return clone(fallbackValue);
+        }
+
         if (val !== null && typeof val === "object") {
-            let cacheKey = (typeof key === "string" ? key : JSON.stringify(key)) + (val === fallbackValue ? "_fb" : "");
-            if (_settingsCache.hasOwnProperty(cacheKey)) {
-                return _settingsCache[cacheKey];
+            let cacheKey = typeof key === "string" ? key : JSON.stringify(key);
+            if (!_settingsCache.hasOwnProperty(cacheKey)) {
+                _settingsCache[cacheKey] = clone(val);
             }
-            try {
-                let parsed = JSON.parse(JSON.stringify(val));
-                _settingsCache[cacheKey] = parsed;
-                return parsed;
-            } catch (e) {
-                return val;
-            }
+            return clone(_settingsCache[cacheKey]);
         }
         return val;
     }
