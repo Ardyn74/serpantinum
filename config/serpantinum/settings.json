@@ -121,6 +121,8 @@
     "autohide": false,
     "smartAutohide": true,
     "autohideTimeout": 1000,
+    "autohideHitSize": 2,
+    "autohideDelay": 200,
     "editing": false,
     "apps": [
       {

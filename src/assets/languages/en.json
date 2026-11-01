@@ -875,6 +875,10 @@
         "title": "Auto-hide delay",
         "desc": "Duration before hiding after pointer leaves"
       },
+      "reveal_delay": {
+        "title": "Reveal delay",
+        "desc": "Edge dwell time before opening the dock"
+      },
       "floating": {
         "title": "Floating dock",
         "desc": "Detach dock from screen edge with rounded corners"

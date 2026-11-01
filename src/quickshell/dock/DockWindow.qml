@@ -25,13 +25,21 @@ DockWindowApps {
         onTriggered: dockWindowRoot.initialized = true
     }
 
-    onEffectiveAutohideChanged: hideTimer.stop()
+    onEffectiveAutohideChanged: {
+        revealTimer.stop();
+        hideTimer.stop();
+    }
     onActiveIndexChanged: {
         hideTimer.stop();
         if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible) {
             DockAppMenuController.hide();
         }
         dockWindowRoot._recomputeRunningInfo();
+    }
+    onIsRevealedChanged: {
+        if (!isRevealed && !edgeHover.hovered) {
+            edgeDwellActive = false;
+        }
     }
 
     readonly property bool isEffectivelyExclusive: dockWindowRoot.initialized && dockEnabled && dockExclusive && !effectiveAutohide && !isFullscreenActive && !editMode && (dockAppsModel.count > 0)
@@ -76,7 +84,20 @@ DockWindowApps {
     }
 
     property int autohideTimeout: rawDockSettings.autohideTimeout !== undefined ? rawDockSettings.autohideTimeout : 1000
-    property real autohideHitSize: s(18)
+    property int autohideDelay: rawDockSettings.autohideDelay !== undefined ? rawDockSettings.autohideDelay : 200
+    property real autohideHitSize: rawDockSettings.autohideHitSize !== undefined ? s(rawDockSettings.autohideHitSize) : Math.max(2, Math.round(s(2)))
+    property bool edgeDwellActive: false
+
+    Timer {
+        id: revealTimer
+        interval: dockWindowRoot.autohideDelay
+        repeat: false
+        onTriggered: {
+            if (edgeHover.hovered) {
+                dockWindowRoot.edgeDwellActive = true;
+            }
+        }
+    }
 
     property real editMargin: (editMode && !dockFloating) ? s(20) : 0
     Behavior on editMargin {
@@ -124,7 +145,8 @@ DockWindowApps {
 
     function checkHideTimer() {
         let isMenuOpen = (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && (!DockAppMenuController.screen || !dockWindowRoot.screen || DockAppMenuController.screen.name === dockWindowRoot.screen.name));
-        if (!dockHover.hovered && !edgeHover.hovered && dockWindowRoot.effectiveAutohide && !dockWindowRoot.editMode && !isMenuOpen) {
+        let isEdgeActive = edgeHover.hovered && (edgeDwellActive || autohideDelay <= 0);
+        if (!dockHover.hovered && !isEdgeActive && dockWindowRoot.effectiveAutohide && !dockWindowRoot.editMode && !isMenuOpen) {
             hideTimer.restart();
         } else {
             hideTimer.stop();
@@ -133,7 +155,13 @@ DockWindowApps {
 
     Connections {
         target: dockHover
-        function onHoveredChanged() { dockWindowRoot.checkHideTimer(); }
+        function onHoveredChanged() {
+            if (dockHover.hovered) {
+                revealTimer.stop();
+                dockWindowRoot.edgeDwellActive = true;
+            }
+            dockWindowRoot.checkHideTimer();
+        }
     }
 
     property bool isRevealed: {
@@ -142,7 +170,7 @@ DockWindowApps {
         if (!effectiveAutohide) return true;
         if (typeof DockAppMenuController !== "undefined" && DockAppMenuController.isVisible && (!DockAppMenuController.screen || !dockWindowRoot.screen || DockAppMenuController.screen.name === dockWindowRoot.screen.name)) return true;
         if (dockHover.hovered) return true;
-        if (edgeHover.hovered) return true;
+        if (edgeHover.hovered && (edgeDwellActive || autohideDelay <= 0)) return true;
         if (hideTimer.running) return true;
         return false;
     }
@@ -341,7 +369,21 @@ DockWindowApps {
         HoverHandler {
             id: edgeHover
             acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-            onHoveredChanged: dockWindowRoot.checkHideTimer()
+            onHoveredChanged: {
+                if (hovered) {
+                    if (dockWindowRoot.isRevealed || dockWindowRoot.autohideDelay <= 0) {
+                        dockWindowRoot.edgeDwellActive = true;
+                    } else {
+                        revealTimer.restart();
+                    }
+                } else {
+                    revealTimer.stop();
+                    if (!dockWindowRoot.dockHover.hovered) {
+                        dockWindowRoot.edgeDwellActive = false;
+                    }
+                }
+                dockWindowRoot.checkHideTimer();
+            }
         }
     }
 

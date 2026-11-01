@@ -36,6 +36,8 @@ PanelWindow {
         "autohide": false,
         "smartAutohide": true,
         "autohideTimeout": 1000,
+        "autohideHitSize": 2,
+        "autohideDelay": 200,
         "editing": false,
         "apps": [
             { "name": "Kitty", "comment": "Fast, feature-rich, GPU based terminal", "desktop_id": "kitty.desktop", "icon": "kitty" },

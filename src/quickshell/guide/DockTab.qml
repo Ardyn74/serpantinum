@@ -20,6 +20,8 @@ GuideTab {
         "autohide": false,
         "smartAutohide": true,
         "autohideTimeout": 1000,
+        "autohideHitSize": 2,
+        "autohideDelay": 200,
         "editing": false,
         "apps": [
             { "name": "Kitty", "comment": "Fast, feature-rich, GPU based terminal", "desktop_id": "kitty.desktop", "icon": "kitty" },
@@ -60,6 +62,8 @@ GuideTab {
     property bool currentSmartAutohide: dockSettings && dockSettings.smartAutohide !== undefined ? dockSettings.smartAutohide : true
     property bool currentAutohide: dockSettings && dockSettings.autohide !== undefined ? dockSettings.autohide : false
     property int currentAutohideTimeout: (dockSettings && dockSettings.autohideTimeout !== undefined && !isNaN(parseInt(dockSettings.autohideTimeout))) ? parseInt(dockSettings.autohideTimeout) : 1000
+    property int currentAutohideDelay: (dockSettings && dockSettings.autohideDelay !== undefined && !isNaN(parseInt(dockSettings.autohideDelay))) ? parseInt(dockSettings.autohideDelay) : 200
+    property int currentAutohideHitSize: (dockSettings && dockSettings.autohideHitSize !== undefined && !isNaN(parseInt(dockSettings.autohideHitSize))) ? parseInt(dockSettings.autohideHitSize) : 2
     property bool currentEditing: dockSettings && dockSettings.editing !== undefined ? dockSettings.editing : false
     property var currentAppsList: (dockSettings && Array.isArray(dockSettings.apps)) ? dockSettings.apps : []
     property bool currentFocusRunning: dockSettings && dockSettings.focusRunning !== undefined ? Boolean(dockSettings.focusRunning) : true
@@ -87,6 +91,8 @@ GuideTab {
         dockTabRoot.currentSmartAutohide = s.smartAutohide !== undefined ? s.smartAutohide : true;
         dockTabRoot.currentAutohide = s.autohide !== undefined ? s.autohide : false;
         dockTabRoot.currentAutohideTimeout = (s.autohideTimeout !== undefined && !isNaN(parseInt(s.autohideTimeout))) ? parseInt(s.autohideTimeout) : 1000;
+        dockTabRoot.currentAutohideDelay = (s.autohideDelay !== undefined && !isNaN(parseInt(s.autohideDelay))) ? parseInt(s.autohideDelay) : 200;
+        dockTabRoot.currentAutohideHitSize = (s.autohideHitSize !== undefined && !isNaN(parseInt(s.autohideHitSize))) ? parseInt(s.autohideHitSize) : 2;
         dockTabRoot.currentEditing = s.editing !== undefined ? s.editing : false;
         dockTabRoot.currentAppsList = (s.apps && Array.isArray(s.apps)) ? s.apps : [];
         dockTabRoot.currentFocusRunning = s.focusRunning !== undefined ? Boolean(s.focusRunning) : true;
@@ -1442,6 +1448,45 @@ GuideTab {
                                     onDragFinished: {
                                         dockDebounceTimer.stop();
                                         dockTabRoot.updateDockSetting("autohideTimeout", Math.round(timeoutSlider.value));
+                                    }
+                                }
+                            },
+                            SettingsRow {
+                                id: autohideDelayRow
+                                settingId: "dock_autohide_reveal_delay"
+                                rootObj: dockTabRoot.rootObj
+                                icon: "󰔛"
+                                title: I18n.t("guide.dock.reveal_delay.title", "Reveal delay")
+                                description: I18n.t("guide.dock.reveal_delay.desc", "Edge dwell time before opening the dock")
+
+                                Draggable {
+                                    id: delaySlider
+                                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                    implicitWidth: dockTabRoot.rootObj.s(220)
+                                    implicitHeight: dockTabRoot.rootObj.s(18)
+                                    from: 0
+                                    to: 1000
+                                    stepSize: 25
+                                    defaultValue: 200
+                                    showValueBubble: true
+                                    valueFormatter: function(v) { return Math.round(v) + " ms" }
+                                    value: dockTabRoot.currentAutohideDelay
+                                    backgroundColor: ThemeBackend.surface0
+                                    accentColor: ThemeBackend.mauve
+                                    handleColor: ThemeBackend.text
+                                    handleBorderColor: ThemeBackend.mantle
+                                    onMoved: function(val) {
+                                        let rounded = Math.round(val);
+                                        if (dockTabRoot.currentAutohideDelay !== rounded) {
+                                            dockTabRoot.currentAutohideDelay = rounded;
+                                            dockTabRoot.triggerDebounced(function() {
+                                                dockTabRoot.updateDockSetting("autohideDelay", rounded);
+                                            });
+                                        }
+                                    }
+                                    onDragFinished: {
+                                        dockDebounceTimer.stop();
+                                        dockTabRoot.updateDockSetting("autohideDelay", Math.round(delaySlider.value));
                                     }
                                 }
                             }
