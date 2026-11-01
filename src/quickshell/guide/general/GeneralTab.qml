@@ -27,6 +27,7 @@ GuideTab {
         "muteSfx": false,
         "sfxVolume": 100,
         "quickactions": true,
+        "quickactionsEdgeTrigger": false,
         "settingsSeparateWindow": false
     }
 
@@ -35,6 +36,7 @@ GuideTab {
     property bool muteSfx: generalSettings.muteSfx !== undefined ? generalSettings.muteSfx : false
     property real sfxVolume: generalSettings.sfxVolume !== undefined ? generalSettings.sfxVolume : 100
     property bool quickactions: generalSettings.quickactions !== undefined ? generalSettings.quickactions : true
+    property bool quickactionsEdgeTrigger: generalSettings.quickactionsEdgeTrigger !== undefined ? Boolean(generalSettings.quickactionsEdgeTrigger) : false
     property bool settingsSeparateWindow: generalSettings.settingsSeparateWindow !== undefined ? Boolean(generalSettings.settingsSeparateWindow) : false
     property bool isLocEditOpen: false
 
@@ -75,6 +77,7 @@ GuideTab {
             generalTabRoot.muteSfx = gs.muteSfx !== undefined ? gs.muteSfx : false;
             generalTabRoot.sfxVolume = gs.sfxVolume !== undefined ? gs.sfxVolume : 100;
             generalTabRoot.quickactions = gs.quickactions !== undefined ? gs.quickactions : true;
+            generalTabRoot.quickactionsEdgeTrigger = gs.quickactionsEdgeTrigger !== undefined ? Boolean(gs.quickactionsEdgeTrigger) : false;
             generalTabRoot.settingsSeparateWindow = gs.settingsSeparateWindow !== undefined ? Boolean(gs.settingsSeparateWindow) : false;
             generalTabRoot.generalSettings = gs;
         }
@@ -100,6 +103,7 @@ GuideTab {
         current.muteSfx = generalTabRoot.muteSfx;
         current.sfxVolume = generalTabRoot.sfxVolume;
         current.quickactions = generalTabRoot.quickactions;
+        current.quickactionsEdgeTrigger = generalTabRoot.quickactionsEdgeTrigger;
         current.settingsSeparateWindow = generalTabRoot.settingsSeparateWindow;
         Config.setSetting("general", current);
     }

@@ -219,6 +219,10 @@
         "title": "Quickactions",
         "desc": "Enable floating quickactions overlay"
       },
+      "quickactions_edge": {
+        "title": "Screen Edge Triggers",
+        "desc": "Open quickactions menu when cursor hits screen edges"
+      },
       "separatewindow": {
         "title": "Make settings a separate window",
         "desc": "Open settings as a regular resizable app window instead of a panel inside the shell"

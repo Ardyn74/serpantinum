@@ -60,7 +60,7 @@ PanelWindow {
         width: trigger.horizontal ? trigger.lengthA : trigger.width
         height: trigger.horizontal ? trigger.height : trigger.lengthA
         hoverEnabled: true
-        enabled: trigger.lengthA > 0
+        enabled: Boolean(!trigger.host || trigger.host.edgeTriggerEnabled) && trigger.lengthA > 0
         onEntered: trigger.host.handleEdgeEntered(trigger.edge, trigger.edgePos(areaA, mouseX, mouseY))
         onPositionChanged: mouse => trigger.host.handleEdgePositionChanged(trigger.edge, trigger.edgePos(areaA, mouse.x, mouse.y))
         onExited: {
@@ -75,7 +75,7 @@ PanelWindow {
         width: trigger.horizontal ? trigger.lengthB : trigger.width
         height: trigger.horizontal ? trigger.height : trigger.lengthB
         hoverEnabled: true
-        enabled: trigger.lengthB > 0
+        enabled: Boolean(!trigger.host || trigger.host.edgeTriggerEnabled) && trigger.lengthB > 0
         onEntered: trigger.host.handleEdgeEntered(trigger.edge, trigger.edgePos(areaB, mouseX, mouseY))
         onPositionChanged: mouse => trigger.host.handleEdgePositionChanged(trigger.edge, trigger.edgePos(areaB, mouse.x, mouse.y))
         onExited: {

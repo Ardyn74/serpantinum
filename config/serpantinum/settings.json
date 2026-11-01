@@ -2,7 +2,8 @@
   "general": {
     "language": "en",
     "avatarPath": "",
-    "muteSfx": false
+    "muteSfx": false,
+    "quickactionsEdgeTrigger": false
   },
   "syspanel": {
     "clipExpandProgress": 0,

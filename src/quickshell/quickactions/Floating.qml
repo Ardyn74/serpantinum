@@ -126,6 +126,14 @@ Variants {
 
             property real edgeHitSize: Math.max(2, Math.round(s(3)))
 
+            property bool edgeTriggerEnabled: {
+                let dummy = configRevision;
+                if (typeof Config !== "undefined" && Config.rawSettings && Config.rawSettings.general && Config.rawSettings.general.quickactionsEdgeTrigger !== undefined) {
+                    return Boolean(Config.rawSettings.general.quickactionsEdgeTrigger);
+                }
+                return false;
+            }
+
             property var defaultDockSettings: ({
                 "enabled": true,
                 "position": "bottom",
@@ -212,19 +220,19 @@ Variants {
             readonly property real rightEdgeB_y: isDockOnRight ? dockVEnd : bottomBound
             readonly property real rightEdgeB_h: (barPosition === "right" || !isDockOnRight) ? 0 : Math.max(0, bottomBound - dockVEnd)
 
-            readonly property bool isAnyEdgeHovered: topEdgeA.containsMouse || topEdgeB.containsMouse ||
+            readonly property bool isAnyEdgeHovered: edgeTriggerEnabled && (topEdgeA.containsMouse || topEdgeB.containsMouse ||
                                                      bottomEdgeA.containsMouse || bottomEdgeB.containsMouse ||
                                                      leftEdgeA.containsMouse || leftEdgeB.containsMouse ||
                                                      rightEdgeA.containsMouse || rightEdgeB.containsMouse ||
                                                      topTrigger.hovered || bottomTrigger.hovered ||
-                                                     leftTrigger.hovered || rightTrigger.hovered
+                                                     leftTrigger.hovered || rightTrigger.hovered)
 
             FloatingEdgeTrigger {
                 id: topTrigger
                 screen: floatingWidget.screen
                 host: floatingWidget
                 edge: "top"
-                visible: !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
+                visible: floatingWidget.edgeTriggerEnabled && !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
                 inset: floatingWidget.topBound
                 thickness: floatingWidget.edgeHitSize
                 startA: floatingWidget.topEdgeA_x
@@ -238,7 +246,7 @@ Variants {
                 screen: floatingWidget.screen
                 host: floatingWidget
                 edge: "bottom"
-                visible: !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
+                visible: floatingWidget.edgeTriggerEnabled && !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
                 inset: floatingWidget.screenHeight - floatingWidget.bottomBound
                 thickness: floatingWidget.edgeHitSize
                 startA: floatingWidget.bottomEdgeA_x
@@ -252,7 +260,7 @@ Variants {
                 screen: floatingWidget.screen
                 host: floatingWidget
                 edge: "left"
-                visible: !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
+                visible: floatingWidget.edgeTriggerEnabled && !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
                 inset: floatingWidget.leftBound
                 thickness: floatingWidget.edgeHitSize
                 startA: floatingWidget.leftEdgeA_y
@@ -266,7 +274,7 @@ Variants {
                 screen: floatingWidget.screen
                 host: floatingWidget
                 edge: "right"
-                visible: !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
+                visible: floatingWidget.edgeTriggerEnabled && !floatingWidget.visible && (lengthA > 0 || lengthB > 0)
                 inset: floatingWidget.screenWidth - floatingWidget.rightBound
                 thickness: floatingWidget.edgeHitSize
                 startA: floatingWidget.rightEdgeA_y
@@ -276,6 +284,7 @@ Variants {
             }
 
             function handleEdgeEntered(edge, mousePos) {
+                if (!floatingWidget.edgeTriggerEnabled) return;
                 SysData.prewarm();
                 peekHideTimer.stop();
                 if (floatingWidget.isSidebarVisible || floatingWidget.pendingMode === "sidebar") {
@@ -290,6 +299,7 @@ Variants {
             }
 
             function handleEdgePositionChanged(edge, mousePos) {
+                if (!floatingWidget.edgeTriggerEnabled) return;
                 if (floatingWidget.isSidebarVisible || floatingWidget.pendingMode === "sidebar") {
                     floatingWidget.showSidebar(edge, mousePos);
                 } else if (floatingWidget.isPeekVisible) {
@@ -503,6 +513,12 @@ Variants {
                         break;
                     }
                 }
+                if (floatingWidget.isSidebarVisible && floatingWidget.activeIndex === tabIndex) {
+                    floatingWidget.isExpanded = false;
+                    floatingWidget.isSidebarVisible = false;
+                    floatingWidget.useGraceTimer = false;
+                    return;
+                }
                 floatingWidget.activeIndex = tabIndex;
                 let sideEdge = (floatingWidget.barPosition === "left") ? "right" : "left";
                 let centerPos = floatingWidget.screenHeight / 2;
@@ -605,8 +621,10 @@ Variants {
                         floatingWidget.kickTimer();
                     } else if (!floatingWidget.isPinned) {
                         floatingWidget.isSidebarVisible = false;
-                        floatingWidget.isPeekVisible = true;
-                        peekHideTimer.restart();
+                        if (floatingWidget.edgeTriggerEnabled) {
+                            floatingWidget.isPeekVisible = true;
+                            peekHideTimer.restart();
+                        }
                     }
                 }
             }
@@ -658,8 +676,10 @@ Variants {
                     isExpanded = false;
                     if (!isPinned) {
                         isSidebarVisible = false;
-                        isPeekVisible = true;
-                        peekHideTimer.restart();
+                        if (floatingWidget.edgeTriggerEnabled) {
+                            floatingWidget.isPeekVisible = true;
+                            peekHideTimer.restart();
+                        }
                     }
                 }
             }
@@ -769,57 +789,57 @@ Variants {
                 Region {
                     x: floatingWidget.topEdgeA_x
                     y: topBound
-                    width: floatingWidget.topEdgeA_w
-                    height: floatingWidget.topEdgeA_w > 0 ? floatingWidget.edgeHitSize : 0
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.topEdgeA_w : 0
+                    height: (floatingWidget.edgeTriggerEnabled && floatingWidget.topEdgeA_w > 0) ? floatingWidget.edgeHitSize : 0
                 }
                 Region {
                     x: floatingWidget.topEdgeB_x
                     y: topBound
-                    width: floatingWidget.topEdgeB_w
-                    height: floatingWidget.topEdgeB_w > 0 ? floatingWidget.edgeHitSize : 0
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.topEdgeB_w : 0
+                    height: (floatingWidget.edgeTriggerEnabled && floatingWidget.topEdgeB_w > 0) ? floatingWidget.edgeHitSize : 0
                 }
                 Region {
                     x: floatingWidget.bottomEdgeA_x
                     y: bottomBound - floatingWidget.edgeHitSize
-                    width: floatingWidget.bottomEdgeA_w
-                    height: floatingWidget.bottomEdgeA_w > 0 ? floatingWidget.edgeHitSize : 0
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.bottomEdgeA_w : 0
+                    height: (floatingWidget.edgeTriggerEnabled && floatingWidget.bottomEdgeA_w > 0) ? floatingWidget.edgeHitSize : 0
                 }
                 Region {
                     x: floatingWidget.bottomEdgeB_x
                     y: bottomBound - floatingWidget.edgeHitSize
-                    width: floatingWidget.bottomEdgeB_w
-                    height: floatingWidget.bottomEdgeB_w > 0 ? floatingWidget.edgeHitSize : 0
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.bottomEdgeB_w : 0
+                    height: (floatingWidget.edgeTriggerEnabled && floatingWidget.bottomEdgeB_w > 0) ? floatingWidget.edgeHitSize : 0
                 }
                 Region {
                     x: leftBound
                     y: floatingWidget.leftEdgeA_y
-                    width: floatingWidget.edgeHitSize
-                    height: floatingWidget.leftEdgeA_h
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.edgeHitSize : 0
+                    height: floatingWidget.edgeTriggerEnabled ? floatingWidget.leftEdgeA_h : 0
                 }
                 Region {
                     x: leftBound
                     y: floatingWidget.leftEdgeB_y
-                    width: floatingWidget.edgeHitSize
-                    height: floatingWidget.leftEdgeB_h
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.edgeHitSize : 0
+                    height: floatingWidget.edgeTriggerEnabled ? floatingWidget.leftEdgeB_h : 0
                 }
                 Region {
                     x: rightBound - floatingWidget.edgeHitSize
                     y: floatingWidget.rightEdgeA_y
-                    width: floatingWidget.edgeHitSize
-                    height: floatingWidget.rightEdgeA_h
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.edgeHitSize : 0
+                    height: floatingWidget.edgeTriggerEnabled ? floatingWidget.rightEdgeA_h : 0
                 }
                 Region {
                     x: rightBound - floatingWidget.edgeHitSize
                     y: floatingWidget.rightEdgeB_y
-                    width: floatingWidget.edgeHitSize
-                    height: floatingWidget.rightEdgeB_h
+                    width: floatingWidget.edgeTriggerEnabled ? floatingWidget.edgeHitSize : 0
+                    height: floatingWidget.edgeTriggerEnabled ? floatingWidget.rightEdgeB_h : 0
                 }
 
                 Region {
-                    x: floatingWidget.isPeekVisible ? peekBar.x - floatingWidget.s(8) : 0
-                    y: floatingWidget.isPeekVisible ? peekBar.y - floatingWidget.s(8) : 0
-                    width: floatingWidget.isPeekVisible ? peekBar.width + floatingWidget.s(16) : 0
-                    height: floatingWidget.isPeekVisible ? peekBar.height + floatingWidget.s(16) : 0
+                    x: (floatingWidget.edgeTriggerEnabled && floatingWidget.isPeekVisible) ? peekBar.x - floatingWidget.s(8) : 0
+                    y: (floatingWidget.edgeTriggerEnabled && floatingWidget.isPeekVisible) ? peekBar.y - floatingWidget.s(8) : 0
+                    width: (floatingWidget.edgeTriggerEnabled && floatingWidget.isPeekVisible) ? peekBar.width + floatingWidget.s(16) : 0
+                    height: (floatingWidget.edgeTriggerEnabled && floatingWidget.isPeekVisible) ? peekBar.height + floatingWidget.s(16) : 0
                 }
 
                 Region {
@@ -958,6 +978,7 @@ Variants {
             }
 
             function showPeek(edge, pos) {
+                if (!floatingWidget.edgeTriggerEnabled) return;
                 SysData.prewarm();
                 if (isPinned || isSidebarVisible || pendingMode === "sidebar" || edge === barPosition) return;
 
@@ -1078,6 +1099,7 @@ Variants {
                 property string pendingShowEdge: ""
                 property real pendingShowPos: 0
                 onTriggered: {
+                    if (!floatingWidget.edgeTriggerEnabled && !floatingWidget.isSidebarVisible && floatingWidget.pendingMode !== "sidebar") return;
                     if (floatingWidget.isSidebarVisible || floatingWidget.pendingMode === "sidebar") {
                         floatingWidget.showSidebar(pendingShowEdge, pendingShowPos);
                     } else {
@@ -1097,7 +1119,7 @@ Variants {
                     width: floatingWidget.topEdgeA_w
                     height: floatingWidget.edgeHitSize
                     hoverEnabled: true
-                    enabled: width > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && width > 0
                     onEntered: floatingWidget.handleEdgeEntered("top", mouseX + x)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("top", mouse.x + x)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1110,7 +1132,7 @@ Variants {
                     width: floatingWidget.topEdgeB_w
                     height: floatingWidget.edgeHitSize
                     hoverEnabled: true
-                    enabled: width > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && width > 0
                     onEntered: floatingWidget.handleEdgeEntered("top", mouseX + x)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("top", mouse.x + x)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1123,7 +1145,7 @@ Variants {
                     width: floatingWidget.bottomEdgeA_w
                     height: floatingWidget.edgeHitSize
                     hoverEnabled: true
-                    enabled: width > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && width > 0
                     onEntered: floatingWidget.handleEdgeEntered("bottom", mouseX + x)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("bottom", mouse.x + x)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1136,7 +1158,7 @@ Variants {
                     width: floatingWidget.bottomEdgeB_w
                     height: floatingWidget.edgeHitSize
                     hoverEnabled: true
-                    enabled: width > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && width > 0
                     onEntered: floatingWidget.handleEdgeEntered("bottom", mouseX + x)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("bottom", mouse.x + x)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1149,7 +1171,7 @@ Variants {
                     width: floatingWidget.edgeHitSize
                     height: floatingWidget.leftEdgeA_h
                     hoverEnabled: true
-                    enabled: height > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && height > 0
                     onEntered: floatingWidget.handleEdgeEntered("left", mouseY + y)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("left", mouse.y + y)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1162,7 +1184,7 @@ Variants {
                     width: floatingWidget.edgeHitSize
                     height: floatingWidget.leftEdgeB_h
                     hoverEnabled: true
-                    enabled: height > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && height > 0
                     onEntered: floatingWidget.handleEdgeEntered("left", mouseY + y)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("left", mouse.y + y)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1175,7 +1197,7 @@ Variants {
                     width: floatingWidget.edgeHitSize
                     height: floatingWidget.rightEdgeA_h
                     hoverEnabled: true
-                    enabled: height > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && height > 0
                     onEntered: floatingWidget.handleEdgeEntered("right", mouseY + y)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("right", mouse.y + y)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1188,7 +1210,7 @@ Variants {
                     width: floatingWidget.edgeHitSize
                     height: floatingWidget.rightEdgeB_h
                     hoverEnabled: true
-                    enabled: height > 0
+                    enabled: floatingWidget.edgeTriggerEnabled && height > 0
                     onEntered: floatingWidget.handleEdgeEntered("right", mouseY + y)
                     onPositionChanged: mouse => floatingWidget.handleEdgePositionChanged("right", mouse.y + y)
                     onExited: floatingWidget.handleEdgeExited()
@@ -1199,6 +1221,7 @@ Variants {
 
             Rectangle {
                 id: peekBar
+                visible: floatingWidget.edgeTriggerEnabled
                 width: (floatingWidget.activeEdge === "bottom" || floatingWidget.activeEdge === "top") ? peekBarLength : floatingWidget.s(11)
                 height: (floatingWidget.activeEdge === "bottom" || floatingWidget.activeEdge === "top") ? floatingWidget.s(11) : peekBarLength
                 radius: Math.min(floatingWidget.containerRadius, Math.min(width, height) / 2)
