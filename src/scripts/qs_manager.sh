@@ -75,33 +75,10 @@ if [[ "$ACTION" =~ ^[0-9]+$ ]]; then
         exit 0
     fi
 
-    DE="${XDG_CURRENT_DESKTOP:-${DESKTOP_SESSION:-}}"
-    DE="${DE,,}"
-
-    if [[ "$DE" == *"niri"* ]] || [[ -n "${NIRI_SOCKET:-}" ]]; then
-        if [[ "$TARGET" == "move" ]]; then
-            niri msg action move-window-to-workspace "$ACTION" >/dev/null 2>&1 &
-        else
-            niri msg action focus-workspace "$ACTION" >/dev/null 2>&1 &
-        fi
-    elif [[ "$DE" == *"mango"* ]] || [[ -n "${MANGO_INSTANCE_SIGNATURE:-}" ]]; then
-        if [[ "$TARGET" == "move" ]]; then
-            { mmsg dispatch "tag,$ACTION" && mmsg dispatch "view,$ACTION"; } >/dev/null 2>&1 &
-        else
-            mmsg dispatch "view,$ACTION" >/dev/null 2>&1 &
-        fi
-    elif [[ "$DE" == *"sway"* ]] || [[ -n "${SWAYSOCK:-}" ]]; then
-        if [[ "$TARGET" == "move" ]]; then
-            swaymsg move container to workspace number "$ACTION" >/dev/null 2>&1 &
-        else
-            swaymsg workspace number "$ACTION" >/dev/null 2>&1 &
-        fi
+    if [[ "$TARGET" == "move" ]]; then
+        niri msg action move-window-to-workspace "$ACTION" >/dev/null 2>&1 &
     else
-        if [[ "$TARGET" == "move" ]]; then
-            hyprctl dispatch movetoworkspace "$ACTION" >/dev/null 2>&1 || hyprctl dispatch 'hl.dsp.window.move({ workspace = "'"$ACTION"'" })' >/dev/null 2>&1 &
-        else
-            hyprctl dispatch workspace "$ACTION" >/dev/null 2>&1 || hyprctl dispatch 'hl.dsp.focus({ workspace = "'"$ACTION"'" })' >/dev/null 2>&1 &
-        fi
+        niri msg action focus-workspace "$ACTION" >/dev/null 2>&1 &
     fi
 
     send_qs_ipc "close" "" "" &

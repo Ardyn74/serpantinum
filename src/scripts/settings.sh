@@ -57,20 +57,9 @@ is_running() {
 
 focus_window() {
     settings_ipc focus
-    if [[ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]] && command -v hyprctl >/dev/null 2>&1; then
-        hyprctl dispatch focuswindow "class:^(${APP_ID})$" >/dev/null 2>&1 \
-            || hyprctl dispatch 'hl.dsp.focus({ window = "class:^('"$APP_ID"')$" })' >/dev/null 2>&1
-    elif [[ -n "${NIRI_SOCKET:-}" ]] && command -v niri >/dev/null 2>&1; then
-        local id
-        id="$(niri msg -j windows 2>/dev/null | jq -r --arg a "$APP_ID" '[.[] | select(.app_id == $a)][0].id // empty')"
-        [[ -n "$id" ]] && niri msg action focus-window --id "$id" >/dev/null 2>&1
-    elif [[ -n "${SWAYSOCK:-}" ]] && command -v swaymsg >/dev/null 2>&1; then
-        swaymsg "[app_id=\"$APP_ID\"] focus" >/dev/null 2>&1
-    elif [[ -n "${MANGO_INSTANCE_SIGNATURE:-}" ]] && command -v mmsg >/dev/null 2>&1; then
-        local id
-        id="$(mmsg get all-clients 2>/dev/null | jq -r --arg a "$APP_ID" '[.. | objects | select(.appid? == $a)][0].id // empty' 2>/dev/null)"
-        [[ -n "$id" ]] && mmsg dispatch focusid "client,$id" >/dev/null 2>&1
-    fi
+    local id
+    id="$(niri msg -j windows 2>/dev/null | jq -r --arg a "$APP_ID" '[.[] | select(.app_id == $a)][0].id // empty')"
+    [[ -n "$id" ]] && niri msg action focus-window --id "$id" >/dev/null 2>&1
 }
 
 write_tab() {

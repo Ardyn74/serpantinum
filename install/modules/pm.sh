@@ -5,15 +5,13 @@ PM_MODULES_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")/pm"
 detect_package_manager() {
     if command -v pacman &>/dev/null; then
         echo "pacman"
-    elif command -v dnf &>/dev/null; then
-        echo "dnf"
-    elif command -v xbps-install &>/dev/null; then
-        echo "void"
+    else
+        echo "Error: Only Arch Linux and CachyOS (pacman) are supported." >&2
+        exit 1
     fi
 }
 
-PM_NAME="$(detect_package_manager)"
-PM_NAME="${PM_NAME:-pacman}"
+PM_NAME="pacman"
 
 PM_EXTRA_PKGS=()
 PM_SDDM_EXTRA_PKGS=()
@@ -21,4 +19,4 @@ PM_SDDM_WAYLAND_DEFAULT=false
 PM_SDDM_CURSOR_FIX=false
 PM_AUDIO_BUILD_PKGS=()
 
-source "$PM_MODULES_DIR/$PM_NAME.sh"
+source "$PM_MODULES_DIR/pacman.sh"

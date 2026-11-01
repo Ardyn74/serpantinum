@@ -9,25 +9,17 @@ slug: /overview
 
 ![Serpantinum Banner](./assets/banner.png)
 
-**Serpantinum** is a modern Wayland desktop shell designed to be aesthetic, performant, and effortless to use. Originally created by ilyamiro after his `nixos-configuration` project gained popularity, it has evolved into a dedicated desktop shell.
+**Serpantinum** is a modern Wayland desktop shell designed to be aesthetic, performant, and effortless to use, specialized for **CachyOS / Arch Linux** and the **Niri** Wayland compositor.
 
 ## Compositor configuration
 
-Serpantinum is only a desktop shell. It does not manage keybinds or monitors.
+Serpantinum is a desktop shell that seamlessly integrates with Niri.
 
-Compositor guides:
-
-- [Hyprland](./configure/compositors/hyprland.md)
 - [Niri](./configure/compositors/niri.md)
-- [Sway](./configure/compositors/sway.md)
-- [Mango](./configure/compositors/mango.md)
 
 ## Installation
 
-Choose your operating system to get started:
-
-- [Arch Linux, Fedora, Void Linux, and derivatives](./installation/installation.md)
-- [NixOS](./installation/nixos/flake.md)
+- [CachyOS and Arch Linux Installation Guide](./installation/installation.md)
 
 ## Audio
 

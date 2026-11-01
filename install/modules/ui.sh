@@ -80,52 +80,16 @@ read_key() {
 }
 
 init_compositor_detection() {
-    local installed=()
-    for comp in hyprland niri sway mango; do
-        if command -v "$comp" &>/dev/null || pm_is_installed "$(compositor_package_name "$comp")"; then
-            installed+=("$comp")
-        fi
-    done
+    SELECTED_COMPOSITORS=("niri")
+    DETECTED_COMPOSITOR_LABEL="niri"
+    MULTIPLE_COMPOSITORS_DETECTED=false
+    UNSUPPORTED_COMPOSITOR_DETECTED=false
+}
 
-    local running=""
-    local de="${XDG_CURRENT_DESKTOP,,}"
-    local session="${DESKTOP_SESSION,,}"
-
-    if [[ -n "$MANGO_INSTANCE_SIGNATURE" ]] || pgrep -x "mango" &>/dev/null || [[ "$de" == *"mango"* ]] || [[ "$session" == *"mango"* ]]; then
-        running="mango"
-    elif [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]] || pgrep -x "Hyprland" &>/dev/null || pgrep -x "hyprland" &>/dev/null || [[ "$de" == *"hyprland"* ]] || [[ "$session" == *"hyprland"* ]]; then
-        running="hyprland"
-    elif [[ -n "$SWAYSOCK" ]] || pgrep -x "sway" &>/dev/null || [[ "$de" == *"sway"* ]] || [[ "$session" == *"sway"* ]]; then
-        running="sway"
-    elif pgrep -x "niri" &>/dev/null || [[ "$de" == *"niri"* ]] || [[ "$session" == *"niri"* ]]; then
-        running="niri"
-    fi
-
-    if [ -n "$running" ]; then
-        SELECTED_COMPOSITORS=("$running")
-        DETECTED_COMPOSITOR_LABEL="$running"
-    elif [ -f "$HOME/.local/state/serpantinum/version" ]; then
-        local saved_comps
-        saved_comps=$(awk -F= '/^SELECTED_COMPOSITORS=/{gsub(/"/, "", $2); print $2}' "$HOME/.local/state/serpantinum/version" 2>/dev/null || true)
-        if [ -n "$saved_comps" ]; then
-            read -r -a SELECTED_COMPOSITORS <<< "$saved_comps"
-            DETECTED_COMPOSITOR_LABEL="$(IFS=, ; echo "${SELECTED_COMPOSITORS[*]}")"
-        fi
-    fi
-
-    if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
-        if [ ${#installed[@]} -gt 1 ]; then
-            MULTIPLE_COMPOSITORS_DETECTED=true
-            SELECTED_COMPOSITORS=()
-        elif [ ${#installed[@]} -eq 1 ]; then
-            SELECTED_COMPOSITORS=("${installed[0]}")
-            DETECTED_COMPOSITOR_LABEL="${installed[0]}"
-        else
-            UNSUPPORTED_COMPOSITOR_DETECTED=true
-            DETECTED_COMPOSITOR_LABEL="$(t "installer.ui.unsupported_compositor")"
-            SELECTED_COMPOSITORS=()
-        fi
-    fi
+prompt_compositor_selection() {
+    SELECTED_COMPOSITORS=("niri")
+    DETECTED_COMPOSITOR_LABEL="niri"
+    return 0
 }
 
 draw_banner() {
@@ -464,26 +428,7 @@ run_installer_ui() {
         local rendered_lines=0
 
         while true; do
-            local COMP_MENU_ITEM=""
-            if [ "$MULTIPLE_COMPOSITORS_DETECTED" = true ]; then
-                if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
-                    COMP_MENU_ITEM="${C_RED}$(t "installer.ui.target_compositor_none")${RESET}"
-                else
-                    COMP_MENU_ITEM="${C_GREEN}$(t "installer.ui.target_compositor_selected" "comps=$(IFS=, ; echo "${SELECTED_COMPOSITORS[*]}")")${RESET}"
-                fi
-            elif [ "$UNSUPPORTED_COMPOSITOR_DETECTED" = true ]; then
-                if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
-                    COMP_MENU_ITEM="${C_RED}$(t "installer.ui.target_compositor_req" "label=${DETECTED_COMPOSITOR_LABEL}")${RESET}"
-                else
-                    COMP_MENU_ITEM="$(t "installer.ui.target_compositor_label" "comps=$(IFS=, ; echo "${SELECTED_COMPOSITORS[*]}")")"
-                fi
-            else
-                if [ ${#SELECTED_COMPOSITORS[@]} -eq 0 ]; then
-                    COMP_MENU_ITEM="${C_RED}$(t "installer.ui.target_compositor_req" "label=${DETECTED_COMPOSITOR_LABEL}")${RESET}"
-                else
-                    COMP_MENU_ITEM="$(t "installer.ui.target_compositor_label" "comps=$(IFS=, ; echo "${SELECTED_COMPOSITORS[*]}")")"
-                fi
-            fi
+            local COMP_MENU_ITEM="${C_GREEN}Compositor: Niri${RESET}"
 
             local S_SDDM="${DIM}[OFF]${RESET}"
             local S_TEL="${DIM}[OFF]${RESET}"

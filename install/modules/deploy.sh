@@ -255,29 +255,7 @@ EOF
     elif declare -f enable_system_service >/dev/null; then
         enable_system_service "sddm" "$init_sys"
     else
-        case "$init_sys" in
-            systemd)
-                sudo systemctl enable --now sddm.service 2>/dev/null || sudo systemctl enable -f sddm.service 2>/dev/null || sudo systemctl enable sddm 2>/dev/null || true
-                ;;
-            openrc)
-                sudo rc-update add sddm default 2>/dev/null || true
-                sudo rc-service sddm start 2>/dev/null || true
-                ;;
-            dinit)
-                sudo dinitctl enable sddm 2>/dev/null || sudo dinitctl start sddm 2>/dev/null || true
-                ;;
-            runit)
-                if [ -d "/etc/sv/sddm" ]; then
-                    sudo ln -sf "/etc/sv/sddm" /var/service/ 2>/dev/null || true
-                fi
-                ;;
-            s6)
-                sudo s6-rc-bundle-update -b add default sddm 2>/dev/null || true
-                ;;
-            *)
-                sudo systemctl enable sddm.service -f 2>/dev/null || true
-                ;;
-        esac
+        sudo systemctl enable --now sddm.service 2>/dev/null || sudo systemctl enable -f sddm.service 2>/dev/null || true
     fi
 
     echo -e "  \e[32m$(t "installer.deploy.sddm_success")\e[0m"
@@ -320,7 +298,6 @@ setup_battery_charge_limit() {
     local udev_dir="/etc/udev/rules.d"
 
     [ -f "$rule_src" ] || return 0
-    [ -e /etc/NIXOS ] && return 0
 
     if compgen -G "/sys/class/power_supply/BAT*/charge_control_end_threshold" >/dev/null 2>&1; then
         sudo mkdir -p "$udev_dir"
@@ -409,45 +386,29 @@ deploy_package() {
         fi
 
         if [ "$is_update" != "true" ]; then
-            for comp in "${COMPOSITORS[@]}"; do
-                local target_config_name
-                case "$comp" in
-                    hyprland) target_config_name="hypr" ;;
-                    niri) target_config_name="niri" ;;
-                    sway) target_config_name="sway" ;;
-                    *) target_config_name="$comp" ;;
-                esac
+            local TARGET_CONFIG_DIR="$HOME/.config/niri"
+            local BACKUP_BASE="$HOME/.config/niri_backup"
+            local BACKUP_DIR="$BACKUP_BASE/backup_$(date +%Y%m%d_%H%M%S)"
+            local SRC_COMP_DIR="$REPO_ROOT/compositors/niri"
 
-                local TARGET_CONFIG_DIR="$HOME/.config/$target_config_name"
-                local BACKUP_BASE="$HOME/.config/${target_config_name}_backup"
-                local BACKUP_DIR="$BACKUP_BASE/backup_$(date +%Y%m%d_%H%M%S)"
-
-                local SRC_COMP_DIR=""
-                if [ -d "$REPO_ROOT/compositors/$comp" ] && [ "$(ls -A "$REPO_ROOT/compositors/$comp" 2>/dev/null)" ]; then
-                    SRC_COMP_DIR="$REPO_ROOT/compositors/$comp"
-                elif [ -d "$REPO_ROOT/compositor/$comp" ] && [ "$(ls -A "$REPO_ROOT/compositor/$comp" 2>/dev/null)" ]; then
-                    SRC_COMP_DIR="$REPO_ROOT/compositor/$comp"
+            if [ -d "$SRC_COMP_DIR" ] && [ "$(ls -A "$SRC_COMP_DIR" 2>/dev/null)" ]; then
+                if [ -d "$TARGET_CONFIG_DIR" ] && [ "$(ls -A "$TARGET_CONFIG_DIR" 2>/dev/null)" ]; then
+                    mkdir -p "$BACKUP_DIR"
+                    cp -a "$TARGET_CONFIG_DIR/." "$BACKUP_DIR/" 2>/dev/null || true
                 fi
 
-                if [ -n "$SRC_COMP_DIR" ]; then
-                    if [ -d "$TARGET_CONFIG_DIR" ] && [ "$(ls -A "$TARGET_CONFIG_DIR" 2>/dev/null)" ]; then
-                        mkdir -p "$BACKUP_DIR"
-                        cp -a "$TARGET_CONFIG_DIR/." "$BACKUP_DIR/" 2>/dev/null || true
+                mkdir -p "$TARGET_CONFIG_DIR"
+                cp -r "$SRC_COMP_DIR/." "$TARGET_CONFIG_DIR/"
+
+                find "$TARGET_CONFIG_DIR" -type f -o -type l | while IFS= read -r dest_file; do
+                    local rel_path="${dest_file#$TARGET_CONFIG_DIR/}"
+                    if [ ! -e "$SRC_COMP_DIR/$rel_path" ] && [ ! -L "$SRC_COMP_DIR/$rel_path" ]; then
+                        rm -f "$dest_file"
                     fi
+                done
 
-                    mkdir -p "$TARGET_CONFIG_DIR"
-                    cp -r "$SRC_COMP_DIR/." "$TARGET_CONFIG_DIR/"
-
-                    find "$TARGET_CONFIG_DIR" -type f -o -type l | while IFS= read -r dest_file; do
-                        local rel_path="${dest_file#$TARGET_CONFIG_DIR/}"
-                        if [ ! -e "$SRC_COMP_DIR/$rel_path" ] && [ ! -L "$SRC_COMP_DIR/$rel_path" ]; then
-                            rm -f "$dest_file"
-                        fi
-                    done
-
-                    find "$TARGET_CONFIG_DIR" -depth -type d -empty ! -path "$TARGET_CONFIG_DIR" -delete 2>/dev/null || true
-                fi
-            done
+                find "$TARGET_CONFIG_DIR" -depth -type d -empty ! -path "$TARGET_CONFIG_DIR" -delete 2>/dev/null || true
+            fi
         fi
     else
         mkdir -p "$TARGET_BASE/bin" "$TARGET_BASE/src" "$BIN_DIR"
@@ -479,21 +440,8 @@ deploy_package() {
                     fi
                 elif [[ "$file" == compositors/* || "$file" == compositor/* ]]; then
                     if [ "$is_update" != "true" ]; then
-                        local comp_part="${file#compositor*/}"
-                        local comp_name="${comp_part%%/*}"
-                        local comp_file="${comp_part#*/}"
-                        for comp in "${COMPOSITORS[@]}"; do
-                            if [[ "$comp" == "$comp_name" ]]; then
-                                local target_config_name
-                                case "$comp" in
-                                    hyprland) target_config_name="hypr" ;;
-                                    niri) target_config_name="niri" ;;
-                                    sway) target_config_name="sway" ;;
-                                    *) target_config_name="$comp" ;;
-                                esac
-                                rm -f "$HOME/.config/$target_config_name/$comp_file"
-                            fi
-                        done
+                        local comp_file="${file#compositor*/niri/}"
+                        rm -f "$HOME/.config/niri/$comp_file"
                     fi
                 fi
             done <<< "$deleted_files"
@@ -523,24 +471,11 @@ deploy_package() {
                             fi
                         done
                     fi
-                elif [[ "$file" == compositors/* || "$file" == compositor/* ]]; then
+                elif [[ "$file" == compositors/niri/* || "$file" == compositor/niri/* ]]; then
                     if [ "$is_update" != "true" ]; then
-                        local comp_part="${file#compositor*/}"
-                        local comp_name="${comp_part%%/*}"
-                        local comp_file="${comp_part#*/}"
-                        for comp in "${COMPOSITORS[@]}"; do
-                            if [[ "$comp" == "$comp_name" ]]; then
-                                local target_config_name
-                                case "$comp" in
-                                    hyprland) target_config_name="hypr" ;;
-                                    niri) target_config_name="niri" ;;
-                                    sway) target_config_name="sway" ;;
-                                    *) target_config_name="$comp" ;;
-                                esac
-                                mkdir -p "$(dirname "$HOME/.config/$target_config_name/$comp_file")"
-                                cp "$REPO_ROOT/$file" "$HOME/.config/$target_config_name/$comp_file"
-                            fi
-                        done
+                        local comp_file="${file#compositor*/niri/}"
+                        mkdir -p "$(dirname "$HOME/.config/niri/$comp_file")"
+                        cp "$REPO_ROOT/$file" "$HOME/.config/niri/$comp_file"
                     fi
                 fi
             done <<< "$changed_files"

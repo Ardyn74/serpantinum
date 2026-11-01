@@ -20,8 +20,7 @@ Item {
     readonly property var barWindow: module ? module.barWindow : null
     readonly property bool moduleActive: module ? module.moduleActive : true
 
-    readonly property bool isNiri: NiriState.isNiri
-    property bool isSway: false
+    readonly property bool isNiri: true
     readonly property string myOutput: (barWindow && barWindow.screen && barWindow.screen.name) ? barWindow.screen.name : ""
     readonly property int niriActiveIndex: NiriState.activeIndexFor(myOutput)
     readonly property var niriOccupiedMap: NiriState.occupiedMap
@@ -30,28 +29,12 @@ Item {
     property bool niriSubscribed: false
 
     function syncNiriSubscription() {
-        let want = isNiri && moduleActive;
+        let want = moduleActive;
         if (want === niriSubscribed) return;
         niriSubscribed = want;
         if (want) NiriState.subscribe();
         else NiriState.unsubscribe();
     }
-
-    readonly property bool isMango: MangoState.isMango
-    readonly property int mangoActiveIndex: MangoState.activeIndexFor(myOutput)
-    readonly property var mangoOccupiedMap: MangoState.occupiedByOutput
-    readonly property int mangoTagCount: MangoState.tagCount
-    property bool mangoSubscribed: false
-
-    function syncMangoSubscription() {
-        let want = isMango && moduleActive;
-        if (want === mangoSubscribed) return;
-        mangoSubscribed = want;
-        if (want) MangoState.subscribe();
-        else MangoState.unsubscribe();
-    }
-    property int swayActiveIndex: 0
-    property var swayOccupiedMap: ({})
 
     property int configRevision: 0
 
@@ -95,8 +78,7 @@ Item {
         let act = activeIndex;
         let count = base;
         if (act >= count) count = act + 1;
-        if (isNiri && niriMaxWorkspaceIndex >= count) count = niriMaxWorkspaceIndex + 1;
-        if (isMango && mangoTagCount > 0) count = Math.min(count, mangoTagCount);
+        if (niriMaxWorkspaceIndex >= count) count = niriMaxWorkspaceIndex + 1;
         return Math.max(2, count);
     }
 
@@ -164,17 +146,8 @@ Item {
         return val;
     }
 
-    function wsForId(id) {
-        if (isNiri || isSway || isMango) return null;
-        return Hyprland.workspaces.values.find(w => w.id === id) ?? null;
-    }
-
     function isOccupied(index) {
-        if (isNiri) return !!(niriExistingMap[index] && niriOccupiedMap[index]);
-        if (isSway) return !!swayOccupiedMap[index];
-        if (isMango) return !!(mangoOccupiedMap && MangoState.isOccupied(myOutput, index));
-        let ws = wsForId(index + 1);
-        return ws !== null && ws.toplevels && ws.toplevels.values && ws.toplevels.values.length > 0;
+        return !!(niriExistingMap[index] && niriOccupiedMap[index]);
     }
 
     function isShown(index) {
@@ -184,115 +157,22 @@ Item {
 
     function focusWorkspace(index) {
         let wsId = index + 1;
-        if (isNiri) {
-            Quickshell.execDetached(["niri", "msg", "action", "focus-workspace", wsId.toString()]);
-        } else if (isSway) {
-            swayActiveIndex = index;
-            Quickshell.execDetached(["swaymsg", "workspace", "number", wsId.toString()]);
-        } else if (isMango) {
-            Quickshell.execDetached(["mmsg", "dispatch", "view," + wsId]);
-        } else {
-            Hyprland.dispatch("hl.dsp.focus({ workspace = " + wsId + " })");
-        }
+        Quickshell.execDetached(["niri", "msg", "action", "focus-workspace", wsId.toString()]);
     }
 
-    property int activeIndex: {
-        let idx = -1;
-        if (isNiri) {
-            idx = (niriExistingMap[niriActiveIndex] || Object.keys(niriExistingMap).length === 0) ? niriActiveIndex : -1;
-        } else if (isSway) {
-            idx = swayActiveIndex;
-        } else if (isMango) {
-            idx = mangoActiveIndex;
-        } else {
-            const fw = Hyprland.focusedWorkspace;
-            if (!fw) return -1;
-            idx = fw.id - 1;
-        }
-        return idx >= 0 ? idx : -1;
-    }
+    property int activeIndex: (niriExistingMap[niriActiveIndex] || Object.keys(niriExistingMap).length === 0) ? niriActiveIndex : -1
 
     Component.onCompleted: {
-        let de = SystemInfo.desktopEnv ? SystemInfo.desktopEnv.toLowerCase() : "";
-        root.isSway = de.indexOf("sway") !== -1;
         syncNiriSubscription();
-        syncMangoSubscription();
-        if (root.isSway && root.moduleActive) {
-            swayPoller.running = true;
-        }
         syncModel();
     }
 
     Component.onDestruction: {
         if (niriSubscribed) NiriState.unsubscribe();
-        if (mangoSubscribed) MangoState.unsubscribe();
     }
 
     onModuleActiveChanged: {
         syncNiriSubscription();
-        syncMangoSubscription();
-        if (!moduleActive) {
-            if (isSway) {
-                swayPoller.running = false;
-                swayWaiter.running = false;
-            }
-        } else {
-            if (isSway) {
-                swayPoller.running = false;
-                swayPoller.running = true;
-            }
-        }
-    }
-
-    Process {
-        id: swayPoller
-        running: false
-        command: [
-            "bash",
-            "-c",
-            "swaymsg -t get_workspaces -r 2>/dev/null || echo '[]'"
-        ]
-        stdout: StdioCollector {
-            onStreamFinished: {
-                try {
-                    let wsList = JSON.parse(this.text) || [];
-                    let occ = {};
-                    let activeIdx = 0;
-                    for (let i = 0; i < wsList.length; i++) {
-                        let w = wsList[i];
-                        let num = (w.num !== undefined && w.num > 0) ? w.num : parseInt(w.name);
-                        let idx = (!isNaN(num) && num > 0) ? num - 1 : i;
-                        if (w.focused) {
-                            activeIdx = idx;
-                        }
-                        occ[idx] = true;
-                    }
-                    root.swayActiveIndex = activeIdx;
-                    root.swayOccupiedMap = occ;
-                } catch (e) {}
-
-                swayWaiter.running = false;
-                if (root.moduleActive && root.isSway) {
-                    swayWaiter.running = true;
-                }
-            }
-        }
-    }
-
-    Process {
-        id: swayWaiter
-        running: false
-        command: [
-            "bash",
-            "-c",
-            "swaymsg -t subscribe -m '[\"workspace\", \"window\"]' 2>/dev/null | grep -m 1 -E '\"change\"'"
-        ]
-        onExited: {
-            swayPoller.running = false;
-            if (root.moduleActive && root.isSway) {
-                swayPoller.running = true;
-            }
-        }
     }
 
     property real targetLength: (moduleActive && workspaceCount > 0 && faceLoader.item) ? (isVertical ? faceLoader.item.implicitHeight : faceLoader.item.implicitWidth) + s(isCompact ? 18 : 22) : 0
@@ -321,27 +201,10 @@ Item {
                 root.wheelAccumulator = root.wheelAccumulator % threshold;
 
                 if (root.workspaceCount > 1) {
-                    if (root.isNiri) {
-                        if (steps > 0) {
-                            Quickshell.execDetached(["niri", "msg", "action", "focus-workspace-up"]);
-                        } else if (steps < 0) {
-                            Quickshell.execDetached(["niri", "msg", "action", "focus-workspace-down"]);
-                        }
-                    } else {
-                        let cur = root.activeIndex;
-                        let nextIndex = 0;
-                        if (cur < 0) {
-                            nextIndex = steps > 0 ? (root.workspaceCount - 1) : 0;
-                        } else {
-                            if (steps > 0) {
-                                nextIndex = (cur - 1 + root.workspaceCount) % root.workspaceCount;
-                            } else if (steps < 0) {
-                                nextIndex = (cur + 1) % root.workspaceCount;
-                            }
-                        }
-                        if (nextIndex !== root.activeIndex) {
-                            root.focusWorkspace(nextIndex);
-                        }
+                    if (steps > 0) {
+                        Quickshell.execDetached(["niri", "msg", "action", "focus-workspace-up"]);
+                    } else if (steps < 0) {
+                        Quickshell.execDetached(["niri", "msg", "action", "focus-workspace-down"]);
                     }
                 }
             }

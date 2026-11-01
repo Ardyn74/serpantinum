@@ -6,15 +6,6 @@ const sidebars: SidebarsConfig = {
     'installation/installation',
     {
       type: 'category',
-      label: 'NixOS',
-      collapsible: false,
-      items: [
-        'installation/nixos/flake',
-        'installation/nixos/home-manager',
-      ],
-    },
-    {
-      type: 'category',
       label: 'Configure',
       collapsible: false,
       items: [
@@ -24,10 +15,7 @@ const sidebars: SidebarsConfig = {
           label: 'Compositors',
           collapsible: false,
           items: [
-            'configure/compositors/hyprland',
             'configure/compositors/niri',
-            'configure/compositors/sway',
-            'configure/compositors/mango',
           ],
         },
       ],

@@ -65,8 +65,6 @@ Item {
                 widget.hideEmptyWorkspaces;
                 widget.activeIndex;
                 widget.niriOccupiedMap;
-                widget.swayOccupiedMap;
-                widget.mangoOccupiedMap;
             }
             return (curIdx >= 0 && widget) ? getPos(curIdx, curIdx) : 0;
         }

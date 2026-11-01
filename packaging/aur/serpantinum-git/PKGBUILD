@@ -3,7 +3,7 @@ pkgver=2.2.10.r7.gd781f72
 pkgrel=1
 pkgdesc='A shell for Wayland compositors built on Quickshell'
 arch=('x86_64')
-url='https://github.com/ilyamiro/serpantinum'
+url='https://github.com/Ardyn74/serpantinum'
 license=('AGPL-3.0-only')
 makedepends=('git')
 depends=(
@@ -21,10 +21,7 @@ depends=(
     'ttf-iosevka-nerd' 'pambase' 'curl' 'pciutils'
 )
 optdepends=(
-    'hyprland: Hyprland compositor'
     'niri: Niri compositor'
-    'sway: Sway compositor'
-    'mangowm: Mango compositor'
     'sddm: Login screen theme'
     'qt6-declarative: Login screen theme'
     'qt6-svg: Login screen theme'

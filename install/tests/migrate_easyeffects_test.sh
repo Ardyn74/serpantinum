@@ -36,8 +36,8 @@ check() {
 }
 
 mkdir -p "$STUBS" "$TOOLS" "$(dirname "$FAKE_EE")"
-for tool in bash cat cp sed grep mkdir rmdir rm mv sleep seq dirname realpath id jq touch ln chmod readlink xargs tr cut head awk wc basename env date; do
-    path="$(command -v "$tool")" && ln -s "$path" "$TOOLS/$tool"
+for tool in bash cat cp sed grep mkdir rmdir rm mv sleep seq dirname realpath id jq touch ln chmod readlink xargs tr cut head awk wc basename env date echo; do
+    path="$(which "$tool" 2>/dev/null || command -v "$tool")" && rm -f "$TOOLS/$tool" && ln -s "$path" "$TOOLS/$tool"
 done
 
 stub() {
@@ -90,20 +90,11 @@ run_migration() {
 
 write_shipped_autostart() {
     local base="$1"
-    mkdir -p "$base/hypr/config" "$base/niri/config" "$base/sway/configDir" "$base/mango/config"
-    cat > "$base/hypr/config/autostart.lua" <<'EOF'
-hl.on("hyprland.start", function()
-  hl.exec_cmd("wl-paste --type text --watch cliphist store")
-  hl.exec_cmd("systemctl --user enable --now easyeffects")
-  hl.exec_cmd("serpantinumd start")
-end)
-EOF
+    mkdir -p "$base/niri/config"
     printf 'spawn-at-startup "bash" "-c" "wl-paste --type text --watch cliphist store"\nspawn-at-startup "systemctl" "--user" "enable" "--now" "easyeffects"\nspawn-at-startup "serpantinumd" "start"\n' > "$base/niri/config/autostart.kdl"
-    printf 'exec wl-paste --type text --watch cliphist store\nexec systemctl --user enable --now easyeffects\nexec serpantinumd start\n' > "$base/sway/configDir/autostart"
-    printf 'exec_once=wl-paste --type text --watch cliphist store\nexec_once=systemctl --user enable --now easyeffects\nexec_once=serpantinumd start\n' > "$base/mango/config/autostart.conf"
 }
 
-SHIPPED=(hypr/config/autostart.lua niri/config/autostart.kdl sway/configDir/autostart mango/config/autostart.conf)
+SHIPPED=(niri/config/autostart.kdl)
 
 echo "== without the audio engine"
 reset_home no-engine
@@ -112,7 +103,7 @@ mkdir -p "$PRESETS"
 echo '{}' > "$PRESETS/live_eq.json"
 own_pid="$(spawn_easyeffects -w -l live_eq)"
 SERPANTINUM_INSTALLER=1 run_migration
-check "nothing is touched" "[ ! -s '$CALLS' ] && [ ! -f '$MARKER' ] && [ -f '$PRESETS/live_eq.json' ] && grep -q easyeffects '$XDG_CONFIG_HOME/sway/configDir/autostart'"
+check "nothing is touched" "[ ! -s '$CALLS' ] && [ ! -f '$MARKER' ] && [ -f '$PRESETS/live_eq.json' ] && grep -q easyeffects '$XDG_CONFIG_HOME/niri/config/autostart.kdl'"
 check "its EasyEffects keeps running" "alive $own_pid"
 kill -KILL "$own_pid" 2>/dev/null
 
@@ -121,7 +112,7 @@ stub serpantinum-audio 'exit 0'
 echo "== a user updating from the EasyEffects equalizer"
 reset_home update
 write_shipped_autostart "$XDG_CONFIG_HOME"
-printf '  hl.exec_cmd("systemctl --user enable --now easyeffects")\n' > "$XDG_CONFIG_HOME/hypr/config/mine.lua"
+printf '  spawn-at-startup "systemctl" "--user" "enable" "--now" "easyeffects"\n' > "$XDG_CONFIG_HOME/niri/config/mine.kdl"
 mkdir -p "$PRESETS" "$XDG_CONFIG_HOME/systemd/user" "$XDG_CONFIG_HOME/autostart"
 echo '{}' > "$PRESETS/live_eq.json"
 echo '{}' > "$PRESETS/my_own_preset.json"
@@ -146,7 +137,7 @@ for f in "${SHIPPED[@]}"; do
     check "$f: other lines kept" "grep -q 'serpantinumd' '$XDG_CONFIG_HOME/$f' && grep -q cliphist '$XDG_CONFIG_HOME/$f'"
     check "$f: backup written" "grep -q easyeffects '$XDG_CONFIG_HOME/$f.pre-audio-engine.bak'"
 done
-check "the same line in a file Serpantinum did not ship is kept" "grep -q easyeffects '$XDG_CONFIG_HOME/hypr/config/mine.lua'"
+check "the same line in a file Serpantinum did not ship is kept" "grep -q easyeffects '$XDG_CONFIG_HOME/niri/config/mine.kdl'"
 check "the installer prints the notice" "grep -q 'EasyEffects is still enabled' '$OUT'"
 check "a completion marker is written" "[ -f '$MARKER' ]"
 : > "$CALLS"
@@ -157,12 +148,10 @@ kill -KILL "$user_pid" 2>/dev/null
 echo "== configs managed through links"
 reset_home links
 write_shipped_autostart "$SANDBOX/dotfiles"
-mkdir -p "$XDG_CONFIG_HOME/mango/config"
-ln -s "$SANDBOX/dotfiles/mango/config/autostart.conf" "$XDG_CONFIG_HOME/mango/config/autostart.conf"
-ln -s "$SANDBOX/dotfiles/sway" "$XDG_CONFIG_HOME/sway"
+mkdir -p "$XDG_CONFIG_HOME/niri/config"
+ln -s "$SANDBOX/dotfiles/niri/config/autostart.kdl" "$XDG_CONFIG_HOME/niri/config/autostart.kdl"
 SERPANTINUM_INSTALLER=1 run_migration
-check "a symlinked autostart file is not edited" "grep -q easyeffects '$SANDBOX/dotfiles/mango/config/autostart.conf' && [ ! -e '$SANDBOX/dotfiles/mango/config/autostart.conf.pre-audio-engine.bak' ]"
-check "a file inside a symlinked folder is not edited" "grep -q easyeffects '$SANDBOX/dotfiles/sway/configDir/autostart' && [ ! -e '$SANDBOX/dotfiles/sway/configDir/autostart.pre-audio-engine.bak' ]"
+check "a symlinked autostart file is not edited" "grep -q easyeffects '$SANDBOX/dotfiles/niri/config/autostart.kdl' && [ ! -e '$SANDBOX/dotfiles/niri/config/autostart.kdl.pre-audio-engine.bak' ]"
 check "nothing Serpantinum did here, so no notice" "[ ! -s '$OUT' ]"
 
 echo "== a new user with their own EasyEffects"

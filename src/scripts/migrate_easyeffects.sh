@@ -11,10 +11,7 @@ CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 PRESET_DIR="$DATA_HOME/easyeffects/output"
 SHIPPED_AUTOSTART_FILES=(
-    hypr/config/autostart.lua
     niri/config/autostart.kdl
-    sway/configDir/autostart
-    mango/config/autostart.conf
 )
 AUTOSTART_LINE='^[[:space:]]*(exec systemctl --user enable --now easyeffects|exec_once=systemctl --user enable --now easyeffects|hl\.exec_cmd\("systemctl --user enable --now easyeffects"\)|spawn-at-startup "systemctl" "--user" "enable" "--now" "easyeffects")[[:space:]]*$'
 OWN_INSTANCE='(^|/)easyeffects .*-l live_eq( |$)'

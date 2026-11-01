@@ -29,10 +29,6 @@ Item {
         widget.workspaceCount;
         widget.hideEmptyWorkspaces;
         widget.niriOccupiedMap;
-        widget.swayOccupiedMap;
-        widget.mangoOccupiedMap;
-        if (!widget.isNiri && !widget.isSway && !widget.isMango)
-            Hyprland.workspaces.values;
         let ids = [];
         for (let i = 0; i < widget.workspaceCount; i++) {
             if (isShown(i))

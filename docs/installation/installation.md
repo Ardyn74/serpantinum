@@ -11,7 +11,7 @@ slug: /installation
 **Migrating from v1:** All previous configuration will be backed up and unused. Configuration of compositor settings such as monitors, keybinds, and autostart is now up to you, as the project migrated from being dotfiles to being a shell.
 :::
 
-Serpantinum installs through an automated script on Arch Linux, Fedora, Void Linux, and their derivatives. The script detects your distribution and uses the matching package manager (`pacman`, `dnf`, or `xbps`). On NixOS, use the [flake and modules](/installation/nixos) instead.
+Serpantinum installs through an automated script specialized for **CachyOS / Arch Linux** and the **Niri** Wayland compositor. The script automatically uses `pacman` and `systemd`.
 
 Use this installer:
 
@@ -29,26 +29,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/Ardyn74/serpantinum/mast
 To update, when or if you receive a notification about a new version being available, run the installer script again and choose **Update**.
 :::
 
-## Fedora
+## Supported Platforms
 
-Fedora and its derivatives, such as **Nobara** and **Ultramarine**, are installed with `dnf`. Fedora does not package `gpu-screen-recorder` or `wl-gammarelay-rs`, so screen recording and the blue light filter are unavailable there. SDDM is set up with its Wayland greeter, since Fedora ships no Xorg server.
-
-## Void Linux
-
-Void Linux, both glibc and musl, is installed with `xbps`. Everything comes from the official repositories except:
-
-- **Hyprland**, which Void does not package. When you select it, the installer adds the third-party [black-hole.dev](https://mirror.black-hole.dev) repository in `/etc/xbps.d/20-serpantinum-hyprland.conf` and accepts its signing key. Niri, Sway, and Mango come from the official repositories.
-- **adw-gtk3** and **JetBrains Mono**, which are downloaded from their latest GitHub releases into `/usr/share/themes` and `/usr/share/fonts`.
-
-Services are enabled through runit. `dbus`, `bluetoothd`, and `power-profiles-daemon` start right away. `NetworkManager` and `sddm` start from the next boot, so the installer does not cut your network or take over the screen while it runs. If `dhcpcd` or `wpa_supplicant` were enabled, they are kept from starting at the next boot, since they conflict with NetworkManager. Wi-Fi networks must then be connected again through Serpantinum or `nmcli`. Display managers being replaced keep running until you reboot.
-
-PipeWire is configured system-wide to launch WirePlumber and `pipewire-pulse`, with ALSA routed through it. Sessions started from SDDM get a D-Bus session bus and PipeWire automatically. If you start your compositor from a TTY instead, launch it with `dbus-run-session` and start `pipewire` from its autostart.
-
-## Arch Linux and derivatives
-
-Serpantinum is verified and supported across Arch Linux and its derivative distributions, on systemd, OpenRC, and other init systems, including:
-
-Arch Linux · EndeavourOS · Manjaro · CachyOS · Garuda Linux · ArcoLinux · Archcraft · Artix Linux · BlackArch · RebornOS · Mabox Linux · blendOS · Parch Linux · BigLinux · ArchLabs · Archman · ALCI · BlueStar · ArchBang · ArchEX · ArchStrike · Athena OS · ChimeraOS · Ctlos Linux · Crystal Linux · HefftorLinux · instantOS · Nyarch Linux · Obarun · Hyperbola · Parabola · Salient OS · Snal Linux · SteamOS / HoloISO · StormOS · TeArch · XeroLinux · Axyl · OMARCHY
+Serpantinum is verified and supported across **CachyOS**, **Arch Linux**, and pacman-based derivative distributions using `systemd`.
 
 ## Build from source on Arch
 
@@ -116,20 +99,13 @@ share=/usr/share/serpantinum
 cfg="${XDG_CONFIG_HOME:-$HOME/.config}"
 ```
 
-#### 1. Compositor config
+#### 1. Niri config
 
-Install the compositors you want, for example `sudo pacman -S hyprland`. The package lists Hyprland, Niri, Sway, and Mango as optional dependencies. Then copy the matching config. Choose one row:
-
-| Compositor | `comp` | `dir` |
-| --- | --- | --- |
-| Hyprland | `hyprland` | `hypr` |
-| Niri | `niri` | `niri` |
-| Sway | `sway` | `sway` |
-| Mango | `mango` | `mango` |
+Install Niri: `sudo pacman -S niri`. Then copy the Niri configuration:
 
 ```bash
-comp=hyprland
-dir=hypr
+comp=niri
+dir=niri
 
 if [ -d "$cfg/$dir" ]; then
     backup="$cfg/${dir}_backup/backup_$(date +%Y%m%d_%H%M%S)"

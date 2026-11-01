@@ -1,48 +1,14 @@
 #!/usr/bin/env bash
 
 SUPPORTED_DISTROS=(
+    "cachyos"
     "arch"
     "endeavouros"
     "manjaro"
-    "cachyos"
     "garuda"
     "arcolinux"
     "archcraft"
     "artix"
-    "blackarch"
-    "rebornos"
-    "mabox"
-    "blendos"
-    "parch"
-    "parchlinux"
-    "biglinux"
-    "archlabs"
-    "archman"
-    "alci"
-    "bluestar"
-    "archbang"
-    "archex"
-    "archstrike"
-    "athena"
-    "athenaos"
-    "chimeraos"
-    "ctlos"
-    "crystal"
-    "hefftorlinux"
-    "instantos"
-    "nyarch"
-    "obarun"
-    "hyperbola"
-    "parabola"
-    "salientos"
-    "snal"
-    "steamos"
-    "holo"
-    "stormos"
-    "tearch"
-    "xerolinux"
-    "axyl"
-    "omarchy"
 )
 
 REQUIRED_PKGS=(
@@ -169,10 +135,7 @@ configure_qt_icon_theme() {
 }
 
 compositor_package_name() {
-    case "$1" in
-        mango) echo "mangowm" ;;
-        *) echo "$1" ;;
-    esac
+    echo "niri"
 }
 
 find_sddm_binary() {
