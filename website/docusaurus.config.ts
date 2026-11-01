@@ -16,7 +16,7 @@ const config: Config = {
   url: 'https://serpantinum.dev',
   baseUrl: '/',
 
-  organizationName: 'ilyamiro',
+  organizationName: 'Ardyn74',
   projectName: 'serpantinum',
 
   onBrokenLinks: 'throw',
@@ -141,18 +141,11 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://github.com/ilyamiro/serpantinum',
+          href: 'https://github.com/Ardyn74/serpantinum',
           label: 'GitHub',
           position: 'right',
           className: 'navbar-github-link',
           'aria-label': 'GitHub repository',
-        },
-        {
-          href: 'https://ko-fi.com/ilyamiro',
-          label: 'Support',
-          position: 'right',
-          className: 'navbar-kofi-link',
-          'aria-label': 'Support the creator on Ko-fi',
         },
       ],
     },
@@ -191,33 +184,8 @@ const config: Config = {
               href: 'https://t.me/serpantinum_git',
             },
             {
-              label: 'Support on Ko-fi',
-              href: 'https://ko-fi.com/ilyamiro',
-            },
-            {
               label: 'GitHub',
-              href: 'https://github.com/ilyamiro/serpantinum',
-            },
-          ],
-        },
-        {
-          title: 'Creator',
-          items: [
-            {
-              label: 'X (Twitter)',
-              href: 'https://x.com/ilyamirox',
-            },
-            {
-              label: 'Reddit',
-              href: 'https://reddit.com/user/ilyamiro1',
-            },
-            {
-              label: 'YouTube',
-              href: 'https://youtube.com/@ilyamiro21',
-            },
-            {
-              label: 'TikTok',
-              href: 'https://tiktok.com/@ilyamiro.dev',
+              href: 'https://github.com/Ardyn74/serpantinum',
             },
           ],
         },

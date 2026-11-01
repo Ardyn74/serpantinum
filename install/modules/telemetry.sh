@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-WORKER_URL="https://dots-telemetry.ilyamiro-work.workers.dev"
+# Telemetry is disabled in this fork
+exit 0
 
 MODE=""
 VERSION=""
