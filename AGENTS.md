@@ -77,6 +77,11 @@ The live desktop session does **not** run directly out of `/home/abhay/serpantin
 
 ## 5. Git & GitHub Workflow Rules
 
+- **Three-Way Synchronization Requirement (Live <-> Local Repo <-> GitHub)**:
+  - Whenever changes are made to dotfiles, desktop shell code, configs, or scripts, they must be reflected across all three layers after verification:
+    1. **Live runtime**: Deployed and tested locally (`~/.config/`, `~/.local/share/serpantinum/`).
+    2. **Local repository**: Staged and committed in `/home/abhay/serpantinum`.
+    3. **Remote GitHub repository**: Pushed to `origin/master` (`git push origin master`). Never leave verified work uncommitted or unpushed.
 - **Remotes & Branch**:
   - Active branch: `master`.
   - Push/fetch target: `origin` (`https://github.com/Ardyn74/serpantinum.git`).
