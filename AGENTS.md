@@ -94,3 +94,13 @@ The live desktop session does **not** run directly out of `/home/abhay/serpantin
 - **Secrets, PII & Untracked Files (NEVER Commit)**:
   - Never commit live `~/.config/serpantinum/settings.json` (contains IP address, latitude/longitude, city/postal/ASN geolocation from `ipapi.co`).
   - Never commit API keys, tokens, `.env` files, backup files (`*.bak`), runtime shader caches (`*.qsb` if untracked), or temporary root helper scripts.
+
+---
+
+## 6. Documentation Maintenance (`docs/ENVIRONMENT.md`)
+
+- **Keep Documentation Synchronized**:
+  Whenever you add, modify, or remove shell configurations, dotfiles, system services, compositor rules, or make key architectural decisions/bug fixes:
+  1. **Update Architecture / Config Details**: Update the relevant section in `docs/ENVIRONMENT.md` (e.g. CLI Shell, Compositor, Audio, or System Optimizations).
+  2. **Append to Changelog with Timestamp**: Add a dated and timestamped entry to Section 4 (Chronological Changelog) using the format `YYYY-MM-DD HH:MM [Timezone]` detailing what was changed and why.
+  3. **Update Agent Guardrails**: If new failure modes, gotchas, or operational rules are discovered, update `AGENTS.md` (and `~/.gemini/config/GEMINI.md`) accordingly.
