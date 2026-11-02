@@ -76,7 +76,7 @@ This document consolidates the architecture, system configurations, custom enhan
 | :--- | :--- |
 | `/etc/sddm.conf.d/10-impasto.conf` | Uses custom `impasto` SDDM theme (`/usr/share/sddm/themes/impasto`) with bundled `Inter Display` font, `DisplayServer=x11`, and single `QT_SCALE_FACTOR=1.4` (avoiding compounded `1.96x` Qt6 scaling). |
 | `/etc/udev/rules.d/99-battery-charge-limit.rules` | Caps laptop internal battery charging at **80%**, guarded with `ACTION=="add\|change", SUBSYSTEM=="power_supply", KERNEL=="BAT[0-9]*", ATTR{type}=="Battery", TEST=="charge_control_end_threshold"`. |
-| `/etc/fstab` (`/boot`) | Added `noauto,x-systemd.automount` to `/boot` (`UUID=25E4-3BB9`), eliminating ~3.2s `fsck.vfat` wait from the boot critical path. |
+| `/etc/fstab` (`/boot`) | Synchronous mount (`defaults,umask=0077 0 2`, UUID `25E4-3BB9`). Retains direct `vfat` mount without virtual `autofs` layers to ensure Limine EFI deployment hooks and snapper sync scripts read partition UUIDs correctly. |
 | `/etc/systemd/resolved.conf.d/10-no-mdns-llmnr.conf` | Sets `LLMNR=no` and `MulticastDNS=no` so `systemd-resolved` yields UDP 5353 to `avahi-daemon` and stops UFW UDP 5355 log spam. |
 | `/etc/systemd/timesyncd.conf.d/local.conf` | Resets `NTP=` before setting `NTP=time.google.com 10.7.0.1` so `systemd-timesyncd` does not hang on blocked campus NTP requests to `time.cloudflare.com`. |
 | `scx_loader.service` (`scx_bpfland`) | Enabled sched-ext `bpfland` CPU scheduler in Auto mode to prioritize interactive Wayland/Quickshell frame pacing under load. |
